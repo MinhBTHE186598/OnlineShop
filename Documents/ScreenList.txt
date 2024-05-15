@@ -1,0 +1,20 @@
+-Login 
+-Register(Signup)
+-Homepage
+-Profile
+-Reset/change password
+-Saler register
+-profile
+-Product management(admin)
+-Product management(saler)
+-Order history
+-Order detail
+-DeleteUser
+-Order acceptance
+-Contact us
+-About
+-Product detail
+-check out
+-confirm
+-view cart
+-view products
