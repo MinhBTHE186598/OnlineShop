@@ -7,7 +7,7 @@ function AdminAction() {
     return (
         <ListGroup>
             <Row>
-                <Col sm={8}>
+                <Col /* sm={8}*/>
                     <ListGroup.Item
                         as="li"
                         className="d-flex justify-content-between align-items-start"
