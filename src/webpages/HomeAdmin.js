@@ -6,7 +6,6 @@ function homeAdmin() {
     return (
         <div>
             <Header/>
-            <HomeTitle/>
             <AdminAction/>
         </div>
         
