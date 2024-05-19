@@ -1,61 +1,44 @@
-import Badge from 'react-bootstrap/Badge';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
+import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
-function AdminAction() {
-    return (
-        <ListGroup style={{margin: '125px 80px' }}>
-            <Row>
-                <Col /* sm={8}*/>
-                    <ListGroup.Item
-                        as="li"
-                        className="d-flex justify-content-between align-items-start"
-                        action variant="info"
-                    >
-                        <div className="ms-2 me-auto">
-                            <div className="fw-bold">Quản lý người dùng</div>
-                            Thêm, sửa xóa người dùng
-                        </div>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        as="li"
-                        className="d-flex justify-content-between align-items-start"
-                        action variant="info"
-                    >
-                        <div className="ms-2 me-auto">
-                            <div className="fw-bold">Quản lý danh mục sản phẩm</div>
-                            Thêm, sửa, xóa danh mục sản phẩm
-                        </div>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        as="li"
-                        className="d-flex justify-content-between align-items-start"
-                        action variant="info"
-                    >
-                        <div className="ms-2 me-auto">
-                            <div className="fw-bold">Quản lý banner</div>
-                            Cài đặt banner
-                        </div>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        as="li"
-                        className="d-flex justify-content-between align-items-start"
-                        action variant="info"
-                    >
-                        <div className="ms-2 me-auto">
-                            <div className="fw-bold">Kiểm duyệt sản phẩm</div>
-                            Yêu cầu đăng sản phẩm
-                        </div>
-                        <Badge bg="primary" pill>
-                            14
-                        </Badge>
-                    </ListGroup.Item>
-                </Col>
-            </Row>
-        </ListGroup>    
-    );
+import Badge from 'react-bootstrap/Badge';
+
+function LeftTabsExample() {
+  return (
+    <div id="wrapper" style={{margin: '125px 30px'}}>
+
+    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+      <Row>
+        <Col sm={3}>
+          <Nav variant="pills" className="flex-column">
+            <Nav.Item>
+              <Nav.Link eventKey="first">Quản lý người dùng</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="second">Quản lý sản phẩm</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="third">Quản lý banner</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="fourth">Kiểm duyệt sản phẩm <Badge bg="warning" pill>14</Badge></Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Col>
+        <Col sm={9}>
+          <Tab.Content>
+            <Tab.Pane eventKey="first">Quản lý ng dùng ở đây</Tab.Pane>
+            <Tab.Pane eventKey="second">Quản lý sản phẩm ở đây</Tab.Pane>
+            <Tab.Pane eventKey="third">Quản lý banner ở đây</Tab.Pane>
+            <Tab.Pane eventKey="fourth">Kiểm duyệt sản phẩm ở đây</Tab.Pane>
+          </Tab.Content>
+        </Col>
+      </Row>
+    </Tab.Container>
+            
+    </div>
+  );
 }
 
-export default AdminAction;
+export default LeftTabsExample;
