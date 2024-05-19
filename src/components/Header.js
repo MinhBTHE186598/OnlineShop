@@ -8,14 +8,13 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import logo from '../logo.svg'
+import logo from '../utility/testlogo.png'
 
 function header() {
   return (
-    <div>
-      <Navbar expand="lg" className="bg-secondary" style={{ padding: '20px 0', fontSize: 'larger' }}>
+      <Navbar expand="lg" className="bg-secondary p-0" style={{ fontSize: 'larger' }} fixed='top'>
         <Container>
-          <Navbar.Brand href="#home" className='link-light link-opacity-50-hover'>img</Navbar.Brand>
+          <Navbar.Brand href="#home" style={{height:'50%'}}><img src={logo} style={{width:'5em'}}/></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
@@ -25,7 +24,6 @@ function header() {
                 <NavDropdown.Item href="#action/3.1">Mục A</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Mục B</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Mục C</NavDropdown.Item>
-                <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.4">Mục D</NavDropdown.Item>
               </NavDropdown>
             </Nav>
@@ -42,7 +40,6 @@ function header() {
           </Row>
         </Form>
       </Navbar>
-    </div>
   )
 }
 

@@ -7,14 +7,13 @@ import Footer from '../components/Footer'
 
 function home() {
     return (
-        <div>
+        <div style={{overflowX:'hidden'}}>
             <Header/>
             <HomeTItle/>
             <HomeCarousel/>
             <HomeItemList/>
             <Footer/>
-        </div>
-        
+        </div>       
     )
 }
 
