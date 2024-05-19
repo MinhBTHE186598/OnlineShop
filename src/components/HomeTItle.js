@@ -1,8 +1,44 @@
 import React from 'react'
+import { Button } from 'react-bootstrap'
+import banner from '../utility/testbanner.jpg'
+
+const titleStyle = {
+  marginTop:'10vh',
+  width: '100vw',
+  height: '60vh',
+  textAlign: 'center',
+  backgroundImage: `url(${banner})`,
+  position: 'relative',
+}
+const coverStyle = {
+  width: '100%',
+  height: '100%',
+  position: 'absolute',
+  backgroundColor: '#000',
+  opacity: '0.75',
+}
+const textStyle = {
+  position:'absolute',
+  width: '100%',
+  height:'100%',
+  color: 'white',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: '2'
+}
 
 function homeTItle() {
   return (
-    <div>homeTItle</div>
+    <div className='homeTitle' style={titleStyle}>
+      <div className='cover' style={coverStyle}></div>
+      <div className='text' style={textStyle}>
+        <h1>Chợ sinh viên</h1>
+        <p>Chúng tôi có những gì sinh viên cần!</p>
+        <Button variant='light' style={{zIndex:'1'}}>Mua ngay</Button>
+      </div>
+    </div>
   )
 }
 
