@@ -53,7 +53,7 @@ function AdminAction() {
                     </ListGroup.Item>
                 </Col>
             </Row>
-        </ListGroup>
+        </ListGroup>    
     );
 }
 
