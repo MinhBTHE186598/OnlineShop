@@ -10,7 +10,7 @@ import { FaGithub } from "react-icons/fa";
 
 
 const ColStyle = {
-  marginTop: '5vh'
+  marginTop: '2vh'
 }
 
 const TextStyle = {
@@ -28,14 +28,14 @@ const IconListStyle = {
 
 function footer() {
   return (
-    <div style={{ backgroundColor: '#888', height: '30vh' }}>
+    <div style={{ backgroundColor: '#222', height: '25vh' }}>
       <Container>
         <Row>
           <Col>
-            <img src={logo} style={{ height: '30vh' }} alt='logo' />
+            <img src={logo} style={{ height: '25vh' }} alt='logo' />
           </Col>
           <Col style={ColStyle}>
-            <h3>Tìm chúng tôi trên:</h3>
+            <h3 className='text-secondary'>Tìm chúng tôi trên:</h3>
             <div className='IconList' style={IconListStyle}>
               <FaFacebook />
               <FaYoutube />
@@ -44,13 +44,13 @@ function footer() {
             </div>
           </Col>
           <Col style={ColStyle}>
-            <h3>Hoặc liên hệ qua</h3>
+            <h3 className='text-secondary'>Hoặc liên hệ qua</h3>
             <h5 style={TextStyle}>Email: Example@example.com</h5>
             <h5 style={TextStyle}>Phone: 0912.345.678</h5>
             <h5 style={TextStyle}>Địa chỉ: Hòa Lạc, Thạch Thất, Hà Nội</h5>
           </Col>
           <Col style={ColStyle}>
-            <h3>Điều hướng nhanh</h3>
+            <h3 className='text-secondary'>Điều hướng nhanh</h3>
             <h5 style={TextStyle}><a href='#home' style={{ textDecoration: 'none', color: 'orange' }}>Trang chủ</a></h5>
             <h5 style={TextStyle}><a href='#home' style={{ textDecoration: 'none', color: 'orange' }}>Tất cả sản phẩm</a></h5>
             <h5 style={TextStyle}><a href='#home' style={{ textDecoration: 'none', color: 'orange' }}>Hỗ trợ</a></h5>
