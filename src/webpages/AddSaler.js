@@ -7,9 +7,9 @@ import FormReg from '../components/FormReg'
 function AddSaler() {
     return (
         <div>
-                
+                <Header/>
                 <FormReg/>
-                
+                <Footer/>
         </div>
     )
 }
