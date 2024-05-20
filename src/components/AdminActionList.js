@@ -30,18 +30,24 @@ function LeftTabsExample() {
                     </Col>
                     <Col sm={9}>
                         <Tab.Content>
-                            <Tab.Pane eventKey="first">Quản lý ng dùng ở đây</Tab.Pane>
-                            <Tab.Pane eventKey="second">Quản lý sản phẩm ở đây</Tab.Pane>
-                            <Tab.Pane eventKey="third">Quản lý banner ở đây</Tab.Pane>
+                            <Tab.Pane eventKey="first">
+                                Quản lý ng dùng ở đây
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="second">
+                                Quản lý sản phẩm ở đây
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="third">
+                                Quản lý banner ở đây
+                            </Tab.Pane>
                             <Tab.Pane eventKey="fourth">
-                                <div>
+                                <Row>
                                     {Arr.map((index) => (
-                                        <ListGroup key={index} horizontal='xxl' className="my-2">
-                                            <ListGroup.Item >Dong so {index}</ListGroup.Item>
-                                            <ListGroup.Item onClick='#'>action</ListGroup.Item>
+                                        <ListGroup key={index} horizontal className="my-2">
+                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
                                         </ListGroup>
                                     ))}
-                                </div>
+                                </Row>
                             </Tab.Pane>
                         </Tab.Content>
                     </Col>
