@@ -31,13 +31,34 @@ function LeftTabsExample() {
                     <Col sm={9}>
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
-                                Quản lý ng dùng ở đây
+                                <Row>
+                                    {Arr.map((index) => (
+                                        <ListGroup key={index} horizontal className="my-2">
+                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
+                                        </ListGroup>
+                                    ))}
+                                </Row>
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
-                                Quản lý sản phẩm ở đây
+                                <Row>
+                                    {Arr.map((index) => (
+                                        <ListGroup key={index} horizontal className="my-2">
+                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
+                                        </ListGroup>
+                                    ))}
+                                </Row>
                             </Tab.Pane>
                             <Tab.Pane eventKey="third">
-                                Quản lý banner ở đây
+                                <Row>
+                                    {Arr.map((index) => (
+                                        <ListGroup key={index} horizontal className="my-2">
+                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
+                                        </ListGroup>
+                                    ))}
+                                </Row>
                             </Tab.Pane>
                             <Tab.Pane eventKey="fourth">
                                 <Row>
