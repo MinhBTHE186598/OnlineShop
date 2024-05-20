@@ -1,58 +1,83 @@
+import Col from 'react-bootstrap/Col';
+import Nav from 'react-bootstrap/Nav';
+import Row from 'react-bootstrap/Row';
+import Tab from 'react-bootstrap/Tab';
 import Badge from 'react-bootstrap/Badge';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
+
 function AdminAction() {
+    const Arr = ['1', '2', '3', '4', '5'];
+
     return (
-        <ListGroup style={{margin: '125px 80px' }}>
-            <Row>
-                <Col /* sm={8}*/>
-                    <ListGroup.Item
-                        as="li"
-                        className="d-flex justify-content-between align-items-start"
-                        action variant="info"
-                    >
-                        <div className="ms-2 me-auto">
-                            <div className="fw-bold">Quản lý người dùng</div>
-                            Thêm, sửa xóa người dùng
-                        </div>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        as="li"
-                        className="d-flex justify-content-between align-items-start"
-                        action variant="info"
-                    >
-                        <div className="ms-2 me-auto">
-                            <div className="fw-bold">Quản lý danh mục sản phẩm</div>
-                            Thêm, sửa, xóa danh mục sản phẩm
-                        </div>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        as="li"
-                        className="d-flex justify-content-between align-items-start"
-                        action variant="info"
-                    >
-                        <div className="ms-2 me-auto">
-                            <div className="fw-bold">Quản lý banner</div>
-                            Cài đặt banner
-                        </div>
-                    </ListGroup.Item>
-                    <ListGroup.Item
-                        as="li"
-                        className="d-flex justify-content-between align-items-start"
-                        action variant="info"
-                    >
-                        <div className="ms-2 me-auto">
-                            <div className="fw-bold">Kiểm duyệt sản phẩm</div>
-                            Yêu cầu đăng sản phẩm
-                        </div>
-                        <Badge bg="primary" pill>
-                            14
-                        </Badge>
-                    </ListGroup.Item>
-                </Col>
-            </Row>
-        </ListGroup>    
+        <div id="wrapper" style={{ margin: '125px 30px' }}>
+
+            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                <Row>
+                    <Col sm={3}>
+                        <Nav variant="pills" className="flex-column">
+                            <Nav.Item>
+                                <Nav.Link eventKey="first">Quản lý người dùng</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="second">Quản lý sản phẩm</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="third">Quản lý banner</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="fourth">Quản lý sản phẩm <Badge bg="warning" pill>{Arr.length}</Badge></Nav.Link>
+                            </Nav.Item>
+                        </Nav>
+                    </Col>
+                    <Col sm={9}>
+                        <Tab.Content>
+                            <Tab.Pane eventKey="first">
+                                <Row>
+                                    {Arr.map((index) => (
+                                        <ListGroup key={index} horizontal className="my-2">
+                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
+                                        </ListGroup>
+                                    ))}
+                                </Row>
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="second">
+                                <Row>
+                                    {Arr.map((index) => (
+                                        <ListGroup key={index} horizontal className="my-2">
+                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
+                                        </ListGroup>
+                                    ))}
+                                </Row>
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="third">
+                                <Row>
+                                    {Arr.map((index) => (
+                                        <ListGroup key={index} horizontal className="my-2">
+                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
+                                        </ListGroup>
+                                    ))}
+                                </Row>
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="fourth">
+                                <Row>
+                                    {Arr.map((index) => (
+                                        <ListGroup key={index} horizontal className="my-2">
+                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
+                                        </ListGroup>
+                                    ))}
+                                </Row>
+                            </Tab.Pane>
+                        </Tab.Content>
+                    </Col>
+                </Row>
+            </Tab.Container>
+
+        </div>
     );
 }
 

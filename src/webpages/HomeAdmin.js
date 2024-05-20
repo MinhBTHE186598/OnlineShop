@@ -1,12 +1,13 @@
 import Header from '../components/Header'
 import AdminAction from '../components/AdminActionList'
-import HomeTitle from '../components/HomeTItle'
+import Footer from '../components/Footer'
 
 function homeAdmin() {
     return (
         <div>
             <Header/>
             <AdminAction/>
+            <Footer/>
         </div>
         
     )
