@@ -7,6 +7,9 @@ import ListGroup from 'react-bootstrap/ListGroup';
 
 function LeftTabsExample() {
     const Arr = ['1', '2', '3', '4', '5'];
+}
+function AdminAction() {
+
     return (
         <div id="wrapper" style={{ margin: '125px 30px' }}>
 

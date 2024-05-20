@@ -12,34 +12,34 @@ import logo from '../utility/testlogo.png'
 
 function header() {
   return (
-      <Navbar expand="lg" className="bg-secondary p-0" style={{ fontSize: 'larger' }} fixed='top'>
-        <Container>
-          <Navbar.Brand href="#home" style={{height:'50%'}}><img src={logo} style={{width:'5em'}}/></Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="#home" className='link-light link-opacity-50-hover'>Về chúng tôi</Nav.Link>
-              <Nav.Link href="#link" className='link-light link-opacity-50-hover'>Hỗ trợ</Nav.Link>
-              <NavDropdown title={<span className="text-white my-auto">Danh mục sản phẩm</span>} id="nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Mục A</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Mục B</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Mục C</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.4">Mục D</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-        <Form inline style={{ marginRight: '5%', width: "15vw" }}>
-          <Row>
-            <Col xs="auto" className='p-1' style={{ width: "80%" }}>
-              <Form.Control type="text" placeholder="Search" />
-            </Col>
-            <Col xs="auto" className='p-1'>
-              <Button type="submit"> <FaMagnifyingGlass size={"20px"} /> </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Navbar>
+    <Navbar expand="lg" className="bg-dark p-0" style={{ fontSize: 'larger', height: '10vh' }} fixed='top'>
+      <Container>
+        <Navbar.Brand href="#home"><img src={logo} style={{ width: '5em' }} /></Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="#home" className='link-light link-opacity-50-hover'>Về chúng tôi</Nav.Link>
+            <Nav.Link href="#link" className='link-light link-opacity-50-hover'>Hỗ trợ</Nav.Link>
+            <NavDropdown title={<span className="text-white my-auto">Danh mục sản phẩm</span>} id="nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Mục A</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">Mục B</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Mục C</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.4">Mục D</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+      <Form inline style={{ marginRight: '5%', width: "15vw" }}>
+        <Row>
+          <Col xs="auto" className='p-1' style={{ width: "80%" }}>
+            <Form.Control type="text" placeholder="Search" />
+          </Col>
+          <Col xs="auto" className='p-1'>
+            <Button type="submit"> <FaMagnifyingGlass size={"20px"} /> </Button>
+          </Col>
+        </Row>
+      </Form>
+    </Navbar>
   )
 }
 
