@@ -26,7 +26,7 @@ function AdminAction() {
                                 <Nav.Link eventKey="third">Quản lý banner</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link eventKey="fourth">Kiểm duyệt sản phẩm <Badge bg="warning" pill>{Arr.length}</Badge></Nav.Link>
+                                <Nav.Link eventKey="fourth">Quản lý sản phẩm <Badge bg="warning" pill>{Arr.length}</Badge></Nav.Link>
                             </Nav.Item>
                         </Nav>
                     </Col>
