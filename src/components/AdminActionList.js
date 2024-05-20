@@ -5,10 +5,9 @@ import Tab from 'react-bootstrap/Tab';
 import Badge from 'react-bootstrap/Badge';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-function LeftTabsExample() {
-    const Arr = ['1', '2', '3', '4', '5'];
-}
+
 function AdminAction() {
+    const Arr = ['1', '2', '3', '4', '5'];
 
     return (
         <div id="wrapper" style={{ margin: '125px 30px' }}>
@@ -82,4 +81,4 @@ function AdminAction() {
     );
 }
 
-export default LeftTabsExample;
+export default AdminAction;
