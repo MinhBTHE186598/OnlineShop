@@ -9,7 +9,6 @@ const titleStyle = {
   textAlign: 'center',
   backgroundImage: `url(${banner})`,
   position: 'relative',
-  boxShadow: '0px 20px 30px'
 }
 const coverStyle = {
   width: '100%',
