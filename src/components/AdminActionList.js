@@ -2,8 +2,6 @@ import Badge from 'react-bootstrap/Badge';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Nav from 'react-bootstrap/Nav';
-import Tab from 'react-bootstrap/Tab';
 function AdminAction() {
     return (
         <ListGroup style={{margin: '125px 80px' }}>
