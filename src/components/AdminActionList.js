@@ -20,7 +20,7 @@ function AdminAction() {
                                 <Nav.Link eventKey="first">Quản lý người dùng</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link eventKey="second">Quản lý sản phẩm</Nav.Link>
+                                <Nav.Link eventKey="second">Quản lý người bán</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Nav.Link eventKey="third">Quản lý banner</Nav.Link>
