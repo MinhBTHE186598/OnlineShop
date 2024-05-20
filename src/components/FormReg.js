@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 
 function FormGroupExample() {
   return (
-    <Form>
+    <Form id="wrapper" style={{ margin: '125px 30px' }}>
         <Form.Group className="mb-3" controlId="formGroupNameShop">
         <Form.Label>Shop name</Form.Label>
         <Form.Control type="shopname" placeholder="Enter shope name" />
