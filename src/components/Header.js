@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -14,7 +15,9 @@ function header() {
   return (
     <Navbar expand="lg" className="bg-dark p-0" style={{ fontSize: 'larger', height: '10vh' }} fixed='top'>
       <Container>
-        <Navbar.Brand href="#home"><img src={logo} style={{ width: '5em' }} /></Navbar.Brand>
+      <Navbar.Brand as={Link} to="/">
+          <img src={logo} style={{ width: '5em' }} alt="Logo" />
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
