@@ -12,13 +12,6 @@ function FormGroupExample() {
         <Form.Group className="mb-3" controlId="formGroupNameShop">
           <Form.Control type="text" placeholder="Tên shop" />
         </Form.Group>
-    
-        <Form.Group className="mb-3" controlId="formGroupEmail">
-          <Form.Control type="email" placeholder="Email" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formGroupPhone">
-          <Form.Control type="text" placeholder="Phone number" />
-        </Form.Group>
         <Button variant="dark" type="submit" style={{ width: '100%' }}>
           Đăng kí
         </Button>
