@@ -1,7 +1,8 @@
 import './App.css';
 import HomePage from './webpages/Home';
 import HomeAdmin from './webpages/HomeAdmin';
-import { BrowserRouter,Routes,Route } from 'react-router-dom';  
+import { BrowserRouter,Routes,Route } from 'react-router-dom'; 
+import RegisterUser from './webpages/RegisterUser';
 
 import AddSaler from './webpages/AddSaler';
 
