@@ -1,30 +1,34 @@
+import React from 'react';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
 
 function FormGroupExample() {
   return (
-    <Form id="wrapper" style={{ margin: '125px 30px' }}>
+    <Container fluid="sm" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Form style={{ width: '300px', textAlign: 'center' }}>
+        <h2>Create SHOP</h2>
+        <p>Enter your shop name</p>
         <Form.Group className="mb-3" controlId="formGroupNameShop">
-        <Form.Label>Shop name</Form.Label>
-        <Form.Control type="shopname" placeholder="Enter shope name" />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formGroupAddress">
-        <Form.Label>Shop address</Form.Label>
-        <Form.Control type="shopaddress" placeholder="Enter address" />
-      </Form.Group>
-      
-      <Form.Group className="mb-3" controlId="formGroupEmail">
-        <Form.Label>Email</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formGroupPhone">
-        <Form.Label>Phone</Form.Label>
-        <Form.Control type="phone" placeholder="Phone" />
-      </Form.Group>
-    </Form>
+          <Form.Control type="text" placeholder="Tên shop" />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formGroupAddress">
+          <Form.Control type="text" placeholder="Địa chỉ lấy hàng" />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formGroupEmail">
+          <Form.Control type="email" placeholder="Email" />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formGroupPhone">
+          <Form.Control type="text" placeholder="Phone number" />
+        </Form.Group>
+        <Button variant="dark" type="submit" style={{ width: '100%' }}>
+          Sign up
+        </Button>
+        <p style={{ marginTop: '10px', fontSize: 'small' }}>
+          By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+        </p>
+      </Form>
+    </Container>
   );
 }
 
