@@ -34,10 +34,8 @@ function header() {
       </Container>
       <Form inline style={{ marginRight: '5%', width: "15vw" }}>
         <Row>
-          <Col xs="auto" className='p-1' style={{ width: "80%" }}>
+          <Col xs="auto" className='p-1' style={{ width: "80%", display: 'flex' }}>
             <Form.Control type="text" placeholder="Search" />
-          </Col>
-          <Col xs="auto" className='p-1'>
             <Button type="submit"> <FaMagnifyingGlass size={"20px"} /> </Button>
           </Col>
         </Row>
