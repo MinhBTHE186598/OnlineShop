@@ -11,11 +11,11 @@ function FormGroup() {
                     <hr/>
                     <Form.Group>
                         <Form.Label><b>Tên sản phẩm:</b></Form.Label>
-                        <Form.Control type="text" placeholder="Nhập tên sản phẩm" />
+                        <Form.Control type="text" placeholder="Nhập tên sản phẩm" required />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Giá sản phẩm:</b></Form.Label>
-                        <Form.Control type="text" placeholder="Nhập giá sản phẩm" />
+                        <Form.Control type="number" min={0} placeholder="Nhập giá sản phẩm (VND)" required/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Hình ảnh sản phẩm:</b></Form.Label><br />
@@ -23,11 +23,11 @@ function FormGroup() {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Số lượng trong kho:</b></Form.Label>
-                        <Form.Control type="text" placeholder="Nhập số lượng sản phẩm còn lại trong kho" />
+                        <Form.Control type="number" min={0} placeholder="Nhập số lượng sản phẩm còn lại trong kho" required/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Mô tả sản phẩm:</b></Form.Label>
-                        <Form.Control as="textarea" rows={5} placeholder="Nhập mô tả sản phẩm" />
+                        <Form.Control as="textarea" rows={5} placeholder="Nhập mô tả sản phẩm" required/>
                     </Form.Group>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', gap: '10px' }}>
                         <Button variant="danger" onClick={() => window.location.href = "/"}>
