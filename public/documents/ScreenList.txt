@@ -7,6 +7,10 @@
 -profile
 -Product management(admin)
 -Product management(saler)
+-edit products(saler)
+-edit saler(SalerManager)
+-edit SalerManger(admin)
+-Saler Dashboard
 -Order history
 -Order detail
 -DeleteUser
@@ -18,3 +22,4 @@
 -confirm
 -view cart
 -view products
+-Homepage(admin)
