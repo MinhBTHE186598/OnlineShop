@@ -1,4 +1,4 @@
-drop database SE1829Group6OnlineShop
+drop database if exists SE1829Group6OnlineShop
 go
 create database SE1829Group6OnlineShop
 go
