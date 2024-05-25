@@ -1,4 +1,8 @@
-﻿use master
+﻿-- Du lieu day du nhat se thuoc ve thang co username duoi 1 VD: "user1", "admin1", "sellmanager1",....
+-- Mat khau cua tat ca user la "Aa@12345"
+
+
+use master
 go
 drop database if exists OSWData
 go
@@ -132,7 +136,8 @@ CREATE TABLE SellerSignUps (
     SellerSignUpID INT identity(1,1) PRIMARY KEY,
     UserID INT,
 	SellManagerID INT,
-    SellerSignUpName VARCHAR(255),
+    SellerSignUpName NVARCHAR(255),
+	SellerSignUpAddress NVARCHAR(255),
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
 	FOREIGN KEY (SellManagerID) REFERENCES SellManagers(SellManagerID)
 );
@@ -147,7 +152,7 @@ CREATE TABLE Notifications (
 go
 
 
---insert categories
+--insert Categories
 insert into Categories (CategoryName) values (N'Thời trang'), (N'Mỹ phẩm'), (N'Đồ dùng học tập'), (N'Sách và tài liệu'), (N'Thể thao'), (N'Đồ điện tử'), (N'Nội thất'), (N'Đồ gia dụng'), (N'Phụ kiện'), (N'Đồ ăn vặt'), (N'Đồ chơi'), (N'Khác');
 go
 --select * from Categories
@@ -156,7 +161,7 @@ go
 
 
 
--- insert users 
+-- insert Users 
 insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user1', 'Aa@12345', 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', 'fsleathq@dropbox.com', '0964 Elmside Park', '3888425044', 'Filberto', 'Sleath');
 insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user2', 'Aa@12345', 'https://robohash.org/distinctioestid.png?size=300x300&set=set1', 'saddlestoner@macromedia.com', '17 Memorial Place', '8298490860', 'Spenser', 'Addlestone');
 insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user3', 'Aa@12345', 'https://robohash.org/perferendisquaeratqui.png?size=300x300&set=set1', 'britmeiers@scribd.com', '81 Pawling Plaza', '6382225261', 'Brig', 'Ritmeier');
@@ -181,6 +186,12 @@ insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddres
 insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('manager12', 'Aa@12345', 'https://robohash.org/utaliascommodi.png?size=300x300&set=set1', 'bmyatt1b@answers.com', '5 Upham Hill', '6661370906', 'Bale', 'Myatt');
 insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('admin1', 'Aa@12345', 'https://robohash.org/eligendivoluptatemdolorem.png?size=300x300&set=set1', 'ecapinetti1c@dailymail.co.uk', '9094 Chive Court', '6983227695', 'Elisha', 'Capinetti');
 insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('admin2', 'Aa@12345', 'https://robohash.org/molestiaeeaquenemo.png?size=300x300&set=set1', 'aayres1d@privacy.gov.au', '1 Spaight Trail', '9342731151', 'Amabel', 'Ayres');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user6', 'Aa@12345', 'https://robohash.org/eoslaboriosamqui.png?size=300x300&set=set1', 'kpleasaunce0@businessweek.com', '57 Spohn Drive', '670-633-9360', 'Karola', 'Pleasaunce');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user7', 'Aa@12345', 'https://robohash.org/noninlibero.png?size=300x300&set=set1', 'sstowte1@ftc.gov', '087 Lake View Circle', '162-674-5194', 'Shandee', 'Stowte');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user8', 'Aa@12345', 'https://robohash.org/accusamusidut.png?size=300x300&set=set1', 'omarjanovic2@stanford.edu', '79 Bartelt Road', '734-266-4271', 'Osbourn', 'Marjanovic');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user9', 'Aa@12345', 'https://robohash.org/estautperferendis.png?size=300x300&set=set1', 'oarmitt3@soundcloud.com', '90840 Del Mar Court', '529-763-8314', 'Osbourne', 'Armitt');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user10', 'Aa@12345', 'https://robohash.org/praesentiumnoninventore.png?size=300x300&set=set1', 'dspeeding4@flavors.me', '35 Prairieview Lane', '866-861-6539', 'Doti', 'Speeding');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user11', 'Aa@12345', 'https://robohash.org/ullamillumquo.png?size=300x300&set=set1', 'bducarme5@sina.com.cn', '03451 Fallview Street', '354-520-2041', 'Benson', 'ducarme');
 go
 --select * from Users
 --delete from Users
@@ -188,12 +199,12 @@ go
 
 
 
---insert sellers
-insert into Sellers (SellerName, SellerAddress, UserID) values ('Y-find', '60 Manitowish Park', 6);
-insert into Sellers (SellerName, SellerAddress, UserID) values ('Alpha', '72 Clarendon Terrace', 7);
-insert into Sellers (SellerName, SellerAddress, UserID) values ('Bitchip', '967 Kedzie Street', 8);
-insert into Sellers (SellerName, SellerAddress, UserID) values ('Aerified', '3280 Schlimgen Place', 9);
-insert into Sellers (SellerName, SellerAddress, UserID) values ('Bitwolf', '06 Russell Terrace', 10);
+--insert Sellers
+insert into Sellers (SellerName, SellerAddress, UserID) values ('Muller-Mills', '60 Manitowish Park', 6);
+insert into Sellers (SellerName, SellerAddress, UserID) values ('Ryan Inc', '72 Clarendon Terrace', 7);
+insert into Sellers (SellerName, SellerAddress, UserID) values ('Marvin, Hintz and Krajcik', '967 Kedzie Street', 8);
+insert into Sellers (SellerName, SellerAddress, UserID) values ('Bogisich, Witting and McDermott', '3280 Schlimgen Place', 9);
+insert into Sellers (SellerName, SellerAddress, UserID) values ('Auer-Green', '06 Russell Terrace', 10);
 go
 --select * from Sellers
 --delete from Sellers
@@ -221,7 +232,7 @@ go
 
 
 
---insert admins
+--insert Admins
 insert into Admins(UserID) values (23),(24);
 go
 --select * from Admins
@@ -260,3 +271,89 @@ go
 --select * from SellerReviews
 --delete from SellerReviews
 --DBCC CHECKIDENT (SellerReviews, RESEED, 0);
+
+
+
+--insert Banners
+insert into Banners (AdminID, CategoryID, BannerPic) values (1, 10, 'http://dummyimage.com/1920x600.png/cc0000/ffffff');
+insert into Banners (AdminID, CategoryID, BannerPic) values (2, 8, 'http://dummyimage.com/1920x600.png/cc0000/ffffff');
+insert into Banners (AdminID, CategoryID, BannerPic) values (2, 5, 'http://dummyimage.com/1920x600.png/ff4444/ffffff');
+insert into Banners (AdminID, CategoryID, BannerPic) values (1, 7, 'http://dummyimage.com/1920x600.png/cc0000/ffffff');
+insert into Banners (AdminID, CategoryID, BannerPic) values (1, 3, 'http://dummyimage.com/1920x600.png/dddddd/000000');
+go
+--select * from Banners
+--delete from Banners
+--DBCC CHECKIDENT (Banners, RESEED, 0);
+
+
+
+--insert SellerSignUps
+insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (25, 1, 'Aufderhar-Cormier', '8524 Rusk Lane');
+insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (26, 1, 'Dickens-Hudson', '95 Scoville Lane');
+insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (27, 1, 'Emard-Lockman', '4350 Manitowish Alley');
+insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (28, 1, 'Miller-Prohaska', '35058 Hudson Park');
+insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (29, 1, 'Turner Group', '793 Dexter Circle');
+insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (30, 1, 'Streich-Hartmann', '59 Warrior Park');
+go
+--select * from SellerSignUps
+--delete from SellerSignUps
+--DBCC CHECKIDENT (SellerSignUps, RESEED, 0);
+
+
+
+--insert Notifications
+insert into Notifications (UserID, NotificationText) values (1, 'Lorem ipsum dolor sit amet');
+insert into Notifications (UserID, NotificationText) values (1, 'consectetur adipiscing elit');
+insert into Notifications (UserID, NotificationText) values (1, 'sed do eiusmod tempor incididunt');
+insert into Notifications (UserID, NotificationText) values (1, 'ut labore et dolore magna aliqua');
+insert into Notifications (UserID, NotificationText) values (1, 'Lorem ipsum dolor sit amet');
+insert into Notifications (UserID, NotificationText) values (1, 'consectetur adipiscing elit');
+go
+--select * from Notifications
+--delete from Notifications
+--DBCC CHECKIDENT (Notifications, RESEED, 0);
+
+
+
+--insert Products
+
+--go
+--select * from Products
+--delete from Products
+--DBCC CHECKIDENT (Products, RESEED, 0);
+
+
+
+--insert Whitelists
+
+--go
+--select * from Whitelists
+--delete from Whitelists
+--DBCC CHECKIDENT (Whitelists, RESEED, 0);
+
+
+
+--insert Bills
+
+--go
+--select * from Bills
+--delete from Bills
+--DBCC CHECKIDENT (Bills, RESEED, 0);
+
+
+
+--insert BillDetails
+
+--go
+--select * from BillDetails
+--delete from BillDetails
+--DBCC CHECKIDENT (BillDetails, RESEED, 0);
+
+
+
+--insert ProductReviews
+
+--go
+--select * from ProductReviews
+--delete from ProductReviews
+--DBCC CHECKIDENT (ProductReviews, RESEED, 0);
