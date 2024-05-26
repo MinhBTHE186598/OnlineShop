@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import FormReg from '../components/FormAddSaler'
 
-function AddSaler() {
+function AddSeller() {
     return (
         <div>
                 <Header/>
@@ -13,4 +13,4 @@ function AddSaler() {
         </div>
     )
 }
-export default AddSaler
+export default AddSeller
