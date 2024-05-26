@@ -1,13 +1,13 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Header from '../components/Header'
+import HeaderTrim from '../components/HeaderTrim'
 import Footer from '../components/Footer'
 import FormReg from '../components/FormAddSeller'
 
 function AddSeller() {
     return (
         <div>
-                <Header/>
+                <HeaderTrim/>
                 <FormReg/>
                 <Footer/>
         </div>
