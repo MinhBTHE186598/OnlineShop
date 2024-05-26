@@ -28,7 +28,7 @@ function header() {
           <Nav className="me-auto">
             <Nav.Link href="#home" className='link-light link-opacity-50-hover'>Về chúng tôi</Nav.Link>
             <Nav.Link href="#link" className='link-light link-opacity-50-hover'>Hỗ trợ</Nav.Link>
-            <NavDropdown title={<span className="text-white my-auto">Danh mục sản phẩm test</span>} id="nav-dropdown">
+            <NavDropdown title={<span className="text-white my-auto">Danh mục sản phẩm</span>} id="nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Mục A</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Mục B</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Mục C</NavDropdown.Item>
