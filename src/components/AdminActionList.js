@@ -26,7 +26,10 @@ function AdminAction() {
                                 <Nav.Link eventKey="third">Quản lý banner</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link eventKey="fourth">Quản lý sản phẩm <Badge bg="warning" pill>{Arr.length}</Badge></Nav.Link>
+                                <Nav.Link eventKey="fourth">Quản lý sản phẩm </Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="fifth">Quản lý phản hồi khách hàng </Nav.Link>
                             </Nav.Item>
                         </Nav>
                     </Col>
@@ -63,6 +66,16 @@ function AdminAction() {
                                 </Row>
                             </Tab.Pane>
                             <Tab.Pane eventKey="fourth">
+                                <Row>
+                                    {Arr.map((index) => (
+                                        <ListGroup key={index} horizontal className="my-2">
+                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
+                                        </ListGroup>
+                                    ))}
+                                </Row>
+                            </Tab.Pane>
+                            <Tab.Pane eventKey="fifth">
                                 <Row>
                                     {Arr.map((index) => (
                                         <ListGroup key={index} horizontal className="my-2">
