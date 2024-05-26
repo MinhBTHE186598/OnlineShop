@@ -1,7 +1,7 @@
-function initRoutes(app) {
+const initRoutes = (app) => {
     return app.use("/", (req, res) => {
         return res.send("hello w2")
     })
 }
 
-export default initRoutes
+module.exports = initRoutes

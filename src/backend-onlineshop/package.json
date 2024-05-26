@@ -2,11 +2,13 @@
   "name": "backend-onlineshop",
   "version": "1.0.0",
   "main": "backend.js",
-  "type": "module",
   "scripts": {
+    
     "test": "echo \"Error: no test specified\" && exit 1",
+    
     "start": "node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "build": "babel src -d dist"
   },
   "keywords": [],
   "author": "",

@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-import initRoutes from "./src/routes/index.js";
+const initRoutes = require("./src/routes/index.js");
 
 const app = express();
 app.use(cors(
