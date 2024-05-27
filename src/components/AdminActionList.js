@@ -11,7 +11,7 @@ function AdminAction() {
     const [userList, setUserList] = useState ([{}])
 
     useEffect(()=>{
-        fetch("/api/user").then(
+        fetch("/user/get").then(
             response => response.json()
         ).then(
             data => {
@@ -19,6 +19,27 @@ function AdminAction() {
             }
         )
     },[])
+
+    const deleteUser = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:5000/users/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (response.ok) {
+                console.log('User deleted successfully');
+                // Handle success (e.g., update the UI)
+            } else {
+                console.error('Failed to delete user');
+                // Handle failure
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
 
     return (
         <div id="wrapper" style={{ margin: '125px 30px' }}>

@@ -2,7 +2,9 @@ const user = require("./user")
 
 const initRoutes = (app) => {
 
-    app.use('/api/user', user)
+    app.use('/user', user)
+
+
 
     
     return app.use("/", (req, res) => {
