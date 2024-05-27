@@ -11,7 +11,7 @@ function AdminAction() {
     const [userList, setUserList] = useState ([{}])
 
     useEffect(()=>{
-        fetch("/api/v1/user").then(
+        fetch("/api/user").then(
             response => response.json()
         ).then(
             data => {
@@ -48,10 +48,11 @@ function AdminAction() {
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
                                 <Row>
-                                    {Arr.map((index) => (
+                                    {userList.map((user,index) => (
                                         <ListGroup key={index} horizontal className="my-2">
-                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
-                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
+                                            <Col sm={3}><ListGroup.Item >{user.UserAccountName}</ListGroup.Item></Col>
+                                            <Col sm={6}><ListGroup.Item >{user.UserFirstName + " " + user.UserLastName}</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item >delete</ListGroup.Item></Col>
                                         </ListGroup>
                                     ))}
                                 </Row>
