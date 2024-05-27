@@ -2,12 +2,23 @@ import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
-import Badge from 'react-bootstrap/Badge';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { useEffect, useState } from 'react';
 
 
 function AdminAction() {
     const Arr = ['1', '2', '3', '4', '5'];
+    const [userList, setUserList] = useState ([{}])
+
+    useEffect(()=>{
+        fetch("/api/v1/user").then(
+            response => response.json()
+        ).then(
+            data => {
+                setUserList(data)
+            }
+        )
+    },[])
 
     return (
         <div id="wrapper" style={{ margin: '125px 30px' }}>
