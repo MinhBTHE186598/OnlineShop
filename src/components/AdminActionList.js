@@ -2,12 +2,23 @@ import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
-import Badge from 'react-bootstrap/Badge';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { useEffect, useState } from 'react';
 
 
 function AdminAction() {
     const Arr = ['1', '2', '3', '4', '5'];
+    const [userList, setUserList] = useState ([{}])
+
+    useEffect(()=>{
+        fetch("/api/user").then(
+            response => response.json()
+        ).then(
+            data => {
+                setUserList(data)
+            }
+        )
+    },[])
 
     return (
         <div id="wrapper" style={{ margin: '125px 30px' }}>
@@ -37,10 +48,11 @@ function AdminAction() {
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
                                 <Row>
-                                    {Arr.map((index) => (
+                                    {userList.map((user,index) => (
                                         <ListGroup key={index} horizontal className="my-2">
-                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
-                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
+                                            <Col sm={3}><ListGroup.Item >{user.UserAccountName}</ListGroup.Item></Col>
+                                            <Col sm={6}><ListGroup.Item >{user.UserFirstName + " " + user.UserLastName}</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item >delete</ListGroup.Item></Col>
                                         </ListGroup>
                                     ))}
                                 </Row>
