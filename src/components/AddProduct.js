@@ -19,7 +19,7 @@ function FormGroup() {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Hình ảnh sản phẩm:</b></Form.Label><br />
-                        <input id="filebutton" name="filebutton" className="input-file" type="file" />
+                        <Form.Control type="text" placeholder="Nhập link hình ảnh sản phẩm" required/>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Số lượng trong kho:</b></Form.Label>
