@@ -80,7 +80,7 @@ function HomeItemList() {
           </div>
         </Carousel.Item>
       </Carousel>
-      <Button variant='secondary' size='lg' style={MakeCenter}>Xem thêm</Button>
+      <Button variant='secondary' size='lg' style={MakeCenter}><a href='/mainShop' style={{ textDecoration: 'none', color: 'white' }}>Xem thêm</a></Button>
     </div>
   )
 }
