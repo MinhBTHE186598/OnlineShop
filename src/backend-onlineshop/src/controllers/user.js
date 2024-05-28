@@ -23,7 +23,7 @@ const deleteUser = async (req, res) => {
         delete from Products where SellerID in (select SellerID from Sellers where UserID=${userId})
         delete from Sellers where UserID=${userId}
         delete from Users where UserID=${userId}`;
-        if (result.rowsAffected[10] === 0) {
+        if (result.rowsAffected[9] === 0) {
             return res.status(404).send('User not found');
         }
         res.send('User deleted');

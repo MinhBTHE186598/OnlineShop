@@ -22,20 +22,13 @@ function AdminAction() {
 
     const deleteUser = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/users/${id}`, {
-                method: 'DELETE',
+            await fetch(`http://localhost:5000/user/delete/${id}`, {
+                method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',
-                },
+                }
             });
-    
-            if (response.ok) {
-                console.log('User deleted successfully');
-                // Handle success (e.g., update the UI)
-            } else {
-                console.error('Failed to delete user');
-                // Handle failure
-            }
+            setUserList(userList.filter((user)=> user.UserID !== id));
         } catch (error) {
             console.error('Error:', error);
         }
@@ -73,7 +66,7 @@ function AdminAction() {
                                         <ListGroup key={index} horizontal className="my-2">
                                             <Col sm={3}><ListGroup.Item >{user.UserAccountName}</ListGroup.Item></Col>
                                             <Col sm={6}><ListGroup.Item >{user.UserFirstName + " " + user.UserLastName}</ListGroup.Item></Col>
-                                            <Col sm={2}><ListGroup.Item >delete</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item action onClick={()=>{deleteUser(user.UserID)}} >delete</ListGroup.Item></Col>
                                         </ListGroup>
                                     ))}
                                 </Row>
