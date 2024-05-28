@@ -33,5 +33,16 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const registerUser = async (req, res) => {
+    try {
+        await sql.query`insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user1', 'Aa@12355', 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', 'fsleathq@dropbox.com', '0965 Elmside Park', '3888525055', 'Filberto', 'Sleath')`;
+        res.status(201).send('User added');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
 
-module.exports = {getUser,deleteUser} //export getUser
+
+
+module.exports = {getUser,deleteUser, registerUser} //export getUser
