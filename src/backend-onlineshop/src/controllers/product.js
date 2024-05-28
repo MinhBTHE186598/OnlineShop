@@ -30,4 +30,4 @@ const getProductByID = async (req, res) => {
     }
 }
 
-module.exports = {getBanner}
+module.exports = {getProduct, getWhitelistProduct, getProductByID}
