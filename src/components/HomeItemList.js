@@ -28,6 +28,7 @@ const MakeCenter = {
 
 function HomeItemList() {
   const [productList, setProductList] = useState([{}])
+  const [productReview, setProductReview] = useState([{}])
 
   useEffect(() => {
     fetch("/product/get").then(
@@ -35,6 +36,16 @@ function HomeItemList() {
     ).then(
       data => {
         setProductList(data)
+      }
+    )
+  }, [])
+
+  useEffect(() => {
+    fetch("/productReview/getStar").then(
+      response => response.json()
+    ).then(
+      data => {
+        setProductReview(data)
       }
     )
   }, [])
@@ -53,29 +64,32 @@ function HomeItemList() {
                 name={product.ProductName}
                 pic={product.ProductPic}
                 description={product.ProductDescription}
-                price={product.ProductPrice} />
+                price={product.ProductPrice} 
+                seller={product.SellerID}/>
             ))}
           </div>
         </Carousel.Item>
         <Carousel.Item>
           <div style={ListItem}>
-            {productList.slice(3, 6).map((product, index) => (
+            {productList.slice(0, 3).map((product, index) => (
               <ProductCardBig key={index}
                 name={product.ProductName}
                 pic={product.ProductPic}
                 description={product.ProductDescription}
-                price={product.ProductPrice} />
+                price={product.ProductPrice}
+                seller={product.SellerID} />
             ))}
           </div>
         </Carousel.Item>
         <Carousel.Item>
           <div style={ListItem}>
-            {productList.slice(6, 9).map((product, index) => (
+            {productList.slice(0, 3).map((product, index) => (
               <ProductCardBig key={index}
                 name={product.ProductName}
                 pic={product.ProductPic}
                 description={product.ProductDescription}
-                price={product.ProductPrice} />
+                price={product.ProductPrice}
+                seller={product.SellerID} />
             ))}
           </div>
         </Carousel.Item>
