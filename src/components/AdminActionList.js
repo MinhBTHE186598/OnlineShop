@@ -68,9 +68,9 @@ function AdminAction() {
                                 <Row>
                                     {userList.map((user,index) => (
                                         <ListGroup key={index} horizontal className="my-2">
-                                            <Col sm={3}><ListGroup.Item >{user.UserAccountName}</ListGroup.Item></Col>
+                                            <Col sm={3}><ListGroup.Item >{user.UserID}</ListGroup.Item></Col>
                                             <Col sm={6}><ListGroup.Item >{user.UserFirstName + " " + user.UserLastName}</ListGroup.Item></Col>
-                                            <Col sm={2}><ListGroup.Item action onClick={()=>{deleteUser(user.UserID)}} >delete</ListGroup.Item></Col>
+                                            <Col sm={2}><ListGroup.Item action onClick={()=>{deleteUser(user.UserID)}} >Delete</ListGroup.Item></Col>
                                         </ListGroup>
                                     ))}
                                 </Row>
