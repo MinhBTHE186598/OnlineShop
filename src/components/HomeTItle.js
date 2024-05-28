@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 import banner from '../utility/testbanner.jpg'
 
 const titleStyle = {
-  marginTop:'10vh',
+  marginTop: '10vh',
   width: '100vw',
   height: '40vh',
   textAlign: 'center',
@@ -18,16 +18,16 @@ const coverStyle = {
   opacity: '0.6',
 }
 const textStyle = {
-  position:'absolute',
+  position: 'absolute',
   width: '100%',
-  height:'100%',
+  height: '100%',
   color: 'white',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   zIndex: '2',
-  fontSize:'x-large'
+  fontSize: 'x-large'
 }
 
 function homeTItle() {
@@ -37,7 +37,7 @@ function homeTItle() {
       <div className='text' style={textStyle}>
         <h1>Chợ sinh viên</h1>
         <p>Chúng tôi có những gì sinh viên cần!</p>
-        <Button variant='light' style={{zIndex:'1'}}>Mua ngay</Button>
+        <Button variant='light' style={{ zIndex: '1' }}><a href='/mainShop' style={{ textDecoration: 'none', color: 'black' }}>Mua ngay</a></Button>
       </div>
     </div>
   )

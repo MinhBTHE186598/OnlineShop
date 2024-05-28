@@ -53,7 +53,7 @@ function footer() {
           <Col style={ColStyle}>
             <h3 className='text-secondary'>Điều hướng nhanh</h3>
             <h5 style={TextStyle}><Link to="/" style={{ textDecoration: 'none', color: 'orange' }}>Trang chủ</Link></h5>
-            <h5 style={TextStyle}><a href='#home' style={{ textDecoration: 'none', color: 'orange' }}>Tất cả sản phẩm</a></h5>
+            <h5 style={TextStyle}><a href='/mainShop' style={{ textDecoration: 'none', color: 'orange' }}>Tất cả sản phẩm</a></h5>
             <h5 style={TextStyle}><a href='#home' style={{ textDecoration: 'none', color: 'orange' }}>Hỗ trợ</a></h5>
           </Col>
         </Row>

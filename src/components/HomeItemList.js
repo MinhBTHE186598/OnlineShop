@@ -2,6 +2,7 @@ import React from 'react'
 import Carousel from 'react-bootstrap/Carousel';
 import Button from 'react-bootstrap/Button';
 import ProductCardBig from './ProductCardBig';
+import { useState, useEffect } from 'react';
 
 
 const ListItem = {
@@ -26,6 +27,18 @@ const MakeCenter = {
 
 
 function HomeItemList() {
+  const [productList, setProductList] = useState([{}])
+
+  useEffect(() => {
+    fetch("/product/get").then(
+      response => response.json()
+    ).then(
+      data => {
+        setProductList(data)
+      }
+    )
+  }, [])
+
   return (
     <div style={{ padding: '50px 0' }}>
       <div className='title' style={TitleStyle}>
@@ -35,27 +48,39 @@ function HomeItemList() {
       <Carousel data-bs-theme="dark" style={{ paddingBottom: '7.5vh' }}>
         <Carousel.Item>
           <div style={ListItem}>
-            <ProductCardBig />
-            <ProductCardBig />
-            <ProductCardBig />
+            {productList.slice(0, 3).map((product, index) => (
+              <ProductCardBig key={index}
+                name={product.ProductName}
+                pic={product.ProductPic}
+                description={product.ProductDescription}
+                price={product.ProductPrice} />
+            ))}
           </div>
         </Carousel.Item>
         <Carousel.Item>
           <div style={ListItem}>
-            <ProductCardBig />
-            <ProductCardBig />
-            <ProductCardBig />
+            {productList.slice(3, 6).map((product, index) => (
+              <ProductCardBig key={index}
+                name={product.ProductName}
+                pic={product.ProductPic}
+                description={product.ProductDescription}
+                price={product.ProductPrice} />
+            ))}
           </div>
         </Carousel.Item>
         <Carousel.Item>
           <div style={ListItem}>
-            <ProductCardBig />
-            <ProductCardBig />
-            <ProductCardBig />
+            {productList.slice(6, 9).map((product, index) => (
+              <ProductCardBig key={index}
+                name={product.ProductName}
+                pic={product.ProductPic}
+                description={product.ProductDescription}
+                price={product.ProductPrice} />
+            ))}
           </div>
         </Carousel.Item>
       </Carousel>
-      <Button variant='secondary' size='lg' style={MakeCenter}>Xem thêm</Button>
+      <Button variant='secondary' size='lg' style={MakeCenter}><a href='/mainShop' style={{ textDecoration: 'none', color: 'white' }}>Xem thêm</a></Button>
     </div>
   )
 }

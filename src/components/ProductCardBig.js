@@ -1,7 +1,6 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import logo from '../utility/testlogo.png';
 import { FaStarHalfAlt } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 
@@ -26,16 +25,15 @@ const StarStyle = {
     color: 'orange'
 }
 
-function ProductCardBig() {
+function ProductCardBig(props) {
     return (
         <Card style={CardStyle}>
-            <Card.Img variant="top" src={logo} />
+            <Card.Img variant="top" src={props.pic} />
             <hr />
             <Card.Body>
-                <Card.Title style={{ textAlign: 'center', fontSize: 'xx-large' }}>Sản phẩm A</Card.Title>
+                <Card.Title style={{ textAlign: 'center', fontSize: 'x-large' }}>{props.name}</Card.Title>
                 <Card.Text>
-                    Some quick example text to build on the card title and make up the
-                    bulk of the card's content.
+                    {props.description}
                 </Card.Text>
                 <a href='#home'>Tên người bán</a>
                 <div style={StarStyle}>
@@ -45,7 +43,7 @@ function ProductCardBig() {
                     <FaStar />
                     <FaStarHalfAlt />
                 </div>
-                <h3 style={{ color: 'orange' }}>100.000đ</h3>
+                <h3 style={{ color: 'orange' }}>{props.price}đ</h3>
                 <Button variant="primary" style={MakeCenter}>Thêm vào giỏ hàng</Button>
             </Card.Body>
         </Card>
