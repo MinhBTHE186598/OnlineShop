@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 
 function AdminAction() {
@@ -22,12 +23,15 @@ function AdminAction() {
 
     const deleteUser = async (id) => {
         try {
-            await fetch(`http://localhost:5000/user/delete/${id}`, {
-                method: "DELETE",
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await axios.delete(`http://localhost:5000/user/delete/${id}`);
+
+            if (response.status === 200) {
+                console.log('User deleted successfully');
+                // Handle success (e.g., update the UI)
+            } else {
+                console.error('Failed to delete user');
+                // Handle failure
+            }
             setUserList(userList.filter((user)=> user.UserID !== id));
         } catch (error) {
             console.error('Error:', error);
