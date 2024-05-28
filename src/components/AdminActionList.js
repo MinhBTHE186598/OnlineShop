@@ -66,8 +66,8 @@ function AdminAction() {
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
                                 <Row>
-                                    {userList.map((user,index) => (
-                                        <ListGroup key={index} horizontal className="my-2">
+                                    {userList.map((user) => (
+                                        <ListGroup key={user.UserID} horizontal className="my-2">
                                             <Col sm={3}><ListGroup.Item >{user.UserID}</ListGroup.Item></Col>
                                             <Col sm={6}><ListGroup.Item >{user.UserFirstName + " " + user.UserLastName}</ListGroup.Item></Col>
                                             <Col sm={2}><ListGroup.Item action onClick={()=>{deleteUser(user.UserID)}} >Delete</ListGroup.Item></Col>
