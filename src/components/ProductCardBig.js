@@ -2,6 +2,7 @@ import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { FaStar } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa";
 import { useState, useEffect } from 'react';
 
 
@@ -38,6 +39,13 @@ function ProductCardBig(props) {
         )
     }, [])
 
+    const stars = [];
+    for (let i = 0; i < props.star; i++) {
+        stars.push(true);
+    }
+    for (let i = 5; i > props.star; i--) {
+        stars.push(false);
+    }
 
     return (
         <Card style={CardStyle}>
@@ -55,7 +63,12 @@ function ProductCardBig(props) {
                     return null
                 })}</a>
                 <div style={StarStyle}>
-                    <FaStar />
+                    {stars.map((star, index) => {
+                        if (star) {
+                            return <FaStar key={index} />
+                        }
+                        return <FaRegStar key={index} />
+                    })}
                 </div>
                 <h3 style={{ color: 'orange' }}>{props.price}đ</h3>
                 <Button variant="primary" style={MakeCenter}><a href='/' style={{ textDecoration: 'none', color: 'white' }}>Thêm vào giỏ hàng</a></Button>
