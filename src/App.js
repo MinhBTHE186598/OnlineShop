@@ -7,7 +7,7 @@ import RegisterUser from './webpages/RegisterUser';
 import AboutUs from './webpages/AboutUs';
 import AddSeller from './webpages/AddSeller';
 import MainShop from './webpages/MainShop';
-import AddProduct from './components/AddProduct';
+import AddProduct from './webpages/AddProduct';
 function App() {
   return (
     <div>
