@@ -4,7 +4,6 @@
 -Profile
 -Reset/change password
 -Saler register
--profile
 -Product management(admin)
 -Product management(saler)
 -edit products(saler)
