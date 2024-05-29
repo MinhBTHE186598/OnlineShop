@@ -66,7 +66,8 @@ function HomeItemList() {
                 description={product.ProductDescription}
                 price={product.ProductPrice} 
                 seller={product.SellerID}
-                star={productReview[index].ProductStar}/>
+                // star={productReview[index].ProductStar}
+                />
             ))}
           </div>
         </Carousel.Item>
@@ -79,7 +80,8 @@ function HomeItemList() {
                 description={product.ProductDescription}
                 price={product.ProductPrice}
                 seller={product.SellerID} 
-                star={productReview[index].ProductStar}/>
+                //star={productReview[index].ProductStar}
+                />
             ))}
           </div>
         </Carousel.Item>
@@ -92,7 +94,8 @@ function HomeItemList() {
                 description={product.ProductDescription}
                 price={product.ProductPrice}
                 seller={product.SellerID} 
-                star={productReview[index].ProductStar}/>
+                //star={productReview[index].ProductStar}
+                />
             ))}
           </div>
         </Carousel.Item>

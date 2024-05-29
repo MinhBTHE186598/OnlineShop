@@ -38,13 +38,27 @@ go
 
 
 
+--Create table SellManagers
+CREATE TABLE SellManagers (
+    SellManagerID INT identity(1,1) PRIMARY KEY,
+    UserID INT,
+    CategoryID INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
+);
+go
+
+
+
 --Create table Sellers
 CREATE TABLE Sellers (
-    SellerID INT identity(1,1) PRIMARY KEY,
+    SellerID INT identity(1,1) PRIMARY KEY,	
     SellerName NVARCHAR(255),
     SellerAddress NVARCHAR(255),
-	UserID INT
-	FOREIGN KEY (UserID) REFERENCES Users(UserID)
+	UserID INT,
+	SellManagerID INT	
+	FOREIGN KEY (UserID) REFERENCES Users(UserID),
+	FOREIGN KEY (SellManagerID) REFERENCES SellManagers(SellManagerID)
 );
 go
 
@@ -147,38 +161,23 @@ go
 
 
 
---Create table SellManagers
-CREATE TABLE SellManagers (
-    SellManagerID INT identity(1,1) PRIMARY KEY,
-    UserID INT,
-    CategoryID INT,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
-);
-go
-
-
-
---Create table SellerSignUps
-CREATE TABLE SellerSignUps (
-    SellerSignUpID INT identity(1,1) PRIMARY KEY,
-    UserID INT,
-	SellManagerID INT,
-    SellerSignUpName NVARCHAR(255),
-	SellerSignUpAddress NVARCHAR(255),
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-	FOREIGN KEY (SellManagerID) REFERENCES SellManagers(SellManagerID)
-);
-go
-
-
-
 --Create table Notifications
 CREATE TABLE Notifications (
     NotificationID INT identity(1,1) PRIMARY KEY,
     UserID INT,
     NotificationText TEXT,
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+go
+
+CREATE TABLE Supports (
+    SupportID INT identity(1,1) PRIMARY KEY,
+    UserID INT,
+	AdminID INT,
+    SupportRequest TEXT,
+	SupportResponse TEXT null,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+	FOREIGN KEY (AdminID) REFERENCES Admins(AdminID)
 );
 go
 
@@ -231,19 +230,6 @@ go
 
 
 
---insert Sellers
-insert into Sellers (SellerName, SellerAddress, UserID) values ('Muller-Mills', '60 Manitowish Park', 6);
-insert into Sellers (SellerName, SellerAddress, UserID) values ('Ryan Inc', '72 Clarendon Terrace', 7);
-insert into Sellers (SellerName, SellerAddress, UserID) values ('Marvin, Hintz and Krajcik', '967 Kedzie Street', 8);
-insert into Sellers (SellerName, SellerAddress, UserID) values ('Bogisich, Witting and McDermott', '3280 Schlimgen Place', 9);
-insert into Sellers (SellerName, SellerAddress, UserID) values ('Auer-Green', '06 Russell Terrace', 10);
-go
---select * from Sellers
---delete from Sellers
---DBCC CHECKIDENT (Sellers, RESEED, 0);
-
-
-
 --insert SellManagers
 insert into SellManagers (UserID, CategoryID) values (11, 1);
 insert into SellManagers (UserID, CategoryID) values (12, 2);
@@ -261,6 +247,19 @@ go
 --select * from SellManagers
 --delete from SellManagers
 --DBCC CHECKIDENT (SellManagers, RESEED, 0);
+
+
+
+--insert Sellers
+insert into Sellers (SellerName, SellerAddress, UserID, SellManagerID) values ('Muller-Mills', '60 Manitowish Park', 6, 1);
+insert into Sellers (SellerName, SellerAddress, UserID, SellManagerID) values ('Ryan Inc', '72 Clarendon Terrace', 7, 1);
+insert into Sellers (SellerName, SellerAddress, UserID, SellManagerID) values ('Marvin, Hintz and Krajcik', '967 Kedzie Street', 8, 1);
+insert into Sellers (SellerName, SellerAddress, UserID, SellManagerID) values ('Bogisich, Witting and McDermott', '3280 Schlimgen Place', 9, 1);
+insert into Sellers (SellerName, SellerAddress, UserID, SellManagerID) values ('Auer-Green', '06 Russell Terrace', 10, 1);
+go
+--select * from Sellers
+--delete from Sellers
+--DBCC CHECKIDENT (Sellers, RESEED, 0);
 
 
 
@@ -316,20 +315,6 @@ go
 --select * from Banners
 --delete from Banners
 --DBCC CHECKIDENT (Banners, RESEED, 0);
-
-
-
---insert SellerSignUps
-insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (25, 1, 'Aufderhar-Cormier', '8524 Rusk Lane');
-insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (26, 1, 'Dickens-Hudson', '95 Scoville Lane');
-insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (27, 1, 'Emard-Lockman', '4350 Manitowish Alley');
-insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (28, 1, 'Miller-Prohaska', '35058 Hudson Park');
-insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (29, 1, 'Turner Group', '793 Dexter Circle');
-insert into SellerSignUps (UserID, SellManagerID, SellerSignUpName, SellerSignUpAddress) values (30, 1, 'Streich-Hartmann', '59 Warrior Park');
-go
---select * from SellerSignUps
---delete from SellerSignUps
---DBCC CHECKIDENT (SellerSignUps, RESEED, 0);
 
 
 
@@ -718,7 +703,54 @@ insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewS
 insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (5, 5, '3/19/2024', 3, 'consectetur adipiscing elit');
 insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (2, 4, '7/26/2023', 0, 'consectetur adipiscing elit');
 insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (1, 1, '8/18/2023', 3, 'consectetur adipiscing elit');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (5, 7, '27/02/2024', 4, 'that is the question.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (2, 8, '12/10/2023', 2, 'How much wood would a woodchuck chuck if a woodchuck could chuck wood?');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (2, 6, '23/03/2023', 4, 'To be or not to be');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (1, 10, '19/01/2023', 5, 'How much wood would a woodchuck chuck if a woodchuck could chuck wood?');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (3, 10, '16/01/2024', 4, 'The quick brown fox jumps over the lazy dog.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (5, 7, '13/07/2023', 2, 'The quick brown fox jumps over the lazy dog.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (2, 8, '25/05/2023', 2, 'To be or not to be');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (3, 10, '26/05/2023', 1, 'Lorem ipsum dolor sit amet');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (1, 10, '28/02/2024', 5, 'Lorem ipsum dolor sit amet');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (4, 8, '18/07/2023', 1, 'The quick brown fox jumps over the lazy dog.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (2, 6, '20/03/2024', 4, 'To be or not to be');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (5, 7, '25/06/2023', 5, 'Lorem ipsum dolor sit amet');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (3, 7, '02/12/2023', 5, 'All work and no play makes Jack a dull boy.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (3, 6, '16/08/2023', 1, 'Lorem ipsum dolor sit amet');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (4, 7, '15/06/2023', 2, 'How much wood would a woodchuck chuck if a woodchuck could chuck wood?');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (1, 7, '29/04/2023', 1, 'How much wood would a woodchuck chuck if a woodchuck could chuck wood?');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (3, 8, '03/06/2023', 1, 'The quick brown fox jumps over the lazy dog.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (1, 8, '12/02/2024', 3, 'consectetur adipiscing elit.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (1, 10, '21/08/2023', 2, 'The quick brown fox jumps over the lazy dog.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (1, 9, '17/03/2023', 5, 'Lorem ipsum dolor sit amet');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (1, 7, '27/12/2023', 5, 'All work and no play makes Jack a dull boy.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (4, 7, '30/09/2023', 1, 'To be or not to be');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (2, 8, '14/09/2023', 5, 'All work and no play makes Jack a dull boy.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (3, 8, '15/01/2024', 5, 'How much wood would a woodchuck chuck if a woodchuck could chuck wood?');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (4, 9, '28/03/2024', 4, 'How much wood would a woodchuck chuck if a woodchuck could chuck wood?');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (3, 10, '09/11/2023', 3, 'All work and no play makes Jack a dull boy.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (2, 9, '29/11/2023', 4, 'To be or not to be');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (3, 10, '08/03/2023', 4, 'consectetur adipiscing elit.');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (3, 7, '26/06/2023', 1, 'How much wood would a woodchuck chuck if a woodchuck could chuck wood?');
+insert into ProductReviews (UserID, ProductID, ProductReviewDate, ProductReviewStar, ProductReviewText) values (5, 9, '26/05/2023', 5, 'Lorem ipsum dolor sit amet');
 go
 --select * from ProductReviews
 --delete from ProductReviews
 --DBCC CHECKIDENT (ProductReviews, RESEED, 0);
+
+
+
+--insert Supports
+insert into Supports (UserID, AdminID, SupportRequest) values (2, 1, 'How much wood would a woodchuck chuck if a woodchuck could chuck wood?');
+insert into Supports (UserID, AdminID, SupportRequest) values (3, 1, 'All work and no play makes Jack a dull boy.');
+insert into Supports (UserID, AdminID, SupportRequest) values (1, 1, 'To be or not to be');
+insert into Supports (UserID, AdminID, SupportRequest) values (1, 1, 'The quick brown fox jumps over the lazy dog.');
+insert into Supports (UserID, AdminID, SupportRequest) values (2, 1, 'Lorem ipsum dolor sit amet');
+insert into Supports (UserID, AdminID, SupportRequest) values (3, 1, 'Lorem ipsum dolor sit amet');
+insert into Supports (UserID, AdminID, SupportRequest) values (2, 1, 'To be or not to be');
+insert into Supports (UserID, AdminID, SupportRequest) values (1, 1, 'consectetur adipiscing elit.');
+insert into Supports (UserID, AdminID, SupportRequest) values (1, 1, 'that is the question.');
+insert into Supports (UserID, AdminID, SupportRequest) values (5, 1, 'that is the question.');
+--select * from Supports
+--delete from Supports
+--DBCC CHECKIDENT (Supports, RESEED, 0);
