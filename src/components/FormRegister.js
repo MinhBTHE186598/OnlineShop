@@ -37,10 +37,10 @@ function RegisterBoard() {
 
   return (
     <Container fluid="sm" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <Form style={{ width: '300px', textAlign: 'center' }}>
+      <Form onSubmit={handleSubmit} style={{ width: '300px', textAlign: 'center' }}>
         <h2>Đăng kí tài khoản</h2>
         
-        <Form.Group onSubmit={handleSubmit} className="mb-3" controlId="formGroupNameShop">
+        <Form.Group className="mb-3" controlId="formGroupNameShop">
           <Form.Control type="text" placeholder="Tài khoản" onChange={(e)=> setName(e.target.value)} />
           <Form.Control type="gmail" placeholder="Gmail"  onChange={(e)=> setGmail(e.target.value)} />
           <Form.Control type="text" placeholder="Số điện thoại"  onChange={(e)=> setNumber(e.target.value)} />

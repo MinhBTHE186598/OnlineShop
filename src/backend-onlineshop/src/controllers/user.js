@@ -35,14 +35,28 @@ const deleteUser = async (req, res) => {
 
 const registerUser = async (req, res) => {
     try {
-        await sql.query`insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user1', 'Aa@12355', 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', 'fsleathq@dropbox.com', '0965 Elmside Park', '3888525055', 'Filberto', 'Sleath')`;
-        res.status(201).send('User added');
+        const { gmail, number, password } = req.body;
+        const name = req.body.name;
+
+        await sql.query`insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserPhone)
+         values (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail}, ${number})`;
+        console.log(name)
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
     }
 }
 
+const getUserByID = async (req, res) => {
+    try {
+        const userID = req.params.id;
+        const result = await sql.query`Select * from Users where UserID=${userID}`;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
 
+}
 
-module.exports = {getUser,deleteUser, registerUser} //export getUser
+module.exports = { getUser, deleteUser, registerUser, getUserByID } //export getUser

@@ -1,8 +1,9 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { FaStarHalfAlt } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa";
+import { useState, useEffect } from 'react';
 
 
 const CardStyle = {
@@ -26,6 +27,26 @@ const StarStyle = {
 }
 
 function ProductCardBig(props) {
+    const [sellers, setSellers] = useState([])
+
+    useEffect(() => {
+        fetch("/seller/get").then(
+            response => response.json()
+        ).then(
+            data => {
+                setSellers(data)
+            }
+        )
+    }, [])
+
+    const stars = [];
+    for (let i = 0; i < props.star; i++) {
+        stars.push(true);
+    }
+    for (let i = 5; i > props.star; i--) {
+        stars.push(false);
+    }
+
     return (
         <Card style={CardStyle}>
             <Card.Img variant="top" src={props.pic} />
@@ -35,19 +56,29 @@ function ProductCardBig(props) {
                 <Card.Text>
                     {props.description}
                 </Card.Text>
-                <a href='#home'>Tên người bán</a>
+                <a href='/home'>{sellers.map(seller => {
+                    if (seller.SellerID === props.seller) {
+                        return seller.SellerName
+                    }
+                    return null
+                })}</a>
                 <div style={StarStyle}>
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStarHalfAlt />
+                    {stars.map((star, index) => {
+                        if (star) {
+                            return <FaStar key={index} />
+                        }
+                        return <FaRegStar key={index} />
+                    })}
                 </div>
                 <h3 style={{ color: 'orange' }}>{props.price}đ</h3>
-                <Button variant="primary" style={MakeCenter}>Thêm vào giỏ hàng</Button>
+                <Button variant="primary" style={MakeCenter}><a href='/' style={{ textDecoration: 'none', color: 'white' }}>Thêm vào giỏ hàng</a></Button>
             </Card.Body>
         </Card>
     )
-}
 
+
+}
+ProductCardBig.defaultProps = {
+    star: 0
+}
 export default ProductCardBig

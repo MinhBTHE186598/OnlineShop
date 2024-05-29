@@ -28,6 +28,7 @@ const MakeCenter = {
 
 function HomeItemList() {
   const [productList, setProductList] = useState([{}])
+  const [productReview, setProductReview] = useState([{}])
 
   useEffect(() => {
     fetch("/product/get").then(
@@ -35,6 +36,16 @@ function HomeItemList() {
     ).then(
       data => {
         setProductList(data)
+      }
+    )
+  }, [])
+
+  useEffect(() => {
+    fetch("/productReview/getStar").then(
+      response => response.json()
+    ).then(
+      data => {
+        setProductReview(data)
       }
     )
   }, [])
@@ -53,7 +64,9 @@ function HomeItemList() {
                 name={product.ProductName}
                 pic={product.ProductPic}
                 description={product.ProductDescription}
-                price={product.ProductPrice} />
+                price={product.ProductPrice} 
+                seller={product.SellerID}
+                star={productReview[index].ProductStar}/>
             ))}
           </div>
         </Carousel.Item>
@@ -64,7 +77,9 @@ function HomeItemList() {
                 name={product.ProductName}
                 pic={product.ProductPic}
                 description={product.ProductDescription}
-                price={product.ProductPrice} />
+                price={product.ProductPrice}
+                seller={product.SellerID} 
+                star={productReview[index].ProductStar}/>
             ))}
           </div>
         </Carousel.Item>
@@ -75,7 +90,9 @@ function HomeItemList() {
                 name={product.ProductName}
                 pic={product.ProductPic}
                 description={product.ProductDescription}
-                price={product.ProductPrice} />
+                price={product.ProductPrice}
+                seller={product.SellerID} 
+                star={productReview[index].ProductStar}/>
             ))}
           </div>
         </Carousel.Item>
