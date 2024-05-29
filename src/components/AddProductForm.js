@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function AddProduct() {
+function AddProductForm() {
     const [productName, setPName] = useState('');
     const [productCategory, setSelectedOption] = useState('');
     const [productPrice, setPPrice] = useState('')
@@ -12,7 +12,7 @@ function AddProduct() {
     const [productQuantity, setPQuantity] = useState('')
     const [productDesc, setPDesc] = useState('')
 
-    
+    const bgimg = `https://images.pexels.com/photos/6985003/pexels-photo-6985003.jpeg?cs=srgb&dl=pexels-codioful-6985003.jpg&fm=jpg`
 
 
     const handleSubmit = async (e) => {
@@ -37,7 +37,7 @@ function AddProduct() {
     };
 
     return (
-        <Container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Container fluid style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', marginTop: '50px', backgroundImage: `url(${bgimg})`, width: '100%', backgroundSize: 'cover'}}>
             <div style={{ backgroundColor: 'white', width: '100%', maxWidth: '600px', padding: '20px', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0 ,0, 0.1)' }}>
                 <Form onSubmit={handleSubmit}>
                     <h2 style={{ textAlign: 'center' }}>Đăng ký sản phẩm mới cho cửa hàng</h2>
@@ -84,4 +84,4 @@ function AddProduct() {
     );
 }
 
-export default AddProduct;
+export default AddProductForm;
