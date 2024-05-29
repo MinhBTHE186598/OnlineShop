@@ -75,6 +75,10 @@ function ProductCardBig(props) {
             </Card.Body>
         </Card>
     )
-}
 
+
+}
+ProductCardBig.defaultProps = {
+    star: 0
+}
 export default ProductCardBig

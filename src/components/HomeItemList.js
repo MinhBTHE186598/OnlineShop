@@ -72,7 +72,7 @@ function HomeItemList() {
         </Carousel.Item>
         <Carousel.Item>
           <div style={ListItem}>
-            {productList.slice(0, 3).map((product, index) => (
+            {productList.slice(3, 6).map((product, index) => (
               <ProductCardBig key={index}
                 name={product.ProductName}
                 pic={product.ProductPic}
@@ -85,7 +85,7 @@ function HomeItemList() {
         </Carousel.Item>
         <Carousel.Item>
           <div style={ListItem}>
-            {productList.slice(0, 3).map((product, index) => (
+            {productList.slice(6, 9).map((product, index) => (
               <ProductCardBig key={index}
                 name={product.ProductName}
                 pic={product.ProductPic}
