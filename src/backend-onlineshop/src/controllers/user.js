@@ -35,9 +35,9 @@ const deleteUser = async (req, res) => {
 
 const registerUser = async (req, res) => {
     try {
-        const {gmail, number, password } = req.body;
+        const { gmail, number, password } = req.body;
         const name = req.body.name;
-        
+
         await sql.query`insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserPhone)
          values (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail}, ${number})`;
         console.log(name)
@@ -47,6 +47,16 @@ const registerUser = async (req, res) => {
     }
 }
 
+const getUserByID = async (req, res) => {
+    try {
+        const userID = req.params.id;
+        const result = await sql.query`Select * from Users where UserID=${userID}`;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
 
+}
 
-module.exports = {getUser,deleteUser, registerUser} //export getUser
+module.exports = { getUser, deleteUser, registerUser, getUserByID } //export getUser
