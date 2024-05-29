@@ -3,9 +3,11 @@ import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import UserIModal from './UserInfoModal';
+
 
 function UserManager() {
-
+    const [modalShow, setModalShow] = useState(false);
     const [userList, setUserList] = useState([{}])
 
     useEffect(() => {
@@ -17,6 +19,11 @@ function UserManager() {
             }
         )
     }, [])
+
+    const showInf = async (id) => {
+
+    }
+
 
     const deleteUser = async (id) => {
         try {
@@ -56,8 +63,10 @@ function UserManager() {
                         <Col sm={3}><ListGroup.Item >{user.UserFirstName + " " + user.UserLastName}</ListGroup.Item></Col>
                         <Col sm={2}><ListGroup.Item >{user.UserPhone}</ListGroup.Item></Col>
                         <Col sm={1}><ListGroup.Item action variant='secondary' onClick={() => { deleteUser(user.UserID) }} >Delete</ListGroup.Item></Col>
+                        <Col sm={1}><ListGroup.Item action variant='secondary' onClick={() => setModalShow(true)} >View</ListGroup.Item></Col>
                     </ListGroup>
                 ))}
+                <UserIModal show={modalShow} onHide={()=> setModalShow(false)}/>
             </Row>
         </div>
     )
