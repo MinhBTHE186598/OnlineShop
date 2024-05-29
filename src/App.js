@@ -7,7 +7,7 @@ import RegisterUser from './webpages/RegisterUser';
 import AboutUs from './webpages/AboutUs';
 import AddSeller from './webpages/AddSeller';
 import MainShop from './webpages/MainShop';
-
+import AddProduct from './components/AddProduct';
 function App() {
   return (
     <div>
@@ -21,6 +21,7 @@ function App() {
         <Route path="/register" element={<RegisterUser/>}/>
         <Route path="/aboutUs" element={<AboutUs/>}/>
         <Route path="/mainShop" element={<MainShop/>}/>
+        <Route path="/addProduct" element={<AddProduct/>}/>
       </Routes>
 
       </BrowserRouter>

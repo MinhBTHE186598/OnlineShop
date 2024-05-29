@@ -1,33 +1,74 @@
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-function FormGroup() {
+function AddProduct() {
+    const [productName, setPName] = useState('');
+    const [productCategory, setSelectedOption] = useState('');
+    const [productPrice, setPPrice] = useState('')
+    const [productPic, setPPic] = useState('')
+    const [productQuantity, setPQuantity] = useState('')
+    const [productDesc, setPDesc] = useState('')
+
+    
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/product/addProduct', {
+                productName,
+                productCategory,
+                productPrice,
+                productPic,
+                productQuantity,
+                productDesc
+            });
+            if (response.status === 201) {
+                console.log('Product added successfully');
+            } else {
+                console.error('Failed to add product');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     return (
         <Container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <div style={{ backgroundColor: 'white', width: '100%', maxWidth: '600px', padding: '20px', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0 ,0, 0.1)' }}>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <h2 style={{ textAlign: 'center' }}>Đăng ký sản phẩm mới cho cửa hàng</h2>
-                    <hr/>
+                    <hr />
                     <Form.Group>
                         <Form.Label><b>Tên sản phẩm:</b></Form.Label>
-                        <Form.Control type="text" placeholder="Nhập tên sản phẩm" required />
+                        <Form.Control type="text" placeholder="Nhập tên sản phẩm" onChange={(e) => setPName(e.target.value)} required />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label><b>Phân loại sản phẩm:</b></Form.Label><br />
+                        <select id="options" value={productCategory} onChange={(e) => setSelectedOption(e.target.value)}>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                        </select>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Giá sản phẩm:</b></Form.Label>
-                        <Form.Control type="number" min={0} placeholder="Nhập giá sản phẩm (VND)" required/>
+                        <Form.Control type="number" min={0} placeholder="Nhập giá sản phẩm (VND)" onChange={(e) => setPPrice(e.target.value)} required />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Hình ảnh sản phẩm:</b></Form.Label><br />
-                        <Form.Control type="text" placeholder="Nhập link hình ảnh sản phẩm" required/>
+                        <Form.Control type="text" placeholder="Nhập link hình ảnh sản phẩm" onChange={(e) => setPPic(e.target.value)} required />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Số lượng trong kho:</b></Form.Label>
-                        <Form.Control type="number" min={0} placeholder="Nhập số lượng sản phẩm còn lại trong kho" required/>
+                        <Form.Control type="number" min={0} placeholder="Nhập số lượng sản phẩm còn lại trong kho" onChange={(e) => setPQuantity(e.target.value)} required />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Mô tả sản phẩm:</b></Form.Label>
-                        <Form.Control as="textarea" rows={5} placeholder="Nhập mô tả sản phẩm" required/>
+                        <Form.Control as="textarea" rows={5} placeholder="Nhập mô tả sản phẩm" onChange={(e) => setPDesc(e.target.value)} required />
                     </Form.Group>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', gap: '10px' }}>
                         <Button variant="danger" onClick={() => window.location.href = "/"}>
@@ -43,4 +84,4 @@ function FormGroup() {
     );
 }
 
-export default FormGroup;
+export default AddProduct;
