@@ -18,7 +18,7 @@ import logo from '../utility/testlogo.png'
 
 function header() {
   return (
-    <Navbar expand="lg" className="bg-dark p-0" style={{ fontSize: 'larger', height: '10vh', display: 'flex', justifyContent: 'space-between' }} fixed='top'>
+    <Navbar expand="lg" className="bg-dark p-0" style={{ height: '10vh', display: 'flex', justifyContent: 'space-between' }} fixed='top'>
       <Container style={{ width: '33vw' }}>
         <Navbar.Brand as={Link} to="/">
           <img src={logo} style={{ width: '5em' }} alt="Logo" />
@@ -37,7 +37,7 @@ function header() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      <Form inline style={{ width: '33vw'}}>
+      <Form inline style={{ width: '33vw' }}>
         <InputGroup>
           <Form.Control
             placeholder="Search"
@@ -45,11 +45,11 @@ function header() {
             aria-describedby="basic-addon2"
           />
           <Button variant="primary" id="button-addon2">
-            <FaMagnifyingGlass/>
+            <FaMagnifyingGlass />
           </Button>
         </InputGroup>
       </Form>
-      <ButtonToolbar aria-label="Toolbar with button groups" style={{ width: '33vw', display: 'flex',justifyContent:'center' }}>
+      <ButtonToolbar aria-label="Toolbar with button groups" style={{ width: '33vw', display: 'flex', justifyContent: 'center' }}>
         <ButtonGroup className="m-1" aria-label="First group">
           <DropdownButton as={ButtonGroup} title={<FaBell />} id="bg-nested-dropdown">
             <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>
