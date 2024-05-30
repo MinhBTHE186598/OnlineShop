@@ -10,6 +10,19 @@ const getBanner = async (req, res) => {
     }
 }
 
+const getBannerForAdmin = async (req, res) => {
+    try {
+        const result = await sql.query`Select b.BannerID, b.BannerPic,u.UserAccountName, u.UserFirstName, u.UserLastName, c.CategoryName from Banners b
+        join Admins a on b.AdminID=a.AdminID
+        join Users u on a.UserID = u.UserID
+        join Categories c on c.CategoryID = b.CategoryID`;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
 const addBanner = async (req, res) => {
     try {
         const { AdminID, CategoryID, BannerPic } = req.body;
@@ -49,4 +62,4 @@ const deleteBanner = async (req, res) => {
     }
 }
 
-module.exports = { getBanner, deleteBanner, addBanner, editBanner }
+module.exports = { getBanner, deleteBanner, addBanner, editBanner,getBannerForAdmin }
