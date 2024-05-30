@@ -59,7 +59,7 @@ function RegisterBoard() {
               </Form.Group>
               <div className="policy">
                 <input type="checkbox" />
-                <h3>Tôi đồng ý với <a href="#">Điều khoản</a> & <a href="#">Chính sách quyền rạng</a></h3>
+                <h3>Tôi đồng ý với <a href="#">Điều khoản</a> & <a href="#">Chính sách</a></h3>
               </div>
               <div className='input-box button'>
                 <Button variant="dark" type="submit" style={{ width: '100%' }}>
