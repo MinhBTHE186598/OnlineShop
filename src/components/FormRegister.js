@@ -9,6 +9,7 @@ import logo from './utility/testlogo.png';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../utility/register.css';
 
 function RegisterBoard() {
   const [name, setName] = useState('');
