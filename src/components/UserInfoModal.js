@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 
-function UserIModal(props,userId) {
+function UserIModal(props) {
     return (
         <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
             <Modal.Header closeButton>
@@ -16,23 +16,65 @@ function UserIModal(props,userId) {
             <Modal.Body className="grid-example">
                 <Container>
                     <Row>
-                        <Col xs={12} md={8}>
-                            .col-xs-12 .col-md-8
+                        <Col >
+                        UserID:
                         </Col>
-                        <Col xs={6} md={4}>
-                            .col-xs-6 .col-md-4
+                        <Col >
+                        {props.user.UserID}
                         </Col>
                     </Row>
-
                     <Row>
-                        <Col xs={6} md={4}>
-                            .col-xs-6 .col-md-4
+                        <Col >
+                        UserAccountName:
                         </Col>
-                        <Col xs={6} md={4}>
-                            .col-xs-6 .col-md-4
+                        <Col >
+                        {props.user.UserAccountName}
                         </Col>
-                        <Col xs={6} md={4}>
-                            .col-xs-6 .col-md-4
+                    </Row>
+                    <Row>
+                        <Col >
+                        UserFullName:
+                        </Col>
+                        <Col >
+                        {props.user.UserFirstName} {props.user.UserFirstName}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col >
+                        User Password:
+                        </Col>
+                        <Col >
+                        {props.user.UserPassword}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col >
+                        User Email:
+                        </Col>
+                        <Col >
+                        {props.user.UserEmail}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col >
+                        User Address:
+                        </Col>
+                        <Col >
+                        {props.user.UserAddress}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col >
+                        User Phone:
+                        </Col>
+                        <Col >
+                        {props.user.UserPhone}
+                        </Col>
+                    </Row>
+                    <Row>
+                        
+                        <Col >
+                        <img src={props.user.UserPFP} ></img>
                         </Col>
                     </Row>
                 </Container>
