@@ -4,37 +4,79 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
-
-function UserIModal(props,userId) {
+import Image from 'react-bootstrap/Image';
+function UserIModal(props) {
     return (
         <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Using Grid in Modal
+                    User Information
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body className="grid-example">
                 <Container>
                     <Row>
-                        <Col xs={12} md={8}>
-                            .col-xs-12 .col-md-8
+                        <Col >
+                            <Image src={props.user.UserPFP} thumbnail roundedCircle ></Image>
                         </Col>
-                        <Col xs={6} md={4}>
-                            .col-xs-6 .col-md-4
+                    </Row>
+                    <Row>
+                        <Col >
+                            UserID:
+                        </Col>
+                        <Col >
+                            {props.user.UserID}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col >
+                            UserAccountName:
+                        </Col>
+                        <Col >
+                            {props.user.UserAccountName}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col >
+                            UserFullName:
+                        </Col>
+                        <Col >
+                            {props.user.UserFirstName} {props.user.UserFirstName}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col >
+                            User Password:
+                        </Col>
+                        <Col >
+                            {props.user.UserPassword}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col >
+                            User Email:
+                        </Col>
+                        <Col >
+                            {props.user.UserEmail}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col >
+                            User Address:
+                        </Col>
+                        <Col >
+                            {props.user.UserAddress}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col >
+                            User Phone:
+                        </Col>
+                        <Col >
+                            {props.user.UserPhone}
                         </Col>
                     </Row>
 
-                    <Row>
-                        <Col xs={6} md={4}>
-                            .col-xs-6 .col-md-4
-                        </Col>
-                        <Col xs={6} md={4}>
-                            .col-xs-6 .col-md-4
-                        </Col>
-                        <Col xs={6} md={4}>
-                            .col-xs-6 .col-md-4
-                        </Col>
-                    </Row>
                 </Container>
             </Modal.Body>
             <Modal.Footer>

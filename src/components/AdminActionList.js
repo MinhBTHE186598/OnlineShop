@@ -3,9 +3,8 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import UserManager from './UserManger';
+import BannerManager from './BannerManager';
 
 
 function AdminAction() {
@@ -51,14 +50,7 @@ function AdminAction() {
                                 </Row>
                             </Tab.Pane>
                             <Tab.Pane eventKey="third">
-                                <Row>
-                                    {Arr.map((index) => (
-                                        <ListGroup key={index} horizontal className="my-2">
-                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
-                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
-                                        </ListGroup>
-                                    ))}
-                                </Row>
+                                <BannerManager/>
                             </Tab.Pane>
                             <Tab.Pane eventKey="fourth">
                                 <Row>

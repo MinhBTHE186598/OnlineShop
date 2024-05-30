@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { FaFacebook } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
+import avt from '../utility/avt_placeholder.jpg'
 import { AiFillTikTok } from "react-icons/ai";
 import { FaGithub } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
@@ -61,9 +61,9 @@ function AboutUs() {
 
                     <div class="row text-center">
 
-                        <div class="col-xl-4 col-sm-6 mb-5">
-                            <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-4.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
-                                <h5 class="mb-0">Bùi Tuấn Minh</h5><span class="small text-uppercase text-muted">Leader</span>
+                        <div class="col-xl-2 col-sm-6 mb-5" style={{marginBottom: 'px'}}>
+                            <div class="bg-white rounded shadow-sm py-5 px-4"><img src={avt} alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
+                                <h5 class="mb-0">Nguyễn Đức Trung</h5><span class="small text-uppercase text-muted">Developer</span>
                                 <ul class="social mb-0 list-inline mt-3">
                                     <li class="list-inline-item"><a href="/" class="social-link"><FaFacebook /></a></li>
                                     <li class="list-inline-item"><a href="/" class="social-link"><FaGithub /></a></li>
@@ -76,8 +76,22 @@ function AboutUs() {
 
 
                         <div class="col-xl-2 col-sm-6 mb-5">
-                            <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-3.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
-                                <h5 class="mb-0">Lê Anh Đức</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
+                            <div class="bg-white rounded shadow-sm py-5 px-4"><img src={avt} alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
+                                <h5 class="mb-0">Lê Anh Đức</h5><span class="small text-uppercase text-muted">Developer</span>
+                                <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item"><a href="/" class="social-link"><FaFacebook /></a></li>
+                                    <li class="list-inline-item"><a href="/" class="social-link"><FaGithub /></a></li>
+                                    <li class="list-inline-item"><a href="/" class="social-link"><AiFillTikTok /></a></li>
+                                    <li class="list-inline-item"><a href="/" class="social-link"><FaTwitter /></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-xl-4 col-sm-6 mb-5">
+                            <div class="bg-white rounded shadow-sm py-5 px-4"><img src={avt} alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
+                                <h5 class="mb-0">Bùi Tuấn Minh</h5><span class="small text-uppercase text-muted">Leader</span>
                                 <ul class="social mb-0 list-inline mt-3">
                                 <li class="list-inline-item"><a href="/" class="social-link"><FaFacebook /></a></li>
                                     <li class="list-inline-item"><a href="/" class="social-link"><FaGithub /></a></li>
@@ -90,22 +104,8 @@ function AboutUs() {
 
 
                         <div class="col-xl-2 col-sm-6 mb-5">
-                            <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-2.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
-                                <h5 class="mb-0">Nguyễn Đức Trung</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
-                                <ul class="social mb-0 list-inline mt-3">
-                                <li class="list-inline-item"><a href="/" class="social-link"><FaFacebook /></a></li>
-                                    <li class="list-inline-item"><a href="/" class="social-link"><FaGithub /></a></li>
-                                    <li class="list-inline-item"><a href="/" class="social-link"><AiFillTikTok /></a></li>
-                                    <li class="list-inline-item"><a href="/" class="social-link"><FaTwitter /></a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-
-
-                        <div class="col-xl-2 col-sm-6 mb-5">
-                            <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-1.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
-                                <h5 class="mb-0">Trần Tuấn Hải</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
+                            <div class="bg-white rounded shadow-sm py-5 px-4"><img src={avt} alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
+                                <h5 class="mb-0">Trần Tuấn Hải</h5><span class="small text-uppercase text-muted">Developer</span>
                                 <ul class="social mb-0 list-inline mt-3">
                                 <li class="list-inline-item"><a href="/" class="social-link"><FaFacebook /></a></li>
                                     <li class="list-inline-item"><a href="/" class="social-link"><FaGithub /></a></li>
@@ -116,8 +116,8 @@ function AboutUs() {
                         </div>
 
                         <div class="col-xl-2 col-sm-6 mb-5">
-                            <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-1.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
-                                <h5 class="mb-0">Nguyễn Mạnh Tùng</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
+                            <div class="bg-white rounded shadow-sm py-5 px-4"><img src={avt} alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm"/>
+                                <h5 class="mb-0">Nguyễn Mạnh Tùng</h5><span class="small text-uppercase text-muted">Developer</span>
                                 <ul class="social mb-0 list-inline mt-3">
                                 <li class="list-inline-item"><a href="/" class="social-link"><FaFacebook /></a></li>
                                     <li class="list-inline-item"><a href="/" class="social-link"><FaGithub /></a></li>

@@ -9,6 +9,7 @@ import UserIModal from './UserInfoModal';
 function UserManager() {
     const [modalShow, setModalShow] = useState(false);
     const [userList, setUserList] = useState([{}])
+    const [userID, setUserID] = useState({})
 
     useEffect(() => {
         fetch("/user/get").then(
@@ -19,11 +20,6 @@ function UserManager() {
             }
         )
     }, [])
-
-    const showInf = async (id) => {
-
-    }
-
 
     const deleteUser = async (id) => {
         try {
@@ -41,6 +37,15 @@ function UserManager() {
             console.error('Error:', error);
         }
     }
+    const handleModel = (ID) => {
+        try {
+            setUserID(ID)
+            setModalShow(true)
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <div id="userManager-wrapper">
@@ -50,7 +55,7 @@ function UserManager() {
                     <Col sm={2}>UserName</Col>
                     <Col sm={2}>Password</Col>
                     <Col sm={3}>Full name</Col>
-                    <Col sm={2}>Contact Number</Col>
+                    <Col sm={3}>Contact Number</Col>
                     <Col sm={1}>Action</Col>
                 </ListGroup>
             </Row>
@@ -63,10 +68,10 @@ function UserManager() {
                         <Col sm={3}><ListGroup.Item >{user.UserFirstName + " " + user.UserLastName}</ListGroup.Item></Col>
                         <Col sm={2}><ListGroup.Item >{user.UserPhone}</ListGroup.Item></Col>
                         <Col sm={1}><ListGroup.Item action variant='secondary' onClick={() => { deleteUser(user.UserID) }} >Delete</ListGroup.Item></Col>
-                        <Col sm={1}><ListGroup.Item action variant='secondary' onClick={() => setModalShow(true)} >View</ListGroup.Item></Col>
+                        <Col sm={1}><ListGroup.Item action variant='secondary' onClick={() => { handleModel(user) }} >View</ListGroup.Item></Col>
                     </ListGroup>
                 ))}
-                <UserIModal show={modalShow} onHide={()=> setModalShow(false)}/>
+                <UserIModal show={modalShow} onHide={() => setModalShow(false)} user={userID} />
             </Row>
         </div>
     )
