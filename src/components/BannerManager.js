@@ -10,7 +10,7 @@ function BannerManager() {
     const [bannerList,setBannerList] = useState([{}])
 
     useEffect(() => {
-        fetch("/banner/get").then(
+        fetch("/banner/getA").then(
             response => response.json()
         ).then(
             data => {
@@ -24,13 +24,13 @@ function BannerManager() {
             <Row>
                 {bannerList.map((banner) => (
                     <Card className="text-center">
-                    <Card.Header>Featured</Card.Header>
+                    <Card.Header>Banner ID: {banner.BannerID} </Card.Header>
                     <Card.Body>
                     <Card.Img variant="top" src={banner.BannerPic} />
-                      <Card.Title>Special title treatment</Card.Title>
+                      <Card.Title>Danh mục: {banner.CategoryName}</Card.Title>
                       <Button variant="primary">Delete</Button>
                     </Card.Body>
-                    <Card.Footer className="text-muted"></Card.Footer>
+                    <Card.Footer className="text-muted">Người đăng: {banner.UserAccountName} </Card.Footer>
                   </Card>
                 ))}
             </Row>
