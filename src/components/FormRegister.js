@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import { useState } from 'react';
 import axios from 'axios';
 import Image from 'react-bootstrap/Image';
-import logo from './utility/testlogo.png';
+import logo from '../utility/testlogo.png';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import 'bootstrap/dist/css/bootstrap.min.css';
