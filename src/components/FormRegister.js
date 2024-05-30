@@ -5,10 +5,11 @@ import Container from 'react-bootstrap/Container';
 import { useState } from 'react';
 import axios from 'axios';
 import Image from 'react-bootstrap/Image';
-import logo from './utility/testlogo.png';
+import logo from '../utility/testlogo.png';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../utility/register.css';
 
 function RegisterBoard() {
   const [name, setName] = useState('');
@@ -59,7 +60,7 @@ function RegisterBoard() {
               </Form.Group>
               <div className="policy">
                 <input type="checkbox" />
-                <h3>Tôi đồng ý với <a href="#">Điều khoản</a> & <a href="#">Chính sách quyền rạng</a></h3>
+                <h3>Tôi đồng ý với <a href="#">Điều khoản</a> & <a href="#">Chính sách</a></h3>
               </div>
               <div className='input-box button'>
                 <Button variant="dark" type="submit" style={{ width: '100%' }}>

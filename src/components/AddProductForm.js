@@ -1,7 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function AddProductForm() {
@@ -12,8 +12,19 @@ function AddProductForm() {
     const [productQuantity, setPQuantity] = useState('')
     const [productDesc, setPDesc] = useState('')
 
+    const [categoryList, setCategories] = useState([{}])
+
     const bgimg = `https://images.pexels.com/photos/6985003/pexels-photo-6985003.jpeg?cs=srgb&dl=pexels-codioful-6985003.jpg&fm=jpg`
 
+    useEffect(() => {
+        fetch("/category/getCategories").then(
+          response => response.json()
+        ).then(
+          data => {
+            setCategories(data)
+          }
+        )
+      }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -48,11 +59,23 @@ function AddProductForm() {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Phân loại sản phẩm:</b></Form.Label><br />
-                        <select id="options" value={productCategory} onChange={(e) => setSelectedOption(e.target.value)}>
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                        </select>
+                        
+                        <select id="options" value={productCategory}  onChange={(e) => setSelectedOption(e.target.value)}>
+                            
+                            <option value='1'>Thời trang</option>
+                            <option value='2'>Mỹ phẩm</option>
+                            <option value='3'>Đồ dùng học tập</option>
+                            <option value='4'>Sách và tài liệu</option>
+                            <option value='5'>Thể thao</option>
+                            <option value='6'>Đồ điện tử</option>
+                            <option value='7'>Nội thất</option>
+                            <option value='8'>Đồ gia dụng</option>
+                            <option value='9'>Phụ kiện</option>
+                            <option value='10'>Đồ ăn vặt</option>
+                            <option value='11'>Đồ chơi</option>
+                            <option value='12'>Khác</option>
+
+                         </select>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Giá sản phẩm:</b></Form.Label>
