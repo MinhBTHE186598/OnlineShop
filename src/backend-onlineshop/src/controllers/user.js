@@ -15,8 +15,9 @@ const deleteUser = async (req, res) => {
         const userId = req.params.id;
         const result = await sql.query`delete from Notifications where UserID=${userId}
         delete from ProductReviews where UserID=${userId}
-        delete from SellerSignUps where UserID=${userId}
+        delete from SellerReviews where UserID=${userId}
         delete from SellManagers where UserID=${userId}
+		delete from Supports where UserID=${userId}
         delete from BillDetails where BillID in (select BillID from Bills where UserID=${userId})
         delete from Bills where UserID=${userId}
         delete from SellerReviews where UserID=${userId}
