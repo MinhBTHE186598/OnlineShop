@@ -28,11 +28,11 @@ function RegisterBoard() {
         });
         if (response.status === 201) {
             console.log('User added successfully');
-            // // Optionally clear the form or update the UI
-            // setName('');
-            // setGmail('');
-            // setNumber('');
-            // setPassword('');
+            // Optionally clear the form or update the UI
+            setName('');
+            setGmail('');
+            setNumber('');
+            setPassword('');
         } else {
             console.error('Failed to add user');
         }
