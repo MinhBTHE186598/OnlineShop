@@ -25,9 +25,9 @@ const getBannerForAdmin = async (req, res) => {
 
 const addBanner = async (req, res) => {
     try {
-        const { AdminID, CategoryID, BannerPic } = req.body;
-        const result = await sql.query`INSERT INTO Banners (AdminID, CategoryID, BannerPic) VALUES (${AdminID}, ${CategoryID}, ${BannerPic})`;
-        res.send('Banner added');
+        const { adminID, categoryID, bannerPic } = req.body;
+        res.send(req.body);
+        const result = await sql.query`INSERT INTO Banners (AdminID, CategoryID, BannerPic) VALUES (${adminID}, ${categoryID}, ${bannerPic})`;
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');

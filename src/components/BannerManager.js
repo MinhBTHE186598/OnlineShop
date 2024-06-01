@@ -44,7 +44,7 @@ function BannerManager() {
         <div id="wrapper">
             <Row>
                 {bannerList.map((banner) => (
-                    <Card className="text-center" style={{ marginBottom: '30px' }}>
+                    <Card className="text-center" style={{ marginBottom: '30px' }} >
                         <Card.Header>Banner ID: {banner.BannerID} </Card.Header>
                         <Card.Body>
                             <Card.Img variant="top" src={banner.BannerPic} />
