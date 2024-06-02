@@ -12,7 +12,7 @@ const getProductReview = async (req, res) => {
 
 const getStar = async (req, res) => {
     try {
-        const result = await sql.query`select ProductID, avg(ProductReviewStar) as 'ProductStar' from ProductReviews group by ProductID`;
+        const result = await sql.query`select ProductID, avg(ProductReviewStar) as 'ProductStar' from ProductReviews group by ProductID `;
         res.json(result.recordset);
     } catch (err) {
         console.error(err);

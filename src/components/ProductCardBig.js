@@ -39,13 +39,17 @@ function ProductCardBig(props) {
         )
     }, [])
 
-    const stars = [];
-    for (let i = 0; i < props.star; i++) {
-        stars.push(true);
-    }
-    for (let i = 5; i > props.star; i--) {
-        stars.push(false);
-    }
+    const [stars, setStars] = useState([])
+    useEffect(() => {
+        fetch(`/productReview/getStar/`).then(
+            response => response.json()
+        ).then(
+            data => {
+                setStars(data)
+            }
+        )
+    }, [])
+
 
     return (
         <Card style={CardStyle}>
@@ -63,12 +67,8 @@ function ProductCardBig(props) {
                     return null
                 })}</a>
                 <div style={StarStyle}>
-                    {stars.map((star, index) => {
-                        if (star) {
-                            return <FaStar key={index} />
-                        }
-                        return <FaRegStar key={index} />
-                    })}
+                    {Array(stars.find(star => star.ProductID === props.star)?.ProductStar || 0).fill(<FaStar />)}
+                    {Array(5 - (stars.find(star => star.ProductID === props.star)?.ProductStar || 0)).fill(<FaRegStar />)}
                 </div>
                 <h3 style={{ color: 'orange' }}>{props.price}đ</h3>
                 <Button variant="primary" style={MakeCenter}><a href='/' style={{ textDecoration: 'none', color: 'white' }}>Thêm vào giỏ hàng</a></Button>
