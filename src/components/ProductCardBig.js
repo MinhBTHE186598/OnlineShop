@@ -56,13 +56,13 @@ function ProductCardBig(props) {
             <Card.Img variant="top" src={props.pic} />
             <hr />
             <Card.Body>
-                <Card.Title style={{ textAlign: 'center', fontSize: 'x-large' }}>{props.name}</Card.Title>
+                <Card.Title style={{ textAlign: 'center', fontSize: 'x-large' }}><a href='/home' style={{ textDecoration: 'none', color: 'black' }}>{props.name}</a></Card.Title>
                 <Card.Text>
                     {props.description}
                 </Card.Text>
                 {sellers.map(seller => {
                     if (seller.SellerID === props.seller) {
-                        return <a href='/home' key={seller.SellerID}>{seller.SellerName}</a>
+                        return <a href='/home' style={{ textDecoration: 'none'}} key={seller.SellerID}>{seller.SellerName}</a>
                     }
                     return null
                 })}

@@ -1,7 +1,8 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
-import ProductCardSmall from './ProductCardSmall'
 import Dropdown from 'react-bootstrap/Dropdown';
+import MainShopPagination from './MainShopPagination';
+import MainShopPaginationBar from './MainShopPaginationBar';
 
 const containerStyle = {
   width: '100%',
@@ -38,20 +39,14 @@ const filterStyle = {
   alignItems: 'center',
 }
 
-const itemsStyle = {
-  width: '100%',
-  padding: '20px 20px 100px 20px',
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: '2em',
-}
-
 
 
 function MainShopItemList() {
 
   const [categories, setCategories] = React.useState([]);
   const [products, setProducts] = React.useState([]);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [itemsPerPage] = React.useState(15);
   const [categoryID, setCategoryID] = React.useState('%');
   const [arrange, setArrange] = React.useState('ProductID');
   const [arrangeOrder, setArrangeOrder] = React.useState('asc');
@@ -74,7 +69,7 @@ function MainShopItemList() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        categoryID: {categoryID},
+        categoryID: { categoryID },
         arrange: arrange,
         arrangeOrder: arrangeOrder,
         minPrice: minPrice,
@@ -89,6 +84,12 @@ function MainShopItemList() {
         setProducts(data)
       });
   }, [categoryID, arrange, arrangeOrder, minPrice, maxPrice, sellerID])
+
+
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <div style={containerStyle}>
@@ -153,17 +154,9 @@ function MainShopItemList() {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <div style={itemsStyle}>
-          {products.map((product) => (
-            <ProductCardSmall
-              key={product.ProductID}
-              name={product.ProductName}
-              pic={product.ProductPic}
-              description={product.ProductDescription}
-              price={product.ProductPrice}
-              seller={product.SellerID}
-              star={product.ProductID} />
-          ))}
+        <div>
+          <MainShopPagination products={currentProducts} />
+          <MainShopPaginationBar itemsPerPage={itemsPerPage} totalItems={products.length} paginate={paginate}/>
         </div>
       </div>
     </div>
