@@ -22,7 +22,7 @@ const getWhitelistProduct = async (req, res) => {
 
 const getProductByID = async (req, res) => {
     try {
-        const result = await sql.query`SELECT * FROM Products where ProductID = ${req.params.id}`;
+        const result = await sql.query`SELECT * FROM Products where ProductID = ${req.params.id} and ProductStatus like N'Đã xác thực'`;
         res.json(result.recordset);
     } catch (err) {
         console.error(err);
@@ -32,7 +32,7 @@ const getProductByID = async (req, res) => {
 
 const addProduct = async (req, res) => {
     try {
-        const { productName, productCategory, productPrice, productPic, productQuantity, productDesc} = req.body;
+        const { productName, productCategory, productPrice, productPic, productQuantity, productDesc } = req.body;
         await sql.query`insert into Products (SellerID, CategoryID, ProductName, ProductDescription, ProductPrice, ProductQuantity, ProductPic, ProductStatus)
         values(1, ${productCategory}, ${productName}, ${productDesc}, ${productPrice}, ${productQuantity},${productPic}, N'Chờ xác thực')`;
     } catch (err) {
@@ -41,4 +41,20 @@ const addProduct = async (req, res) => {
     }
 }
 
-module.exports = {getProduct, getWhitelistProduct, getProductByID, addProduct}
+const filterProduct = async (req, res) => {
+    try {
+        const { categoryID, arrange, arrangeOrder, minPrice, maxPrice, sellerID } = req.body;
+        const result = await sql.query`SELECT * FROM Products 
+        where ProductStatus like N'Đã xác thực' 
+        and CategoryID like '${categoryID}' 
+        and ProductPrice between ${minPrice} and ${maxPrice} 
+        and sellerID like '${sellerID}' 
+        order by ${arrange} ${arrangeOrder}`;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
+module.exports = { getProduct, getWhitelistProduct, getProductByID, addProduct }

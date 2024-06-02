@@ -28,9 +28,6 @@
   color: #61dafb;
 }
 
-.dropdown-toggle::after {
-  display: none !important; 
-}
 
 @keyframes App-logo-spin {
   from {
