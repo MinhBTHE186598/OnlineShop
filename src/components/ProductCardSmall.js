@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 
 const CardStyle = {
     width: '12vw',
+    height: '50vh',
     backgroundColor: 'white',
     color: 'black',
     border: 'solid black 1px',
@@ -53,19 +54,21 @@ function ProductCardSmall(props) {
     return (
         <Card style={CardStyle}>
             <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 1px black', borderRadius: '0px' }} />
-            <Card.Body>
+            <Card.Body style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
                 <Card.Title style={{ textAlign: 'center' }}>{props.name}</Card.Title>
-                {sellers.map(seller => {
-                    if (seller.SellerID === props.seller) {
-                        return <a href='/home' key={seller.SellerID}>{seller.SellerName}</a>
-                    }
-                    return null
-                })}
-                <div style={StarStyle}>
-                    {Array(stars.find(star => star.ProductID === props.star)?.ProductStar || 0).fill(<FaStar />)}
-                    {Array(5 - (stars.find(star => star.ProductID === props.star)?.ProductStar || 0)).fill(<FaRegStar />)}
+                <div>
+                    {sellers.map(seller => {
+                        if (seller.SellerID === props.seller) {
+                            return <a href='/home' key={seller.SellerID}>{seller.SellerName}</a>
+                        }
+                        return null
+                    })}
+                    <div style={StarStyle}>
+                        {Array(stars.find(star => star.ProductID === props.star)?.ProductStar || 0).fill(<FaStar />)}
+                        {Array(5 - (stars.find(star => star.ProductID === props.star)?.ProductStar || 0)).fill(<FaRegStar />)}
+                    </div>
+                    <h5 style={{ color: 'orange' }}>{props.price}đ</h5>
                 </div>
-                <h5 style={{ color: 'orange' }}>{props.price}</h5>
                 <Button variant="primary" style={MakeCenter}>Thêm vào giỏ hàng</Button>
             </Card.Body>
         </Card>

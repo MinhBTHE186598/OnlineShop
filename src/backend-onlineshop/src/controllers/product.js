@@ -46,10 +46,10 @@ const filterProduct = async (req, res) => {
         const { categoryID, arrange, arrangeOrder, minPrice, maxPrice, sellerID } = req.body;
         const result = await sql.query`SELECT * FROM Products 
         where ProductStatus like N'Đã xác thực' 
-        and CategoryID like '${categoryID}' 
-        and ProductPrice between ${minPrice} and ${maxPrice} 
-        and sellerID like '${sellerID}' 
-        order by ${arrange} ${arrangeOrder}`;
+        and CategoryID like '%' 
+        and ProductPrice between 0 and 1000000 
+        and sellerID like '%' 
+        order by ProductID asc`;
         res.json(result.recordset);
     } catch (err) {
         console.error(err);

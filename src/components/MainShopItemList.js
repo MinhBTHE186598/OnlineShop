@@ -59,23 +59,6 @@ function MainShopItemList() {
   const [maxPrice, setMaxPrice] = React.useState(Number.MAX_SAFE_INTEGER);
   const [sellerID, setSellerID] = React.useState('%');
 
-  let fetchData = {
-    method: "post",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-
-    body: JSON.stringify({
-      categoryID: categoryID,
-      arrange: arrange,
-      arrangeOrder: arrangeOrder,
-      minPrice: minPrice,
-      maxPrice: maxPrice,
-      sellerID: sellerID
-    })
-  }
-
   React.useEffect(() => {
     fetch("/category/getCategories")
       .then(response => response.json())
@@ -85,13 +68,27 @@ function MainShopItemList() {
   }, [])
 
   React.useEffect(() => {
-    fetch("/product/filter", fetchData)
-      .then(response => response.json())
-      .then(data => {
-        setProducts(data)
-        console.log(JSON.stringify(data))
+    fetch("/product/filter", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        categoryID: {categoryID},
+        arrange: arrange,
+        arrangeOrder: arrangeOrder,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        sellerID: sellerID
       })
-  }, [])
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setProducts(data)
+      });
+  }, [categoryID, arrange, arrangeOrder, minPrice, maxPrice, sellerID])
 
   return (
     <div style={containerStyle}>

@@ -5,6 +5,6 @@ router.get('/get', product.getProduct)
 router.get('/getWhitelistProduct', product.getWhitelistProduct)
 router.get('/getProductByID:id', product.getProductByID)
 router.post('/addProduct', product.addProduct)
-router.post('/filterProduct', product.filterProduct)
+router.post('/filter', product.filterProduct)
 
 module.exports = router
