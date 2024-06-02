@@ -54,7 +54,7 @@ function MainShopItemList() {
   const [products, setProducts] = React.useState([]);
   const [categoryID, setCategoryID] = React.useState('%');
   const [arrange, setArrange] = React.useState('ProductID');
-  const [arrangeOrder, setArrangeOrder] = React.useState('ASC');
+  const [arrangeOrder, setArrangeOrder] = React.useState('asc');
   const [minPrice, setMinPrice] = React.useState(0);
   const [maxPrice, setMaxPrice] = React.useState(Number.MAX_SAFE_INTEGER);
   const [sellerID, setSellerID] = React.useState('%');
@@ -89,6 +89,7 @@ function MainShopItemList() {
       .then(response => response.json())
       .then(data => {
         setProducts(data)
+        console.log(JSON.stringify(data))
       })
   }, [])
 

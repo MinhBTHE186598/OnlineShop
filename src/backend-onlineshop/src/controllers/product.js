@@ -57,4 +57,4 @@ const filterProduct = async (req, res) => {
     }
 }
 
-module.exports = { getProduct, getWhitelistProduct, getProductByID, addProduct }
+module.exports = { getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct }

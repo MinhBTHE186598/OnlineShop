@@ -60,12 +60,12 @@ function ProductCardBig(props) {
                 <Card.Text>
                     {props.description}
                 </Card.Text>
-                <a href='/home'>{sellers.map(seller => {
+                {sellers.map(seller => {
                     if (seller.SellerID === props.seller) {
-                        return seller.SellerName
+                        return <a href='/home' key={seller.SellerID}>{seller.SellerName}</a>
                     }
                     return null
-                })}</a>
+                })}
                 <div style={StarStyle}>
                     {Array(stars.find(star => star.ProductID === props.star)?.ProductStar || 0).fill(<FaStar />)}
                     {Array(5 - (stars.find(star => star.ProductID === props.star)?.ProductStar || 0)).fill(<FaRegStar />)}
