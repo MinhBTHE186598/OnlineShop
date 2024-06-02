@@ -1,9 +1,9 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import logo from '../utility/testlogo.png';
-import { FaStarHalfAlt } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa";
+import { useState, useEffect } from 'react';
 
 
 const CardStyle = {
@@ -26,25 +26,53 @@ const StarStyle = {
     fontSize: 'large',
     color: 'orange'
 }
-function ProductCardSmall() {
+function ProductCardSmall(props) {
+    const [sellers, setSellers] = useState([])
+
+    useEffect(() => {
+        fetch("/seller/get").then(
+            response => response.json()
+        ).then(
+            data => {
+                setSellers(data)
+            }
+        )
+    }, [])
+
+    const [stars, setStars] = useState([])
+    useEffect(() => {
+        fetch(`/productReview/getStar/`).then(
+            response => response.json()
+        ).then(
+            data => {
+                setStars(data)
+            }
+        )
+    }, [])
+
     return (
         <Card style={CardStyle}>
-            <Card.Img variant="top" src={logo} style={{borderBottom:'solid 1px black', borderRadius:'0px'}} />
+            <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 1px black', borderRadius: '0px' }} />
             <Card.Body>
-                <Card.Title style={{ textAlign: 'center'}}>Sản phẩm A</Card.Title>
-                <a href='#home'>Tên người bán</a>
+                <Card.Title style={{ textAlign: 'center' }}>{props.name}</Card.Title>
+                {sellers.map(seller => {
+                    if (seller.SellerID === props.seller) {
+                        return <a href='/home' key={seller.SellerID}>{seller.SellerName}</a>
+                    }
+                    return null
+                })}
                 <div style={StarStyle}>
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStarHalfAlt />
+                    {Array(stars.find(star => star.ProductID === props.star)?.ProductStar || 0).fill(<FaStar />)}
+                    {Array(5 - (stars.find(star => star.ProductID === props.star)?.ProductStar || 0)).fill(<FaRegStar />)}
                 </div>
-                <h5 style={{ color: 'orange' }}>100.000đ</h5>
+                <h5 style={{ color: 'orange' }}>{props.price}</h5>
                 <Button variant="primary" style={MakeCenter}>Thêm vào giỏ hàng</Button>
             </Card.Body>
         </Card>
     )
 }
 
+ProductCardSmall.defaultProps = {
+    star: 0
+}
 export default ProductCardSmall

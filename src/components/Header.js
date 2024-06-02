@@ -37,7 +37,7 @@ function header() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      <Form inline style={{ width: '33vw' }}>
+      <Form inline="true" style={{ width: '33vw' }}>
         <InputGroup>
           <Form.Control
             placeholder="Search"
