@@ -1,18 +1,23 @@
-import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import AddBannerModal from './AddBannerModal';
+import EditBannerModal from './EditBannerModal';
+
 function BannerManager() {
-    
+
     const [bannerList, setBannerList] = useState([{}])
 
     const [show, setShow] = useState(false);
+    const [showEdit, setShowEdit] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+    const handleCloseEdit = () => setShowEdit(false);
+    const handleShowEdit = () => setShowEdit(true);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         fetch("/banner/getA").then(
@@ -28,13 +33,29 @@ function BannerManager() {
         try {
             const response = await axios.delete(`http://localhost:5000/banner/delete/${id}`);
             if (response.status === 200) {
-                console.log('User deleted successfully');
+                console.log('Banner deleted successfully');
                 // Handle success (e.g., update the UI)
             } else {
-                console.error('Failed to delete user');
+                console.error('Failed to delete banner');
                 // Handle failure
             }
             setBannerList(bannerList.filter((banner) => banner.BannerID !== id));
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    const editBanner = async (id) => {
+        try {
+            const response = await axios.post(`http://localhost:5000/banner/edit/${id}`);
+            if (response.status === 200) {
+                console.log('Banner edited successfully');
+                // Handle success (e.g., update the UI)
+            } else {
+                console.error('Failed to edit banner');
+                // Handle failure
+            }
+            setBannerList(bannerList);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -49,16 +70,18 @@ function BannerManager() {
                         <Card.Body>
                             <Card.Img variant="top" src={banner.BannerPic} />
                             <Card.Title>Danh mục: {banner.CategoryName}</Card.Title>
-                            <Button variant="primary" onClick={()=>deleteBanner(banner.BannerID)}>Delete</Button>
+                            <Button variant="primary" onClick={() => deleteBanner(banner.BannerID)}>Delete</Button>
+                            <Button variant="primary" onClick={() => handleShowEdit()} style={{marginLeft:'10px'}}>Edit</Button>
                         </Card.Body>
                         <Card.Footer className="text-muted">Người đăng: {banner.UserAccountName} </Card.Footer>
                     </Card>
                 ))}
             </Row>
             <Row>
-                <Button variant="primary" onClick={()=>handleShow()}>Add</Button>
+                <Button variant="primary" onClick={() => handleShow()}>Add</Button>
             </Row>
-            <AddBannerModal show={show} onHide={handleClose}/>
+            <AddBannerModal show={show} onHide={handleClose} />
+            <EditBannerModal show={showEdit} onHide={handleCloseEdit} />
         </div>
     )
 }

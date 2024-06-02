@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import Dropdown from 'react-bootstrap/Dropdown';
 
-function AddBannerModal(props) {
+function EditBannerModal(props) {
   const [adminID, setAdminID] = useState('')
   const [categoryID, setCategoryID] = useState('')
   const [bannerPic, setBannerPic] = useState('')
@@ -30,7 +30,6 @@ function AddBannerModal(props) {
         bannerPic,
         categoryID,
       });
-      
       if (response.status === 201) {
         console.log('User added successfully');
       } else {
@@ -80,4 +79,4 @@ function AddBannerModal(props) {
   );
 }
 
-export default AddBannerModal;
+export default EditBannerModal;
