@@ -8,6 +8,7 @@ import AboutUs from './webpages/AboutUs';
 import AddSeller from './webpages/AddSeller';
 import MainShop from './webpages/MainShop';
 import AddProduct from './webpages/AddProduct';
+import Login from './webpages/Login';
 function App() {
   return (
     <div>
@@ -23,6 +24,7 @@ function App() {
         <Route path="/aboutUs" element={<AboutUs/>}/>
         <Route path="/mainShop" element={<MainShop/>}/>
         <Route path="/addProduct" element={<AddProduct/>}/>
+        <Route path="/login" element={<Login/>}/>
       </Routes>
 
       </BrowserRouter>
