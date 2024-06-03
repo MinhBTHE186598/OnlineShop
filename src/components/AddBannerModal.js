@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
-import Dropdown from 'react-bootstrap/Dropdown';
 
 function AddBannerModal(props) {
   const [adminID, setAdminID] = useState('')
@@ -30,11 +29,11 @@ function AddBannerModal(props) {
         bannerPic,
         categoryID,
       });
-      
+
       if (response.status === 201) {
-        console.log('User added successfully');
+        console.log('Banner added successfully');
       } else {
-        console.error('Failed to add user');
+        console.error('Failed to add banner');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -48,18 +47,12 @@ function AddBannerModal(props) {
         <Modal.Title>Modal heading</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Choose category
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu>
-            {categories.map((category) => (
-              <Dropdown.Item value={category.CategoryID} onClick={() => setCategoryID(category.CategoryID)}>{category.CategoryName}</Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
         <Form onSubmit={handleSubmit}>
+          <Form.Select aria-label="Default select example" onChange={(e) => setCategoryID(e.target.value)}>
+            {categories.map((category) => (
+              <option value={category.CategoryID}>{category.CategoryName}</option>
+            ))}
+          </Form.Select>          
           <Form.Label>Baner Image Url</Form.Label>
           <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} />
           <Form.Label>Admin</Form.Label>

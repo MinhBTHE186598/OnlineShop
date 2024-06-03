@@ -13,6 +13,8 @@ function BannerManager() {
     const [show, setShow] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
 
+    const [bannerID, setBannerID] = useState({})
+
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = () => setShowEdit(true);
 
@@ -45,17 +47,10 @@ function BannerManager() {
         }
     }
 
-    const editBanner = async (id) => {
+    const editBanner = async (banner) => {
         try {
-            const response = await axios.post(`http://localhost:5000/banner/edit/${id}`);
-            if (response.status === 200) {
-                console.log('Banner edited successfully');
-                // Handle success (e.g., update the UI)
-            } else {
-                console.error('Failed to edit banner');
-                // Handle failure
-            }
-            setBannerList(bannerList);
+            setBannerID(banner)
+            handleShowEdit()
         } catch (error) {
             console.error('Error:', error);
         }
@@ -71,7 +66,7 @@ function BannerManager() {
                             <Card.Img variant="top" src={banner.BannerPic} />
                             <Card.Title>Danh mục: {banner.CategoryName}</Card.Title>
                             <Button variant="primary" onClick={() => deleteBanner(banner.BannerID)}>Delete</Button>
-                            <Button variant="primary" onClick={() => handleShowEdit()} style={{marginLeft:'10px'}}>Edit</Button>
+                            <Button variant="primary" onClick={() => editBanner(banner)} style={{marginLeft:'10px'}}>Edit</Button>
                         </Card.Body>
                         <Card.Footer className="text-muted">Người đăng: {banner.UserAccountName} </Card.Footer>
                     </Card>
@@ -81,7 +76,7 @@ function BannerManager() {
                 <Button variant="primary" onClick={() => handleShow()}>Add</Button>
             </Row>
             <AddBannerModal show={show} onHide={handleClose} />
-            <EditBannerModal show={showEdit} onHide={handleCloseEdit} />
+            <EditBannerModal show={showEdit} onHide={handleCloseEdit} Banner={bannerID}/>
         </div>
     )
 }
