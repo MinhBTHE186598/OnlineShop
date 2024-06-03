@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductCardSmall from './ProductCardSmall'
+import ProductCardSmall from '../ProductCardSmall'
 
 const itemsStyle = {
     width: '100%',

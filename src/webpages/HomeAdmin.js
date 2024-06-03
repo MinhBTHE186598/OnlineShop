@@ -1,5 +1,5 @@
 import Header from '../components/Header'
-import AdminAction from '../components/AdminActionList'
+import AdminAction from '../components/homeAdmin/AdminActionList'
 import Footer from '../components/Footer'
 
 function homeAdmin() {
