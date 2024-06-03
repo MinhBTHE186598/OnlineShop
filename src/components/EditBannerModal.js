@@ -4,11 +4,11 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 
-function EditBannerModal(props) {
-  const [adminID, setAdminID] = useState(props.Banner.AdminID)
-  const [categoryID, setCategoryID] = useState(props.Banner.CategoryID)
-  const [bannerPic, setBannerPic] = useState(props.Banner.BannerPic)
-  const [bannerID] = useState(props.Banner.BannerID)
+function EditBannerModal({show,onHide,Banner,onUpdateBanner}) {
+  const [adminID, setAdminID] = useState('2')
+  const [categoryID, setCategoryID] = useState(Banner.CategoryID)
+  const [bannerPic, setBannerPic] = useState(Banner.BannerPic)
+  const [bannerID] = useState(Banner.BannerID)
 
   const [categories, setCategory] = useState([{}])
   useEffect(() => {
@@ -25,12 +25,14 @@ function EditBannerModal(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put('http://localhost:5000/banner/edit/' + props.Banner.BannerID, {
+      const response = await axios.put('http://localhost:5000/banner/edit/' + Banner.BannerID, {
         adminID,
         bannerPic,
         categoryID,
       });
       if (response.status === 201) {
+        onUpdateBanner({...adminID,bannerPic,categoryID})
+        onHide()
         console.log('Banner edited successfully');
       } else {
         console.error('Failed to edit Banner');
@@ -42,7 +44,7 @@ function EditBannerModal(props) {
 
   return (
 
-    <Modal {...props}>
+    <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
         <Modal.Title>Modal heading</Modal.Title>
       </Modal.Header>
@@ -50,24 +52,24 @@ function EditBannerModal(props) {
 
         <Form onSubmit={handleSubmit}>
           <Form.Label>Danh mục Banner</Form.Label>
-          <Form.Select aria-label="Default select example" onChange={(e) => setCategoryID(e.target.value)} defaultValue={props.Banner.CategoryID}>
-            <option >{props.Banner.CategoryName}</option>
+          <Form.Select aria-label="Default select example" onChange={(e) => setCategoryID(e.target.value)} defaultValue={Banner.CategoryID}>
+            <option hidden>{Banner.CategoryName}</option>
             {categories.map((category) => (
-              <option value={category.CategoryID} onClick={() => setCategoryID(category.CategoryID)}>{category.CategoryName}</option>
+              <option value={category.CategoryID}>{category.CategoryName}</option>
             ))}
           </Form.Select>
           <Form.Label>Baner Image Url</Form.Label>
-          <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} defaultValue={props.Banner.BannerPic} />
+          <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} defaultValue={Banner.BannerPic} />
           <Form.Label>Admin</Form.Label>
-          <Form.Control type="text" value={props.Banner.UserAccountName} disabled readOnly on />
-          <Button variant="primary" type="submit" style={{ marginTop: '30px' }} onClick={() => setAdminID(2)}>
+          <Form.Control type="text" value={Banner.UserAccountName} disabled readOnly />
+          <Button variant="primary" type="submit" style={{ marginTop: '30px' }} onClick={onHide}>
             Save change
           </Button>
         </Form>
 
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="secondary" onClick={onHide}>
           Close
         </Button>
       </Modal.Footer>
