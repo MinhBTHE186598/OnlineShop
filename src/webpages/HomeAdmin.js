@@ -1,6 +1,6 @@
-import Header from '../components/Header'
+import Header from '../components/common/Header'
 import AdminAction from '../components/homeAdmin/AdminActionList'
-import Footer from '../components/Footer'
+import Footer from '../components/common/Footer'
 
 function homeAdmin() {
     return (

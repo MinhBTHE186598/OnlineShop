@@ -14,7 +14,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
-import logo from '../utility/testlogo.png'
+import logo from '../../utility/testlogo.png'
 
 function header() {
   return (

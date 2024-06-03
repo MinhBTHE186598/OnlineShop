@@ -1,5 +1,5 @@
 import React from 'react'
-import banner from '../utility/testbanner.jpg'
+import banner from '../../utility/testbanner.jpg'
 
 const titleStyle = {
   marginTop: '10vh',

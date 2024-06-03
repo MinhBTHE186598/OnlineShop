@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
-import banner from '../utility/testbanner.jpg'
+import banner from '../../utility/testbanner.jpg'
 
 const titleStyle = {
   marginTop: '10vh',

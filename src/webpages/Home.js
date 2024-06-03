@@ -1,9 +1,9 @@
 import React from 'react'
-import Header from '../components/Header'
-import HomeTItle from '../components/HomeTItle'
-import HomeCarousel from '../components/HomeCarousel'
-import HomeItemList from '../components/HomeItemList'
-import Footer from '../components/Footer'
+import Header from '../components/common/Header'
+import HomeTItle from '../components/home/HomeTItle'
+import HomeCarousel from '../components/home/HomeCarousel'
+import HomeItemList from '../components/home/HomeItemList'
+import Footer from '../components/common/Footer'
 
 function home() {
     return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import Carousel from 'react-bootstrap/Carousel';
 import Button from 'react-bootstrap/Button';
-import ProductCardBig from './ProductCardBig';
+import ProductCardBig from '../common/ProductCardBig';
 import { useState, useEffect } from 'react';
 
 
