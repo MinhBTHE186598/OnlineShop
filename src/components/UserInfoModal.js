@@ -16,7 +16,7 @@ function UserIModal(props) {
             <Modal.Body className="grid-example">
                 <Container>
                     <Row>
-                        <Col >
+                        <Col style={{textAlign:'center'}}>
                             <Image src={props.user.UserPFP} thumbnail roundedCircle ></Image>
                         </Col>
                     </Row>
