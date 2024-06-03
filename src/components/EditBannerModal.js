@@ -8,6 +8,7 @@ function EditBannerModal(props) {
   const [adminID, setAdminID] = useState('')
   const [categoryID, setCategoryID] = useState('')
   const [bannerPic, setBannerPic] = useState('')
+  const [bannerID] = useState(props.Banner.BannerID)
 
   const [categories, setCategory] = useState([{}])
   useEffect(() => {
@@ -21,35 +22,18 @@ function EditBannerModal(props) {
   }, [])
 
 
-  //   const editBanner = async (id) => {
-  //     try {
-  //         const response = await axios.post(`http://localhost:5000/banner/edit/${id}`);
-  //         if (response.status === 200) {
-  //             console.log('Banner edited successfully');
-  //             // Handle success (e.g., update the UI)
-  //             setBannerList(bannerList);
-  //         } else {
-  //             console.error('Failed to edit banner');
-  //             // Handle failure
-  //         }
-  //         setBannerList(bannerList);
-  //     } catch (error) {
-  //         console.error('Error:', error);
-  //     }
-  // }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/banner/add', {
+      const response = await axios.put('http://localhost:5000/banner/edit/'+props.Banner.BannerID, {
         adminID,
         bannerPic,
         categoryID,
       });
       if (response.status === 201) {
-        console.log('User added successfully');
+        console.log('Banner edited successfully');
       } else {
-        console.error('Failed to add user');
+        console.error('Failed to edit Banner');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -66,14 +50,14 @@ function EditBannerModal(props) {
 
         <Form onSubmit={handleSubmit}>
           <Form.Label>Danh mục Banner</Form.Label>
-          <Form.Select aria-label="Default select example" onChange={(e) => setCategoryID(e.target.value)} defaultValue={props.Banner.CategoryID}>
+          <Form.Select aria-label="Default select example" onChange={(e) => setCategoryID(e.target.value)} value={props.Banner.CategoryID}>
             <option hidden>{props.Banner.CategoryName}</option>
             {categories.map((category) => (
               <option value={category.CategoryID} onClick={() => setCategoryID(category.CategoryID)}>{category.CategoryName}</option>
             ))}
           </Form.Select>
           <Form.Label>Baner Image Url</Form.Label>
-          <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} value={props.Banner.BannerPic} />
+          <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} defaultValue={props.Banner.BannerPic} />
           <Form.Label>Admin</Form.Label>
           <Form.Control type="text" value={props.Banner.UserAccountName} disabled readOnly on />
           <Button variant="primary" type="submit" style={{ marginTop: '30px' }} onClick={() => setAdminID(2)}>
