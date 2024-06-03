@@ -54,7 +54,7 @@ function AddBannerModal(props) {
             ))}
           </Form.Select>          
           <Form.Label>Baner Image Url</Form.Label>
-          <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} />
+          <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} required/>
           <Form.Label>Admin</Form.Label>
           <Form.Control type="text" value={'2'} disabled readOnly on />
           <Button variant="primary" type="submit" style={{ marginTop: '30px' }} onClick={() => setAdminID(2)}>
