@@ -55,7 +55,7 @@ function MainShopItemList() {
   const [sellerID, setSellerID] = React.useState('%');
 
   React.useEffect(() => {
-    fetch("/category/getCategories")
+    fetch("http://localhost:5000/category/getCategories")
       .then(response => response.json())
       .then(data => {
         setCategories(data)
@@ -63,7 +63,7 @@ function MainShopItemList() {
   }, [])
 
   React.useEffect(() => {
-    fetch("/product/filter", {
+    fetch("http://localhost:5000/product/filter", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'

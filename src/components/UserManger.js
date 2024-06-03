@@ -12,7 +12,7 @@ function UserManager() {
     const [userID, setUserID] = useState({})
 
     useEffect(() => {
-        fetch("/user/get").then(
+        fetch("http://localhost:5000/user/get").then(
             response => response.json()
         ).then(
             data => {

@@ -30,7 +30,7 @@ function HomeItemList() {
   const [productList, setProductList] = useState([{}])
 
   useEffect(() => {
-    fetch("/product/get").then(
+    fetch("http://localhost:5000/product/get").then(
       response => response.json()
     ).then(
       data => {

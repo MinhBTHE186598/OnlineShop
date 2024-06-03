@@ -14,7 +14,7 @@ function HomeCarousel() {
   const [bannerList, setBannerList] = useState([{}])
 
   useEffect(() => {
-    fetch("/banner/get").then(
+    fetch("http://localhost:5000/banner/get").then(
       response => response.json()
     ).then(
       data => {

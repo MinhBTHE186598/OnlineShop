@@ -30,7 +30,7 @@ function ProductCardBig(props) {
     const [sellers, setSellers] = useState([])
 
     useEffect(() => {
-        fetch("/seller/get").then(
+        fetch("http://localhost:5000/seller/get").then(
             response => response.json()
         ).then(
             data => {
@@ -41,7 +41,7 @@ function ProductCardBig(props) {
 
     const [stars, setStars] = useState([])
     useEffect(() => {
-        fetch(`/productReview/getStar/`).then(
+        fetch(`http://localhost:5000/productReview/getStar/`).then(
             response => response.json()
         ).then(
             data => {

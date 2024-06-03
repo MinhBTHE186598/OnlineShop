@@ -22,7 +22,7 @@ function BannerManager() {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        fetch("/banner/getA").then(
+        fetch("http://localhost:5000/banner/getA").then(
             response => response.json()
         ).then(
             data => {

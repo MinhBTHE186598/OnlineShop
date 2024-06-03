@@ -11,7 +11,7 @@ function AddBannerModal(props) {
 
   const [categories, setCategory] = useState([{}])
   useEffect(() => {
-    fetch("/category/getCategories").then(
+    fetch("http://localhost:5000/category/getCategories").then(
       response => response.json()
     ).then(
       data => {

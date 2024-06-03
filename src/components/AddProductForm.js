@@ -17,7 +17,7 @@ function AddProductForm() {
     const bgimg = `https://images.pexels.com/photos/6985003/pexels-photo-6985003.jpeg?cs=srgb&dl=pexels-codioful-6985003.jpg&fm=jpg`
 
     useEffect(() => {
-        fetch("/category/getCategories").then(
+        fetch("http://localhost:5000/category/getCategories").then(
           response => response.json()
         ).then(
           data => {
