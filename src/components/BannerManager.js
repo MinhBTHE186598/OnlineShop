@@ -13,7 +13,7 @@ function BannerManager() {
     const [show, setShow] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
 
-    const [bannerID, setBannerID] = useState({})
+    const [bannerInf, setBannerInf] = useState({})
 
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = () => setShowEdit(true);
@@ -49,12 +49,16 @@ function BannerManager() {
 
     const editBanner = async (banner) => {
         try {
-            setBannerID(banner)
+            setBannerInf(banner)
             handleShowEdit()
         } catch (error) {
             console.error('Error:', error);
         }
     }
+
+    const handleUpdateBanner = (updateBanner) =>{
+        setBannerList(bannerList.map((banner)=> banner.BannerID===updateBanner.BannerID?updateBanner:banner))
+    };
 
     return (
         <div id="wrapper">
@@ -76,7 +80,7 @@ function BannerManager() {
                 <Button variant="primary" onClick={() => handleShow()}>Add</Button>
             </Row>
             <AddBannerModal show={show} onHide={handleClose} />
-            <EditBannerModal show={showEdit} onHide={handleCloseEdit} Banner={bannerID}/>
+            <EditBannerModal show={showEdit} onHide={handleCloseEdit} Banner={bannerInf} onUpdateBanner={handleUpdateBanner}/>
         </div>
     )
 }

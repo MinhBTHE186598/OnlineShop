@@ -5,9 +5,9 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 
 function EditBannerModal(props) {
-  const [adminID, setAdminID] = useState('')
-  const [categoryID, setCategoryID] = useState('')
-  const [bannerPic, setBannerPic] = useState('')
+  const [adminID, setAdminID] = useState(props.Banner.AdminID)
+  const [categoryID, setCategoryID] = useState(props.Banner.CategoryID)
+  const [bannerPic, setBannerPic] = useState(props.Banner.BannerPic)
   const [bannerID] = useState(props.Banner.BannerID)
 
   const [categories, setCategory] = useState([{}])
@@ -25,7 +25,7 @@ function EditBannerModal(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put('http://localhost:5000/banner/edit/'+props.Banner.BannerID, {
+      const response = await axios.put('http://localhost:5000/banner/edit/' + props.Banner.BannerID, {
         adminID,
         bannerPic,
         categoryID,
@@ -50,8 +50,8 @@ function EditBannerModal(props) {
 
         <Form onSubmit={handleSubmit}>
           <Form.Label>Danh mục Banner</Form.Label>
-          <Form.Select aria-label="Default select example" onChange={(e) => setCategoryID(e.target.value)} value={props.Banner.CategoryID}>
-            <option hidden>{props.Banner.CategoryName}</option>
+          <Form.Select aria-label="Default select example" onChange={(e) => setCategoryID(e.target.value)} defaultValue={props.Banner.CategoryID}>
+            <option >{props.Banner.CategoryName}</option>
             {categories.map((category) => (
               <option value={category.CategoryID} onClick={() => setCategoryID(category.CategoryID)}>{category.CategoryName}</option>
             ))}
