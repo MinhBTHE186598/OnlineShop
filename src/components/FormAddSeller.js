@@ -46,9 +46,9 @@ function FormGroupExample() {
               <Form.Control type="text" placeholder="Địa chỉ" onChange={(e) => setAddress(e.target.value)} required  />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formGroupCheckbox">
-              <Form.Check type="checkbox" label="By Signing Up, I Agree with Terms & Conditions" />
+              <Form.Check type="checkbox" label="By Signing Up, I Agree with Terms & Conditions" required/>
             </Form.Group>
-            <Button variant="primary" type="submit" style={{ width: '100%', marginBottom: '10px' }}>
+            <Button variant="primary" type="submit" style={{ width: '100%', marginBottom: '10px' }} >
               Sign Up
             </Button>
           </Form>
