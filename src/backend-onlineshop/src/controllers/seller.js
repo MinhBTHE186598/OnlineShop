@@ -20,4 +20,15 @@ const getSellerByID = async (req, res) => {
     }
 }
 
-module.exports = {getSeller, getSellerByID}
+const addSeller = async (req, res) => {
+    try {
+        const { SellerName, SellerAddress} = req.body;
+        await sql.query`insert into Sellers (SellerName, SellerAddress, UserID, SellManagerID)
+        values(${SellerName}, ${SellerAddress}, 1, ${Math.floor(Math.random() * (12 - 1)) + 1})`;
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
+module.exports = {getSeller, getSellerByID, addSeller}
