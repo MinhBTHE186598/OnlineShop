@@ -9,6 +9,7 @@ import AddSeller from './webpages/AddSeller';
 import MainShop from './webpages/MainShop';
 import AddProduct from './webpages/AddProduct';
 import Login from './webpages/Login';
+import Profile from './webpages/UserProfile';
 function App() {
   return (
     <div>
@@ -25,6 +26,8 @@ function App() {
         <Route path="/mainShop" element={<MainShop/>}/>
         <Route path="/addProduct" element={<AddProduct/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/profile" element={<Profile/>}/>
+
       </Routes>
 
       </BrowserRouter>
