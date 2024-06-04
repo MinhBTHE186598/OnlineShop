@@ -2,10 +2,9 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
-import FormReg from '../components/addSeller/FormAddSeller'
 import AddProductForm from '../components/addProduct/AddProductForm'
 
-function AddSeller() {
+function AddProduct() {
     return (
         <div>
                 <Header/>
@@ -14,4 +13,4 @@ function AddSeller() {
         </div>
     )
 }
-export default AddSeller
+export default AddProduct
