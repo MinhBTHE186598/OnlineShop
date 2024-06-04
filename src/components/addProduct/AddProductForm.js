@@ -60,22 +60,13 @@ function AddProductForm() {
                     <Form.Group>
                         <Form.Label><b>Phân loại sản phẩm:</b></Form.Label><br />
                         
-                        <select id="options" value={productCategory}  onChange={(e) => setSelectedOption(e.target.value)}>
-                            
-                            <option value='1'>Thời trang</option>
-                            <option value='2'>Mỹ phẩm</option>
-                            <option value='3'>Đồ dùng học tập</option>
-                            <option value='4'>Sách và tài liệu</option>
-                            <option value='5'>Thể thao</option>
-                            <option value='6'>Đồ điện tử</option>
-                            <option value='7'>Nội thất</option>
-                            <option value='8'>Đồ gia dụng</option>
-                            <option value='9'>Phụ kiện</option>
-                            <option value='10'>Đồ ăn vặt</option>
-                            <option value='11'>Đồ chơi</option>
-                            <option value='12'>Khác</option>
-
-                         </select>
+                        <Form.Control as="select" value={productCategory} onChange={(e) => setSelectedOption(e.target.value)} required>
+                            <option value="">Chọn phân loại sản phẩm</option>
+                            {categoryList.map((category) => (
+                                <option key={category.CategoryID} value={category.CategoryID}>{category.CategoryName}</option>
+                            ))}
+                        </Form.Control>
+                        <p>{productCategory}</p>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Giá sản phẩm:</b></Form.Label>
