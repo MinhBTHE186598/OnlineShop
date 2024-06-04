@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 // import axios from 'axios';
 import Image from 'react-bootstrap/Image';
 import logo from '../../utility/testlogo.png';
+import bgi from '../../utility/background_1.jpg';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,9 +16,9 @@ function Profile() {
     const borderColor = '#0d6efd';
 
     return (
-        <Container fluid style={{ backgroundColor: '0d6efd' }}>
+        <Container fluid style={{ backgroundImage: `url(${bgi})`, height: '100vh', backgroundSize: 'cover' }}>
             <Row>
-                <Col md={3} style={{ backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: '', alignItems: 'center', height: '100vh', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '8%' }}>
+                <Col md={3} style={{ backgroundColor: '#f8f9fa', display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100vh', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '8%' }}>
                     <div style={{
                         width: '200px',
                         height: '200px',
@@ -36,13 +37,35 @@ function Profile() {
                         <h3>John D. Doe</h3>
                     </div>
                     <div>
-                        <p>User</p>
+                        <p style={{ marginBottom: '0px' }}>User</p>
                     </div>
                     <div>
+                        <p>ID: 12345</p>
+                    </div>
+                    <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
                         <Button style={{
                             width: '200px',
                             height: '50px',
-                            marginTop: '25vh',
+                            marginTop: '15vh',
+                            backgroundColor: 'white',
+                            color: 'orange',
+                            borderColor: 'orange',
+                        }}
+                            onMouseEnter={(e) => {
+                                e.target.style.backgroundColor = 'orange';
+                                e.target.style.color = 'white'
+                            }}
+
+                            onMouseLeave={(e) => {
+                                e.target.style.backgroundColor = 'white';
+                                e.target.style.color = 'orange'
+                            }}>
+                            Shop Register
+                        </Button>
+                        <Button style={{
+                            width: '200px',
+                            height: '50px',
+                            marginTop: '10px',
                             backgroundColor: 'white',
                             color: `${borderColor}`,
                         }}
@@ -60,7 +83,17 @@ function Profile() {
                     </div>
                 </Col>
 
-                <Col md={7} style={{ backgroundColor: 'white', height: '100vh', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '10px' }}>
+                <Col md={7} style={{ backgroundColor: '#f8f9fa', height: '100vh', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '10px' }}>
+                    <div style={{ marginTop: '15vh', marginLeft: '5vh' }}>
+                        <h1>My Profile</h1>
+                        <p>Update your profile for improved security</p>
+                    </div>
+                    <hr style={{color:'red'}}/>
+                    <Col style={{ marginLeft: '10vw', marginTop: '5vh' }}>
+                        <Row>
+                            <h5>Username</h5>
+                        </Row>
+                    </Col>
                 </Col>
             </Row>
         </Container>
