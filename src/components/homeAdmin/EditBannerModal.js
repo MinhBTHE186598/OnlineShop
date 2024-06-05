@@ -4,11 +4,12 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 
-function EditBannerModal({show,onHide,Banner,onUpdateBanner}) {
+function EditBannerModal({show,onHide,Banner}) {
   const [adminID, setAdminID] = useState(Banner.AdminID)
   const [categoryID, setCategoryID] = useState(Banner.CategoryID)
   const [bannerPic, setBannerPic] = useState(Banner.BannerPic)
   const [bannerID,setBannerID] = useState(Banner.BannerID)
+
   useEffect(()=>{
     setAdminID(Banner.AdminID)
     setCategoryID(Banner.CategoryID)
@@ -26,7 +27,16 @@ function EditBannerModal({show,onHide,Banner,onUpdateBanner}) {
       }
     )
   }, [])
-
+  let banneru = {
+    AdminID:adminID,
+    CategoryID:categoryID,
+    BannerID:bannerID,
+    BannerPic:bannerPic,
+    UserAccountName:'admin1',
+    UserFirstName:'Elisha',
+    UserLastName:'Capinetti',
+    CategoryName:(categories.map(cate=>cate.CategoryID==categoryID?cate.CategoryName:''))
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,9 +46,9 @@ function EditBannerModal({show,onHide,Banner,onUpdateBanner}) {
         bannerPic,
         categoryID,
       });
-      if (response.status === 201) {
-        onUpdateBanner({...adminID,bannerPic,categoryID})
-        onHide()
+      console.dir(banneru)
+      onHide(banneru)
+      if (response.status === 200) {
         console.log('Banner edited successfully');
       } else {
         console.error('Failed to edit Banner');

@@ -15,7 +15,10 @@ function BannerManager() {
 
     const [bannerInf, setBannerInf] = useState({})
 
-    const handleCloseEdit = () => setShowEdit(false);
+    const handleCloseEdit = (updateBanner) => {
+        setBannerList(bannerList.map((banner)=> banner.BannerID===updateBanner.BannerID?updateBanner:banner))
+        setShowEdit(false);
+    }
     const handleShowEdit = () => setShowEdit(true);
 
     const handleClose = () => setShow(false);
@@ -56,10 +59,6 @@ function BannerManager() {
         }
     }
 
-    const handleUpdateBanner = (updateBanner) =>{
-        setBannerList(bannerList.map((banner)=> banner.BannerID===updateBanner.BannerID?updateBanner:banner))
-    };
-
     return (
         <div id="wrapper">
             <Row>
@@ -80,7 +79,7 @@ function BannerManager() {
                 <Button variant="primary" onClick={() => handleShow()}>Add</Button>
             </Row>
             <AddBannerModal show={show} onHide={handleClose} />
-            <EditBannerModal show={showEdit} onHide={handleCloseEdit} Banner={bannerInf} onUpdateBanner={handleUpdateBanner}/>
+            <EditBannerModal show={showEdit} onHide={handleCloseEdit} Banner={bannerInf}/>
         </div>
     )
 }
