@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 
-function EditBannerModal({show,onHide,Banner}) {
+function EditBannerModal({show,onHide,Banner, onUpdate}) {
   const [adminID, setAdminID] = useState(Banner.AdminID)
   const [categoryID, setCategoryID] = useState(Banner.CategoryID)
   const [bannerPic, setBannerPic] = useState(Banner.BannerPic)
@@ -32,10 +32,10 @@ function EditBannerModal({show,onHide,Banner}) {
     CategoryID:categoryID,
     BannerID:bannerID,
     BannerPic:bannerPic,
-    UserAccountName:'admin1',
+    UserAccountName:Banner.AdminID,
     UserFirstName:'Elisha',
     UserLastName:'Capinetti',
-    CategoryName:(categories.map(cate=>cate.CategoryID==categoryID?cate.CategoryName:''))
+    CategoryName:(categories.map(cate=>cate.CategoryID==categoryID?cate.CategoryName:null))
   }
 
   const handleSubmit = async (e) => {
@@ -46,8 +46,7 @@ function EditBannerModal({show,onHide,Banner}) {
         bannerPic,
         categoryID,
       });
-      console.dir(banneru)
-      onHide(banneru)
+      onUpdate(banneru)
       if (response.status === 200) {
         console.log('Banner edited successfully');
       } else {

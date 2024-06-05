@@ -15,14 +15,16 @@ function BannerManager() {
 
     const [bannerInf, setBannerInf] = useState({})
 
-    const handleCloseEdit = (updateBanner) => {
-        setBannerList(bannerList.map((banner)=> banner.BannerID===updateBanner.BannerID?updateBanner:banner))
-        setShowEdit(false);
-    }
+    const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = () => setShowEdit(true);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    
+    const handleUpdate = (updateBanner) => {
+        setBannerList(bannerList.map((banner)=> banner.BannerID===updateBanner.BannerID?updateBanner:banner))
+        setShowEdit(false);
+    }
 
     useEffect(() => {
         fetch("http://localhost:5000/banner/getA").then(
@@ -79,7 +81,7 @@ function BannerManager() {
                 <Button variant="primary" onClick={() => handleShow()}>Add</Button>
             </Row>
             <AddBannerModal show={show} onHide={handleClose} />
-            <EditBannerModal show={showEdit} onHide={handleCloseEdit} Banner={bannerInf}/>
+            <EditBannerModal show={showEdit} onHide={handleCloseEdit} Banner={bannerInf} onUpdate={handleUpdate}/>
         </div>
     )
 }
