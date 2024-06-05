@@ -13,7 +13,7 @@ const getBanner = async (req, res) => {
 
 const getBannerForAdmin = async (req, res) => {
     try {
-        const result = await sql.query`Select c.CategoryID,b.BannerID, b.BannerPic,u.UserAccountName, u.UserFirstName, u.UserLastName, c.CategoryName from Banners b
+        const result = await sql.query`Select a.AdminID, c.CategoryID,b.BannerID, b.BannerPic,u.UserAccountName, u.UserFirstName, u.UserLastName, c.CategoryName from Banners b
         join Admins a on b.AdminID=a.AdminID
         join Users u on a.UserID = u.UserID
         join Categories c on c.CategoryID = b.CategoryID`;

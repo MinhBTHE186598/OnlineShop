@@ -5,10 +5,16 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 
 function EditBannerModal({show,onHide,Banner,onUpdateBanner}) {
-  const [adminID, setAdminID] = useState('2')
+  const [adminID, setAdminID] = useState(Banner.AdminID)
   const [categoryID, setCategoryID] = useState(Banner.CategoryID)
   const [bannerPic, setBannerPic] = useState(Banner.BannerPic)
-  const [bannerID] = useState(Banner.BannerID)
+  const [bannerID,setBannerID] = useState(Banner.BannerID)
+  useEffect(()=>{
+    setAdminID(Banner.AdminID)
+    setCategoryID(Banner.CategoryID)
+    setBannerPic(Banner.BannerPic)
+    setBannerID(Banner.BannerID)
+  },[Banner.AdminID,Banner.CategoryID,Banner.BannerPic,Banner.BannerID])
 
   const [categories, setCategory] = useState([{}])
   useEffect(() => {
