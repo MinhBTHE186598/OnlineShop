@@ -35,7 +35,7 @@ function EditBannerModal({show,onHide,Banner, onUpdate}) {
     UserAccountName:Banner.UserAccountName,
     UserFirstName:Banner.UserFirstName,
     UserLastName:Banner.UserLastName,
-    CategoryName:(categories.map(cate=>cate.CategoryID==categoryID?cate.CategoryName:null))
+    CategoryName:(categories.map(cate=>cate.CategoryID===categoryID?cate.CategoryName:null))
   }
 
   const handleSubmit = async (e) => {
