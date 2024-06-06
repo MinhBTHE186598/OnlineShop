@@ -26,6 +26,9 @@ function BannerManager() {
         setShowEdit(false);
     }
 
+    // const handleAdd =(newbanner) => {
+    //     setBannerList([...bannerList, newbanner]);
+    // };
     useEffect(() => {
         fetch("http://localhost:5000/banner/getA").then(
             response => response.json()
