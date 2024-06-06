@@ -21,9 +21,6 @@ function AdminAction() {
                                 <Nav.Link eventKey="first">Quản lý người dùng</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link eventKey="second">Quản lý người bán</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
                                 <Nav.Link eventKey="third">Quản lý banner</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
@@ -38,16 +35,6 @@ function AdminAction() {
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
                                 <UserManager/>
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="second">
-                                <Row>
-                                    {Arr.map((index) => (
-                                        <ListGroup key={index} horizontal className="my-2">
-                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
-                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
-                                        </ListGroup>
-                                    ))}
-                                </Row>
                             </Tab.Pane>
                             <Tab.Pane eventKey="third">
                                 <BannerManager/>
