@@ -32,9 +32,9 @@ function EditBannerModal({show,onHide,Banner, onUpdate}) {
     CategoryID:categoryID,
     BannerID:bannerID,
     BannerPic:bannerPic,
-    UserAccountName:Banner.AdminID,
-    UserFirstName:'Elisha',
-    UserLastName:'Capinetti',
+    UserAccountName:Banner.UserAccountName,
+    UserFirstName:Banner.UserFirstName,
+    UserLastName:Banner.UserLastName,
     CategoryName:(categories.map(cate=>cate.CategoryID==categoryID?cate.CategoryName:null))
   }
 

@@ -73,7 +73,7 @@ function BannerManager() {
                             <Button variant="primary" onClick={() => deleteBanner(banner.BannerID)}>Delete</Button>
                             <Button variant="primary" onClick={() => editBanner(banner)} style={{marginLeft:'10px'}}>Edit</Button>
                         </Card.Body>
-                        <Card.Footer className="text-muted">Người đăng: {banner.UserAccountName} </Card.Footer>
+                        <Card.Footer className="text-muted">Người đăng: {banner.UserAccountName} ({banner.UserFirstName} {banner.UserLastName}) </Card.Footer>
                     </Card>
                 ))}
             </Row>
