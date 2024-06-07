@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import AddBannerModal from './AddBannerModal';
 import EditBannerModal from './EditBannerModal';
+import ConfirmModal from './ConfirmModal';
 
 function BannerManager() {
 
@@ -12,8 +13,10 @@ function BannerManager() {
 
     const [show, setShow] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+    const [showConfirm,setShowConfirm] = useState(false);
 
     const [bannerInf, setBannerInf] = useState({})
+    const [bannerID, setBannerID] = useState('');
 
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = () => setShowEdit(true);
@@ -54,6 +57,14 @@ function BannerManager() {
             console.error('Error:', error);
         }
     }
+    const handleDelete = (id) => {
+        try{
+            setBannerID(id)
+            setShowConfirm(true)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const editBanner = async (banner) => {
         try {
@@ -73,7 +84,7 @@ function BannerManager() {
                         <Card.Body>
                             <Card.Img variant="top" src={banner.BannerPic} />
                             <Card.Title>Danh mục: {banner.CategoryName}</Card.Title>
-                            <Button variant="primary" onClick={() => deleteBanner(banner.BannerID)}>Delete</Button>
+                            <Button variant="primary" onClick={() => handleDelete(banner.BannerID)}>Delete</Button>
                             <Button variant="primary" onClick={() => editBanner(banner)} style={{marginLeft:'10px'}}>Edit</Button>
                         </Card.Body>
                         <Card.Footer className="text-muted">Người đăng: {banner.UserAccountName} ({banner.UserFirstName} {banner.UserLastName}) </Card.Footer>
@@ -85,6 +96,7 @@ function BannerManager() {
             </Row>
             <AddBannerModal show={show} onHide={handleClose} />
             <EditBannerModal show={showEdit} onHide={handleCloseEdit} Banner={bannerInf} onUpdate={handleUpdate}/>
+            <ConfirmModal show={showConfirm} onHide={()=>setShowConfirm(false)} onConfirm={()=>deleteBanner(bannerID)} obj="banner"/>
         </div>
     )
 }

@@ -4,10 +4,12 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserIModal from './UserInfoModal';
+import ConfirmModal from './ConfirmModal';
 
 
 function UserManager() {
     const [modalShow, setModalShow] = useState(false);
+    const [confirmShow, setConfirmShow] = useState(false);
     const [userList, setUserList] = useState([{}])
     const [userID, setUserID] = useState({})
 
@@ -37,6 +39,15 @@ function UserManager() {
             console.error('Error:', error);
         }
     }
+    const handleDelete = (id) => {
+        try{
+            setUserID(id)
+            setConfirmShow(true)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const handleModel = (ID) => {
         try {
             setUserID(ID)
@@ -67,11 +78,12 @@ function UserManager() {
                         <Col sm={2}><ListGroup.Item >{user.UserPassword}</ListGroup.Item></Col>
                         <Col sm={3}><ListGroup.Item >{user.UserFirstName + " " + user.UserLastName}</ListGroup.Item></Col>
                         <Col sm={2}><ListGroup.Item >{user.UserPhone}</ListGroup.Item></Col>
-                        <Col sm={1}><ListGroup.Item action variant='secondary' onClick={() => { deleteUser(user.UserID) }} >Delete</ListGroup.Item></Col>
+                        <Col sm={1}><ListGroup.Item action variant='secondary' onClick={() => { handleDelete(user.UserID) }} >Delete</ListGroup.Item></Col>
                         <Col sm={1}><ListGroup.Item action variant='secondary' onClick={() => { handleModel(user) }} >View</ListGroup.Item></Col>
                     </ListGroup>
                 ))}
                 <UserIModal show={modalShow} onHide={() => setModalShow(false)} user={userID} />
+                <ConfirmModal show = {confirmShow} onHide={()=>setConfirmShow(false)} onConfirm={() => { deleteUser(userID) }} obj="user"/>
             </Row>
         </div>
     )

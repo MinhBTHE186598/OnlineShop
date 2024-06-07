@@ -44,7 +44,7 @@ function AddBannerModal(props) {
 
     <Modal {...props}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Add banner</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
