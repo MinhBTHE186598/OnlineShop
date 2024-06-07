@@ -101,7 +101,7 @@ function Profile() {
                         <tbody>
                             <tr style={{ borderTop: '1px solid black', borderBottom: '1px solid black', height: '50px' }}>
                                 <td></td>
-                                <td style={{ fontSize: '25px', width: '400px' }}><b>Phương thức liên lạc</b></td>
+                                <td style={{ fontSize: '25px', width: '400px' }}><b>Thông tin tài khoản</b></td>
                                 <td ></td>
                             </tr>
                             <tr>
