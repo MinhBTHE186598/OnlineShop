@@ -112,7 +112,7 @@ function Profile() {
                             <tr style={{ borderBottom: '1px solid black' }}>
                                 <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Mật khẩu</td>
                                 <td>***********</td>
-                                <td style={{ textAlign: 'end' }}><a href="#">Đổi mật khẩu</a></td>
+                                <td style={{ textAlign: 'end' }}><a href="/">Đổi mật khẩu</a></td>
                             </tr>
                             <tr style={{ borderBottom: '1px solid black', height: '50px' }}>
                                 <td></td>

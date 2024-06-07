@@ -27,7 +27,6 @@ function App() {
         <Route path="/addProduct" element={<AddProduct/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/profile" element={<Profile/>}/>
-
       </Routes>
 
       </BrowserRouter>
