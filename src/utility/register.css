@@ -1,6 +1,5 @@
 .wrapper{
     position: relative;
-    
     width: 100%;
     background: #fff;
     border-radius: 6px;
@@ -22,16 +21,13 @@
     border-radius: 12px;
     background: #4070f4;
   }
-  .wrapper form{
-    margin-top: 30px;
-  }
   .wrapper form .input-box{
     height: 52px;
     margin: 18px 0;
   }
   form .input-box input{
     height: 100%;
-    width: 100%;
+    width: 10-0%;
     outline: none;
     padding: 0 15px;
     font-size: 17px;
@@ -46,10 +42,7 @@
   .input-box input:valid{
     border-color: #4070f4;
   }
-  form .policy{
-    display: flex;
-    align-items: center;
-  }
+ 
   form h3{
     color: #707070;
     font-size: 14px;
