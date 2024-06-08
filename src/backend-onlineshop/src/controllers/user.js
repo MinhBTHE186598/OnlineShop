@@ -36,11 +36,11 @@ const deleteUser = async (req, res) => {
 
 const registerUser = async (req, res) => {
     try {
-        const { gmail, number, password } = req.body;
+        const { gmail, number, password , address , firstName , lastName} = req.body;
         const name = req.body.name;
 
-        await sql.query`insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserPhone)
-         values (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail}, ${number})`;
+        await sql.query`insert into Users (UserAccountName, UserPassword, UserPFP, UserAddress, UserEmail, UserPhone , UserFirstName, UserLastName)
+         values (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail},${address }, ${number}, ${firstName}, ${lastName})`;  
         console.log(name)
     } catch (err) {
         console.error(err);

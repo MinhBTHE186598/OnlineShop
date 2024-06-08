@@ -61,9 +61,9 @@ function RegisterBoard() {
 
   return (
     <div className='wrapper'>
-      <Container fluid="sm" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'vh' }}>
+      <Container fluid="sm" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <Row style={{ width: '100%', maxWidth: '1500px', backgroundColor: '#f0f0f0', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-          <Col md={6} style={{ backgroundColor: '#343a40', color: '#ffffff', padding: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Col md={6} style={{ backgroundColor: '#343a40', color: '#ffffff', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Image src={logo} roundedCircle style={{ width: '100%', maxWidth: '100%' }} />
           </Col>
           <Col md={6} style={{ padding: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
