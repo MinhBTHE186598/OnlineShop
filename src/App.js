@@ -2,7 +2,7 @@ import './App.css';
 
 import HomePage from './webpages/Home';
 import HomeAdmin from './webpages/HomeAdmin';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import RegisterUser from './webpages/RegisterUser';
 import AboutUs from './webpages/AboutUs';
 import AddSeller from './webpages/AddSeller';
@@ -10,6 +10,7 @@ import MainShop from './webpages/MainShop';
 import AddProduct from './webpages/AddProduct';
 import Login from './webpages/Login';
 import Profile from './webpages/UserProfile';
+import Product from './webpages/Product';
 import { UserProvider } from './components/context/UserContext';
 function App() {
   return (
@@ -25,12 +26,13 @@ function App() {
             <Route path="/addSeller" element={<AddSeller />} />
             <Route path="/register" element={<RegisterUser />} />
             <Route path="/aboutUs" element={<AboutUs />} />
-            <Route path="/mainShop" element={<MainShop />} />
+            <Route path="/mainShop/:id" element={<MainShop />} />
+            <Route path="/mainShop" element={<Navigate to="0" replace />} />
             <Route path="/addProduct" element={<AddProduct />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path='/product/:id' element={<Product />} />
           </Routes>
-
         </BrowserRouter>
       </UserProvider>
     </div>

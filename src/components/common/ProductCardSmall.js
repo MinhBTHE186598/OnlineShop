@@ -55,7 +55,7 @@ function ProductCardSmall(props) {
         <Card style={CardStyle}>
             <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 1px black', borderRadius: '0px' }} />
             <Card.Body style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-                <Card.Title style={{ textAlign: 'center' }}><a href='/home' style={{ textDecoration: 'none', color: 'black' }}>{props.name}</a></Card.Title>
+                <Card.Title style={{ textAlign: 'center' }}><a href={`/product/${props.star}`} style={{ textDecoration: 'none', color: 'black' }}>{props.name}</a></Card.Title>
                 <div>
                     {sellers.map(seller => {
                         if (seller.SellerID === props.seller) {

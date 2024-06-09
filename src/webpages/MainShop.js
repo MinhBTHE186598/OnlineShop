@@ -3,13 +3,15 @@ import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
 import MainShopTitle from '../components/mainShop/MainShopTitle'
 import MainShopItemList from '../components/mainShop/MainShopItemList'
+import { useParams } from 'react-router-dom'
 
 function MainShop() {
+    const {id} = useParams();
     return (
         <div>
             <Header />
             <MainShopTitle/>
-            <MainShopItemList />
+            <MainShopItemList id={id}/>
             <Footer />
         </div>
     )

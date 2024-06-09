@@ -19,6 +19,16 @@ import { useUser } from '../context/UserContext';
 import { useNavigate } from "react-router-dom";
 
 function Header() { 
+  const [categories, setCategories] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch("http://localhost:5000/category/getCategories")
+      .then(response => response.json())
+      .then(data => {
+        setCategories(data)
+      })
+  }, [])
+
   const navigate = useNavigate();
   const { user, setUser, userRole, setUserRole, isLogin, setIsLogin } = useUser();
   const logOut = () => {
@@ -43,10 +53,9 @@ function Header() {
             <Nav.Link href="/aboutUs" className='link-light link-opacity-50-hover'>Về chúng tôi</Nav.Link>
             <Nav.Link href="#link" className='link-light link-opacity-50-hover'>Hỗ trợ</Nav.Link>
             <NavDropdown title={<span className="text-white my-auto">Danh mục sản phẩm</span>} id="nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Mục A</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Mục B</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Mục C</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.4">Mục D</NavDropdown.Item>
+              {categories.map((category) => (
+                <NavDropdown.Item as={Link} to={`/mainShop/${category.CategoryID}`} key={category.CategoryID}>{category.CategoryName}</NavDropdown.Item>
+              ))}
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

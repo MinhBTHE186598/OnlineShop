@@ -41,7 +41,7 @@ const filterStyle = {
 
 
 
-function MainShopItemList() {
+function MainShopItemList(props) {
 
   const [categories, setCategories] = React.useState([]);
   const [sellers, setSellers] = React.useState([]);
@@ -49,7 +49,7 @@ function MainShopItemList() {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [itemsPerPage] = React.useState(15);
   const [filter, setFilter] = React.useState({
-    category: '%',
+    category: props.id,
     order: 'ProductID asc',
     range: [0, 100000000],
     seller: '%'
@@ -117,7 +117,7 @@ function MainShopItemList() {
           name='category'
           value={"%"}
           onClick={handleInputChange}
-          defaultChecked
+          defaultChecked={Number(props.id) === 0}
         />
         {categories.map((category) => (
           <Form.Check
@@ -127,9 +127,12 @@ function MainShopItemList() {
             name='category'
             value={category.CategoryID}
             onClick={handleInputChange}
+            defaultChecked={Number(props.id) === category.CategoryID}
           />
         ))}
       </Form>
+
+
       <div style={listStyle}>
         <div style={filterStyle}>
           <Dropdown style={{ margin: '0 20px 0 40px' }} onSelect={(e) => {
@@ -143,8 +146,6 @@ function MainShopItemList() {
               <Dropdown.Item eventKey='ProductName desc'>Tên Z-A</Dropdown.Item>
               <Dropdown.Item eventKey='ProductPrice asc'>Giá thấp đến cao</Dropdown.Item>
               <Dropdown.Item eventKey='ProductPrice desc'>Giá cao đến thấp</Dropdown.Item>
-              {/* <Dropdown.Item eventKey='ProductStar asc'>Đánh giá tăng dần</Dropdown.Item>
-              <Dropdown.Item eventKey='ProductStar desc'>Đánh giá giảm dần</Dropdown.Item> */}
               <Dropdown.Item eventKey='ProductID asc'>Bỏ chọn</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
