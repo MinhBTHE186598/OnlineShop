@@ -4,6 +4,8 @@
 ------------------------- Initial setup -----------------------------
 use master
 go
+alter database OSWData set single_user with rollback immediate
+go
 drop database if exists OSWData
 go
 create database OSWData
