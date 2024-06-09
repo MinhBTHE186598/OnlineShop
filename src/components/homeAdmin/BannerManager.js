@@ -75,6 +75,10 @@ function BannerManager() {
         }
     }
 
+    const handleAdd = (newBanner) =>{
+        setBannerList([...bannerList, newBanner])
+    }
+
     return (
         <div id="wrapper">
             <Row>
@@ -94,7 +98,7 @@ function BannerManager() {
             <Row>
                 <Button variant="primary" onClick={() => handleShow()}>Add</Button>
             </Row>
-            <AddBannerModal show={show} onHide={handleClose} />
+            <AddBannerModal show={show} onHide={handleClose} onAdd={handleAdd} bannerID={bannerList.length}/>
             <EditBannerModal show={showEdit} onHide={handleCloseEdit} Banner={bannerInf} onUpdate={handleUpdate}/>
             <ConfirmModal show={showConfirm} onHide={()=>setShowConfirm(false)} onConfirm={()=>deleteBanner(bannerID)} obj="banner"/>
         </div>

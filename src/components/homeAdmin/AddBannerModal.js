@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 
-function AddBannerModal(props) {
+function AddBannerModal({ show, onHide, onAdd,bannerID }) {
   const [adminID, setAdminID] = useState('')
   const [categoryID, setCategoryID] = useState('')
   const [bannerPic, setBannerPic] = useState('')
@@ -19,7 +19,7 @@ function AddBannerModal(props) {
       }
     )
   }, [])
-
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,8 +29,19 @@ function AddBannerModal(props) {
         bannerPic,
         categoryID,
       });
-
-      if (response.status === 201) {
+      let banner = {
+        AdminID: adminID,
+        CategoryID: categoryID,
+        BannerID: bannerID+1,
+        BannerPic: bannerPic,
+        UserAccountName: "N/A",
+        UserFirstName: "N/A",
+        UserLastName: "N/A",
+        CategoryName: (categories.find((cate) => cate.CategoryID === (categoryID)))
+      }
+      console.dir(banner)
+      onAdd(banner)
+      if (response.status === 200) {
         console.log('Banner added successfully');
       } else {
         console.error('Failed to add banner');
@@ -42,7 +53,7 @@ function AddBannerModal(props) {
 
   return (
 
-    <Modal {...props}>
+    <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
         <Modal.Title>Add banner</Modal.Title>
       </Modal.Header>
@@ -52,9 +63,9 @@ function AddBannerModal(props) {
             {categories.map((category) => (
               <option value={category.CategoryID}>{category.CategoryName}</option>
             ))}
-          </Form.Select>          
+          </Form.Select>
           <Form.Label>Baner Image Url</Form.Label>
-          <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} required/>
+          <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} required />
           <Form.Label>Admin</Form.Label>
           <Form.Control type="text" value={'2'} disabled readOnly on />
           <Button variant="primary" type="submit" style={{ marginTop: '30px' }} onClick={() => setAdminID(2)}>
@@ -64,7 +75,7 @@ function AddBannerModal(props) {
 
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>
+        <Button variant="secondary" onClick={onHide}>
           Close
         </Button>
       </Modal.Footer>
