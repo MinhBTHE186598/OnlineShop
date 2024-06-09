@@ -14,9 +14,23 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
-import logo from '../../utility/testlogo.png'
+import logo from '../../utility/testlogo.png';
+import { useUser } from '../context/UserContext';
+import { useNavigate } from "react-router-dom";
 
-function header() {
+function Header() { 
+  const navigate = useNavigate();
+  const { user, setUser, userRole, setUserRole, isLogin, setIsLogin } = useUser();
+  const logOut = () => {
+    if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+      setUser(null);
+      setIsLogin(false);
+      setUserRole(null);
+      navigate('/login');
+    }
+    return null;
+  }
+
   return (
     <Navbar expand="lg" className="bg-dark p-0" style={{ height: '10vh', display: 'flex', justifyContent: 'space-between' }} fixed='top'>
       <Container style={{ width: '33vw' }}>
@@ -37,8 +51,8 @@ function header() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      <Form inline="true" style={{ width: '33vw' }}>
-        <InputGroup>
+      <Form inline="true" style={{ width: '33vw', display: 'flex', justifyContent: 'center',alignItems: 'center' }}>
+        <InputGroup style={{margin: 0}}>
           <Form.Control
             placeholder="Search"
             aria-label="Search"
@@ -49,7 +63,7 @@ function header() {
           </Button>
         </InputGroup>
       </Form>
-      <ButtonToolbar aria-label="Toolbar with button groups" style={{ width: '33vw', display: 'flex', justifyContent: 'center' }}>
+      {isLogin ? (<ButtonToolbar aria-label="Toolbar with button groups" style={{ width: '33vw', display: 'flex', justifyContent: 'center' }}>
         <ButtonGroup className="m-1" aria-label="First group">
           <DropdownButton as={ButtonGroup} title={<FaBell />} id="bg-nested-dropdown">
             <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>
@@ -63,14 +77,19 @@ function header() {
           </DropdownButton>
         </ButtonGroup>
         <ButtonGroup className="m-1" aria-label="Third group">
-          <DropdownButton as={ButtonGroup} title="Welcome back, User" id="bg-nested-dropdown">
-            <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>
-            <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>
+          <DropdownButton as={ButtonGroup} title={`Chào mừng trở lại, ${user.UserFirstName}`} id="bg-nested-dropdown">
+            <Dropdown.Item eventKey="1">{user.UserID}</Dropdown.Item>
+            <Dropdown.Item eventKey="2">{userRole}</Dropdown.Item>
+            <Dropdown.Item onClick={logOut}>Đăng xuất</Dropdown.Item>
           </DropdownButton>
         </ButtonGroup>
-      </ButtonToolbar>
-    </Navbar>
+      </ButtonToolbar>) : (<div style={{ width: '33vw', display: 'flex', justifyContent: 'center',alignItems: 'center' }}><Button className="btn btn-lg btn-primary" >
+        <Link to="/login" style={{ textDecoration: 'none', color: 'white' }}>Đăng nhập</Link></Button></div>)
+      }
+
+
+    </Navbar >
   )
 }
 
-export default header
+export default Header
