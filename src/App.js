@@ -31,7 +31,7 @@ function App() {
             <Route path="/mainShop" element={<Navigate to="0" replace />} />
             <Route path="/addProduct" element={<AddProduct />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile />} />
             <Route path='/product/:id' element={<Product />} />
             <Route path='/homeManager' element={<HomeManager/>}/>
           </Routes>
