@@ -87,7 +87,7 @@ function Header() {
         </ButtonGroup>
         <ButtonGroup className="m-1" aria-label="Third group">
           <DropdownButton as={ButtonGroup} title={`Chào mừng trở lại, ${user.UserFirstName}`} id="bg-nested-dropdown">
-            <Dropdown.Item eventKey="1">{user.UserID}</Dropdown.Item>
+            <Dropdown.Item onClick={() => navigate(`/profile/${user.UserID}`)}>Hồ Sơ Của Tôi</Dropdown.Item>
             <Dropdown.Item eventKey="2">{userRole}</Dropdown.Item>
             <Dropdown.Item onClick={logOut}>Đăng xuất</Dropdown.Item>
           </DropdownButton>
