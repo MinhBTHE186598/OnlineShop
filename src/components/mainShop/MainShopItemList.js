@@ -98,7 +98,9 @@ function MainShopItemList(props) {
     })();
   }, [filter]);
 
-
+  const [sortTitle, setSortTitle] = React.useState('Sắp xếp');
+  const [sortPrice, setSortPrice] = React.useState('Lọc theo giá');
+  const [sortSeller, setSortSeller] = React.useState('Lọc theo người bán');
 
 
   const indexOfLastProduct = currentPage * itemsPerPage;
@@ -138,14 +140,14 @@ function MainShopItemList(props) {
             handleInputChange({ target: { name: 'order', value: e } });
           }}>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
-              Sắp xếp
+              {sortTitle}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item eventKey='ProductName asc'>Tên A-Z</Dropdown.Item>
-              <Dropdown.Item eventKey='ProductName desc'>Tên Z-A</Dropdown.Item>
-              <Dropdown.Item eventKey='ProductPrice asc'>Giá thấp đến cao</Dropdown.Item>
-              <Dropdown.Item eventKey='ProductPrice desc'>Giá cao đến thấp</Dropdown.Item>
-              <Dropdown.Item eventKey='ProductID asc'>Bỏ chọn</Dropdown.Item>
+              <Dropdown.Item eventKey='ProductName asc' onClick={() => setSortTitle('Tên A-Z')}>Tên A-Z</Dropdown.Item>
+              <Dropdown.Item eventKey='ProductName desc' onClick={() => setSortTitle('Tên Z-A')}>Tên Z-A</Dropdown.Item>
+              <Dropdown.Item eventKey='ProductPrice asc' onClick={() => setSortTitle('Giá thấp đén cao')}>Giá thấp đến cao</Dropdown.Item>
+              <Dropdown.Item eventKey='ProductPrice desc' onClick={() => setSortTitle('Giá cao đến thấp')}>Giá cao đến thấp</Dropdown.Item>
+              <Dropdown.Item eventKey='ProductID asc' onClick={() => setSortTitle('Sắp xếp')}>Bỏ chọn</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
 
@@ -154,27 +156,27 @@ function MainShopItemList(props) {
             handleInputChange({ target: { name: 'range', value: range } });
           }}>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
-              Lọc giá sản phẩm
+              {sortPrice}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item eventKey='0 and 25000'>Từ 0 - 25,000 VND</Dropdown.Item>
-              <Dropdown.Item eventKey='25000 and 50000'>Từ 25,000 - 50,000 VND</Dropdown.Item>
-              <Dropdown.Item eventKey='50000 and 75000'>Từ 50,000 - 75,000 VND</Dropdown.Item>
-              <Dropdown.Item eventKey='75000 and 100000'>Từ 75,000 - 100,000 VND</Dropdown.Item>
-              <Dropdown.Item eventKey='100000 and 100000000'>Từ 100,000 trở lên</Dropdown.Item>
-              <Dropdown.Item eventKey='0 and 100000000'>Bỏ chọn</Dropdown.Item>
+              <Dropdown.Item eventKey='0 and 25000' onClick={() => setSortPrice('Từ 0 - 25,000 VND')}>Từ 0 - 25,000 VND</Dropdown.Item>
+              <Dropdown.Item eventKey='25000 and 50000' onClick={() => setSortPrice('Từ 25,000 - 50,000 VND')}>Từ 25,000 - 50,000 VND</Dropdown.Item>
+              <Dropdown.Item eventKey='50000 and 75000' onClick={() => setSortPrice('Từ 50,000 - 75,000 VND')}>Từ 50,000 - 75,000 VND</Dropdown.Item>
+              <Dropdown.Item eventKey='75000 and 100000' onClick={() => setSortPrice('Từ 75,000 - 100,000 VND')}>Từ 75,000 - 100,000 VND</Dropdown.Item>
+              <Dropdown.Item eventKey='100000 and 100000000' onClick={() => setSortPrice('Từ 100,000 trở lên')}>Từ 100,000 trở lên</Dropdown.Item>
+              <Dropdown.Item eventKey='0 and 100000000' onClick={() => setSortPrice('Lọc theo giá')}>Bỏ chọn</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
 
           <Dropdown style={{ margin: '0 20px' }} onSelect={(e) => handleInputChange({ target: { name: 'seller', value: e } })}>
             <Dropdown.Toggle variant="primary" id="dropdown-basic">
-              Lọc theo người bán
+              {sortSeller}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {sellers.map((seller) => (
-                <Dropdown.Item key={seller.SellerID} eventKey={seller.SellerID}>{seller.SellerName}</Dropdown.Item>
+                <Dropdown.Item key={seller.SellerID} eventKey={seller.SellerID} onClick={() => setSortSeller(seller.SellerName)}>{seller.SellerName}</Dropdown.Item>
               ))}
-              <Dropdown.Item eventKey='%' onClick={handleInputChange}>Bỏ chọn</Dropdown.Item>
+              <Dropdown.Item eventKey='%' onClick={() => setSortSeller('Lọc theo giá')}>Bỏ chọn</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
