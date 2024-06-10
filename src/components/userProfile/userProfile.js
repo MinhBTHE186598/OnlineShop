@@ -12,9 +12,12 @@ import Row from 'react-bootstrap/Row';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../utility/register.css';
 import { Table } from 'react-bootstrap';
+import { useUser } from '../context/UserContext';
 
 function Profile() {
     const borderColor = '#0d6efd';
+
+    const { user, setUser, userRole, setUserRole, isLogin, setIsLogin } = useUser();
 
     return (
         <Container fluid style={{ backgroundImage: `url(${bgi})`, backgroundSize: 'cover', minHeight: '900px' }}>
@@ -32,16 +35,16 @@ function Profile() {
                         marginTop: '20vh',
                         boxShadow: '0 6px 6px rgba(0, 0, 0, 0.1)',
                     }}>
-                        <Image src={logo} roundedCircle fluid />
+                        <Image src={user.UserPFP} roundedCircle fluid />
                     </div>
                     <div style={{ marginTop: '20px', textAlign: 'center', width: '100%' }}>
-                        <h3>John D. Doe</h3>
+                        <h3>{user.UserFirstName} {user.UserLastName}</h3>
                     </div>
                     <div>
-                        <p style={{ marginBottom: '0px' }}>User</p>
+                        <p style={{ marginBottom: '0px' }}>{userRole}</p>
                     </div>
                     <div>
-                        <p>ID: 12345</p>
+                        <p>ID: {user.UserID}</p>
 
                     </div>
                     <hr style={{ color: 'red', width: '300px' }} />
@@ -106,7 +109,7 @@ function Profile() {
                             </tr>
                             <tr>
                                 <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Tên đăng nhập</td>
-                                <td>user1</td>
+                                <td>{user.UserAccountName}</td>
                                 <td></td>
                             </tr>
                             <tr style={{ borderBottom: '1px solid black' }}>
@@ -121,17 +124,17 @@ function Profile() {
                             </tr>
                             <tr>
                                 <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Địa chỉ nhận hàng</td>
-                                <td>text holder smth smth smth text holder smth smth smth text holder smth smth smth text holder smth smth smth text holder smth smth smth text holder smth smth smth text holder smth smth smth text holder smth smth smth text holder smth smth smth text holder </td>
+                                <td>{user.UserAddress}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Email</td>
-                                <td>text holder smth smth smth</td>
+                                <td>{user.UserEmail}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Số điện thoại</td>
-                                <td >0123456789</td>
+                                <td >{user.UserPhone}</td>
                                 <td></td>
                             </tr>
                         </tbody>
