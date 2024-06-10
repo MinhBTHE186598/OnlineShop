@@ -42,14 +42,13 @@ const filterStyle = {
 
 
 function MainShopItemList(props) {
-
   const [categories, setCategories] = React.useState([]);
   const [sellers, setSellers] = React.useState([]);
   const [products, setProducts] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [itemsPerPage] = React.useState(15);
   const [filter, setFilter] = React.useState({
-    category: props.id,
+    category: Number(props.id) === 0 ? '%' : props.id,
     order: 'ProductID asc',
     range: [0, 100000000],
     seller: '%'
