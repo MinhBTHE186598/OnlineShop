@@ -12,6 +12,7 @@ import Login from './webpages/Login';
 import Profile from './webpages/UserProfile';
 import Product from './webpages/Product';
 import { UserProvider } from './components/context/UserContext';
+import HomeManager from './webpages/HomeManager';
 function App() {
   return (
     <div>
@@ -32,6 +33,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
             <Route path='/product/:id' element={<Product />} />
+            <Route path='/homeManager' element={<HomeManager/>}/>
           </Routes>
         </BrowserRouter>
       </UserProvider>
