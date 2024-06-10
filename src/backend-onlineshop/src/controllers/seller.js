@@ -30,5 +30,28 @@ const addSeller = async (req, res) => {
         res.status(500).send('Server Error');
     }
 }
+const updateSeller = async (req, res) => {
+    try {
+        const {SellerID, SellerName, SellerAddress} = req.body;
+        const query =`UPDATE Sellers
+      SET SellerName = @SellerName,
+          SellerAddress = @SellerAddress
+      WHERE SellerID = @SellerID`;
+    const pool = await sql.connect(); // Assuming a connection pool is set up
+    const statement = await pool.request()
+      .input('SellerID', sql.Int, SellerID)
+      .input('SellerName', sql.NVarChar, SellerName)
+      .input('SellerAddress', sql.NVarChar, SellerAddress)
+      .prepare();
 
-module.exports = {getSeller, getSellerByID, addSeller}
+    // Execute the UPDATE query
+    const result = await statement.query();
+    res.status(200).send('Seller updated successfully');
+    }
+    catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  
+    }
+}
+module.exports = {getSeller, getSellerByID, addSeller, updateSeller}

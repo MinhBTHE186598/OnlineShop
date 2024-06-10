@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Image from "react-bootstrap/Image";
 function SellerInfoModalModal(props) {
+  console.log(props.seller)
   const [matchingUser, setMatchingUser] = useState(null);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ function SellerInfoModalModal(props) {
         <Container>
           <Row>
             <Col style={{ textAlign: "center" }}>
-              <Image src={props.seller.SellerPFP} thumbnail roundedCircle></Image>
+              <Image src={sellerProfilePicture} thumbnail roundedCircle></Image>
             </Col>
           </Row>
           <Row>
@@ -47,10 +48,6 @@ function SellerInfoModalModal(props) {
           <Row>
             <Col>UserID:</Col>
             <Col>{props.seller.UserID}</Col>
-          </Row>
-          <Row>
-            <Col>SellerManagerID:</Col>
-            <Col>{props.seller.SellerManagerID}</Col>
           </Row>
         </Container>
       </Modal.Body>
