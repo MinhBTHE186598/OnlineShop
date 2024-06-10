@@ -42,6 +42,7 @@ const registerUser = async (req, res) => {
         await sql.query`insert into Users (UserAccountName, UserPassword, UserPFP, UserAddress, UserEmail, UserPhone , UserFirstName, UserLastName)
          values (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail},${address }, ${number}, ${firstName}, ${lastName})`;  
         console.log(name)
+        res.send('Success')
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
