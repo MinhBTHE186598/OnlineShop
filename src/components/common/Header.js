@@ -54,7 +54,7 @@ function Header() {
             <Nav.Link href="#link" className='link-light link-opacity-50-hover'>Hỗ trợ</Nav.Link>
             <NavDropdown title={<span className="text-white my-auto">Danh mục sản phẩm</span>} id="nav-dropdown">
               {categories.map((category) => (
-                <NavDropdown.Item as={Link} to={`/mainShop/${category.CategoryID}`} key={category.CategoryID}>{category.CategoryName}</NavDropdown.Item>
+                <NavDropdown.Item href={`/mainShop/${category.CategoryID}`} onClick={() => window.location.reload()} key={category.CategoryID} >{category.CategoryName}</NavDropdown.Item>
               ))}
             </NavDropdown>
           </Nav>
