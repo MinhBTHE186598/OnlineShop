@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../utility/register.css';
+import { useNavigate } from "react-router-dom";
 
 function RegisterBoard() {
   const [name, setName] = useState('');
@@ -17,11 +18,10 @@ function RegisterBoard() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
   const [address,setAddress] = useState('');
   const [firstName,setFirstName] = useState('');
   const [lastName,setLastName] = useState('');
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -31,7 +31,7 @@ function RegisterBoard() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/user/register', {
+      const response = await axios.post('http://localhost:5000/user/registerUser', {
         name,
         gmail,
         number,
@@ -40,19 +40,8 @@ function RegisterBoard() {
         firstName,
         lastName
       });
-      if (response.status === 201) {
-        console.log('User added successfully');
-        setName('');
-        setGmail('');
-        setNumber('');
-        setPassword('');
-        setConfirmPassword('');
-        setError('');
-        setSuccess(true);
-      } else {
-        console.error('Failed to add user');
-        setError('Failed to add user');
-      }
+        alert('Đăng kí thành công');  
+        navigate('/login');
     } catch (error) {
       console.error('Error:', error);
       setError('Error: ' + error.message);
@@ -67,12 +56,8 @@ function RegisterBoard() {
             <Image src={logo} roundedCircle style={{ width: '100%', maxWidth: '100%' }} />
           </Col>
           <Col md={6} style={{ padding: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            {success ? (
-              <div style={{ textAlign: 'center' }}>
-                <h2>Đăng kí thành công</h2>
-              </div>
-            ) : (
-              <Form onSubmit={handleSubmit} style={{ width: '100%', textAlign: 'center' }}>
+            
+              <Form  style={{ width: '100%', textAlign: 'center' }}>
                 <h2>Đăng kí tài khoản</h2>
                 <Form.Group className="mb-3" controlId="formGroupNameShop">
                   <div className='input-box'>
@@ -109,7 +94,7 @@ function RegisterBoard() {
                 </Form.Group>
 
                 <div className='input-box button'>
-                  <Button variant="dark" type="submit" style={{ width: '100%' }}>
+                  <Button variant="dark" type="submit" style={{ width: '100%' }} onClick={handleSubmit}>
                     Đăng kí
                   </Button>
                 </div>
@@ -117,7 +102,7 @@ function RegisterBoard() {
                   By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
                 </p>
               </Form>
-            )}
+            
           </Col>
         </Row>
       </Container>
