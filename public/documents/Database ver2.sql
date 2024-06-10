@@ -172,10 +172,13 @@ CREATE TABLE Notifications (
 );
 go
 
+
+--Create table Supports
 CREATE TABLE Supports (
     SupportID INT identity(1,1) PRIMARY KEY,
     UserID INT,
 	AdminID INT,
+	SupportTitle NVARCHAR(50),
     SupportRequest TEXT,
 	SupportResponse TEXT null,
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
@@ -743,16 +746,16 @@ go
 
 
 --insert Supports
-insert into Supports (UserID, AdminID, SupportRequest) values (2, 1, 'How much wood would a woodchuck chuck if a woodchuck could chuck wood?');
-insert into Supports (UserID, AdminID, SupportRequest) values (3, 1, 'All work and no play makes Jack a dull boy.');
-insert into Supports (UserID, AdminID, SupportRequest) values (1, 1, 'To be or not to be');
-insert into Supports (UserID, AdminID, SupportRequest) values (1, 1, 'The quick brown fox jumps over the lazy dog.');
-insert into Supports (UserID, AdminID, SupportRequest) values (2, 1, 'Lorem ipsum dolor sit amet');
-insert into Supports (UserID, AdminID, SupportRequest) values (3, 1, 'Lorem ipsum dolor sit amet');
-insert into Supports (UserID, AdminID, SupportRequest) values (2, 1, 'To be or not to be');
-insert into Supports (UserID, AdminID, SupportRequest) values (1, 1, 'consectetur adipiscing elit.');
-insert into Supports (UserID, AdminID, SupportRequest) values (1, 1, 'that is the question.');
-insert into Supports (UserID, AdminID, SupportRequest) values (5, 1, 'that is the question.');
+insert into Supports (UserID, AdminID, SupportTitle, SupportRequest) values (2, 1, 'Support A', 'How much wood would a woodchuck chuck if a woodchuck could chuck wood?');
+insert into Supports (UserID, AdminID, SupportTitle, SupportRequest) values (3, 1, 'Support B', 'All work and no play makes Jack a dull boy.');
+insert into Supports (UserID, AdminID, SupportTitle, SupportRequest) values (1, 1, 'Support C', 'To be or not to be');
+insert into Supports (UserID, AdminID, SupportTitle, SupportRequest) values (1, 1, 'Support D', 'The quick brown fox jumps over the lazy dog.');
+insert into Supports (UserID, AdminID, SupportTitle, SupportRequest) values (2, 1, 'Support E', 'Lorem ipsum dolor sit amet');
+insert into Supports (UserID, AdminID, SupportTitle, SupportRequest) values (3, 1, 'Support F', 'Lorem ipsum dolor sit amet');
+insert into Supports (UserID, AdminID, SupportTitle, SupportRequest) values (2, 1, 'Support G', 'To be or not to be');
+insert into Supports (UserID, AdminID, SupportTitle, SupportRequest) values (1, 1, 'Support H', 'consectetur adipiscing elit.');
+insert into Supports (UserID, AdminID, SupportTitle, SupportRequest) values (1, 1, 'Support I', 'that is the question.');
+insert into Supports (UserID, AdminID, SupportTitle, SupportRequest) values (5, 1, 'Support J', 'that is the question.');
 --select * from Supports
 --delete from Supports
 --DBCC CHECKIDENT (Supports, RESEED, 0);
