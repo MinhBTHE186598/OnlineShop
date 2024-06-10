@@ -27,6 +27,13 @@ function EditBannerModal({show,onHide,Banner, onUpdate}) {
       }
     )
   }, [])
+
+  function getCategory(id){
+    let intID=+id;
+    let cate = categories.find(cate=> cate.CategoryID === intID)
+    return cate ? cate.CategoryName : 'Category not found'
+  }
+
   let banneru = {
     AdminID:adminID,
     CategoryID:categoryID,
@@ -35,7 +42,7 @@ function EditBannerModal({show,onHide,Banner, onUpdate}) {
     UserAccountName:Banner.UserAccountName,
     UserFirstName:Banner.UserFirstName,
     UserLastName:Banner.UserLastName,
-    CategoryName:(categories.map(cate=>cate.CategoryID===categoryID?cate.CategoryName:null))
+    CategoryName:(getCategory(categoryID))
   }
 
   const handleSubmit = async (e) => {
@@ -46,6 +53,7 @@ function EditBannerModal({show,onHide,Banner, onUpdate}) {
         bannerPic,
         categoryID,
       });
+      //console.dir(banneru)
       onUpdate(banneru)
       if (response.status === 200) {
         console.log('Banner edited successfully');

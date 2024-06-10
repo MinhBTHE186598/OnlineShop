@@ -20,6 +20,11 @@ function AddBannerModal({ show, onHide, onAdd,bannerID }) {
     )
   }, [])
   
+  function getCategory(id){
+    let intID=+id;
+    let cate = categories.find(cate=> cate.CategoryID === intID)
+    return cate ? cate.CategoryName : 'Category not found'
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +42,7 @@ function AddBannerModal({ show, onHide, onAdd,bannerID }) {
         UserAccountName: "N/A",
         UserFirstName: "N/A",
         UserLastName: "N/A",
-        CategoryName: (categories.find((cate) => cate.CategoryID === (categoryID)))
+        CategoryName: getCategory(categoryID)
       }
       console.dir(banner)
       onAdd(banner)
