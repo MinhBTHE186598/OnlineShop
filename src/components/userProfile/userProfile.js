@@ -13,13 +13,44 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../utility/register.css';
 import { Table } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
-function Profile() {
+function Profile(props) {
     const borderColor = '#0d6efd';
-
+    const navigate = useNavigate();
     const { user, setUser, userRole, setUserRole, isLogin, setIsLogin } = useUser();
 
+    const [userList, setUserList] = React.useState([]);
+    React.useEffect(() => {
+        fetch("http://localhost:5000/user/get")
+          .then(response => response.json())
+          .then(data => {
+            setUserList(data)
+          })
+      }, [])
+
+    const handleDelete = (user) => {
+        if (window.confirm("Bạn muốn xóa tài khoản này?")) {
+            fetch(`http://localhost:5000/user/delete/${user.UserID}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                
+            })})
+            setUser(null);
+            setIsLogin(false);
+            setUserRole(null);
+            navigate('/login');
+        }
+    }
+
+    let isMyProfile = (user.UserID.toString() === props.id);
+
+    const profile = userList.find(profile => profile.UserID.toString() === props.id);
     return (
+        profile ? (
         <Container fluid style={{ backgroundImage: `url(${bgi})`, backgroundSize: 'cover', minHeight: '900px' }}>
             <Row>
                 <Col md={3} style={{ backgroundColor: '#f8f9fa', display: 'flex', flexDirection: 'column', alignItems: 'center', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '8%', minHeight: '900px' }}>
@@ -35,16 +66,16 @@ function Profile() {
                         marginTop: '20vh',
                         boxShadow: '0 6px 6px rgba(0, 0, 0, 0.1)',
                     }}>
-                        <Image src={user.UserPFP} roundedCircle fluid />
+                        <Image src={profile.UserPFP} roundedCircle fluid />
                     </div>
                     <div style={{ marginTop: '20px', textAlign: 'center', width: '100%' }}>
-                        <h3>{user.UserFirstName} {user.UserLastName}</h3>
+                        <h3>{profile.UserFirstName} {profile.UserLastName}</h3>
                     </div>
                     <div>
                         <p style={{ marginBottom: '0px' }}>{userRole}</p>
                     </div>
                     <div>
-                        <p>ID: {user.UserID}</p>
+                        <p>ID: {profile.UserID}</p>
 
                     </div>
                     <hr style={{ color: 'red', width: '300px' }} />
@@ -89,7 +120,7 @@ function Profile() {
                     </div>
                 </Col>
 
-                <Col md={7} style={{ backgroundColor: '#f8f9fa', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '10px' }}>
+                <Col md={7} style={{ backgroundColor: '#f8f9fa', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '10px', height:'auto'}}>
                     <div style={{ marginTop: '15vh', marginLeft: '5vh' }}>
                         <h1><b>HỒ SƠ CỦA TÔI</b></h1>
                         <p>Hãy cập nhật hồ sơ để tăng bảo mật cho tài khoản của bạn</p>
@@ -109,7 +140,7 @@ function Profile() {
                             </tr>
                             <tr>
                                 <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Tên đăng nhập</td>
-                                <td>{user.UserAccountName}</td>
+                                <td>{profile.UserAccountName}</td>
                                 <td></td>
                             </tr>
                             <tr style={{ borderBottom: '1px solid black' }}>
@@ -124,17 +155,17 @@ function Profile() {
                             </tr>
                             <tr>
                                 <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Địa chỉ nhận hàng</td>
-                                <td>{user.UserAddress}</td>
+                                <td>{profile.UserAddress}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Email</td>
-                                <td>{user.UserEmail}</td>
+                                <td>{profile.UserEmail}</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Số điện thoại</td>
-                                <td >{user.UserPhone}</td>
+                                <td >{profile.UserPhone}</td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -152,9 +183,26 @@ function Profile() {
                     >
                         Bạn đang gặp vấn đề? Liên hệ với chúng tôi ngay!
                     </Button>
+                    {isMyProfile ? (
+                    <Button style={{ position: 'absolute', marginTop: '7vh', marginLeft: '10vw', width: '40vw', height: '50px', backgroundColor: 'white', borderColor: 'red', color: `red` }}
+                        onMouseEnter={(e) => {
+                            e.target.style.backgroundColor = `red`;
+                            e.target.style.color = 'white'
+                        }}
+
+                        onMouseLeave={(e) => {
+                            e.target.style.backgroundColor = 'white';
+                            e.target.style.color = `red`
+                        }}
+                        onClick={handleDelete}
+                    >
+                        TÔI MUỐN XOÁ TÀI KHOẢN CỦA MÌNH
+                    </Button>
+                    ) : null}
                 </Col>
             </Row>
         </Container>
+        ) : null 
     );
 }
 
