@@ -202,7 +202,9 @@ function Profile(props) {
                                 <tr style={{ borderBottom: '1px solid black' }}>
                                     <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Mật khẩu</td>
                                     <td>***********</td>
+                                    {isMyProfile ? (
                                     <td style={{ textAlign: 'end' }}><a href="/">Đổi mật khẩu</a></td>
+                                    ) : null}
                                 </tr>
                                 <tr style={{ borderBottom: '1px solid black', height: '50px' }}>
                                     <td></td>
