@@ -62,7 +62,7 @@ function ProductCardBig(props) {
                 </Card.Text>
                 {sellers.map(seller => {
                     if (seller.SellerID === props.seller) {
-                        return <a href='/home' style={{ textDecoration: 'none'}} key={seller.SellerID}>{seller.SellerName}</a>
+                        return <a href={`/profile/${seller.UserID}`} style={{ textDecoration: 'none'}} key={seller.SellerID}>{seller.SellerName}</a>
                     }
                     return null
                 })}

@@ -46,7 +46,7 @@ function MainShopItemList(props) {
   const [sellers, setSellers] = React.useState([]);
   const [products, setProducts] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [itemsPerPage] = React.useState(15);
+  const [itemsPerPage] = React.useState(16);
   const [filter, setFilter] = React.useState({
     category: Number(props.id) === 0 ? '%' : props.id,
     order: 'ProductID asc',

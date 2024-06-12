@@ -45,10 +45,9 @@ function Profile(props) {
             navigate('/login');
         }
     }
+    const isMyProfile = (user && user.UserID.toString() === props.id);
 
-    let isMyProfile = (user.UserID.toString() === props.id);
-
-    const profile = userList.find(profile => profile.UserID.toString() === props.id);
+    const profile = userList.find(User=> User.UserID.toString() === props.id);
     return (
         profile ? (
         <Container fluid style={{ backgroundImage: `url(${bgi})`, backgroundSize: 'cover', minHeight: '900px' }}>
