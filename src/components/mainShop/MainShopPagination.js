@@ -20,7 +20,9 @@ const MainShopPagination = ({ products }) => {
                     description={product.ProductDescription}
                     price={product.ProductPrice}
                     seller={product.SellerID}
-                    star={product.ProductID} />
+                    star={product.ProductID}
+                    category={product.CategoryID}
+                    quantity={product.ProductQuantity} />
             ))}
         </div>
     )

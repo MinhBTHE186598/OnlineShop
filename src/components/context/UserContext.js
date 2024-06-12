@@ -37,6 +37,7 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem('isLogin', JSON.stringify(isLogin));
   }, [user, userRole, isLogin]);
 
+
   const value = { user, setUser, userRole, setUserRole, isLogin, setIsLogin };
   return (
     <UserContext.Provider value={value}>

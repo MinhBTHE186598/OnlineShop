@@ -7,7 +7,7 @@ import ProductMain from '../components/product/ProductMain'
 function Product() {
     const { id } = useParams();
     return (
-        <div>
+        <div style={{backgroundColor: '#0d6efd',paddingTop:'10vh'}}>
             <Header />
             <ProductMain id={id}/>
             <Footer />
