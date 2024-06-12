@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 import Carousel from 'react-bootstrap/Carousel';
+import ProductReview from './ProductReview';
+import { FaStar } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa";
+import Button from 'react-bootstrap';
 
 const containerStyle = {
     backgroundColor: '#fff',
     borderRadius: '10px',
-    height: '100vh',
+    height: 'max-content',
     width: '90vw',
     margin: '10vh auto',
-    padding: '10px'
+    padding: '20px',
+    overflow: 'auto'
+}
+
+const StarStyle = {
+    display: 'flex',
+    margin: "5px 0",
+    fontSize: 'larger',
+    color: 'orange'
 }
 
 function ProductMain(props) {
     const [productList, setProductList] = useState([]);
-    const [productReview, setProductReview] = useState([]);
+    const [stars, setStars] = useState([])
     const [sellerList, setSellerList] = useState([]);
     const [categories, setCategories] = useState([]);
 
@@ -28,9 +40,9 @@ function ProductMain(props) {
                 const dataSeller = await responseSeller.json();
                 setSellerList(dataSeller);
 
-                const responseReview = await fetch("http://localhost:5000/productReview/get");
+                const responseReview = await fetch("http://localhost:5000/productReview/getStar");
                 const dataReview = await responseReview.json();
-                setProductReview(dataReview);
+                setStars(dataReview);
 
                 const responseProduct = await fetch("http://localhost:5000/product/get");
                 const dataProduct = await responseProduct.json();
@@ -70,7 +82,16 @@ function ProductMain(props) {
                         <a href={`/profile/${sellerList.find(seller => seller.SellerID === product.SellerID).UserID}`}>Người bán: {sellerList.find(seller => seller.SellerID === product.SellerID).SellerName}</a>
                         <p>Số lượng đăng bán: {product.ProductQuantity}</p>
                         <p style={{ color: product.ProductQuantity === 0 ? 'red' : 'green' }}>Tình trạng: {product.ProductQuantity === 0 ? 'Hết hàng' : 'Còn hàng'}</p>
+                        <div style={StarStyle}>
+                            {Array(stars.find(star => star.ProductID === product.ProductID)?.ProductStar || 0).fill(<FaStar />)}
+                            {Array(5 - (stars.find(star => star.ProductID === product.ProductID)?.ProductStar || 0)).fill(<FaRegStar />)}
+                        </div>
                         <p>{product.ProductPrice}</p>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <ProductReview id={product.ProductID} />
                     </Col>
                 </Row>
             </Container>
