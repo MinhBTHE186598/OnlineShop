@@ -53,10 +53,12 @@ function HomeItemList() {
                 name={product.ProductName}
                 pic={product.ProductPic}
                 description={product.ProductDescription}
-                price={product.ProductPrice} 
+                price={product.ProductPrice}
                 seller={product.SellerID}
                 star={product.ProductID}
-                />
+                category={product.CategoryID}
+                quantity={product.ProductQuantity}
+              />
             ))}
           </div>
         </Carousel.Item>
@@ -68,9 +70,11 @@ function HomeItemList() {
                 pic={product.ProductPic}
                 description={product.ProductDescription}
                 price={product.ProductPrice}
-                seller={product.SellerID} 
+                seller={product.SellerID}
                 star={product.ProductID}
-                />
+                category={product.CategoryID}
+                quantity={product.ProductQuantity}
+              />
             ))}
           </div>
         </Carousel.Item>
@@ -82,9 +86,11 @@ function HomeItemList() {
                 pic={product.ProductPic}
                 description={product.ProductDescription}
                 price={product.ProductPrice}
-                seller={product.SellerID} 
+                seller={product.SellerID}
                 star={product.ProductID}
-                />
+                category={product.CategoryID}
+                quantity={product.ProductQuantity}
+              />
             ))}
           </div>
         </Carousel.Item>

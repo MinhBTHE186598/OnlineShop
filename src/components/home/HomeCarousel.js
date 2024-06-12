@@ -11,7 +11,8 @@ const imageStyle = {
 }
 
 function HomeCarousel() {
-  const [bannerList, setBannerList] = useState([{}])
+  const [bannerList, setBannerList] = useState([{}]);
+  // const [categories, setCategories] = useState([{}]);
 
   useEffect(() => {
     fetch("http://localhost:5000/banner/get").then(
@@ -23,6 +24,16 @@ function HomeCarousel() {
     )
   }, [])
 
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/category/getCategories").then(
+  //     response => response.json()
+  //   ).then(
+  //     data => {
+  //       setCategories(data)
+  //     }
+  //   )
+  // }, [])
+
 
   return (
     <div style={{ padding: '50px 0', width: '90vw', margin: 'auto' }}>
@@ -30,10 +41,9 @@ function HomeCarousel() {
         {bannerList.map((banner, index) => (
           <Carousel.Item key={index}>
             <img className="d-block w-100" src={banner.BannerPic} alt={banner.BannerID} style={imageStyle} />
-            <Carousel.Caption>
-              <h5>Title</h5>
-              <p>Caption</p>
-            </Carousel.Caption>
+            {/* <Carousel.Caption>
+              <h5>{categories.find(category => category.CategoryID === banner.CategoryID).CategoryName}</h5>
+            </Carousel.Caption> */}
           </Carousel.Item>
         ))}
       </Carousel>
