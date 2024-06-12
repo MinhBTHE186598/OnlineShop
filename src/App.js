@@ -13,6 +13,7 @@ import Profile from './webpages/UserProfile';
 import Product from './webpages/Product';
 import { UserProvider } from './components/context/UserContext';
 import HomeManager from './webpages/HomeManager';
+import ContactForm from './webpages/contactUs';
 function App() {
   return (
     <div>
@@ -34,6 +35,7 @@ function App() {
             <Route path="/profile/:id" element={<Profile />} />
             <Route path='/product/:id' element={<Product />} />
             <Route path='/homeManager' element={<HomeManager/>}/>
+            <Route path='/contact' element={<ContactForm/>}/>
           </Routes>
         </BrowserRouter>
       </UserProvider>
