@@ -53,7 +53,7 @@ function EditSellerModal({ show, onHide, Seller = {}, onUpdate }) {
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Edit Seller</Modal.Title>
+        <Modal.Title>Update Seller Information</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
