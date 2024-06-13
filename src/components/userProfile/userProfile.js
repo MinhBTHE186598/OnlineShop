@@ -19,7 +19,7 @@ function Profile(props) {
     const borderColor = '#0d6efd';
     const navigate = useNavigate();
     const { user, setUser, setUserRole, setIsLogin } = useUser();
-
+    
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = () => setShowEdit(true);

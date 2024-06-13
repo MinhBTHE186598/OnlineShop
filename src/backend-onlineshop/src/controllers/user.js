@@ -58,7 +58,17 @@ const getUserByID = async (req, res) => {
         console.error(err);
         res.status(500).send('Server Error');
     }
-
 }
 
-module.exports = { getUser, deleteUser, registerUser, getUserByID } //export getUser
+const updateUser = async (req, res) => {
+    try {
+        const {Password, Address, Email, Phone, FirstName, LastName, PFP, userID} = req.body;
+        const result = await sql.query`update Users set UserPassword = ${Password}, UserPFP = ${PFP}, UserEmail = ${Email}, UserAddress = ${Address}, UserPhone = ${Phone}, UserFirstName = ${FirstName}, UserLastName = ${LastName} where UserID = ${userID}`;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
+module.exports = { getUser, deleteUser, registerUser, getUserByID, updateUser } //export getUser
