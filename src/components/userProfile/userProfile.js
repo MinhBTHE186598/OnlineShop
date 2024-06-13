@@ -1,11 +1,11 @@
 import React from 'react';
-// import Form from 'react-bootstrap/Form';
+
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { useState, useEffect } from 'react';
-// import axios from 'axios';
+import EditProfileModal from './editProfile';
 import Image from 'react-bootstrap/Image';
-import logo from '../../utility/testlogo.png';
+
 import bgi from '../../utility/background_1.jpg';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -18,7 +18,11 @@ import { useNavigate } from 'react-router-dom';
 function Profile(props) {
     const borderColor = '#0d6efd';
     const navigate = useNavigate();
-    const { user, setUser, userRole, setUserRole, isLogin, setIsLogin } = useUser();
+    const { user, setUser, setUserRole, setIsLogin } = useUser();
+
+    const [showEdit, setShowEdit] = useState(false);
+    const handleCloseEdit = () => setShowEdit(false);
+    const handleShowEdit = () => setShowEdit(true);
 
     const [sellerList, setSellerList] = useState([]);
     const [sellManagerList, setSellManagerList] = useState([]);
@@ -123,7 +127,6 @@ function Profile(props) {
                         </div>
                         <div style={{ marginTop: '20px', textAlign: 'center', width: '100%' }}>
                             <h3>{profile.UserFirstName} {profile.UserLastName}</h3>
-                            {console.log(profileRole)}
                         </div>
                         <div>
                             <p style={{ marginBottom: '0px' }}>{profileRole}</p>
@@ -169,7 +172,8 @@ function Profile(props) {
                                 onMouseLeave={(e) => {
                                     e.target.style.backgroundColor = 'white';
                                     e.target.style.color = `${borderColor}`
-                                }}>
+                                }}
+                                onClick={() => {setShowEdit(true)}}>
                                 Edit Profile
                             </Button>
                         </div>
@@ -259,6 +263,7 @@ function Profile(props) {
                         ) : null}
                     </Col>
                 </Row>
+                <EditProfileModal show={showEdit} onHide={handleCloseEdit}/>
             </Container>
         ) : null
     );
