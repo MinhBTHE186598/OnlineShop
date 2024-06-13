@@ -64,7 +64,7 @@ function ProductCardSmall(props) {
         <Card style={CardStyle}>
             <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 1px black', borderRadius: '0px' }} />
             <Card.Body style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-                <Card.Title style={{ textAlign: 'center',fontSize:'x-large' }}><a href={`/product/${props.star}`} style={{ textDecoration: 'none', color: '#0e0e0e' }}><p style={Clamp}>{props.name}</p></a></Card.Title>
+                <Card.Title style={{ textAlign: 'center',fontSize:'x-large' }}><a href={`/product/${props.star}`} style={{ textDecoration: 'none', color: '#0d6efd' }}><p style={Clamp}>{props.name}</p></a></Card.Title>
                 <div>
                     <p style={Clamp}>{props.description}</p>
                     <p style={{...Clamp, marginBottom: '20px'}}>Người bán: {sellers.map(seller => {

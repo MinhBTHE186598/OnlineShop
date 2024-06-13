@@ -57,7 +57,7 @@ function ProductReview(props) {
                         <Col md={10} style={{ padding: '20px' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <div>
-                                    <p style={{ margin: '0px' }}>{`${currentUser?.UserFirstName} ${currentUser?.UserLastName}`}</p>
+                                    <a href={`/profile/${currentUser?.UserID}`} style={{ margin: '0px', textDecoration: 'none', fontSize: 'larger' }}>{`${currentUser?.UserFirstName} ${currentUser?.UserLastName}`}</a>
                                     <p style={{ margin: '0px' }}>{item.ProductReviewDate}</p>
                                     <div style={StarStyle}>
                                         {[...Array(5)].map((star, index) => {
