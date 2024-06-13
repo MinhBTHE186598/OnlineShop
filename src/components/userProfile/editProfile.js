@@ -47,48 +47,48 @@ function EditProfileModal({ show, onHide }) {
         <div>
             <Modal show={show} onHide={onHide} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Profile</Modal.Title>
+                    <Modal.Title>Chỉnh Sửa Hồ Sơ Cá Nhân</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Label>Username</Form.Label>
+                        <Form.Label>Tên đăng nhập</Form.Label>
                         <Form.Control type="text" value={user.UserAccountName} disabled readOnly />
                         <Form.Group>
-                            <Form.Label>Password</Form.Label>
+                            <Form.Label>Mật khẩu</Form.Label>
                             <Form.Control type="text" defaultValue={user.UserPassword} onChange={(e) => setPassword(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Picture</Form.Label>
+                            <Form.Label>Ảnh đại diện</Form.Label>
                             <Form.Control type="text" defaultValue={user.UserPFP} onChange={(e) => setPFP(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>First Name</Form.Label>
+                            <Form.Label>Tên</Form.Label>
                             <Form.Control type="text" defaultValue={user.UserFirstName} onChange={(e) => setFirstName(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Last Name</Form.Label>
+                            <Form.Label>Họ</Form.Label>
                             <Form.Control type="text" defaultValue={user.UserLastName} onChange={(e) => setLastName(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Address</Form.Label>
+                            <Form.Label>Địa chỉ</Form.Label>
                             <Form.Control type="text" defaultValue={user.UserAddress} onChange={(e) => setAddress(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label>Email liên hệ</Form.Label>
                             <Form.Control type="text" defaultValue={user.UserEmail} onChange={(e) => setEmail(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Phone Number</Form.Label>
+                            <Form.Label>Số điện thoại</Form.Label>
                             <Form.Control type="text" defaultValue={user.UserPhone} onChange={(e) => setPhone(e.target.value)} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={() => { handleSubmit(); window.location.reload()}}>
-                        Save Changes
+                        Lưu thay đổi
                     </Button>
                     <Button variant="secondary" onClick={onHide}>
-                        Close
+                        Đóng
                     </Button>
                 </Modal.Footer>
             </Modal>

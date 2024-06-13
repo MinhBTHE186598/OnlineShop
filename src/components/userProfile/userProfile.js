@@ -155,7 +155,7 @@ function Profile(props) {
                                     e.target.style.backgroundColor = 'white';
                                     e.target.style.color = 'orange'
                                 }}>
-                                Shop Register
+                                Đăng Ký Bán Hàng
                             </Button>
                             <Button style={{
                                 width: '200px',
@@ -174,7 +174,7 @@ function Profile(props) {
                                     e.target.style.color = `${borderColor}`
                                 }}
                                 onClick={() => {setShowEdit(true)}}>
-                                Edit Profile
+                                Chỉnh Sửa Hồ Sơ
                             </Button>
                         </div>
                         ) : null}
