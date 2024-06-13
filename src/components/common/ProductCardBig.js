@@ -62,7 +62,7 @@ function ProductCardBig(props) {
 
     return (
         <Card style={CardStyle}>
-            <Card.Img variant="top" src={props.pic} />
+            <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 2px black'}} />
             <Card.Body>
                 <Card.Title style={{ textAlign: 'center', fontSize: 'x-large' }}><a href={`/product/${props.star}`} style={{ textDecoration: 'none', color: 'black' }}>{props.name}</a></Card.Title>
                 <div>
