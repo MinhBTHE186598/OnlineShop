@@ -32,9 +32,9 @@ const getProductByID = async (req, res) => {
 
 const addProduct = async (req, res) => {
     try {
-        const { productName, productCategory, productPrice, productPic, productQuantity, productDesc } = req.body;
+        const { sellerID, productName, productCategory, productPrice, productPic, productQuantity, productDesc } = req.body;
         await sql.query`insert into Products (SellerID, CategoryID, ProductName, ProductDescription, ProductPrice, ProductQuantity, ProductPic, ProductStatus)
-        values(1, ${productCategory}, ${productName}, ${productDesc}, ${productPrice}, ${productQuantity},${productPic}, N'Chờ xác thực')`;
+        values(${sellerID}, ${productCategory}, ${productName}, ${productDesc}, ${productPrice}, ${productQuantity},${productPic}, N'Chờ xác thực')`;
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');

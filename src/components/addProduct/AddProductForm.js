@@ -3,8 +3,13 @@ import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useUser } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
+
 
 function AddProductForm() {
+    const { user } = useUser();
+    const navigate = useNavigate();
     const [productName, setPName] = useState('');
     const [productCategory, setSelectedOption] = useState('');
     const [productPrice, setPPrice] = useState('')
@@ -13,6 +18,9 @@ function AddProductForm() {
     const [productDesc, setPDesc] = useState('')
 
     const [categoryList, setCategories] = useState([{}])
+
+    const [sellerList, setSellerList] = useState([]);
+
 
     const bgimg = `https://images.pexels.com/photos/6985003/pexels-photo-6985003.jpeg?cs=srgb&dl=pexels-codioful-6985003.jpg&fm=jpg`
 
@@ -26,10 +34,27 @@ function AddProductForm() {
         )
       }, [])
 
+    React.useEffect(() => {
+        fetch("http://localhost:5000/seller/get")
+            .then(response => response.json())
+            .then(data => {
+                setSellerList(data)
+            })
+    }, [])
+
+    const getSellerID = () => {
+        const seller = sellerList.find(seller => seller.UserID === user.UserID);
+        if (seller) return seller.SellerID;
+        else return null;
+    }
+
+    const sellerID = getSellerID();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/product/addProduct', {
+                sellerID,
                 productName,
                 productCategory,
                 productPrice,
@@ -48,6 +73,7 @@ function AddProductForm() {
     };
 
     return (
+        sellerID ? (
         <Container fluid style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', marginTop: '50px', backgroundImage: `url(${bgimg})`, width: '100%', backgroundSize: 'cover'}}>
             <div style={{ backgroundColor: 'white', width: '100%', maxWidth: '600px', padding: '20px', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0 ,0, 0.1)' }}>
                 <Form onSubmit={handleSubmit}>
@@ -93,6 +119,7 @@ function AddProductForm() {
                 </Form>
             </div>
         </Container>
+        ) : navigate('/home')
     );
 }
 
