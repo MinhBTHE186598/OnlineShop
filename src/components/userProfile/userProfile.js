@@ -71,9 +71,9 @@ function Profile(props) {
         const seller = sellerList.find(seller => seller.UserID === id);
         const sellManager = sellManagerList.find(sellManager => sellManager.UserID === id);
         const admin = AdminList.find(admin => admin.UserID === id);
-        if (seller) return "Seller";
-        else if (sellManager) return "SellManager";
-        else if (admin) return "Admin";
+        if (seller) return "Seller | SellerID:" + seller.SellerID;
+        else if (sellManager) return "SellManager | SellManagerID:" + sellManager.SellManagerID;
+        else if (admin) return "Admin | AdminID:" + admin.AdminID;
         else return "User";
     }
 
@@ -95,10 +95,11 @@ function Profile(props) {
         }
     }
     const isMyProfile = (user && user.UserID.toString() === props.id);
-
+    
     const profile = userList.find(User => User.UserID.toString() === props.id);
 
     const [profileRole, setProfileRole] = useState("");
+    const isSeller = profileRole.startsWith("User");
 
     useEffect(() => {
         if (profile) {
@@ -108,7 +109,7 @@ function Profile(props) {
 
     return (
         profile ? (
-            <Container fluid style={{ backgroundImage: `url(${bgi})`, backgroundSize: 'cover', minHeight: '900px' }}>
+            <Container fluid style={{ backgroundImage: `url(${bgi})`, backgroundSize: 'cover', minHeight: '900px', height:'auto' }}>
                 <Row>
                     <Col md={3} style={{ backgroundColor: '#f8f9fa', display: 'flex', flexDirection: 'column', alignItems: 'center', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '8%', minHeight: '900px' }}>
                         <div style={{
@@ -126,18 +127,19 @@ function Profile(props) {
                             <Image src={profile.UserPFP} roundedCircle fluid />
                         </div>
                         <div style={{ marginTop: '20px', textAlign: 'center', width: '100%' }}>
-                            <h3>{profile.UserFirstName} {profile.UserLastName}</h3>
+                            <h3 >{profile.UserFirstName} {profile.UserLastName}</h3>
                         </div>
                         <div>
-                            <p style={{ marginBottom: '0px' }}>{profileRole}</p>
+                            <p style={{ marginBottom: '0px' }}>{profileRole} </p>
                         </div>
                         <div>
-                            <p>ID: {profile.UserID}</p>
+                            <p>UID: {profile.UserID}</p>
 
                         </div>
                         <hr style={{ color: 'red', width: '300px' }} />
                         {isMyProfile ?(
                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                            {isSeller ? (
                             <Button style={{
                                 width: '200px',
                                 height: '50px',
@@ -154,9 +156,11 @@ function Profile(props) {
                                 onMouseLeave={(e) => {
                                     e.target.style.backgroundColor = 'white';
                                     e.target.style.color = 'orange'
-                                }}>
+                                }}
+                                onClick={() => {navigate('/addSeller')}}>
                                 Đăng Ký Bán Hàng
                             </Button>
+                            ): null}
                             <Button style={{
                                 width: '200px',
                                 height: '50px',
@@ -206,9 +210,6 @@ function Profile(props) {
                                 <tr style={{ borderBottom: '1px solid black' }}>
                                     <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Mật khẩu</td>
                                     <td>***********</td>
-                                    {isMyProfile ? (
-                                    <td style={{ textAlign: 'end' }}><a href="/">Đổi mật khẩu</a></td>
-                                    ) : null}
                                 </tr>
                                 <tr style={{ borderBottom: '1px solid black', height: '50px' }}>
                                     <td></td>
