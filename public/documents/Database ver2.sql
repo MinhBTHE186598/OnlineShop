@@ -18,12 +18,12 @@ go
 --Create table Users
 CREATE TABLE Users (
     UserID INT identity(1,1) PRIMARY KEY,
-    UserAccountName VARCHAR(255),
-    UserPassword VARCHAR(255),
-    UserPFP VARCHAR(255),
-    UserEmail VARCHAR(255),
+    UserAccountName NVARCHAR(255),
+    UserPassword NVARCHAR(255),
+    UserPFP NVARCHAR(255),
+    UserEmail NVARCHAR(255),
     UserAddress NVARCHAR(255),
-    UserPhone VARCHAR(20),
+    UserPhone NVARCHAR(20),
     UserFirstName NVARCHAR(255),
     UserLastName NVARCHAR(255)
 );
@@ -66,16 +66,26 @@ go
 
 
 
+--Create table Shippers
+CREATE TABLE Shippers (
+    ShipperID INT identity(1,1) PRIMARY KEY,
+    UserID INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+go
+
+
+
 --Create table Products
 CREATE TABLE Products (
     ProductID INT identity(1,1) PRIMARY KEY,
     SellerID INT,
     CategoryID INT,
     ProductName NVARCHAR(255),
-    ProductDescription TEXT,
+    ProductDescription NVARCHAR(255),
     ProductPrice INT,
     ProductQuantity INT,
-    ProductPic VARCHAR(255),
+    ProductPic NVARCHAR(255),
     ProductStatus NVARCHAR(50),
     FOREIGN KEY (SellerID) REFERENCES Sellers(SellerID),
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
@@ -89,9 +99,9 @@ CREATE TABLE SellerReviews (
     SellerReviewID INT identity(1,1) PRIMARY KEY,
     UserID INT,
     SellerID INT,
-    SellerReviewDate VARCHAR(255),
+    SellerReviewDate NVARCHAR(255),
     SellerReviewStar INT,
-    SellerReviewText TEXT,
+    SellerReviewText NVARCHAR(255),
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
     FOREIGN KEY (SellerID) REFERENCES Sellers(SellerID)
 );
@@ -103,7 +113,7 @@ go
 CREATE TABLE Bills (
     BillID INT identity(1,1) PRIMARY KEY,
     UserID INT,
-    BillDate VARCHAR(255) null,
+    BillDate NVARCHAR(255) null,
     BillStatus NVARCHAR(50),
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
@@ -116,10 +126,13 @@ CREATE TABLE BillDetails (
     BillDetailID INT identity(1,1) PRIMARY KEY,
     BillID INT,
     ProductID INT,
-    BillDetailDate VARCHAR(255),
+    BillDetailDate NVARCHAR(255),
     BillQuantity INT,
+	BillDetailStatus NVARCHAR(255),
+	ShipperID INT,
     FOREIGN KEY (BillID) REFERENCES Bills(BillID),
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+	FOREIGN KEY (ShipperID) REFERENCES Shippers(ShipperID)
 );
 go
 
@@ -130,9 +143,9 @@ CREATE TABLE ProductReviews (
     ProductReviewID INT identity(1,1) PRIMARY KEY,
     UserID INT,
     ProductID INT,   
-    ProductReviewDate VARCHAR(255),
+    ProductReviewDate NVARCHAR(255),
     ProductReviewStar INT,
-	ProductReviewText TEXT,
+	ProductReviewText NVARCHAR(255),
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
@@ -155,7 +168,7 @@ CREATE TABLE Banners (
     BannerID INT identity(1,1) PRIMARY KEY,
     AdminID INT,
     CategoryID INT,
-    BannerPic VARCHAR(255),
+    BannerPic NVARCHAR(255),
     FOREIGN KEY (AdminID) REFERENCES Admins(AdminID),
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 );
@@ -167,7 +180,7 @@ go
 CREATE TABLE Notifications (
     NotificationID INT identity(1,1) PRIMARY KEY,
     UserID INT,
-    NotificationText TEXT,
+    NotificationText NVARCHAR(255),
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 go
@@ -179,8 +192,8 @@ CREATE TABLE Supports (
     UserID INT,
 	AdminID INT,
 	SupportTitle NVARCHAR(50),
-    SupportRequest TEXT,
-	SupportResponse TEXT null,
+    SupportRequest NVARCHAR(255),
+	SupportResponse NVARCHAR(255) null,
     FOREIGN KEY (UserID) REFERENCES Users(UserID),
 	FOREIGN KEY (AdminID) REFERENCES Admins(AdminID)
 );
@@ -222,12 +235,15 @@ insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddres
 insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('manager12', '12345', 'https://robohash.org/utaliascommodi.png?size=300x300&set=set1', 'bmyatt1b@answers.com', '5 Upham Hill', '6661370906', 'Bale', 'Myatt');
 insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('admin1', '12345', 'https://robohash.org/eligendivoluptatemdolorem.png?size=300x300&set=set1', 'ecapinetti1c@dailymail.co.uk', '9094 Chive Court', '6983227695', 'Elisha', 'Capinetti');
 insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('admin2', '12345', 'https://robohash.org/molestiaeeaquenemo.png?size=300x300&set=set1', 'aayres1d@privacy.gov.au', '1 Spaight Trail', '9342731151', 'Amabel', 'Ayres');
-insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user6', '12345', 'https://robohash.org/eoslaboriosamqui.png?size=300x300&set=set1', 'kpleasaunce0@businessweek.com', '57 Spohn Drive', '670-633-9360', 'Karola', 'Pleasaunce');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user6', '12345', 'https://robohash.org/eoslaboriosamqui.png?size=300x300&set=set1', 'kpleasaunce0@businessweek.com', '57 Spohn Drive', '6706339360', 'Karola', 'Pleasaunce');
 insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user7', '12345', 'https://robohash.org/noninlibero.png?size=300x300&set=set1', 'sstowte1@ftc.gov', '087 Lake View Circle', '162-674-5194', 'Shandee', 'Stowte');
-insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user8', '12345', 'https://robohash.org/accusamusidut.png?size=300x300&set=set1', 'omarjanovic2@stanford.edu', '79 Bartelt Road', '734-266-4271', 'Osbourn', 'Marjanovic');
-insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user9', '12345', 'https://robohash.org/estautperferendis.png?size=300x300&set=set1', 'oarmitt3@soundcloud.com', '90840 Del Mar Court', '529-763-8314', 'Osbourne', 'Armitt');
-insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user10', '12345', 'https://robohash.org/praesentiumnoninventore.png?size=300x300&set=set1', 'dspeeding4@flavors.me', '35 Prairieview Lane', '866-861-6539', 'Doti', 'Speeding');
-insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user11', '12345', 'https://robohash.org/ullamillumquo.png?size=300x300&set=set1', 'bducarme5@sina.com.cn', '03451 Fallview Street', '354-520-2041', 'Benson', 'ducarme');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user8', '12345', 'https://robohash.org/accusamusidut.png?size=300x300&set=set1', 'omarjanovic2@stanford.edu', '79 Bartelt Road', '7342654271', 'Osbourn', 'Marjanovic');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user9', '12345', 'https://robohash.org/estautperferendis.png?size=300x300&set=set1', 'oarmitt3@soundcloud.com', '90840 Del Mar Court', '5297638314', 'Osbourne', 'Armitt');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user10', '12345', 'https://robohash.org/praesentiumnoninventore.png?size=300x300&set=set1', 'dspeeding4@flavors.me', '35 Prairieview Lane', '8668616539', 'Doti', 'Speeding');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('user11', '12345', 'https://robohash.org/ullamillumquo.png?size=300x300&set=set1', 'bducarme5@sina.com.cn', '03451 Fallview Street', '3545202041', 'Benson', 'ducarme');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('shipper1', '12345', 'https://robohash.org/quiiurea.png?size=500x500&set=set1', 'rdunridge0@dailymail.co.uk', '3685 Monica Park', '8262284612', 'Rickey', 'Dunridge');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('shipper2', '12345', 'https://robohash.org/ametetnon.png?size=500x500&set=set1', 'lstyche1@auda.org.au', '6 Delladonna Point', '3458000656', 'Llewellyn', 'Styche');
+insert into Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName) values ('shipper3', '12345', 'https://robohash.org/quoessequidem.png?size=500x500&set=set1', 'tprobart2@dailymotion.com', '392 Golf Course Hill', '2498959369', 'Tito', 'Probart');
 go
 --select * from Users
 --delete from Users
@@ -274,6 +290,15 @@ go
 --select * from Admins
 --delete from Admins
 --DBCC CHECKIDENT (Admins, RESEED, 0);
+
+
+
+--insert Shippers
+insert into Shippers(UserID) values (31),(32),(33);
+go
+--select * from Shippers
+--delete from Shippers
+--DBCC CHECKIDENT (Shippers, RESEED, 0);
 
 
 
@@ -516,36 +541,21 @@ insert into Bills (UserID, BillStatus) values (27, N'Chưa thanh toán');
 insert into Bills (UserID, BillStatus) values (28, N'Chưa thanh toán');
 insert into Bills (UserID, BillStatus) values (29, N'Chưa thanh toán');
 insert into Bills (UserID, BillStatus) values (30, N'Chưa thanh toán');
-insert into Bills (UserID, BillDate, BillStatus) values (1, '23/03/2024', N'Đã nhận hàng');
-insert into Bills (UserID, BillDate, BillStatus) values (2, '16/10/2023', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (1, '23/03/2024', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (1, '16/01/2024', N'Đã thanh toán');
 insert into Bills (UserID, BillDate, BillStatus) values (1, '12/01/2024', N'Đã thanh toán');
-insert into Bills (UserID, BillDate, BillStatus) values (4, '04/04/2023', N'Đã nhận hàng');
-insert into Bills (UserID, BillDate, BillStatus) values (1, '21/06/2023', N'Đã thanh toán');
-insert into Bills (UserID, BillDate, BillStatus) values (3, '22/08/2023', N'Đang vận chuyển');
-insert into Bills (UserID, BillDate, BillStatus) values (4, '25/10/2023', N'Đang vận chuyển');
-insert into Bills (UserID, BillDate, BillStatus) values (1, '24/01/2024', N'Đang vận chuyển');
-insert into Bills (UserID, BillDate, BillStatus) values (1, '11/07/2023', N'Đã nhận hàng');
+insert into Bills (UserID, BillDate, BillStatus) values (2, '04/04/2024', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (2, '21/06/2024', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (2, '22/08/2024', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (3, '25/10/2024', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (3, '24/01/2024', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (3, '11/07/2024', N'Đã thanh toán');
 insert into Bills (UserID, BillDate, BillStatus) values (4, '01/01/2024', N'Đã thanh toán');
-insert into Bills (UserID, BillDate, BillStatus) values (3, '10/07/2023', N'Đã thanh toán');
-insert into Bills (UserID, BillDate, BillStatus) values (3, '30/05/2023', N'Đang vận chuyển');
-insert into Bills (UserID, BillDate, BillStatus) values (1, '21/11/2023', N'Đã thanh toán');
-insert into Bills (UserID, BillDate, BillStatus) values (4, '26/08/2023', N'Đã nhận hàng');
-insert into Bills (UserID, BillDate, BillStatus) values (1, '24/03/2023', N'Đang vận chuyển');
-insert into Bills (UserID, BillDate, BillStatus) values (5, '20/02/2024', N'Đang vận chuyển');
-insert into Bills (UserID, BillDate, BillStatus) values (4, '09/11/2023', N'Đang vận chuyển');
-insert into Bills (UserID, BillDate, BillStatus) values (4, '22/04/2023', N'Đã nhận hàng');
-insert into Bills (UserID, BillDate, BillStatus) values (3, '20/02/2023', N'Đã nhận hàng');
-insert into Bills (UserID, BillDate, BillStatus) values (3, '03/02/2024', N'Đã thanh toán');
-insert into Bills (UserID, BillDate, BillStatus) values (5, '08/01/2023', N'Đã thanh toán');
-insert into Bills (UserID, BillDate, BillStatus) values (5, '05/07/2023', N'Đã nhận hàng');
-insert into Bills (UserID, BillDate, BillStatus) values (1, '22/04/2023', N'Đã nhận hàng');
-insert into Bills (UserID, BillDate, BillStatus) values (5, '08/03/2024', N'Đã nhận hàng');
-insert into Bills (UserID, BillDate, BillStatus) values (3, '21/03/2023', N'Đã nhận hàng');
-insert into Bills (UserID, BillDate, BillStatus) values (5, '29/08/2023', N'Đang vận chuyển');
-insert into Bills (UserID, BillDate, BillStatus) values (3, '02/11/2023', N'Đang vận chuyển');
-insert into Bills (UserID, BillDate, BillStatus) values (1, '28/04/2023', N'Đã thanh toán');
-insert into Bills (UserID, BillDate, BillStatus) values (4, '30/04/2023', N'Đang vận chuyển');
-insert into Bills (UserID, BillDate, BillStatus) values (1, '17/03/2024', N'Đang vận chuyển');
+insert into Bills (UserID, BillDate, BillStatus) values (4, '10/07/2024', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (4, '30/05/2024', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (5, '21/11/2024', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (5, '26/08/2024', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (5, '24/03/2024', N'Đã thanh toán');
 go
 --select * from Bills
 --delete from Bills
@@ -554,112 +564,102 @@ go
 
 
 --insert BillDetails
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (43, 88, '20/03/2023', 1);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (35, 85, '20/03/2023', 6);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (57, 23, '15/03/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (37, 9, '26/03/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (52, 80, '01/03/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (42, 89, '19/01/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (36, 66, '09/03/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (46, 47, '09/02/2023', 9);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (39, 59, '26/03/2023', 1);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (32, 15, '30/01/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (34, 84, '31/01/2023', 5);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (47, 29, '22/01/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (53, 5, '27/02/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (42, 74, '05/01/2023', 3);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (44, 19, '21/02/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (33, 82, '07/03/2023', 4);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (59, 62, '20/01/2023', 1);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (53, 32, '10/02/2023', 9);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (38, 15, '01/03/2023', 6);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (47, 70, '06/01/2023', 8);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (41, 57, '11/01/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (57, 95, '04/01/2023', 6);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (52, 90, '09/03/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (38, 41, '18/02/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (35, 68, '06/01/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (38, 78, '03/02/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (52, 40, '07/01/2023', 3);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (36, 55, '16/01/2023', 6);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (52, 74, '07/03/2023', 3);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (59, 84, '07/01/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (39, 90, '06/02/2023', 3);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (59, 90, '07/02/2023', 9);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (56, 15, '08/03/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (59, 62, '27/02/2023', 1);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (43, 57, '12/03/2023', 9);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (45, 40, '26/03/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (38, 56, '05/02/2023', 3);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (45, 94, '08/01/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (54, 64, '26/01/2023', 5);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (37, 79, '12/03/2023', 9);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (47, 97, '05/03/2023', 5);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (50, 20, '03/01/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (59, 77, '04/02/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (48, 66, '12/02/2023', 8);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (50, 33, '04/02/2023', 3);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (49, 64, '02/03/2023', 8);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (51, 9, '28/01/2023', 6);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (37, 67, '16/03/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (55, 65, '25/01/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (48, 26, '12/01/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (36, 35, '04/02/2023', 6);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (47, 97, '25/02/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (53, 57, '03/01/2023', 8);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (47, 59, '21/01/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (46, 13, '12/02/2023', 3);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (50, 78, '17/01/2023', 6);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (38, 18, '21/01/2023', 9);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (32, 15, '27/03/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (34, 4, '12/02/2023', 1);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (53, 100, '22/03/2023', 4);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (34, 49, '22/01/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (31, 20, '02/02/2023', 5);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (42, 71, '30/03/2023', 6);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (49, 57, '22/01/2023', 5);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (43, 99, '16/02/2023', 4);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (44, 97, '07/03/2023', 6);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (34, 16, '09/03/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (50, 57, '31/03/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (36, 96, '04/01/2023', 8);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (58, 74, '24/02/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (32, 22, '21/02/2023', 4);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (34, 74, '06/03/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (48, 42, '30/01/2023', 5);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (34, 4, '15/03/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (53, 15, '02/02/2023', 5);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (48, 63, '07/02/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (31, 61, '31/03/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (31, 2, '24/02/2023', 4);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (56, 19, '11/02/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (37, 65, '27/02/2023', 3);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (53, 11, '27/02/2023', 8);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (42, 38, '28/02/2023', 5);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (40, 29, '05/01/2023', 1);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (58, 34, '15/03/2023', 4);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (52, 83, '01/02/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (51, 90, '07/01/2023', 3);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (50, 48, '04/02/2023', 4);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (43, 38, '01/01/2023', 9);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (33, 69, '05/02/2023', 3);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (59, 97, '09/01/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (39, 59, '10/01/2023', 6);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (33, 41, '06/02/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (46, 96, '07/03/2023', 5);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (39, 47, '28/02/2023', 4);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (31, 74, '22/03/2023', 2);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (47, 100, '24/02/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (39, 63, '30/03/2023', 5);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (47, 62, '09/02/2023', 1);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (45, 56, '08/01/2023', 10);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (31, 69, '23/02/2023', 5);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (1, 76, '27/03/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (1, 3, '26/02/2023', 8);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (1, 57, '23/03/2023', 8);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (1, 59, '02/01/2023', 7);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (1, 96, '03/01/2023', 8);
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity) values (1, 95, '19/03/2023', 5);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (32, 54, '07/12/2023', 5, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (35, 23, '18/11/2023', 8, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (31, 12, '15/06/2023', 5, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (36, 20, '15/03/2023', 6, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (41, 59, '02/02/2023', 3, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (43, 90, '04/11/2023', 9, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (32, 68, '23/08/2023', 2, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (39, 24, '07/05/2023', 7, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (42, 11, '07/09/2023', 10, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (33, 64, '09/08/2023', 8, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (39, 41, '18/02/2023', 4, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (33, 73, '06/10/2023', 3, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (33, 1, '21/09/2023', 3, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (31, 50, '11/06/2023', 7, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (39, 60, '04/10/2023', 5, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (42, 58, '11/01/2023', 4, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (33, 41, '03/12/2023', 7, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (36, 47, '04/12/2023', 2, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (41, 95, '02/06/2023', 1, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (38, 56, '25/11/2023', 2, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (34, 2, '25/03/2023', 1, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (38, 91, '31/05/2023', 1, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (32, 91, '05/08/2023', 7, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (44, 7, '17/07/2023', 5, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (32, 50, '04/05/2023', 7, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (35, 44, '29/04/2023', 4, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (45, 27, '29/09/2023', 6, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (33, 40, '24/10/2023', 9, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (37, 87, '16/10/2023', 2, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (41, 52, '28/10/2023', 9, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (37, 18, '13/03/2023', 3, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (44, 38, '14/07/2023', 3, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (35, 92, '29/12/2023', 6, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (31, 7, '28/12/2023', 4, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (32, 22, '26/06/2023', 7, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (34, 61, '10/12/2023', 3, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (31, 99, '24/05/2023', 4, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (44, 67, '13/04/2023', 1, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (40, 40, '19/07/2023', 10, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (36, 65, '23/07/2023', 10, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (31, 70, '29/01/2023', 7, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (34, 2, '28/02/2023', 6, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (41, 23, '29/09/2023', 8, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (40, 83, '07/01/2023', 8, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (33, 52, '27/09/2023', 9, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (32, 29, '13/05/2023', 8, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (43, 87, '06/02/2023', 7, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (45, 49, '15/04/2023', 4, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (38, 89, '01/05/2023', 5, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (31, 20, '12/04/2023', 7, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (38, 44, '06/06/2023', 6, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (42, 33, '22/01/2023', 6, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (36, 81, '19/01/2023', 2, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (34, 3, '12/06/2023', 6, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (43, 65, '01/05/2023', 7, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (34, 90, '04/11/2023', 4, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (44, 85, '09/12/2023', 10, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (38, 10, '07/07/2023', 4, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (37, 30, '26/08/2023', 1, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (36, 25, '10/02/2023', 5, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (37, 14, '26/05/2023', 5, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (36, 36, '24/02/2023', 1, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (37, 28, '15/10/2023', 2, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (45, 61, '30/03/2023', 7, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (37, 70, '26/10/2023', 2, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (32, 1, '20/01/2023', 7, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (33, 16, '25/09/2023', 8, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (44, 50, '24/04/2023', 7, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (43, 36, '13/02/2023', 5, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (34, 83, '19/12/2023', 5, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (31, 9, '06/04/2023', 10, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (36, 40, '04/05/2023', 3, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (36, 33, '13/08/2023', 7, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (39, 56, '14/11/2023', 2, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (36, 4, '21/06/2023', 7, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (42, 26, '02/05/2023', 1, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (44, 78, '28/10/2023', 4, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (42, 49, '12/04/2023', 2, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (45, 38, '21/10/2023', 2, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (33, 45, '15/05/2023', 2, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (44, 36, '23/03/2023', 4, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (33, 6, '23/02/2023', 9, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (45, 29, '01/06/2023', 3, N'Đã nhận hàng', 3);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (41, 84, '05/11/2023', 10, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (33, 78, '16/06/2023', 2, N'Đã nhận hàng', 2);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (34, 54, '17/07/2023', 10, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (36, 18, '20/10/2023', 10, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (32, 7, '16/02/2023', 9, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (41, 82, '03/09/2023', 2, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID) values (32, 10, '22/02/2023', 7, N'Đã nhận hàng', 1);
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 76, '27/03/2023', 1, N'Chưa xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 3, '26/02/2023', 1, N'Chưa xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 57, '23/03/2023', 1, N'Chưa xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 59, '02/01/2023', 1, N'Chưa xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 96, '03/01/2023', 1, N'Chưa xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 95, '19/03/2023', 1, N'Chưa xác nhận');
 go
 --select * from BillDetails
 --delete from BillDetails
