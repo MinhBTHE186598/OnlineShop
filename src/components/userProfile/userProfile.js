@@ -161,7 +161,28 @@ function Profile(props) {
                                 onClick={() => {navigate('/addSeller')}}>
                                 Đăng Ký Bán Hàng
                             </Button>
-                            ): null}
+                            ): (
+                                <Button style={{
+                                    width: '200px',
+                                    height: '50px',
+                                    marginTop: '15vh',
+                                    backgroundColor: 'white',
+                                    color: 'orange',
+                                    borderColor: 'orange',
+                                }}
+                                    onMouseEnter={(e) => {
+                                        e.target.style.backgroundColor = 'orange';
+                                        e.target.style.color = 'white'
+                                    }}
+    
+                                    onMouseLeave={(e) => {
+                                        e.target.style.backgroundColor = 'white';
+                                        e.target.style.color = 'orange'
+                                    }}
+                                    onClick={() => {navigate('/addSeller')}}>
+                                    Cửa Hàng Của Tôi
+                                </Button>
+                                )}
                             <Button style={{
                                 width: '200px',
                                 height: '50px',
