@@ -115,16 +115,17 @@ function Profile(props) {
                         <div style={{
                             width: '200px',
                             height: '200px',
-                            borderRadius: '50%',
+                            borderRadius: '100%',
                             overflow: 'hidden',
                             display: 'flex',
                             justifyContent: 'center',
-                            alignItems: 'center',
+                            alignItems: 'flex-start',
                             border: `1px solid ${borderColor}`,
                             marginTop: '20vh',
                             boxShadow: '0 6px 6px rgba(0, 0, 0, 0.1)',
+                            position: 'relative',
                         }}>
-                            <Image src={profile.UserPFP} roundedCircle fluid />
+                            <Image  src={profile.UserPFP} fluid />
                         </div>
                         <div style={{ marginTop: '20px', textAlign: 'center', width: '100%' }}>
                             <h3 >{profile.UserFirstName} {profile.UserLastName}</h3>
