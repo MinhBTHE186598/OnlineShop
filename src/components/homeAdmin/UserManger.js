@@ -11,7 +11,7 @@ function UserManager() {
     const [modalShow, setModalShow] = useState(false);
     const [confirmShow, setConfirmShow] = useState(false);
     const [userList, setUserList] = useState([{}])
-    const [userID, setUserID] = useState({})
+    const [userInf, setUserInf] = useState({})
 
     useEffect(() => {
         fetch("http://localhost:5000/user/get").then(
@@ -39,18 +39,18 @@ function UserManager() {
             console.error('Error:', error);
         }
     }
-    const handleDelete = (id) => {
+    const handleDelete = (user) => {
         try{
-            setUserID(id)
+            setUserInf(user)
             setConfirmShow(true)
         } catch (error) {
             console.error(error);
         }
     }
 
-    const handleModel = (ID) => {
+    const handleModel = (user) => {
         try {
-            setUserID(ID)
+            setUserInf(user)
             setModalShow(true)
 
         } catch (error) {
@@ -82,8 +82,8 @@ function UserManager() {
                         <Col sm={1}><ListGroup.Item action variant='secondary' onClick={() => { handleModel(user) }} >View</ListGroup.Item></Col>
                     </ListGroup>
                 ))}
-                <UserIModal show={modalShow} onHide={() => setModalShow(false)} user={userID} />
-                <ConfirmModal show = {confirmShow} onHide={()=>setConfirmShow(false)} onConfirm={() => { deleteUser(userID) }} obj="user"/>
+                <UserIModal show={modalShow} onHide={() => setModalShow(false)} user={userInf} />
+                <ConfirmModal show = {confirmShow} onHide={()=>setConfirmShow(false)} onConfirm={() => { deleteUser(userInf) }} obj="user"/>
             </Row>
         </div>
     )
