@@ -3,6 +3,9 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { useUser } from '../context/UserContext';
+import EditReviewModal from './EditReviewModal';
+import Form from 'react-bootstrap/Form';
+import axios from 'axios';
 
 const StarStyle = {
     display: 'flex',
@@ -21,16 +24,87 @@ const imageStyle = {
 function ProductReview(props) {
     const [productReview, setProductReview] = useState([]);
     const [userList, setUserList] = useState([]);
-    const { user } = useUser();
+    const { user, isLogin } = useUser();
+    const [editReview, setEditReview] = useState(false);
+    const [reviewDetail, setReviewDetail] = useState({});
+
+    const closeEditReview = () => {
+        setEditReview(false);
+    }
+    const showEditReview = () => {
+        setEditReview(true);
+    }
+
+    const handleUpdate = (updatedReview) => {
+        setProductReview(productReview.map(review => review.ProductReviewID === updatedReview.ProductReviewID ? updatedReview : review));
+        setEditReview(false);
+    }
+
+    const editReviewHandler = async (review) => {
+        try {
+            setReviewDetail(review);
+            showEditReview();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+
+
+    const [review, setReview] = useState({
+        ProductID: Number(props.id),
+        UserID: user ? Number(user.UserID) : null,
+        ProductReviewStar: 1,
+        ProductReviewDate: day + "/" + month + "/" + year,
+        ProductReviewText: '',
+    })
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/productReview/add', {
+                ProductID: Number(review.ProductID),
+                UserID: review.UserID,
+                ProductReviewStar: review.ProductReviewStar,
+                ProductReviewDate: review.ProductReviewDate,
+                ProductReviewText: review.ProductReviewText,
+            });
+            if (response.status === 200) {
+                console.log('Product Review added successfully');
+                fetchReview();
+                setReview({
+                    ProductID: Number(props.id),
+                    UserID: user ? Number(user.UserID) : null,
+                    ProductReviewStar: 1,
+                    ProductReviewDate: day + "/" + month + "/" + year,
+                    ProductReviewText: '',
+                });
+            } else {
+                console.error('Failed to add Product Review');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+
+    const fetchReview = async () => {
+        try {
+            const responseReview = await fetch("http://localhost:5000/productReview/get");
+            const dataReview = await responseReview.json();
+            setProductReview(dataReview);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     useEffect(() => {
-        fetch("http://localhost:5000/productReview/get").then(
-            response => response.json()
-        ).then(
-            data => {
-                setProductReview(data)
-            }
-        )
+        fetchReview();
     }, [])
 
     useEffect(() => {
@@ -43,14 +117,31 @@ function ProductReview(props) {
         )
     }, [])
 
-    const item = productReview.filter((item) => item.ProductID === props.id)
+    const handleDelete = async (id) => {
+        if (window.confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
+            try {
+                const response = await axios.delete(`http://localhost:5000/productReview/delete/${id}`);
+                if (response.status === 200) {
+                    console.log('Product Review deleted successfully');
+                    fetchReview();
+                } else {
+                    console.error('Failed to delete Product Review');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    }
+
+    const items = productReview.filter((items) => items.ProductID === props.id)
+
 
     return (
-        item ? item.map((item) => {
-            const currentUser = userList.find((currentUser) => currentUser.UserID === item.UserID);
-            return (
-                <div className="product-review" style={{ width: '100%', marginBottom: '20px', padding: ' 0 10px 10px 0', borderRadius: '30px', border: '2px solid #000' }} key={item.ProductReviewID}>
-                    <Row>
+        <div >
+            {items ? items.map((item) => {
+                const currentUser = userList.find((currentUser) => currentUser.UserID === item.UserID);
+                return (
+                    <Row className="product-review" style={{ width: '100%', marginBottom: '20px', padding: ' 0 10px 10px 0', borderRadius: '30px', border: '2px solid #000' }}>
                         <Col md={2}>
                             <img src={currentUser?.UserPFP || null} alt="UserPFP" style={imageStyle} />
                         </Col>
@@ -70,8 +161,8 @@ function ProductReview(props) {
                                 </div>
                                 {user && user.UserID === item.UserID ? (
                                     <div>
-                                        <Button variant="primary" style={{ marginRight: '10px' }}>Edit</Button>
-                                        <Button variant="danger">Delete</Button>
+                                        <Button variant="primary" style={{ marginRight: '10px' }} onClick={() => editReviewHandler(item)}>Chỉnh sửa</Button>
+                                        <Button variant="danger" onClick={() => handleDelete(item.ProductReviewID)}>Xóa</Button>
                                     </div>
                                 ) : null}
                             </div>
@@ -79,9 +170,32 @@ function ProductReview(props) {
                             <p style={{ borderRadius: '20px', height: '50%' }}>{item.ProductReviewText}</p>
                         </Col>
                     </Row>
-                </div>
-            );
-        }) : <p>Not found</p>
+                );
+            }) : <p>Not found</p>}
+            {isLogin ?
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                        <Form.Label style={{ fontSize: 'x-large' }}>Thêm đánh giá:</Form.Label>
+                        <Form.Control as="textarea" rows={3} value={review.ProductReviewText} onChange={(e) => setReview({ ...review, ProductReviewText: e.target.value })} required />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                        <Form.Label style={{ fontSize: 'x-large', marginBottom: '0px' }}>Chọn đánh giá sao:</Form.Label>
+                        <div style={StarStyle}>
+                            {Array.from({ length: review.ProductReviewStar }, (_, i) => <FaStar key={i} />)}
+                            {Array.from({ length: 5 - review.ProductReviewStar }, (_, i) => <FaRegStar key={i} />)}
+                        </div>
+                        <Form.Control as="select" style={{ width: '6%' }} value={review.ProductReviewStar} onChange={(e) => setReview({ ...review, ProductReviewStar: Number(e.target.value) })}>
+                            {Array.from({ length: 5 }, (_, i) => i + 1).map(num => (
+                                <option key={num} value={num}>{num}</option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
+                    <Button variant="success" type="submit" style={{ marginTop: '10px' }}>
+                        Thêm đánh giá
+                    </Button>
+                </Form> : null}
+            <EditReviewModal show={editReview} onHide={closeEditReview} Review={reviewDetail} onUpdate={handleUpdate} />
+        </div>
     )
 }
 

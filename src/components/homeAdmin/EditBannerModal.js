@@ -4,18 +4,18 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 
-function EditBannerModal({show,onHide,Banner, onUpdate}) {
+function EditBannerModal({ show, onHide, Banner, onUpdate }) {
   const [adminID, setAdminID] = useState(Banner.AdminID)
   const [categoryID, setCategoryID] = useState(Banner.CategoryID)
   const [bannerPic, setBannerPic] = useState(Banner.BannerPic)
-  const [bannerID,setBannerID] = useState(Banner.BannerID)
+  const [bannerID, setBannerID] = useState(Banner.BannerID)
 
-  useEffect(()=>{
+  useEffect(() => {
     setAdminID(Banner.AdminID)
     setCategoryID(Banner.CategoryID)
     setBannerPic(Banner.BannerPic)
     setBannerID(Banner.BannerID)
-  },[Banner.AdminID,Banner.CategoryID,Banner.BannerPic,Banner.BannerID])
+  }, [Banner.AdminID, Banner.CategoryID, Banner.BannerPic, Banner.BannerID])
 
   const [categories, setCategory] = useState([{}])
   useEffect(() => {
@@ -28,21 +28,21 @@ function EditBannerModal({show,onHide,Banner, onUpdate}) {
     )
   }, [])
 
-  function getCategory(id){
-    let intID=+id;
-    let cate = categories.find(cate=> cate.CategoryID === intID)
+  function getCategory(id) {
+    let intID = +id;
+    let cate = categories.find(cate => cate.CategoryID === intID)
     return cate ? cate.CategoryName : 'Category not found'
   }
 
   let banneru = {
-    AdminID:adminID,
-    CategoryID:categoryID,
-    BannerID:bannerID,
-    BannerPic:bannerPic,
-    UserAccountName:Banner.UserAccountName,
-    UserFirstName:Banner.UserFirstName,
-    UserLastName:Banner.UserLastName,
-    CategoryName:(getCategory(categoryID))
+    AdminID: adminID,
+    CategoryID: categoryID,
+    BannerID: bannerID,
+    BannerPic: bannerPic,
+    UserAccountName: Banner.UserAccountName,
+    UserFirstName: Banner.UserFirstName,
+    UserLastName: Banner.UserLastName,
+    CategoryName: (getCategory(categoryID))
   }
 
   const handleSubmit = async (e) => {

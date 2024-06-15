@@ -4,7 +4,6 @@ import Carousel from 'react-bootstrap/Carousel';
 import ProductReview from './ProductReview';
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
-import Form from 'react-bootstrap/Form';
 import { useUser } from '../context/UserContext';
 
 
@@ -32,33 +31,33 @@ const reviewStyle = {
 function ProductMain(props) {
     const [productList, setProductList] = useState([]);
     const [stars, setStars] = useState([]);
-    const [starReview, setStarReview] = useState(1);
     const [sellerList, setSellerList] = useState([]);
     const [categories, setCategories] = useState([]);
     const { user, isLogin } = useUser();
 
+    const fetchData = async () => {
+        try {
+            const responseCategory = await fetch("http://localhost:5000/category/getCategories");
+            const dataCategory = await responseCategory.json();
+            setCategories(dataCategory);
+
+            const responseSeller = await fetch("http://localhost:5000/seller/get");
+            const dataSeller = await responseSeller.json();
+            setSellerList(dataSeller);
+
+            const responseReview = await fetch("http://localhost:5000/productReview/getStar");
+            const dataReview = await responseReview.json();
+            setStars(dataReview);
+
+            const responseProduct = await fetch("http://localhost:5000/product/get");
+            const dataProduct = await responseProduct.json();
+            setProductList(dataProduct);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const responseCategory = await fetch("http://localhost:5000/category/getCategories");
-                const dataCategory = await responseCategory.json();
-                setCategories(dataCategory);
-
-                const responseSeller = await fetch("http://localhost:5000/seller/get");
-                const dataSeller = await responseSeller.json();
-                setSellerList(dataSeller);
-
-                const responseReview = await fetch("http://localhost:5000/productReview/getStar");
-                const dataReview = await responseReview.json();
-                setStars(dataReview);
-
-                const responseProduct = await fetch("http://localhost:5000/product/get");
-                const dataProduct = await responseProduct.json();
-                setProductList(dataProduct);
-            } catch (error) {
-                console.error(error);
-            }
-        };
         fetchData();
     }, []);
 
@@ -107,28 +106,6 @@ function ProductMain(props) {
                     <Col xs={8} style={reviewStyle}>
                         <h3 style={{ textAlign: 'center', marginBottom: '30px' }}>Đánh giá sản phẩm</h3>
                         <ProductReview id={product.ProductID} />
-                        {isLogin ?
-                            <Form>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                    <Form.Label style={{ fontSize: 'x-large' }}>Thêm đánh giá:</Form.Label>
-                                    <Form.Control as="textarea" rows={3} />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
-                                    <Form.Label style={{ fontSize: 'x-large', marginBottom: '0px' }}>Chọn đánh giá sao:</Form.Label>
-                                    <div style={StarStyle}>
-                                        {Array.from({ length: starReview }, (_, i) => <FaStar key={i} />)}
-                                        {Array.from({ length: 5 - starReview }, (_, i) => <FaRegStar key={i} />)}
-                                    </div>
-                                    <Form.Select style={{ width: '8%' }} onChange={e => setStarReview(e.target.value)}>
-                                        {Array.from({ length: 5 }, (_, i) => i + 1).map(num => (
-                                            <option key={num} value={num}>{num}</option>
-                                        ))}
-                                    </Form.Select>
-                                </Form.Group>
-                                <Button variant="success" type="submit" style={{ marginTop: '10px' }}>
-                                    Thêm đánh giá
-                                </Button>
-                            </Form> : null}
                     </Col>
                 </Row>
             </Container >
@@ -137,4 +114,5 @@ function ProductMain(props) {
 }
 
 export default ProductMain
+
 
