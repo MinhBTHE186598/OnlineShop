@@ -13,7 +13,8 @@ const getUser = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
         const userId = req.params.id;
-        const result = await sql.query`delete from Notifications where UserID=${userId}
+        const result = await sql.query`delete from Shippers where UserID=${userId}
+        delete from Notifications where UserID=${userId}
         delete from ProductReviews where UserID=${userId}
         delete from SellerReviews where UserID=${userId}
         delete from SellManagers where UserID=${userId}
