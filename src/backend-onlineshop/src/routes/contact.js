@@ -1,9 +1,6 @@
-const ticket = require('../controllers/ticket.js');
-const express = require('express');
-const router = express.Router();
-const { submitContactForm, getTicket } = require('../controllers/ticket.js');
+const contact = require('../controllers/contact.js');
+const router = require('express').Router();
 
-router.post('/contact', submitContactForm);
-router.get('/get', ticket.getTicket);
+router.get('/get', contact.getContact);
 
 module.exports = router;
