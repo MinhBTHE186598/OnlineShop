@@ -69,7 +69,7 @@ function AddBannerModal({ show, onHide, onAdd,bannerID }) {
               <option value={category.CategoryID}>{category.CategoryName}</option>
             ))}
           </Form.Select>
-          <Form.Label>Baner Image Url</Form.Label>
+          <Form.Label>Banner Image Url</Form.Label>
           <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} required />
           <Form.Label>Admin</Form.Label>
           <Form.Control type="text" value={'2'} disabled readOnly on />
