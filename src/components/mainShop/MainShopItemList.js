@@ -176,7 +176,7 @@ function MainShopItemList(props) {
               {sellers.map((seller) => (
                 <Dropdown.Item key={seller.SellerID} eventKey={seller.SellerID} onClick={() => setSortSeller(seller.SellerName)}>{seller.SellerName}</Dropdown.Item>
               ))}
-              <Dropdown.Item eventKey='%' onClick={() => setSortSeller('Lọc theo giá')}>Bỏ chọn</Dropdown.Item>
+              <Dropdown.Item eventKey='%' onClick={() => setSortSeller('Lọc theo người bán')}>Bỏ chọn</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
