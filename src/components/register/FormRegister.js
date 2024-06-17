@@ -34,7 +34,7 @@ function RegisterBoard() {
 
     try {
       const checkUserResponse = await axios.get('http://localhost:5000/user/checkUsername', {
-        params: { name }
+        params: { name  }
       });
 
       if (checkUserResponse.data.exists) {

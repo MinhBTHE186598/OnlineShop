@@ -76,7 +76,7 @@ const checkUsername = async (req, res) => {
     try {
         const { name } = req.query;
 
-        const result = await sql.query`SELECT COUNT(*) AS count FROM Users WHERE UserAccountName = ${name}`;
+        const result = await sql.query`SELECT COUNT(*) AS count FROM Users WHERE UserAccountName = ${name} `;
         
         const exists = result.recordset[0].count > 0;
 
