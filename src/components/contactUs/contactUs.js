@@ -6,6 +6,7 @@ import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import '../../utility/contact.css';
 const ContactForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -33,28 +34,32 @@ const ContactForm = () => {
   };
 
   return (
-    <Container fluid="sm" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-        <Row style={{ width: '100%', maxWidth: '1500px', backgroundColor: '#f0f0f0', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-    <Form onSubmit={handleSubmit}>
-      <div>
-        <label>Title</label>
-        <input 
-          type="text" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)} 
-        />
-      </div>
-      <div>
-        <label>Content</label>
-        <textarea 
-          value={content} 
-          onChange={(e) => setContent(e.target.value)} 
-        />
-      </div>
-      <Button type="submit">Submit</Button>
-    </Form>
-    </Row>
-  </Container>
+    <Container fluid className="form-container" style={{backgroundColor: '#0d6efd'}}>
+      <Row className="form-wrapper">
+        <Form onSubmit={handleSubmit} >
+          <div>
+            <h2 style={{textAlign: 'center'}}> Liên hệ</h2>
+            <label>Title</label>
+            
+            <input 
+              type="text" 
+              placeholder='Title'
+              value={title} 
+              onChange={(e) => setTitle(e.target.value)} 
+            />
+          </div>
+          <div>
+            <label >Nội dung</label>
+            <textarea id='content'
+              value={content} 
+              placeholder='Bạn hãy miêu tả vấn đề gặp phải'
+              onChange={(e) => setContent(e.target.value)} 
+            />
+          </div>
+          <Button type="submit">Gửi</Button>
+        </Form>
+      </Row>
+    </Container>
   );
 };
 
