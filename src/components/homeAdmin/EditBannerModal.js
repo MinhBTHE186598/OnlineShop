@@ -11,6 +11,7 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
   const [bannerPic, setBannerPic] = useState(Banner.BannerPic)
   const [bannerID, setBannerID] = useState(Banner.BannerID)
   const { user} = useUser();
+  const [admins, setAdmins] = useState([{}]);
 
   useEffect(() => {
     setAdminID(Banner.AdminID)
@@ -36,6 +37,22 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
     return cate ? cate.CategoryName : 'Category not found'
   }
 
+  useEffect(() => {
+    fetch("http://localhost:5000/admin/get").then(
+      response => response.json()
+    ).then(
+      data => {
+        setAdmins(data)
+      }
+    )
+  }, [])
+
+  function getAdminID(id) {
+    let intID = +id;
+    let admin = admins.find(admin => admin.UserID === intID)
+    return admin ? admin.AdminID : 'Admin not found'
+  }
+
   let banneru = {
     AdminID: adminID,
     CategoryID: categoryID,
@@ -45,6 +62,15 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
     UserFirstName: user.UserFirstName,
     UserLastName: user.UserLastName,
     CategoryName: (getCategory(categoryID))
+  }
+
+  const handleClick = () => {
+    try{
+      onHide();
+      setAdminID(getAdminID(user.UserID));
+    }catch(error){
+      console.error('Error:', error);
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -87,7 +113,7 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
           <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} defaultValue={Banner.BannerPic} />
           <Form.Label>Admin</Form.Label>
           <Form.Control type="text" value={user.UserAccountName+" ("+user.UserFirstName+" "+user.UserLastName+")"} disabled readOnly />
-          <Button variant="primary" type="submit" style={{ marginTop: '30px' }} onClick={onHide}>
+          <Button variant="primary" type="submit" style={{ marginTop: '30px' }} onClick={handleClick}>
             Save change
           </Button>
         </Form>
