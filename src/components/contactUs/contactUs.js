@@ -4,17 +4,27 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import axios from 'axios';
 import Row from 'react-bootstrap/Row';
-
+import { useUser } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 const ContactForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-
+  const { user, isLogin } = useUser();
+  const Navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = { title, content };
+    const UserID = user.UserID;
+    if (!isLogin) {
+      alert('Please login first!');
+      Navigate('/login');
+      return;
+    }
     
     try {
-      const response = await axios.post('http://localhost:5000/api/contact', data);
+      const response = await axios.post('http://localhost:5000/contact/addContact',
+         {title, 
+          content,
+          UserID});
       console.log(response.data);
       alert('Form submitted successfully!');
     } catch (error) {
