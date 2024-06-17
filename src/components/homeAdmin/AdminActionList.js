@@ -5,6 +5,7 @@ import Tab from 'react-bootstrap/Tab';
 import ListGroup from 'react-bootstrap/ListGroup';
 import UserManager from './UserManger';
 import BannerManager from './BannerManager';
+import ProductManager from './ProductManager';
 
 
 function AdminAction() {
@@ -44,12 +45,7 @@ function AdminAction() {
                             </Tab.Pane>
                             <Tab.Pane eventKey="fourth">
                                 <Row>
-                                    {Arr.map((index) => (
-                                        <ListGroup key={index} horizontal className="my-2">
-                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
-                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
-                                        </ListGroup>
-                                    ))}
+                                    <ProductManager/>
                                 </Row>
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">

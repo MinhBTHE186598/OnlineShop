@@ -10,6 +10,22 @@ const getProduct = async (req, res) => {
     }
 }
 
+const getAllProduct = async (req, res) => {
+    try {
+        const result = await sql.query`SELECT SUM(b.BillQuantity)as Sold, c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p.ProductStatus,p.ProductQuantity,s.SellerName,u.UserID FROM Products P
+join Categories c on p.CategoryID=c.CategoryID
+join Sellers s on p.SellerID = s.SellerID
+join Users u on u.UserID = s.UserID
+join BillDetails b on b.ProductID=p.ProductID
+group by c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p.ProductStatus,p.ProductQuantity,s.SellerName,u.UserID
+`;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
 const getWhitelistProduct = async (req, res) => {
     try {
         const result = await sql.query`SELECT * FROM Products p join SellManagers sm on p.CategoryID = sm.CategoryID where ProductStatus like N'Chờ xác thực' and sm.CategoryID = p.CategoryID`;
@@ -62,4 +78,4 @@ const filterProduct = async (req, res) => {
     }
 }
 
-module.exports = { getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct }
+module.exports = { getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct }
