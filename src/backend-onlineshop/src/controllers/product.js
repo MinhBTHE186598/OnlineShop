@@ -56,7 +56,26 @@ const addProduct = async (req, res) => {
         res.status(500).send('Server Error');
     }
 }
+const approveProduct = async (req, res) => {
+    try {
+        
+        const { id } = req.params;
 
+        await sql.query`update Products set ProductStatus = N'Đã xác thực' where ProductID = ${id}`
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+const  deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await sql.query`delete from Products where ProductID = ${id}`;
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
 const filterProduct = async (req, res) => {
     try {
         const { category, range, seller, order } = req.body;
@@ -78,4 +97,4 @@ const filterProduct = async (req, res) => {
     }
 }
 
-module.exports = { getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct }
+module.exports = { getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct, approveProduct, deleteProduct }
