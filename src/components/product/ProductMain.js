@@ -6,6 +6,9 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { useUser } from '../context/UserContext';
 
+const reformat = new Intl.NumberFormat('en-US', {
+    
+})
 
 const containerStyle = {
     backgroundColor: '#fff',
@@ -95,7 +98,7 @@ function ProductMain(props) {
                                 {Array(stars.find(star => star.ProductID === product.ProductID)?.ProductStar || 0).fill(<FaStar />)}
                                 {Array(5 - (stars.find(star => star.ProductID === product.ProductID)?.ProductStar || 0)).fill(<FaRegStar />)}
                             </div>
-                            <p style={{ fontSize: 'xx-large', color: 'orange', margin: '0' }}>{product.ProductPrice}đ</p>
+                            <p style={{ fontSize: 'xx-large', color: 'orange', margin: '0' }}>{reformat.format(product.ProductPrice)}đ</p>
                             <Button variant="primary" size='lg'>
                                 Thêm vào giỏ hảng
                             </Button>

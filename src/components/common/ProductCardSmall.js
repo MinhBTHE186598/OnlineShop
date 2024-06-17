@@ -4,6 +4,9 @@ import Card from 'react-bootstrap/Card';
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { useState, useEffect } from 'react';
+const reformat = new Intl.NumberFormat('en-US', {
+    
+})
 
 
 const CardStyle = {
@@ -81,7 +84,7 @@ function ProductCardSmall(props) {
                         {Array(stars.find(star => star.ProductID === props.star)?.ProductStar || 0).fill(<FaStar />)}
                         {Array(5 - (stars.find(star => star.ProductID === props.star)?.ProductStar || 0)).fill(<FaRegStar />)}
                     </div>
-                    <h4 style={{ color: 'orange' }}>{props.price}đ</h4>
+                    <h4 style={{ color: 'orange' }}>{reformat.format(props.price)}đ</h4>
                 </div>
                 <Button variant="primary" style={MakeCenter}>Thêm vào giỏ hàng</Button>
             </Card.Body>

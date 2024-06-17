@@ -5,7 +5,9 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { useState, useEffect } from 'react';
 
-
+const reformat = new Intl.NumberFormat('en-US', {
+    
+})
 const CardStyle = {
     width: '20vw',
     backgroundColor: 'white',
@@ -81,7 +83,7 @@ function ProductCardBig(props) {
                         {Array(stars.find(star => star.ProductID === props.star)?.ProductStar || 0).fill(<FaStar />)}
                         {Array(5 - (stars.find(star => star.ProductID === props.star)?.ProductStar || 0)).fill(<FaRegStar />)}
                     </div>
-                    <h4 style={{ color: 'orange' }}>{props.price}đ</h4>
+                    <h4 style={{ color: 'orange' }}>{reformat.format(props.price)}đ</h4>
                 </div>
                 <Button variant="primary" style={MakeCenter}><a href='/' style={{ textDecoration: 'none', color: 'white' }}>Thêm vào giỏ hàng</a></Button>
             </Card.Body>
