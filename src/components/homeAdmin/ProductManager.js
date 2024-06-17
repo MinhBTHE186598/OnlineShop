@@ -1,6 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Image from 'react-bootstrap/Image';
 import { useState, useEffect } from 'react';
 export default function ProductManager() {
     const [products, setProducts] = useState([{}])
@@ -21,6 +22,7 @@ export default function ProductManager() {
                     <th>Saler</th>
                     <th>Category</th>
                     <th>Stock</th>
+                    <th>Status</th>
                     <th>Price</th>
                     <th>Action</th>
                 </tr>
@@ -28,11 +30,12 @@ export default function ProductManager() {
             <tbody>
                 {products.map((product) => (
                     <tr>
-                        <td>{product.ProductName}</td>
-                        <td>{product.Sold}</td>
+                        <td><Image src={product.ProductPic} rounded style={{width: "33px"}}/>{product.ProductName}</td>
+                        <td>{product.Sold!==null?(product.Sold):(0)}</td>
                         <td>{product.SellerName}</td>
                         <td>{product.CategoryName}</td>
                         <td>{product.ProductQuantity}</td>
+                        <td style={{ color: product.ProductStatus === 'Đã xác thực' ? 'green' : 'red' }}>{product.ProductStatus}</td>
                         <td>{product.ProductPrice}</td>
                         <td>
                             <DropdownButton

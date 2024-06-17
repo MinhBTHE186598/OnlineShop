@@ -16,7 +16,7 @@ const getAllProduct = async (req, res) => {
 join Categories c on p.CategoryID=c.CategoryID
 join Sellers s on p.SellerID = s.SellerID
 join Users u on u.UserID = s.UserID
-join BillDetails b on b.ProductID=p.ProductID
+left join BillDetails b on b.ProductID=p.ProductID
 group by c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p.ProductStatus,p.ProductQuantity,s.SellerName,u.UserID
 `;
         res.json(result.recordset);
