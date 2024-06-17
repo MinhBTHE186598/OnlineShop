@@ -3,12 +3,14 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
+import { useUser } from '../context/UserContext';
 
 function EditBannerModal({ show, onHide, Banner, onUpdate }) {
   const [adminID, setAdminID] = useState(Banner.AdminID)
   const [categoryID, setCategoryID] = useState(Banner.CategoryID)
   const [bannerPic, setBannerPic] = useState(Banner.BannerPic)
   const [bannerID, setBannerID] = useState(Banner.BannerID)
+  const { user} = useUser();
 
   useEffect(() => {
     setAdminID(Banner.AdminID)
@@ -39,9 +41,9 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
     CategoryID: categoryID,
     BannerID: bannerID,
     BannerPic: bannerPic,
-    UserAccountName: Banner.UserAccountName,
-    UserFirstName: Banner.UserFirstName,
-    UserLastName: Banner.UserLastName,
+    UserAccountName: user.UserAccountName,
+    UserFirstName: user.UserFirstName,
+    UserLastName: user.UserLastName,
     CategoryName: (getCategory(categoryID))
   }
 
@@ -84,7 +86,7 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
           <Form.Label>Baner Image Url</Form.Label>
           <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} defaultValue={Banner.BannerPic} />
           <Form.Label>Admin</Form.Label>
-          <Form.Control type="text" value={Banner.UserAccountName} disabled readOnly />
+          <Form.Control type="text" value={user.UserAccountName+" ("+user.UserFirstName+" "+user.UserLastName+")"} disabled readOnly />
           <Button variant="primary" type="submit" style={{ marginTop: '30px' }} onClick={onHide}>
             Save change
           </Button>

@@ -3,12 +3,13 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
+import { useUser } from '../context/UserContext';
 
 function AddBannerModal({ show, onHide, onAdd,bannerID }) {
   const [adminID, setAdminID] = useState('')
   const [categoryID, setCategoryID] = useState('')
   const [bannerPic, setBannerPic] = useState('')
-
+  const { user} = useUser();
   const [categories, setCategory] = useState([{}])
   useEffect(() => {
     fetch("http://localhost:5000/category/getCategories").then(
@@ -72,7 +73,7 @@ function AddBannerModal({ show, onHide, onAdd,bannerID }) {
           <Form.Label>Banner Image Url</Form.Label>
           <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} required />
           <Form.Label>Admin</Form.Label>
-          <Form.Control type="text" value={'2'} disabled readOnly on />
+          <Form.Control type="text" value={user.UserAccountName+" ("+user.UserFirstName+" "+user.UserLastName+")"} disabled readOnly on />
           <Button variant="primary" type="submit" style={{ marginTop: '30px' }} onClick={() => setAdminID(2)}>
             Add Banner
           </Button>
