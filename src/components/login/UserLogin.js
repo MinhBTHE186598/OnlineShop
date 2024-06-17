@@ -91,7 +91,7 @@ const UserLogin = () => {
         <a href="#" className="forgot-password">Quên mật khẩu?</a>
         <div className="signup-container">
           <p>Chưa có tài khoản?</p>
-          <button className="signup-button">Đăng ký</button>
+          <button className="signup-button" > <a style={{ textDecoration: 'none', color: 'white' }} href='/register'>Đăng ký</a></button>
         </div>
       </div>
       <div className="login-right">

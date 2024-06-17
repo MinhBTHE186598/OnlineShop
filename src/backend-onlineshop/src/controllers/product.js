@@ -57,10 +57,8 @@ const addProduct = async (req, res) => {
     }
 }
 const approveProduct = async (req, res) => {
-    try {
-        
+    try {     
         const { id } = req.params;
-
         await sql.query`update Products set ProductStatus = N'Đã xác thực' where ProductID = ${id}`
     } catch (err) {
         console.error(err);

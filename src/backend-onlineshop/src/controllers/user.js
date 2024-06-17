@@ -73,4 +73,20 @@ const updateUser = async (req, res) => {
     }
 }
 
-module.exports = { getUser, deleteUser, registerUser, getUserByID, updateUser } //export getUser
+const checkUsername = async (req, res) => {
+    try {
+        const { name } = req.query;
+
+        const result = await sql.query`SELECT COUNT(*) AS count FROM Users WHERE UserAccountName = ${name} `;
+        
+        const exists = result.recordset[0].count > 0;
+
+        res.json({ exists });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+
+module.exports = { getUser, deleteUser, registerUser, getUserByID, updateUser, checkUsername } //export getUser
