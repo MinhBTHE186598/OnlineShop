@@ -31,11 +31,11 @@ export default function ProductManager() {
                 {products.map((product) => (
                     <tr>
                         <td><Image src={product.ProductPic} rounded style={{width: "33px"}}/>{product.ProductName}</td>
-                        <td>{product.Sold}</td>
+                        <td>{product.Sold!==null?(product.Sold):(0)}</td>
                         <td>{product.SellerName}</td>
                         <td>{product.CategoryName}</td>
                         <td>{product.ProductQuantity}</td>
-                        <td>Status</td>
+                        <td style={{ color: product.ProductStatus === 'Đã xác thực' ? 'green' : 'red' }}>{product.ProductStatus}</td>
                         <td>{product.ProductPrice}</td>
                         <td>
                             <DropdownButton
