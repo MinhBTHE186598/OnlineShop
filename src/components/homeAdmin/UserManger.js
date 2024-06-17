@@ -39,10 +39,14 @@ function UserManager() {
             console.error('Error:', error);
         }
     }
-    const handleDelete = (user) => {
+    const handleDelete = (userID) => {
         try{
-            setUserInf(user)
-            setConfirmShow(true)
+            setUserInf(userID)
+            if(userID===23||userID===24){
+                alert("cannot delete admin");
+            }else{
+                setConfirmShow(true)
+            }
         } catch (error) {
             console.error(error);
         }
