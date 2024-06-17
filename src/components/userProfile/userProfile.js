@@ -109,7 +109,7 @@ function Profile(props) {
 
     return (
         profile ? (
-            <Container fluid style={{ backgroundImage: `url(${bgi})`, backgroundSize: 'cover', minHeight: '900px', height:'auto' }}>
+            <Container fluid style={{ backgroundImage: `url(${bgi})`, backgroundSize: 'cover', minHeight: '100vh', height:'max-content', overflow: 'auto' }}>
                 <Row>
                     <Col md={3} style={{ backgroundColor: '#f8f9fa', display: 'flex', flexDirection: 'column', alignItems: 'center', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '8%', minHeight: '900px' }}>
                         <div style={{
@@ -179,7 +179,7 @@ function Profile(props) {
                                         e.target.style.backgroundColor = 'white';
                                         e.target.style.color = 'orange'
                                     }}
-                                    onClick={() => {navigate('/addSeller')}}>
+                                    onClick={() => {navigate('/sellerShop')}}>
                                     Cửa Hàng Của Tôi
                                 </Button>
                                 )}
@@ -206,7 +206,7 @@ function Profile(props) {
                         ) : null}
                     </Col>
 
-                    <Col md={7} style={{ backgroundColor: '#f8f9fa', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '10px', height: 'auto' }}>
+                    <Col md={7} style={{ backgroundColor: '#f8f9fa', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '10px',marginBottom:'1px', minHeight: '900px', height: 'max-content' }}>
                         <div style={{ marginTop: '15vh', marginLeft: '5vh' }}>
                             <h1><b>HỒ SƠ CỦA TÔI</b></h1>
                             <p>Hãy cập nhật hồ sơ để tăng bảo mật cho tài khoản của bạn</p>
@@ -269,7 +269,7 @@ function Profile(props) {
                             Bạn đang gặp vấn đề? Liên hệ với chúng tôi ngay!
                         </Button>
                         {isMyProfile ? (
-                            <Button style={{ position: 'absolute', marginTop: '7vh', marginLeft: '10vw', width: '40vw', height: '50px', backgroundColor: 'white', borderColor: 'red', color: `red` }}
+                            <Button style={{ marginTop: '7vh', marginLeft: '10vw', width: '40vw', height: '50px', backgroundColor: 'white', borderColor: 'red', color: `red` }}
                                 onMouseEnter={(e) => {
                                     e.target.style.backgroundColor = `red`;
                                     e.target.style.color = 'white'
