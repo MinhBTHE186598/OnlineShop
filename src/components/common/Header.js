@@ -16,7 +16,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { FaBell } from "react-icons/fa";
 import logo from '../../utility/testlogo.png';
 import { useUser } from '../context/UserContext';
-import { useNavigate } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 
 function Header() { 
   const [categories, setCategories] = React.useState([]);
@@ -40,7 +40,13 @@ function Header() {
     }
     return null;
   }
-
+  const handleAdminNavi = () => {
+    if (userRole === 'Admin') {
+        navigate('/homeAdmin');
+    } else {
+        alert('You do not have permission to access this page.');
+    }
+};
   return (
     <Navbar expand="lg" className="bg-dark p-0" style={{ height: '10vh', display: 'flex', justifyContent: 'space-between' }} fixed='top'>
       <Container style={{ width: '33vw' }}>
@@ -89,7 +95,8 @@ function Header() {
         <ButtonGroup className="m-1" aria-label="Third group">
           <DropdownButton as={ButtonGroup} title={`Chào mừng trở lại, ${user.UserFirstName}`} id="bg-nested-dropdown">
             <Dropdown.Item onClick={() => navigate(`/profile/${user.UserID}`)}>Hồ Sơ Của Tôi</Dropdown.Item>
-            <Dropdown.Item eventKey="2">{userRole}</Dropdown.Item>
+            {userRole==='Admin'&&(<Dropdown.Item onClick={handleAdminNavi} >System Manager</Dropdown.Item>)}
+            <Dropdown.Item >{userRole}</Dropdown.Item>
             <Dropdown.Item onClick={logOut}>Đăng xuất</Dropdown.Item>
           </DropdownButton>
         </ButtonGroup>
