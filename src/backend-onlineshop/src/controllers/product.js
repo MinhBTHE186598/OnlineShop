@@ -94,5 +94,22 @@ const filterProduct = async (req, res) => {
         res.status(500).send('Server Error');
     }
 }
+const getProductBySellerID = async (req, res) => {
+    try {     
+        const { id } = req.params;
+        const result = await sql.query`SELECT SUM(b.BillQuantity)as Sold, c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p.ProductStatus,p.ProductQuantity,s.SellerName,u.UserID,p.ProductDescription, p.CategoryID FROM Products p
+        join Categories c on p.CategoryID=c.CategoryID
+        join Sellers s on p.SellerID = s.SellerID
+        join Users u on u.UserID = s.UserID
+        left join BillDetails b on b.ProductID=p.ProductID
+        where s.SellerID = ${id}
+        group by c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p.ProductStatus,p.ProductQuantity,s.SellerName,u.UserID,p.ProductDescription,p.CategoryID
+        `
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
 
-module.exports = { getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct, approveProduct, deleteProduct }
+module.exports = { getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct, approveProduct, deleteProduct, getProductBySellerID }

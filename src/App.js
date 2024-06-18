@@ -14,6 +14,8 @@ import Product from './webpages/Product';
 import { UserProvider } from './components/context/UserContext';
 import HomeManager from './webpages/HomeManager';
 import ContactForm from './webpages/contactUs';
+import SellerShopManage from './webpages/SellerShop';
+
 function App() {
   return (
     <div>
@@ -36,6 +38,8 @@ function App() {
             <Route path='/product/:id' element={<Product />} />
             <Route path='/homeManager' element={<HomeManager/>}/>
             <Route path='/contact' element={<ContactForm/>}/>
+            <Route path='/sellerShop' element={<SellerShopManage/>}/>
+
           </Routes>
         </BrowserRouter>
       </UserProvider>
