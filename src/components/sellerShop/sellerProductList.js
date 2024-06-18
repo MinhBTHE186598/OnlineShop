@@ -13,7 +13,7 @@ export default function ProductManager(props) {
     const [productInf, setProductInf] = useState({});
 
 
-    const editBanner = async (product) => {
+    const editProduct = async (product) => {
         try {
             setProductInf(product);
             setShowEdit(true);
@@ -21,6 +21,8 @@ export default function ProductManager(props) {
             console.error('Error:', error);
         }
     }
+
+
 
     useEffect(() => {
         fetch(`http://localhost:5000/product/getProductSID/${props.id}`)
@@ -33,16 +35,16 @@ export default function ProductManager(props) {
     return (
         <div>
         <Table striped bordered hover>
-            <thead>
+            <thead >
                 <tr>
-                    <th>Product</th>
-                    <th>Sold</th>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th>Stock</th>
-                    <th>Status</th>
-                    <th>Price</th>
-                    <th>Action</th>
+                    <th>Sản Phẩm</th>
+                    <th>Đã Bán</th>
+                    <th>Mô Tả Sản Phẩm</th>
+                    <th>Phân Loại</th>
+                    <th>Kho</th>
+                    <th>Tình Trạng</th>
+                    <th>Giá</th>
+                    <th>Hành Động</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,7 +63,7 @@ export default function ProductManager(props) {
                                 variant="secondary"
                                 title="Action"
                             >
-                                <Dropdown.Item eventKey="1" onClick={() => {editBanner(product)}}>Edit</Dropdown.Item>
+                                <Dropdown.Item eventKey="1" onClick={() => {editProduct(product)}}>Edit</Dropdown.Item>
                                 <Dropdown.Item eventKey="2">Delete</Dropdown.Item>
                                 <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>
                                 <Dropdown.Divider />
