@@ -112,4 +112,22 @@ const getProductBySellerID = async (req, res) => {
     }
 }
 
-module.exports = { getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct, approveProduct, deleteProduct, getProductBySellerID }
+const updateProduct = async (req, res) => {
+    try {
+        const {productID, productName, productCategory, productPrice, productPic, productQuantity, productDesc} = req.body;
+        await sql.query`update Products 
+set CategoryID = ${productCategory},
+ProductName = ${productName},
+ProductDescription = ${productDesc},
+ProductPrice = ${productPrice},
+ProductQuantity = ${productQuantity},
+ProductPic = ${productPic},
+ProductStatus = N'Chờ xác thực' 
+where ProductID = ${productID}`;
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
+module.exports = { getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct, approveProduct, deleteProduct, getProductBySellerID, updateProduct }

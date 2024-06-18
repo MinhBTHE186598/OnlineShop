@@ -9,24 +9,33 @@ import axios from 'axios';
 
 function EditProductModal({ show, onHide, product }) {
     const { user, setUser, setUserRole, setIsLogin } = useUser();
-    const [productName, setPName] = useState('');
-    const [productCategory, setSelectedOption] = useState('');
-    const [productPrice, setPPrice] = useState('')
-    const [productPic, setPPic] = useState('')
-    const [productQuantity, setPQuantity] = useState('')
-    const [productDesc, setPDesc] = useState('')
+    const [productName, setPName] = useState(product.ProductName);
+    const [productCategory, setSelectedOption] = useState(product.categoryID);
+    const [productPrice, setPPrice] = useState(product.ProductPrice);
+    const [productPic, setPPic] = useState(product.ProductPic);
+    const [productQuantity, setPQuantity] = useState(product.productQuantity);
+    const [productDesc, setPDesc] = useState(product.ProductDescription);
     
     const [categoryList, setCategories] = useState([{}])
 
     const [sellerList, setSellerList] = useState([]);
 
-    const userID = user.UserID;
+    useEffect(() => {
+        setPName(product.ProductName);
+        setSelectedOption(product.CategoryID);
+        setPPrice(product.ProductPrice);
+        setPPic(product.ProductPic);
+        setPQuantity(product.ProductQuantity);
+        setPDesc(product.ProductDescription);
+    }, [product.ProductName, product.CategoryID, product.ProductPrice, product.ProductPic, product.ProductQuantity, product.ProductDescription]);
 
+    const userID = user.UserID;
+    const productID = product.ProductID;
     const handleSubmit = async (e) => {
         // e.preventDefault();
         try {
-            const response = await axios.put('http://localhost:5000/user/update', {
-                sellerID,
+            const response = await axios.put('http://localhost:5000/product/update', {
+                productID,
                 productName,
                 productCategory,
                 productPrice,
@@ -72,7 +81,7 @@ function EditProductModal({ show, onHide, product }) {
 
     return (
         <div>
-            <Modal show={show} onHide={onHide} centered>
+            <Modal show={show} onHide={onHide} size="lg" centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Chỉnh Sửa Hồ Sơ Cá Nhân</Modal.Title>
                 </Modal.Header>
@@ -88,7 +97,7 @@ function EditProductModal({ show, onHide, product }) {
                         <Form.Group>
                         <Form.Label><b>Phân loại sản phẩm:</b></Form.Label><br />
                         
-                        <Form.Control as="select" value={product.CategoryID} onChange={(e) => setSelectedOption(e.target.value)}>
+                        <Form.Control as="select" defaultValue={product.CategoryID} onChange={(e) => setSelectedOption(e.target.value)}>
                             {categoryList.map((category, index) => (
                                 <option key={index} value={category.CategoryID}>{category.CategoryName}</option>
                             ))}

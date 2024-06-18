@@ -10,5 +10,5 @@ router.post('/filter', product.filterProduct)
 router.delete('/delete/:id', product.deleteProduct)
 router.put('/approve/:id', product.approveProduct)
 router.get('/getProductSID/:id', product.getProductBySellerID)
-
+router.put('/update', product.updateProduct)
 module.exports = router
