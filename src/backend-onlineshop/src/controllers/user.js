@@ -1,5 +1,6 @@
 const sql = require('mssql');
 
+// Get all users
 const getUser = async (req, res) => {
     try {
         const result = await sql.query`SELECT * FROM Users`;
@@ -8,8 +9,9 @@ const getUser = async (req, res) => {
         console.error(err);
         res.status(500).send('Server Error');
     }
-}
+};
 
+// Delete user by ID
 const deleteUser = async (req, res) => {
     try {
         const userId = req.params.id;
@@ -34,53 +36,89 @@ const deleteUser = async (req, res) => {
         console.error(err);
         res.status(500).send('Server Error');
     }
-}
+};
 
+// Register a new user
 const registerUser = async (req, res) => {
     try {
-        const { gmail, number, password , address , firstName , lastName} = req.body;
-        const name = req.body.name;
+        const { name, gmail, number, password, address, firstName, lastName, isShipper } = req.body;
+        
+        const result = await sql.query`
+            INSERT INTO Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName)
+            OUTPUT INSERTED.UserID
+            VALUES (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail}, ${address}, ${number}, ${firstName}, ${lastName});
+        `;
+        
+        const UserID = result.recordset[0].UserID;
 
-        await sql.query`insert into Users (UserAccountName, UserPassword, UserPFP, UserAddress, UserEmail, UserPhone , UserFirstName, UserLastName)
-         values (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail},${address }, ${number}, ${firstName}, ${lastName})`;  
-        console.log(name)
-        res.send('Success')
+        if (isShipper) {
+            await sql.query`INSERT INTO Shippers (UserID) VALUES (${UserID});`;
+        }
+
+        res.json({ success: true, UserID });
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
     }
-}
+};
 
+// Get all shippers
+const getShipper = async (req, res) => {
+    try {
+        const result = await sql.query`SELECT * FROM Shippers`;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+// Register a shipper
+const registerShipper = async (req, res) => {
+    try {
+        const { UserID } = req.body;
+        await sql.query`INSERT INTO Shippers (UserID) VALUES (${UserID})`;
+        res.send('Success');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+// Get user by ID
 const getUserByID = async (req, res) => {
     try {
         const userID = req.params.id;
-        const result = await sql.query`Select * from Users where UserID=${userID}`;
+        const result = await sql.query`SELECT * FROM Users WHERE UserID = ${userID}`;
         res.json(result.recordset);
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
     }
-}
+};
 
+// Update user
 const updateUser = async (req, res) => {
     try {
-        const {Password, Address, Email, Phone, FirstName, LastName, PFP, userID} = req.body;
-        const result = await sql.query`update Users set UserPassword = ${Password}, UserPFP = ${PFP}, UserEmail = ${Email}, UserAddress = ${Address}, UserPhone = ${Phone}, UserFirstName = ${FirstName}, UserLastName = ${LastName} where UserID = ${userID}`;
+        const { Password, Address, Email, Phone, FirstName, LastName, PFP, userID } = req.body;
+        const result = await sql.query`
+            UPDATE Users
+            SET UserPassword = ${Password}, UserPFP = ${PFP}, UserEmail = ${Email}, UserAddress = ${Address}, UserPhone = ${Phone}, UserFirstName = ${FirstName}, UserLastName = ${LastName}
+            WHERE UserID = ${userID}
+        `;
         res.json(result.recordset);
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
     }
-}
+};
 
+// Check if username exists
 const checkUsername = async (req, res) => {
     try {
         const { name } = req.query;
-
-        const result = await sql.query`SELECT COUNT(*) AS count FROM Users WHERE UserAccountName = ${name} `;
-        
+        const result = await sql.query`SELECT COUNT(*) AS count FROM Users WHERE UserAccountName = ${name}`;
         const exists = result.recordset[0].count > 0;
-
         res.json({ exists });
     } catch (err) {
         console.error(err);
@@ -88,5 +126,13 @@ const checkUsername = async (req, res) => {
     }
 };
 
-
-module.exports = { getUser, deleteUser, registerUser, getUserByID, updateUser, checkUsername } //export getUser
+module.exports = {
+    getUser,
+    deleteUser,
+    registerUser,
+    getUserByID,
+    updateUser,
+    checkUsername,
+    getShipper,
+    registerShipper
+};

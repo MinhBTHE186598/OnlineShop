@@ -7,7 +7,6 @@ const category = require("./category")
 const sellManager = require("./sellManager")
 const admin = require("./admin")
 const contact = require("./contact")
-
 const initRoutes = (app) => {
 
     app.use('/user', user)

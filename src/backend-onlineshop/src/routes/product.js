@@ -3,6 +3,7 @@ const router = require('express').Router();
 
 router.get('/get', product.getProduct)
 router.get('/getAll', product.getAllProduct)
+router.post('/getAllFilter', product.getAllProductFilter)
 router.get('/getWhitelistProduct', product.getWhitelistProduct)
 router.get('/getProductByID/:id', product.getProductByID)
 router.post('/addProduct', product.addProduct)

@@ -255,7 +255,7 @@ function Profile(props) {
                                 </tr>
                             </tbody>
                         </Table>
-                        <Button style={{ position: 'absolute', marginBottom: '10vh', marginLeft: '10vw', width: '40vw', height: '50px', backgroundColor: 'white', color: `${borderColor}` }}
+                        <Button  style={{ position: 'absolute', marginBottom: '10vh', marginLeft: '10vw', width: '40vw', height: '50px', backgroundColor: 'white', color: `${borderColor}` }}
                             onMouseEnter={(e) => {
                                 e.target.style.backgroundColor = `${borderColor}`;
                                 e.target.style.color = 'white'
@@ -266,7 +266,7 @@ function Profile(props) {
                                 e.target.style.color = `${borderColor}`
                             }}
                         >
-                            Bạn đang gặp vấn đề? Liên hệ với chúng tôi ngay!
+                          <a href='/contact' style={{ textDecoration : 'none' }}> Bạn đang gặp vấn đề? Liên hệ với chúng tôi ngay!</a> 
                         </Button>
                         {isMyProfile ? (
                             <Button style={{ marginTop: '7vh', marginLeft: '10vw', width: '40vw', height: '50px', backgroundColor: 'white', borderColor: 'red', color: `red` }}

@@ -9,12 +9,9 @@ import ProductManager from './ProductManager';
 
 
 function AdminAction() {
-    const Arr = ['1', '2', '3', '4', '5'];
-
     return (
         <div id="wrapper" style={{ margin: '125px 30px' }}>
-
-            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+            <Tab.Container  id="left-tabs-example" defaultActiveKey="first">
                 <Row>
                     <Col sm={3}>
                         <Nav variant="pills" className="flex-column">
@@ -50,29 +47,18 @@ function AdminAction() {
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
                                 <Row>
-                                    {Arr.map((index) => (
-                                        <ListGroup key={index} horizontal className="my-2">
-                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
-                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
-                                        </ListGroup>
-                                    ))}
+
                                 </Row>
                             </Tab.Pane>
                             <Tab.Pane eventKey="fifth">
                                 <Row>
-                                    {Arr.map((index) => (
-                                        <ListGroup key={index} horizontal className="my-2">
-                                            <Col sm={9}><ListGroup.Item >Dong so {index}</ListGroup.Item></Col>
-                                            <Col sm={2}><ListGroup.Item >action</ListGroup.Item></Col>
-                                        </ListGroup>
-                                    ))}
+     
                                 </Row>
                             </Tab.Pane>
                         </Tab.Content>
                     </Col>
                 </Row>
             </Tab.Container>
-
         </div>
     );
 }
