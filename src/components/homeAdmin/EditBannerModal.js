@@ -100,7 +100,6 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
         <Modal.Title>Modal heading</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-
         <Form onSubmit={handleSubmit}>
           <Form.Label>Danh mục Banner</Form.Label>
           <Form.Select aria-label="Default select example" onChange={(e) => setCategoryID(e.target.value)} defaultValue={Banner.CategoryID}>
@@ -117,7 +116,6 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
             Save change
           </Button>
         </Form>
-
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
@@ -125,7 +123,6 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
         </Button>
       </Modal.Footer>
     </Modal>
-
   );
 }
 
