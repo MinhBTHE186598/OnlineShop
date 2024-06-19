@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserIModal from './UserInfoModal';
 import ConfirmModal from './ConfirmModal';
-
+import Table from 'react-bootstrap/Table';
 
 function UserManager() {
     const [modalShow, setModalShow] = useState(false);
@@ -40,11 +40,11 @@ function UserManager() {
         }
     }
     const handleDelete = (userID) => {
-        try{
+        try {
             setUserInf(userID)
-            if(userID===23||userID===24){
+            if (userID === 23 || userID === 24) {
                 alert("cannot delete admin");
-            }else{
+            } else {
                 setConfirmShow(true)
             }
         } catch (error) {
@@ -63,33 +63,33 @@ function UserManager() {
     }
 
     return (
-        <div id="userManager-wrapper">
-            <Row>
-                <ListGroup sm={11} horizontal>
-                    <Col sx={1}>ID</Col>
-                    <Col sm={2}>UserName</Col>
-                    <Col sm={2}>Password</Col>
-                    <Col sm={3}>Full name</Col>
-                    <Col sm={3}>Contact Number</Col>
-                    <Col sm={1}>Action</Col>
-                </ListGroup>
-            </Row>
-            <Row>
+        <Table striped bordered hover>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>UserName</th>
+                    <th>Password</th>
+                    <th>Full name</th>
+                    <th>Contact Number</th>
+                    <th colSpan={2} style={{}}>Action</th>
+                </tr>
+            </thead>
+            <tbody>
                 {userList.map((user) => (
-                    <ListGroup key={user.UserID} horizontal className="my-2">
-                        <Col xs={1}><ListGroup.Item >{user.UserID}</ListGroup.Item></Col>
-                        <Col sm={2}><ListGroup.Item>{user.UserAccountName}</ListGroup.Item></Col>
-                        <Col sm={2}><ListGroup.Item >{user.UserPassword}</ListGroup.Item></Col>
-                        <Col sm={3}><ListGroup.Item >{user.UserFirstName + " " + user.UserLastName}</ListGroup.Item></Col>
-                        <Col sm={2}><ListGroup.Item >{user.UserPhone}</ListGroup.Item></Col>
-                        <Col sm={1}><ListGroup.Item action variant='secondary' onClick={() => { handleDelete(user.UserID) }} >Delete</ListGroup.Item></Col>
-                        <Col sm={1}><ListGroup.Item action variant='secondary' onClick={() => { handleModel(user) }} >View</ListGroup.Item></Col>
-                    </ListGroup>
+                    <tr key={user.UserID}>
+                        <td>{user.UserID}</td>
+                        <td>{user.UserAccountName}</td>
+                        <td>{user.UserPassword}</td>
+                        <td>{user.UserFirstName + " " + user.UserLastName}</td>
+                        <td>{user.UserPhone}</td>
+                        <td action onClick={() => { handleDelete(user.UserID) }}>Delete</td>
+                        <td action onClick={() => { handleModel(user) }}>View</td>
+                    </tr>
                 ))}
                 <UserIModal show={modalShow} onHide={() => setModalShow(false)} user={userInf} />
-                <ConfirmModal show = {confirmShow} onHide={()=>setConfirmShow(false)} onConfirm={() => { deleteUser(userInf) }} obj="user"/>
-            </Row>
-        </div>
+                <ConfirmModal show={confirmShow} onHide={() => setConfirmShow(false)} onConfirm={() => { deleteUser(userInf) }} obj="user" />
+            </tbody>
+        </Table>
     )
 }
 
