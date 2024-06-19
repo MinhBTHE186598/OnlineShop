@@ -7,7 +7,7 @@ const category = require("./category")
 const sellManager = require("./sellManager")
 const admin = require("./admin")
 const contact = require("./contact")
-
+const shipper = require("./shipper")
 const initRoutes = (app) => {
 
     app.use('/user', user)
@@ -19,6 +19,7 @@ const initRoutes = (app) => {
     app.use('/sellManager', sellManager)
     app.use('/admin', admin)
     app.use('/contact', contact)
+    app.use('/shipper', shipper)
     return app.use("/", (req, res) => {
         return res.send("hello w2")
     })
