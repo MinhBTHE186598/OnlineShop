@@ -8,5 +8,5 @@ router.get('/getProductByID/:id', product.getProductByID)
 router.post('/addProduct', product.addProduct)
 router.post('/filter', product.filterProduct)
 router.delete('/delete/:id', product.deleteProduct)
-router.put('/approve/:id', product.approveProduct)
+router.put('/approve', product.approveProduct)
 module.exports = router

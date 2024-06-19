@@ -58,8 +58,14 @@ const addProduct = async (req, res) => {
 }
 const approveProduct = async (req, res) => {
     try {     
-        const { id } = req.params;
-        await sql.query`update Products set ProductStatus = N'Đã xác thực' where ProductID = ${id}`
+        const  id  = req.body;
+        console.log(id);
+        const result = await sql.query`update Products set ProductStatus = N'Đã xác thực' where ProductID = ${id}`
+        if (result.rowsAffected[0] === 0) {
+            res.status(404).send('Product not found');
+        } else {
+            res.send('Product approved successfully');
+        }
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');

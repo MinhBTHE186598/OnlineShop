@@ -4,27 +4,29 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import React from 'react'
 
-function ApproveProductModal( show, onHide, Product = {}, onUpdate ) {
-    ApproveProductModal.PropTypes = {
-        show: PropTypes.bool.isRequired,
-        onHide: PropTypes.func.isRequired,
-        Product: PropTypes.object,
-        onUpdate: PropTypes.func,
-      };
-    const [productID, setProductID] = useState(Product.ProductID || '');
-    useEffect(() => {
-      if (Product) {
-          setProductID(Product.ProductID || '');
-      }
-    }, [Product]);
-    const handleSubmit = async (e) => {
+function ApproveProductModal({ show, onHide, Product = {}, onUpdate }) {
+  // Correct way to declare PropTypes
+  ApproveProductModal.propTypes = {
+    show: PropTypes.bool.isRequired,
+    onHide: PropTypes.func.isRequired,
+    Product: PropTypes.object,
+    onUpdate: PropTypes.func,
+  };
+
+  const [productID, setProductID] = useState(Product.ProductID || '');
+
+  useEffect(() => {
+    if (Product) {
+      setProductID(Product.ProductID || '');
+    }
+  }, [Product]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5000/product/approveProduct/${productID}`, {
+      const response = await axios.put('http://localhost:5000/product/approve', {
         ProductID: productID,
-        ProductStatus: "Approved",
       });
       if (response.status === 200) {
         onUpdate({ ProductID: productID, ProductStatus: "Approved" });
@@ -37,6 +39,7 @@ function ApproveProductModal( show, onHide, Product = {}, onUpdate ) {
       console.error('Error', error);
     }
   };
+
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
@@ -49,14 +52,12 @@ function ApproveProductModal( show, onHide, Product = {}, onUpdate ) {
             Approve
           </Button>
           <Button variant="secondary" onClick={onHide}>
-          Close
-        </Button>
+            Close
+          </Button>
         </Form>
       </Modal.Body>
     </Modal>
   );
-  
-  
 }
 
-export default ApproveProductModal
+export default ApproveProductModal;
