@@ -19,10 +19,10 @@ function Profile(props) {
     const borderColor = '#0d6efd';
     const navigate = useNavigate();
     const { user, setUser, setUserRole, setIsLogin } = useUser();
-    
+
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
-    const handleShowEdit = () => setShowEdit(true);
+    
 
     const [sellerList, setSellerList] = useState([]);
     const [sellManagerList, setSellManagerList] = useState([]);
@@ -63,9 +63,9 @@ function Profile(props) {
             })
     }, [])
 
-    useEffect(() => {
-        setProfileRole(getRole(props.id));
-    }, []);
+    // useEffect(() => {
+    //     setProfileRole(getRole(props.id));
+    // }, []);
 
     const getRole = (id) => {
         const seller = sellerList.find(seller => seller.UserID === id);
@@ -95,11 +95,10 @@ function Profile(props) {
         }
     }
     const isMyProfile = (user && user.UserID.toString() === props.id);
-    
+
     const profile = userList.find(User => User.UserID.toString() === props.id);
 
     const [profileRole, setProfileRole] = useState("");
-    const isSeller = profileRole.startsWith("User");
 
     useEffect(() => {
         if (profile) {
@@ -107,9 +106,86 @@ function Profile(props) {
         }
     }, [profile]);
 
+
+    const renderContent = () => {
+        switch (true) {
+            case (profileRole.startsWith("Seller")):
+                return (
+                    <Button style={{
+                        width: '200px',
+                        height: '50px',
+                        marginTop: '15vh',
+                        backgroundColor: 'white',
+                        color: 'orange',
+                        borderColor: 'orange',
+                    }}
+                        onMouseEnter={(e) => {
+                            e.target.style.backgroundColor = 'orange';
+                            e.target.style.color = 'white'
+                        }}
+
+                        onMouseLeave={(e) => {
+                            e.target.style.backgroundColor = 'white';
+                            e.target.style.color = 'orange'
+                        }}
+                        onClick={() => { navigate('/sellerShopManage') }}>
+                        Cửa Hàng Của Tôi
+                    </Button>
+                );
+            case profileRole.startsWith("User"):
+                return (
+                    <Button style={{
+                        width: '200px',
+                        height: '50px',
+                        marginTop: '15vh',
+                        backgroundColor: 'white',
+                        color: 'orange',
+                        borderColor: 'orange',
+                    }}
+                        onMouseEnter={(e) => {
+                            e.target.style.backgroundColor = 'orange';
+                            e.target.style.color = 'white'
+                        }}
+
+                        onMouseLeave={(e) => {
+                            e.target.style.backgroundColor = 'white';
+                            e.target.style.color = 'orange'
+                        }}
+                        onClick={() => { navigate('/addSeller') }}>
+                        Đăng Ký Bán Hàng
+                    </Button>
+                );
+            case (profileRole.startsWith("SellManager")):
+                return (
+                    <Button style={{
+                        width: '200px',
+                        height: '50px',
+                        marginTop: '15vh',
+                        backgroundColor: 'white',
+                        color: 'orange',
+                        borderColor: 'orange',
+                    }}
+                        onMouseEnter={(e) => {
+                            e.target.style.backgroundColor = 'orange';
+                            e.target.style.color = 'white'
+                        }}
+
+                        onMouseLeave={(e) => {
+                            e.target.style.backgroundColor = 'white';
+                            e.target.style.color = 'orange'
+                        }}
+                        onClick={() => { navigate('/homeManager') }}>
+                        Quản Lý Sellers
+                    </Button>
+                );
+            default:
+                return null;
+        }
+    }
+
     return (
         profile ? (
-            <Container fluid style={{ backgroundImage: `url(${bgi})`, backgroundSize: 'cover', minHeight: '100vh', height:'max-content', overflow: 'auto' }}>
+            <Container fluid style={{ backgroundImage: `url(${bgi})`, backgroundSize: 'cover', minHeight: '100vh', height: 'max-content', overflow: 'auto' }}>
                 <Row>
                     <Col md={3} style={{ backgroundColor: '#f8f9fa', display: 'flex', flexDirection: 'column', alignItems: 'center', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '8%', minHeight: '900px' }}>
                         <div style={{
@@ -125,7 +201,7 @@ function Profile(props) {
                             boxShadow: '0 6px 6px rgba(0, 0, 0, 0.1)',
                             position: 'relative',
                         }}>
-                            <Image  src={profile.UserPFP} fluid />
+                            <Image src={profile.UserPFP} fluid />
                         </div>
                         <div style={{ marginTop: '20px', textAlign: 'center', width: '100%' }}>
                             <h3 >{profile.UserFirstName} {profile.UserLastName}</h3>
@@ -138,75 +214,34 @@ function Profile(props) {
 
                         </div>
                         <hr style={{ color: 'red', width: '300px' }} />
-                        {isMyProfile ?(
-                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                            {isSeller ? (
-                            <Button style={{
-                                width: '200px',
-                                height: '50px',
-                                marginTop: '15vh',
-                                backgroundColor: 'white',
-                                color: 'orange',
-                                borderColor: 'orange',
-                            }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.backgroundColor = 'orange';
-                                    e.target.style.color = 'white'
-                                }}
+                        {isMyProfile ? (
+                            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                {renderContent(profileRole)}
 
-                                onMouseLeave={(e) => {
-                                    e.target.style.backgroundColor = 'white';
-                                    e.target.style.color = 'orange'
-                                }}
-                                onClick={() => {navigate('/addSeller')}}>
-                                Đăng Ký Bán Hàng
-                            </Button>
-                            ): (
                                 <Button style={{
                                     width: '200px',
                                     height: '50px',
-                                    marginTop: '15vh',
+                                    marginTop: '10px',
                                     backgroundColor: 'white',
-                                    color: 'orange',
-                                    borderColor: 'orange',
+                                    color: `${borderColor}`,
                                 }}
                                     onMouseEnter={(e) => {
-                                        e.target.style.backgroundColor = 'orange';
+                                        e.target.style.backgroundColor = `${borderColor}`;
                                         e.target.style.color = 'white'
                                     }}
-    
+
                                     onMouseLeave={(e) => {
                                         e.target.style.backgroundColor = 'white';
-                                        e.target.style.color = 'orange'
+                                        e.target.style.color = `${borderColor}`
                                     }}
-                                    onClick={() => {navigate('/sellerShopManage')}}>
-                                    Cửa Hàng Của Tôi
+                                    onClick={() => { setShowEdit(true) }}>
+                                    Chỉnh Sửa Hồ Sơ
                                 </Button>
-                                )}
-                            <Button style={{
-                                width: '200px',
-                                height: '50px',
-                                marginTop: '10px',
-                                backgroundColor: 'white',
-                                color: `${borderColor}`,
-                            }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.backgroundColor = `${borderColor}`;
-                                    e.target.style.color = 'white'
-                                }}
-
-                                onMouseLeave={(e) => {
-                                    e.target.style.backgroundColor = 'white';
-                                    e.target.style.color = `${borderColor}`
-                                }}
-                                onClick={() => {setShowEdit(true)}}>
-                                Chỉnh Sửa Hồ Sơ
-                            </Button>
-                        </div>
+                            </div>
                         ) : null}
                     </Col>
 
-                    <Col md={7} style={{ backgroundColor: '#f8f9fa', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '10px',marginBottom:'1px', minHeight: '900px', height: 'max-content' }}>
+                    <Col md={7} style={{ backgroundColor: '#f8f9fa', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '10px', marginBottom: '1px', minHeight: '900px', height: 'max-content' }}>
                         <div style={{ marginTop: '15vh', marginLeft: '5vh' }}>
                             <h1><b>HỒ SƠ CỦA TÔI</b></h1>
                             <p>Hãy cập nhật hồ sơ để tăng bảo mật cho tài khoản của bạn</p>
@@ -255,7 +290,7 @@ function Profile(props) {
                                 </tr>
                             </tbody>
                         </Table>
-                        <Button  style={{ position: 'absolute', marginBottom: '10vh', marginLeft: '10vw', width: '40vw', height: '50px', backgroundColor: 'white', color: `${borderColor}` }}
+                        <Button style={{ position: 'absolute', marginBottom: '10vh', marginLeft: '10vw', width: '40vw', height: '50px', backgroundColor: 'white', color: `${borderColor}` }}
                             onMouseEnter={(e) => {
                                 e.target.style.backgroundColor = `${borderColor}`;
                                 e.target.style.color = 'white'
@@ -266,7 +301,7 @@ function Profile(props) {
                                 e.target.style.color = `${borderColor}`
                             }}
                         >
-                          <a href='/contact' style={{ textDecoration : 'none' }}> Bạn đang gặp vấn đề? Liên hệ với chúng tôi ngay!</a> 
+                            <a href='/contact' style={{ textDecoration: 'none' }}> Bạn đang gặp vấn đề? Liên hệ với chúng tôi ngay!</a>
                         </Button>
                         {isMyProfile ? (
                             <Button style={{ marginTop: '7vh', marginLeft: '10vw', width: '40vw', height: '50px', backgroundColor: 'white', borderColor: 'red', color: `red` }}
@@ -286,7 +321,7 @@ function Profile(props) {
                         ) : null}
                     </Col>
                 </Row>
-                <EditProfileModal show={showEdit} onHide={handleCloseEdit}/>
+                <EditProfileModal show={showEdit} onHide={handleCloseEdit} />
             </Container>
         ) : null
     );
