@@ -179,7 +179,7 @@ function Profile(props) {
                                         e.target.style.backgroundColor = 'white';
                                         e.target.style.color = 'orange'
                                     }}
-                                    onClick={() => {navigate('/sellerShop')}}>
+                                    onClick={() => {navigate('/sellerShopManage')}}>
                                     Cửa Hàng Của Tôi
                                 </Button>
                                 )}

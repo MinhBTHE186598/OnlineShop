@@ -15,6 +15,7 @@ import { UserProvider } from './components/context/UserContext';
 import HomeManager from './webpages/HomeManager';
 import ContactForm from './webpages/contactUs';
 import HomeShipper from './webpages/HomeShipper';
+import SellerShopManage from './webpages/SellerShop';
 function App() {
   return (
     <div>
@@ -38,6 +39,8 @@ function App() {
             <Route path='/homeManager' element={<HomeManager/>}/>
             <Route path='/contact' element={<ContactForm/>}/>
             <Route path='/homeShipper' element={<HomeShipper/>}/>
+            <Route path='/sellerShopManage' element={<SellerShopManage/>}/>
+
           </Routes>
         </BrowserRouter>
       </UserProvider>
