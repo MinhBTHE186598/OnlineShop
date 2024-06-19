@@ -13,7 +13,7 @@ function ShipperManager() {
     const [selectedShipper, setSelectedShipper] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:5000/shipper/get")
+        fetch("http://localhost:5000/user/getShipper")
             .then(response => response.json())
             .then(data => setShipperList(data))
             .catch(error => console.error('Error fetching shipper data:', error));
