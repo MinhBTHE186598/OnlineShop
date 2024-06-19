@@ -109,7 +109,7 @@ function AddProductForm() {
                         <Form.Control as="textarea" rows={5} placeholder="Nhập mô tả sản phẩm" onChange={(e) => setPDesc(e.target.value)} required />
                     </Form.Group>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', gap: '10px' }}>
-                        <Button variant="danger" onClick={() => window.location.href = "/"}>
+                        <Button variant="danger" onClick={() => navigate('/sellerShop')}>
                             Huỷ
                         </Button>
                         <Button variant="primary" type="submit">

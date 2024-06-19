@@ -68,7 +68,12 @@ const approveProduct = async (req, res) => {
 const  deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        await sql.query`delete from Products where ProductID = ${id}`;
+        await sql.query`delete from BillDetails
+where ProductID = ${id}
+delete from ProductReviews
+where ProductID = ${id}
+delete from Products
+where ProductID = ${id}`;
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
