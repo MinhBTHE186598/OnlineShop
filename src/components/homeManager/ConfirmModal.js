@@ -3,32 +3,32 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 
-function SellerInfoModal({ show, onHide, seller }) {
+function ConfirmModal({ show, onHide, onConfirm, obj }) {
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Seller Information</Modal.Title>
+                <Modal.Title>Confirm Delete</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p><strong>Seller ID:</strong> {seller.SellerID}</p>
-                <p><strong>Seller Name:</strong> {seller.SellerName}</p>
-                <p><strong>Seller Address:</strong> {seller.SellerAddress}</p>
-                <p><strong>User ID:</strong> {seller.UserID}</p>
-                
+                Are you sure you want to delete this {obj}?
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
-                    Close
+                    Cancel
+                </Button>
+                <Button variant="danger" onClick={onConfirm}>
+                    Confirm
                 </Button>
             </Modal.Footer>
         </Modal>
     );
 }
 
-SellerInfoModal.propTypes = {
+ConfirmModal.propTypes = {
     show: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired,
-    seller: PropTypes.object.isRequired
+    onConfirm: PropTypes.func.isRequired,
+    obj: PropTypes.string.isRequired
 };
 
-export default SellerInfoModal;
+export default ConfirmModal;
