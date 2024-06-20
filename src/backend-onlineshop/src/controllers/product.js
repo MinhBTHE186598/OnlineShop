@@ -28,14 +28,14 @@ group by c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p
 
 const getAllProductFilter = async (req, res) => {
     try {
-        const { category, range, seller, order } = req.body;
+        const { category, price, seller, order } = req.body;
         const result = await sql.query`SELECT SUM(b.BillQuantity)as Sold, c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p.ProductStatus,p.ProductQuantity,s.SellerName,u.UserID FROM Products P
         join Categories c on p.CategoryID=c.CategoryID
         join Sellers s on p.SellerID = s.SellerID
         join Users u on u.UserID = s.UserID
         left join BillDetails b on b.ProductID=p.ProductID
         where  c.CategoryID like ${category}
-        and p.ProductPrice between ${range[0]} and ${range[1]}
+        and p.ProductPrice between ${price[0]} and ${price[1]}
         and s.sellerID like ${seller}
         group by c.CategoryName, p.ProductID, p.ProductName, p.ProductPic, p.ProductPrice, p.ProductStatus, p.ProductQuantity, s.SellerName, u.UserID
         order by 

@@ -95,6 +95,7 @@ function Header() {
         <ButtonGroup className="m-1" aria-label="Third group">
           <DropdownButton as={ButtonGroup} title={`Chào mừng trở lại, ${user.UserFirstName}`} id="bg-nested-dropdown">
             <Dropdown.Item onClick={() => navigate(`/profile/${user.UserID}`)}>Hồ Sơ Của Tôi</Dropdown.Item>
+            {/* Neu nhu roll la admin thi moi hien ra System manager*/}
             {userRole==='Admin'&&(<Dropdown.Item onClick={handleAdminNavi} >System Manager</Dropdown.Item>)}
             <Dropdown.Item >{userRole}</Dropdown.Item>
             <Dropdown.Item onClick={logOut}>Đăng xuất</Dropdown.Item>

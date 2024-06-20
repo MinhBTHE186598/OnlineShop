@@ -15,7 +15,6 @@ import FilterOffcanvas from './FilterOffcanvas';
 export default function ProductManager() {
     const [cid, setcid] = useState('0');
     const [products, setProducts] = useState([{}])
-    const [categories, setCategories] = useState([]);
     const [sellers, setSellers] = useState([]);
     const [search, setSearch] = useState('')
     const [showf, setShowF] = useState(false);
@@ -38,14 +37,6 @@ export default function ProductManager() {
     };
 
     useEffect(() => {
-        fetch("http://localhost:5000/category/getCategories")
-            .then(response => response.json())
-            .then(data => {
-                setCategories(data)
-            })
-    }, [])
-
-    useEffect(() => {
         (async () => {
             try {
                 const response = await fetch("http://localhost:5000/product/getAllFilter", {
@@ -64,13 +55,13 @@ export default function ProductManager() {
         })();
     }, [filter]);
 
-    useEffect(() => {
-        fetch("http://localhost:5000/product/getAll")
-            .then(response => response.json())
-            .then(data => {
-                setProducts(data)
-            })
-    }, [])
+    // useEffect(() => {
+    //     fetch("http://localhost:5000/product/getAll")
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             setProducts(data)
+    //         })
+    // }, [])
 
     const [sortTitle, setSortTitle] = useState('Sắp xếp');
     const [sortPrice, setSortPrice] = useState('Lọc theo giá');
