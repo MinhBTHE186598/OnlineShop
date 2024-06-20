@@ -41,26 +41,22 @@ const deleteUser = async (req, res) => {
 // Register a new user
 const registerUser = async (req, res) => {
     try {
-        const { name, gmail, number, password, address, firstName, lastName, isShipper } = req.body;
-        
+        const { name, gmail, number, password, address, firstName, lastName } = req.body;
+
         const result = await sql.query`
             INSERT INTO Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName)
             OUTPUT INSERTED.UserID
             VALUES (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail}, ${address}, ${number}, ${firstName}, ${lastName});
         `;
-        
+
         const UserID = result.recordset[0].UserID;
-
-        if (isShipper) {
-            await sql.query`INSERT INTO Shippers (UserID) VALUES (${UserID});`;
-        }
-
         res.json({ success: true, UserID });
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
     }
 };
+
 
 // Get all shippers
 const getShipper = async (req, res) => {
@@ -76,9 +72,21 @@ const getShipper = async (req, res) => {
 // Register a shipper
 const registerShipper = async (req, res) => {
     try {
-        const { UserID } = req.body;
-        await sql.query`INSERT INTO Shippers (UserID) VALUES (${UserID})`;
-        res.send('Success');
+        const { name, gmail, number, password, address, firstName, lastName } = req.body;
+
+        // First register the user
+        const result = await sql.query`
+            INSERT INTO Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName)
+            OUTPUT INSERTED.UserID
+            VALUES (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail}, ${address}, ${number}, ${firstName}, ${lastName});
+        `;
+
+        const UserID = result.recordset[0].UserID;
+
+        // Then register the shipper
+        await sql.query`INSERT INTO Shippers (UserID) VALUES (${UserID});`;
+
+        res.json({ success: true, UserID });
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
