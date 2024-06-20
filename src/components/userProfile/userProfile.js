@@ -310,8 +310,9 @@ function Profile(props) {
                                 e.target.style.backgroundColor = 'white';
                                 e.target.style.color = `${borderColor}`
                             }}
+                            onClick={() => { navigate('/contact') }}
                         >
-                            <a href='/contact' style={{ textDecoration: 'none' }}> Bạn đang gặp vấn đề? Liên hệ với chúng tôi ngay!</a>
+                             Bạn đang gặp vấn đề? Liên hệ với chúng tôi ngay!
                         </Button>
                         {isMyProfile ? (
                             <Button style={{ marginTop: '7vh', marginLeft: '10vw', width: '40vw', height: '50px', backgroundColor: 'white', borderColor: 'red', color: `red` }}
