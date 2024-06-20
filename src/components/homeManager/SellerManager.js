@@ -1,85 +1,120 @@
-import React, { useEffect, useState } from 'react';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import ListGroup from 'react-bootstrap/ListGroup';
+import React, { useState, useEffect } from 'react';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 import SellerInfoModal from './SellerInfoModal';
 import EditSellerModal from './EditSellerModal';
+import ConfirmModal from './ConfirmModal';
+import Image from 'react-bootstrap/Image';
+import axios from 'axios';
 
+export default function SellerManager() {
+  const [sellers, setSellers] = useState([]);
+  const [showEdit, setShowEdit] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedSeller, setSelectedSeller] = useState(null);
+  const [sellerIDToDelete, setSellerIDToDelete] = useState(null);
+  const [modalShow, setModalShow] = useState(false);
 
-function SellerManager() {
-    const [modalShow, setModalShow] = useState(false);
-    const [showEdit, setShowEdit] = useState(false);
-    const [sellerList, setSellerList] = useState([]);
-    const [selectedSeller, setSelectedSeller] = useState(null);
+  useEffect(() => {
+    fetch("http://localhost:5000/seller/get")
+      .then(response => response.json())
+      .then(data => {
+        setSellers(data);
+      });
+  }, []);
 
-    useEffect(() => {
-        fetch("http://localhost:5000/seller/get")
-            .then(response => response.json())
-            .then(data => setSellerList(data))
-            .catch(error => console.error('Error fetching seller data:', error));
-    }, []);
+  const handleEditSeller = (seller) => {
+    setSelectedSeller(seller);
+    setShowEdit(true);
+  };
 
-    const handleShowEdit = () => setShowEdit(true);
+  const handleViewSeller = (seller) => {
+    setSelectedSeller(seller);
+    setModalShow(true);
+  };
 
-    const handleUpdate = (updatedSeller) => {
-        setSellerList(sellerList.map(seller =>
-            seller.SellerID === updatedSeller.SellerID ? updatedSeller : seller
-        ));
-        setShowEdit(false);
-    };
+  const handleUpdate = (updatedSeller) => {
+    setSellers(sellers.map(seller =>
+      seller.SellerID === updatedSeller.SellerID ? updatedSeller : seller
+    ));
+    setShowEdit(false);
+  };
 
-    const handleViewSeller = (seller) => {
-        setSelectedSeller(seller);
-        setModalShow(true);
-    };
+  const handleDeleteSeller = async (sellerID) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/seller/delete/${sellerID}`);
+      if (response.status === 200) {
+        setSellers(sellers.filter(seller => seller.SellerID !== sellerID));
+        console.log('Seller deleted successfully');
+      } else {
+        console.log('Error deleting seller');
+      }
+    } catch (error) {
+      console.error('Error', error);
+    }
+    setShowConfirm(false);
+  };
 
-    const handleEditSeller = (seller) => {
-        setSelectedSeller(seller);
-        handleShowEdit();
-    };
-  
-    return (
-        <div id="userManager-wrapper">
-            <Row>
-                <ListGroup horizontal className="w-100">
-                    <Col sm={1}>SellerID</Col>
-                    <Col sm={2}>SellerName</Col>
-                    <Col sm={2}>SellerAddress</Col>
-                    <Col sm={3}>UserID</Col>
-                    <Col sm={2}>Actions</Col>
-                </ListGroup>
-            </Row>
-            <Row>
-                {sellerList.map((seller) => (
-                    <ListGroup key={seller.SellerID} horizontal className="my-2 w-100">
-                        <Col sm={1}><ListGroup.Item>{seller.SellerID}</ListGroup.Item></Col>
-                        <Col sm={2}><ListGroup.Item>{seller.SellerName}</ListGroup.Item></Col>
-                        <Col sm={2}><ListGroup.Item>{seller.SellerAddress}</ListGroup.Item></Col>
-                        <Col sm={3}><ListGroup.Item>{seller.UserID}</ListGroup.Item></Col>
-                        <Col sm={2}>
-                            <ListGroup.Item action variant="secondary" onClick={() => handleEditSeller(seller)}>Update</ListGroup.Item>
-                            <ListGroup.Item action variant="secondary" onClick={() => handleViewSeller(seller)}>View</ListGroup.Item>
-                        </Col>
-                    </ListGroup>
-                ))}
-            </Row>
-            {selectedSeller && (
-                <>
-                    <EditSellerModal
-                        show={showEdit}
-                        onHide={() => setShowEdit(false)}
-                        Seller={selectedSeller}
-                        onUpdate={handleUpdate}
-                    />
-                    <SellerInfoModal
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                        seller={selectedSeller}
-                    />
-                </>
-            )}
-        </div>
-    );
+  const confirmDeleteSeller = (sellerID) => {
+    setSellerIDToDelete(sellerID);
+    setShowConfirm(true);
+  };
+
+  return (
+    <>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Seller ID</th>
+            <th>Seller Name</th>
+            <th>Seller Address</th>
+
+            <th>User ID</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sellers.map((seller, index) => (
+            <tr key={index}>
+              <td>{seller.SellerID}</td>
+              <td>{seller.SellerName}</td>
+              <td>{seller.SellerAddress}</td>
+          
+              <td>{seller.UserID}</td>
+              <td>
+                <Button size="sm" variant="primary" onClick={() => handleEditSeller(seller)}>
+                  Edit
+                </Button>
+                <Button size="sm" variant="info" onClick={() => handleViewSeller(seller)} style={{ marginLeft: '10px' }}>
+                  View
+                </Button>
+
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      {selectedSeller && (
+        <>
+          <EditSellerModal
+            show={showEdit}
+            onHide={() => setShowEdit(false)}
+            Seller={selectedSeller}
+            onUpdate={handleUpdate}
+          />
+          <SellerInfoModal
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            seller={selectedSeller}
+          />
+        </>
+      )}
+      <ConfirmModal
+        show={showConfirm}
+        onHide={() => setShowConfirm(false)}
+        onConfirm={() => handleDeleteSeller(sellerIDToDelete)}
+        obj="seller"
+      />
+    </>
+  );
 }
-
-export default SellerManager;

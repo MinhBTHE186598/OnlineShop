@@ -21,40 +21,41 @@ function RegisterBoard() {
   const [address, setAddress] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [isShipper, setIsShipper] = useState(false); 
+  const [isShipper, setIsShipper] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (password !== confirmPassword) {
       setError('Mật khẩu không trùng khớp');
       return;
     }
     setError('');
-  
+
     try {
       const checkUserResponse = await axios.get('http://localhost:5000/user/checkUsername', {
-        params: { name  }
+        params: { name }
       });
-  
+
       if (checkUserResponse.data.exists) {
         setError('Tài khoản tồn tại');
         return;
       }
-  
-      // Register the user and get UserID in response
-      const response = await axios.post('http://localhost:5000/user/registerUser', {
+
+      // Determine which endpoint to call based on isShipper state
+      const endpoint = isShipper ? 'registerShipper' : 'registerUser';
+
+      const response = await axios.post(`http://localhost:5000/user/${endpoint}`, {
         name,
         gmail,
         number,
         password,
         address,
         firstName,
-        lastName,
-        isShipper // Send this flag to the backend
+        lastName
       });
-  
+
       if (response.data.success) {
         alert('Đăng kí thành công');
         navigate('/login');
@@ -64,7 +65,6 @@ function RegisterBoard() {
       setError('Error: ' + error.message);
     }
   };
-  
 
   return (
     <div className='wrapper'>
@@ -111,7 +111,7 @@ function RegisterBoard() {
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Check 
+                <Form.Check
                   type="checkbox"
                   id="shipperCheckbox"
                   label="Ấn vào nếu bạn muốn đăng kí shipper"
