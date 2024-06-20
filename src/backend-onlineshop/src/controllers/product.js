@@ -106,11 +106,11 @@ where ProductID = ${id}`;
 }
 const filterProduct = async (req, res) => {
     try {
-        const { category, range, seller, order } = req.body;
+        const { category, price, seller, order } = req.body;
         const result = await sql.query`SELECT * FROM Products p 
         where ProductStatus like N'Đã xác thực' 
         and CategoryID like ${category}
-        and ProductPrice between ${range[0]} and ${range[1]}
+        and ProductPrice between ${price[0]} and ${price[1]}
         and sellerID like ${seller}
         order by 
         case ${order} WHEN 'ProductID asc' THEN ProductID end asc,
