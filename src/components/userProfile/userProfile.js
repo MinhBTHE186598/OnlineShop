@@ -27,6 +27,8 @@ function Profile(props) {
     const [sellerList, setSellerList] = useState([]);
     const [sellManagerList, setSellManagerList] = useState([]);
     const [AdminList, setAdminList] = useState([]);
+    const [shipperList, setShipperList] = useState([]);
+
 
     React.useEffect(() => {
         fetch("http://localhost:5000/seller/get")
@@ -52,7 +54,13 @@ function Profile(props) {
             })
     }, [])
 
-
+    React.useEffect(() => {
+        fetch("http://localhost:5000/user/getShipper")
+            .then(response => response.json())
+            .then(data => {
+                setShipperList(data)
+            })
+    }, [])
 
     const [userList, setUserList] = React.useState([]);
     React.useEffect(() => {
@@ -71,9 +79,11 @@ function Profile(props) {
         const seller = sellerList.find(seller => seller.UserID === id);
         const sellManager = sellManagerList.find(sellManager => sellManager.UserID === id);
         const admin = AdminList.find(admin => admin.UserID === id);
+        const shipper = shipperList.find(shipper => shipper.UserID === id);
         if (seller) return "Seller | SellerID:" + seller.SellerID;
         else if (sellManager) return "SellManager | SellManagerID:" + sellManager.SellManagerID;
         else if (admin) return "Admin | AdminID:" + admin.AdminID;
+        else if (shipper) return "Shipper | ShipperID:" + shipper.ShipperID;
         else return "User";
     }
 
@@ -274,7 +284,7 @@ function Profile(props) {
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Địa chỉ nhận hàng</td>
+                                    <td style={{ fontWeight: 'bold', textAlign: 'end', width: '10vw' }}>Địa chỉ</td>
                                     <td>{profile.UserAddress}</td>
                                     <td></td>
                                 </tr>
