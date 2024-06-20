@@ -39,11 +39,11 @@ const ContactForm = () => {
         <Form onSubmit={handleSubmit} >
           <div>
             <h2 style={{textAlign: 'center'}}> Liên hệ</h2>
-            <label>Title</label>
+            <label>Tiêu đề</label>
             
             <input 
               type="text" 
-              placeholder='Title'
+              placeholder='Tiêu đề'
               value={title} 
               onChange={(e) => setTitle(e.target.value)} 
             />
