@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { useState,useEffect } from 'react';
 
 export default function FilterOffcanvas({ show, handleClose }) {
-    const [price, setPrice] = useState(50)
+    const [price, setPrice] = useState(0)
     const [categories, setCategories] = useState([]);
     const [sellers, setSellers] = useState([]);
     useEffect(() => {
