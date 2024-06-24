@@ -35,7 +35,7 @@ const getAllProductFilter = async (req, res) => {
         join Users u on u.UserID = s.UserID
         left join BillDetails b on b.ProductID=p.ProductID
         where  c.CategoryID like ${category}
-        and p.ProductPrice between 0 and ${price}
+        and p.ProductPrice between ${price[0]} and ${price[1]}
         and p.ProductQuantity between ${quantity[0]} and ${quantity[1]}
         and s.sellerID like ${seller}
         and p.productStatus like ${status}

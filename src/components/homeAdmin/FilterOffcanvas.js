@@ -29,10 +29,10 @@ export default function FilterOffcanvas({ show, handleClose, handleInputChange }
     useEffect(() => {
         if (Number(range) === 100) {
             setPrice('No Limit')
-            handleInputChange({ target: { name: 'price', value: 100000000 } })
+            handleInputChange({ target: { name: 'price', value: [0,100000000] } })
         } else if (range < 100) {
             setPrice(range * 10000)
-            handleInputChange({ target: { name: 'price', value: price } })
+            handleInputChange({ target: { name: 'price', value: [0,price] } })
         }
     }, [range, price, handleInputChange])
 
@@ -71,6 +71,17 @@ export default function FilterOffcanvas({ show, handleClose, handleInputChange }
                     <Row style={{ marginBottom: '30px' }}>
                         <Form.Label>Selected Price: {price}</Form.Label>
                     </Row>
+
+                    {/* <Row>
+                        <Form.Label>Filter by quantity</Form.Label>
+                    </Row>
+                    <Row>
+                        <Form.Range value={quantity} onChange={(e) => setRange(e.target.value)} />
+                    </Row>
+                    <Row style={{ marginBottom: '30px' }}>
+                        <Form.Label>Selected Price: {price}</Form.Label>
+                    </Row> */}
+
                     <Row style={{ marginBottom: '30px' }}>
                         <Col><Form.Label>Filter by Status</Form.Label></Col>
                         <Col>

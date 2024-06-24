@@ -19,7 +19,7 @@ export default function ProductManager() {
     const [filter, setFilter] = useState({
         category: '%' ,
         order: 'ProductID asc',
-        price: 100000000,
+        price: [0,100000000],
         seller: '%',
         status: '%',
         quantity: [0, 9999]
