@@ -35,7 +35,7 @@ const getAllProductFilter = async (req, res) => {
         join Users u on u.UserID = s.UserID
         left join BillDetails b on b.ProductID=p.ProductID
         where  c.CategoryID like ${category}
-        and p.ProductPrice between ${price[0]} and ${price[1]}
+        and p.ProductPrice between 0 and ${price}
         and p.ProductQuantity between ${quantity[0]} and ${quantity[1]}
         and s.sellerID like ${seller}
         and p.productStatus like ${status}
@@ -45,7 +45,9 @@ const getAllProductFilter = async (req, res) => {
         case ${order} WHEN 'ProductName asc' THEN p.ProductName end asc,
         case ${order} WHEN 'ProductName desc' THEN p.ProductName end desc,
         case ${order} WHEN 'ProductPrice asc' THEN p.ProductPrice end asc,
-        case ${order} WHEN 'ProductPrice desc' THEN p.ProductPrice end desc`;
+        case ${order} WHEN 'ProductPrice desc' THEN p.ProductPrice end desc,
+        case ${order} WHEN 'ProductSold asc' THEN SUM(b.BillQuantity) end asc,
+        case ${order} WHEN 'ProductSold desc' THEN SUM(b.BillQuantity) end desc`;
         res.json(result.recordset);
     } catch (err) {
         console.error(err);

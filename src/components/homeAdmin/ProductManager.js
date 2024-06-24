@@ -7,22 +7,19 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import ListGroup from 'react-bootstrap/ListGroup';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import FilterOffcanvas from './FilterOffcanvas';
 
 export default function ProductManager() {
-    const [cid, setcid] = useState('0');
     const [products, setProducts] = useState([{}])
-    const [sellers, setSellers] = useState([]);
     const [search, setSearch] = useState('')
     const [showf, setShowF] = useState(false);
 
     const [filter, setFilter] = useState({
-        category: Number(cid) === 0 ? '%' : cid,
+        category: '%' ,
         order: 'ProductID asc',
-        price: [0, 100000000],
+        price: 100000000,
         seller: '%',
         status: '%',
         quantity: [0, 9999]
@@ -31,10 +28,11 @@ export default function ProductManager() {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFilter(prevState => ({
-            ...prevState,
-            [name]: value
+          ...prevState,
+          [name]: value
         }));
-    };
+      };
+    
 
     useEffect(() => {
         (async () => {
@@ -63,10 +61,6 @@ export default function ProductManager() {
     //         })
     // }, [])
 
-    const [sortTitle, setSortTitle] = useState('Sắp xếp');
-    const [sortPrice, setSortPrice] = useState('Lọc theo giá');
-    const [sortSeller, setSortSeller] = useState('Lọc theo người bán');
-
     return (
         <div>
             <Row>
@@ -93,6 +87,7 @@ export default function ProductManager() {
             <Table striped bordered hover>
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Product</th>
                         <th>Sold</th>
                         <th>Saler</th>
@@ -108,6 +103,7 @@ export default function ProductManager() {
                         return search.toLowerCase() === '' ? product : product.ProductName.toLowerCase().includes(search);
                     }).map((product) => (
                         <tr>
+                            <td>{product.ProductID}</td>
                             <td><Image src={product.ProductPic} rounded style={{ width: "33px" }} />{product.ProductName}</td>
                             <td>{product.Sold !== null ? (product.Sold) : (0)}</td>
                             <td>{product.SellerName}</td>
@@ -132,7 +128,7 @@ export default function ProductManager() {
                     ))}
                 </tbody>
             </Table>
-            <FilterOffcanvas show={showf} handleClose={()=>setShowF(false)}/>
+            <FilterOffcanvas show={showf} handleClose={()=>setShowF(false)} handleInputChange={handleInputChange}/>
         </div>
     )
 }
