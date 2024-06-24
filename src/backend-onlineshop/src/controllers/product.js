@@ -97,11 +97,8 @@ const approveProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        await sql.query`delete from BillDetails
-where ProductID = ${id}
-delete from ProductReviews
-where ProductID = ${id}
-delete from Products
+        await sql.query`update Products
+set ProductStatus=N'Đã xoá'
 where ProductID = ${id}`;
     } catch (err) {
         console.error(err);

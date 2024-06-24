@@ -8,7 +8,7 @@ import axios from 'axios';
 
 
 function EditProductModal({ show, onHide, product }) {
-    const { user, setUser, setUserRole, setIsLogin } = useUser();
+    const { user } = useUser();
     const [productName, setPName] = useState(product.ProductName);
     const [productCategory, setSelectedOption] = useState(product.categoryID);
     const [productPrice, setPPrice] = useState(product.ProductPrice);
