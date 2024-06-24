@@ -3,6 +3,8 @@ import { Row, Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from 'react';
 
+
+
 export default function FilterOffcanvas({ show, handleClose, handleInputChange }) {
     const [price, setPrice] = useState(100000000)
     const [range, setRange] = useState(100)
@@ -29,10 +31,10 @@ export default function FilterOffcanvas({ show, handleClose, handleInputChange }
             setPrice('No Limit')
             handleInputChange({ target: { name: 'price', value: 100000000 } })
         } else if (range < 100) {
-            setPrice(range*10000)
+            setPrice(range * 10000)
             handleInputChange({ target: { name: 'price', value: price } })
         }
-    }, [range,price,handleInputChange])
+    }, [range, price, handleInputChange])
 
     return (
         <Offcanvas placement='end' show={show} onHide={handleClose}>
@@ -46,10 +48,11 @@ export default function FilterOffcanvas({ show, handleClose, handleInputChange }
                             <Form.Label>Sort By</Form.Label>
                         </Col>
                         <Col>
-                             <Form.Select onChange={(e) => {
+                            <Form.Select onChange={(e) => {
                                 handleInputChange({ target: { name: 'order', value: e.target.value } });
                             }}>
-                                <option value='ProductID asc'>Product ID</option>
+                                <option value='ProductID asc'>Product ID asc</option>
+                                <option value='ProductID desc'>Product ID desc</option>
                                 <option value='ProductName asc'>Product Name (A=&gt;Z) </option>
                                 <option value='ProductName desc'>Product Name (X=&gt;A) </option>
                                 <option value='ProductPrice asc'>Product Price (Low to high) </option>
@@ -63,8 +66,7 @@ export default function FilterOffcanvas({ show, handleClose, handleInputChange }
                         <Form.Label>Filter by price</Form.Label>
                     </Row>
                     <Row>
-                        {/* <input type='range' name='price' min={0} max={100000000} value={price} onChange={(e) => setPrice(e.target.value)} /> */}
-                         <Form.Range value={range} onChange={(e) => setRange(e.target.value)} /> 
+                        <Form.Range value={range} onChange={(e) => setRange(e.target.value)} />
                     </Row>
                     <Row style={{ marginBottom: '30px' }}>
                         <Form.Label>Selected Price: {price}</Form.Label>
@@ -72,20 +74,24 @@ export default function FilterOffcanvas({ show, handleClose, handleInputChange }
                     <Row style={{ marginBottom: '30px' }}>
                         <Col><Form.Label>Filter by Status</Form.Label></Col>
                         <Col>
-                            <Form.Select>
-                                <option>Choose status</option>
-                                <option>Đã xác thực</option>
-                                <option>Chờ xác thực</option>
+                            <Form.Select onChange={(e) => {
+                                handleInputChange({ target: { name: 'status', value: e.target.value } });
+                            }}>
+                                <option value='%'>Choose status</option>
+                                <option value='Đã xác thực'>Đã xác thực</option>
+                                <option value='Chờ xác thực'>Chờ xác thực</option>
                             </Form.Select>
                         </Col>
                     </Row>
                     <Row style={{ marginBottom: '30px' }}>
                         <Col><Form.Label>Filter by Category</Form.Label></Col>
                         <Col>
-                            <Form.Select>
-                                <option>Choose Category</option>
+                            <Form.Select onChange={(e) => {
+                                handleInputChange({ target: { name: 'category', value: e.target.value } });
+                            }}>
+                                <option value='%'>Choose Category</option>
                                 {categories.map((category) => (
-                                    <option>{category.CategoryName}</option>
+                                    <option value={category.CategoryID}>{category.CategoryName}</option>
                                 ))}
                             </Form.Select>
                         </Col>
@@ -93,10 +99,12 @@ export default function FilterOffcanvas({ show, handleClose, handleInputChange }
                     <Row style={{ marginBottom: '30px' }}>
                         <Col><Form.Label>Filter by Seller</Form.Label></Col>
                         <Col>
-                            <Form.Select>
-                                <option>Choose Seller</option>
+                            <Form.Select onChange={(e) => {
+                                handleInputChange({ target: { name: 'seller', value: e.target.value } });
+                            }}>
+                                <option value='%'>Choose Seller</option>
                                 {sellers.map((seller) => (
-                                    <option>{seller.SellerName}</option>
+                                    <option value={seller.SellerID}>{seller.SellerName}</option>
                                 ))}
                             </Form.Select>
                         </Col>
