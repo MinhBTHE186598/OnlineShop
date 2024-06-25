@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Dropdown from 'react-bootstrap/Dropdown';
 import MainShopPagination from './MainShopPagination';
 import MainShopPaginationBar from './MainShopPaginationBar';
+import { useNavigate } from 'react-router-dom';
 
 const containerStyle = {
   width: '100%',
@@ -42,6 +43,7 @@ const filterStyle = {
 
 
 function MainShopItemList(props) {
+  const navigate = useNavigate();
   const [categories, setCategories] = React.useState([]);
   const [sellers, setSellers] = React.useState([]);
   const [products, setProducts] = React.useState([]);
@@ -61,6 +63,12 @@ function MainShopItemList(props) {
       [name]: value
     }));
   };
+
+  React.useEffect(() => {
+    if (categories.length > 0 && (props.id > categories.length || props.id < 0)) {
+      navigate('/notfound');
+    }
+  }, [categories.length, props.id, navigate]);
 
   React.useEffect(() => {
     fetch("http://localhost:5000/category/getCategories")

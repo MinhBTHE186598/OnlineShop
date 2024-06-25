@@ -5,9 +5,10 @@ import ProductReview from './ProductReview';
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { useUser } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const reformat = new Intl.NumberFormat('en-US', {
-    
+
 })
 
 const containerStyle = {
@@ -32,6 +33,7 @@ const reviewStyle = {
 }
 
 function ProductMain(props) {
+    const navigate = useNavigate();
     const [productList, setProductList] = useState([]);
     const [stars, setStars] = useState([]);
     const [sellerList, setSellerList] = useState([]);
@@ -62,7 +64,10 @@ function ProductMain(props) {
 
     useEffect(() => {
         fetchData();
-    }, []);
+        if (productList.length > 0 && (props.id > productList.length || props.id <= 0)) {
+            navigate('/notfound');
+        }
+    }, [productList, props.id, navigate]);
 
     const product = productList.find(product => product.ProductID.toString() === props.id);
     return (

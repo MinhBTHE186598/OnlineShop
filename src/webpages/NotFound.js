@@ -1,14 +1,12 @@
 import React from 'react'
 import Header from '../components/common/Header'
-import Footer from '../components/common/Footer'
-import NotFoundNoti from '../components/notFound/notFoundNoti'
+import NotFoundNoti from '../components/notFound/NotFoundNoti'
 
 function NotFound() {
   return (
     <div>
         <Header />
         <NotFoundNoti />
-        <Footer />
     </div>
   )
 }
