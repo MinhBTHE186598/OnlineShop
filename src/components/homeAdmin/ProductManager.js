@@ -9,30 +9,30 @@ import Form from 'react-bootstrap/Form';
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import FilterOffcanvas from './FilterOffcanvas';
+import FilterCollapse from './FilterCollapse';
+
 
 export default function ProductManager() {
     const [products, setProducts] = useState([{}])
     const [search, setSearch] = useState('')
-    const [showf, setShowF] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const [filter, setFilter] = useState({
-        category: '%' ,
+        category: '%',
         order: 'ProductID asc',
-        price: [0,100000000],
+        price: [0, 100000000],
         seller: '%',
-        status: '%',
-        quantity: [0, 9999]
+        status: '%'
     });
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFilter(prevState => ({
-          ...prevState,
-          [name]: value
+            ...prevState,
+            [name]: value
         }));
-      };
-    
+    };
+
 
     useEffect(() => {
         (async () => {
@@ -53,13 +53,6 @@ export default function ProductManager() {
         })();
     }, [filter]);
 
-    // useEffect(() => {
-    //     fetch("http://localhost:5000/product/getAll")
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             setProducts(data)
-    //         })
-    // }, [])
 
     return (
         <div>
@@ -78,10 +71,15 @@ export default function ProductManager() {
                     </InputGroup>
                 </Col>
                 <Col>
-                    <Button variant="primary" onClick={() => setShowF(true)}>
+                    <Button
+                        onClick={() => setOpen(!open)}
+                        aria-controls="example-collapse-text"
+                        aria-expanded={open}
+                    >
                         Filter
                     </Button>
                 </Col>
+                <FilterCollapse open={open} handleInputChange={handleInputChange}/>
             </Row>
 
             <Table striped bordered hover>
@@ -128,7 +126,6 @@ export default function ProductManager() {
                     ))}
                 </tbody>
             </Table>
-            <FilterOffcanvas show={showf} handleClose={()=>setShowF(false)} handleInputChange={handleInputChange}/>
         </div>
     )
 }
