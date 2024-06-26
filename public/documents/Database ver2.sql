@@ -182,6 +182,7 @@ CREATE TABLE Notifications (
     NotificationID INT identity(1,1) PRIMARY KEY,
     UserID INT,
     NotificationText NVARCHAR(255),
+	NotificationHeader NVARCHAR(100),
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 go

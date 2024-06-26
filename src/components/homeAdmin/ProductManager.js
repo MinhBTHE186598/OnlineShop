@@ -10,7 +10,7 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import FilterCollapse from './FilterCollapse';
-
+import axios from 'axios';
 
 export default function ProductManager() {
     const [products, setProducts] = useState([{}])
@@ -52,6 +52,23 @@ export default function ProductManager() {
             }
         })();
     }, [filter]);
+
+    const deleteProduct = async (id) => {
+        try {
+            const response = await axios.delete(`http://localhost:5000/product/delete/${id}`);
+
+            if (response.status === 200) {
+                console.log('product deleted successfully');
+                // Handle success (e.g., update the UI)
+            } else {
+                console.error('Failed to delete product');
+                // Handle failure
+            }
+            setProducts(products.filter((product) => product.ProductID !== id));
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
 
 
     return (
