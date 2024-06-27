@@ -1,14 +1,12 @@
-import React from "react";
-import Modal from "react-bootstrap/Modal";
+
 import Button from "react-bootstrap/Button";
-import { Container, Form } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useUser } from '../context/UserContext';
-import { useState, useEffect } from "react";
+import { useState, useEffect, React } from "react";
 import axios from 'axios';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Image from 'react-bootstrap/Image';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
 import SellerProduct from './sellerProductList';

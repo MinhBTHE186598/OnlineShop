@@ -23,12 +23,15 @@ const getSellerByID = async (req, res) => {
 
 const addSeller = async (req, res) => {
   try {
-    const { SellerName, SellerAddress } = req.body;
+    const { SellerName, SellerAddress, UserID } = req.body;
     await sql.query`insert into Sellers (SellerName, SellerAddress, UserID, SellManagerID)
-        values(${SellerName}, ${SellerAddress}, 1, ${
+        values(${SellerName}, ${SellerAddress}, ${UserID}, ${
       Math.floor(Math.random() * (12 - 1)) + 1
     })`;
+
+    res.status(200).send("Seller added successfully");
   } catch (err) {
+
     console.error(err);
     res.status(500).send("Server Error");
   }
