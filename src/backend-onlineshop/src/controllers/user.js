@@ -38,15 +38,13 @@ const deleteUser = async (req, res) => {
     }
 };
 
-// Register a new user
 const registerUser = async (req, res) => {
     try {
         const { name, gmail, number, password, address, firstName, lastName } = req.body;
-
         const result = await sql.query`
-            INSERT INTO Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName)
+            INSERT INTO Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName, UserStatus)
             OUTPUT INSERTED.UserID
-            VALUES (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail}, ${address}, ${number}, ${firstName}, ${lastName});
+            VALUES (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail}, ${address}, ${number}, ${firstName}, ${lastName}, 'Active');
         `;
 
         const UserID = result.recordset[0].UserID;
@@ -73,12 +71,10 @@ const getShipper = async (req, res) => {
 const registerShipper = async (req, res) => {
     try {
         const { name, gmail, number, password, address, firstName, lastName } = req.body;
-
-        // First register the user
         const result = await sql.query`
-            INSERT INTO Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName)
+            INSERT INTO Users (UserAccountName, UserPassword, UserPFP, UserEmail, UserAddress, UserPhone, UserFirstName, UserLastName, UserStatus)
             OUTPUT INSERTED.UserID
-            VALUES (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail}, ${address}, ${number}, ${firstName}, ${lastName});
+            VALUES (${name}, ${password}, 'https://robohash.org/etestnecessitatibus.png?size=300x300&set=set1', ${gmail}, ${address}, ${number}, ${firstName}, ${lastName}, 'Active');
         `;
 
         const UserID = result.recordset[0].UserID;
@@ -134,6 +130,21 @@ const checkUsername = async (req, res) => {
     }
 };
 
+const banUser = async (req, res) => {
+    try {
+        const { userID, status } = req.body;
+        const result = await sql.query`
+            UPDATE Users
+            SET UserStatus = ${status}
+            WHERE UserID = ${userID}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
 module.exports = {
     getUser,
     deleteUser,
@@ -142,5 +153,6 @@ module.exports = {
     updateUser,
     checkUsername,
     getShipper,
-    registerShipper
+    registerShipper,
+    banUser
 };

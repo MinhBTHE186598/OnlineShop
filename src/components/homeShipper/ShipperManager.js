@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import ListGroup from 'react-bootstrap/ListGroup';
 import ShipperInfo from './ShipperInfo';
-import EditShipper from './EditShipper';
+import { Button } from 'react-bootstrap';
+import axios from 'axios';
+import Table from 'react-bootstrap/Table';
+import ConfirmModal from './ConfirmModal';  // Make sure to import ConfirmModal
 
 
 function ShipperManager() {
     const [modalShow, setModalShow] = useState(false);
-    const [showEdit, setShowEdit] = useState(false);
     const [shipperList, setShipperList] = useState([]);
     const [selectedShipper, setSelectedShipper] = useState(null);
+    const [shipperIDToDelete, setShipperIDToDelete] = useState(null);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     useEffect(() => {
         fetch("http://localhost:5000/user/getShipper")
@@ -19,63 +20,72 @@ function ShipperManager() {
             .catch(error => console.error('Error fetching shipper data:', error));
     }, []);
 
-    const handleShowEdit = () => setShowEdit(true);
-
-    const handleUpdate = (updatedShipper) => {
-        setShipperList(shipperList.map(shipper =>
-            shipper.ShipperID === updatedShipper.ShipperID ? updatedShipper : shipper
-        ));
-        setShowEdit(false);
-    };  
-
     const handleViewShipper = (shipper) => {
         setSelectedShipper(shipper);
         setModalShow(true);
     };
 
-    const handleEditShipper = (shipper) => {
-        setSelectedShipper(shipper);
-        handleShowEdit();
-    };
-  
+    const handleDeleteShipper = async (ShipperID) => {
+        try {
+          const response = await axios.delete(`http://localhost:5000/shipper/delete/${ShipperID}`);
+          if (response.status === 200) {
+            setShipperList(shipperList.filter(shipper => shipper.ShipperID !== ShipperID));
+            console.log('Shipper deleted successfully');
+          } else {
+            console.log('Error deleting shipper');
+          }
+        } catch (error) {
+          console.error('Error', error);
+        }
+        setShowConfirm(false);
+      };
+    
+      const confirmDeleteShipper = (ShipperID) => {
+        setShipperIDToDelete(ShipperID);
+        setShowConfirm(true);
+      };
+
     return (
-        <div id="userManager-wrapper">
-            <Row>
-                <ListGroup horizontal className="w-100">
-                    <Col sm={1}>ShipperID</Col>
-                    
-                    <Col sm={3}>UserID</Col>
-                    <Col sm={2}>Actions</Col>
-                </ListGroup>
-            </Row>
-            <Row>
-                {shipperList.map((shipper) => (
-                    <ListGroup key={shipper.ShipperID} horizontal className="my-2 w-100">
-                        <Col sm={1}><ListGroup.Item>{shipper.ShipperID}</ListGroup.Item></Col>
-                        <Col sm={3}><ListGroup.Item>{shipper.UserID}</ListGroup.Item></Col>
-                        <Col sm={2}>
-                            <ListGroup.Item action variant="secondary" onClick={() => handleEditShipper(shipper)}>Update</ListGroup.Item>
-                            <ListGroup.Item action variant="secondary" onClick={() => handleViewShipper(shipper)}>View</ListGroup.Item>
-                        </Col>
-                    </ListGroup>
-                ))}
-            </Row>
+        <>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Shipper ID</th>
+                        <th>UserID</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {shipperList.map((shipper) => (
+                        <tr key={shipper.ShipperID}>
+                            <td>{shipper.ShipperID}</td>
+                            <td>{shipper.UserID}</td>
+                            <td>
+                                <Button size="sm" variant="info" onClick={() => handleViewShipper(shipper)}>
+                                    View
+                                </Button>
+                                <Button size="sm" variant="danger" onClick={() => confirmDeleteShipper(shipper.ShipperID)}>
+                                    Delete
+                                </Button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
             {selectedShipper && (
-                <>
-                    <EditShipper
-                        show={showEdit}
-                        onHide={() => setShowEdit(false)}
-                        Seller={selectedShipper}
-                        onUpdate={handleUpdate}
-                    />
-                    <ShipperInfo
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                        seller={selectedShipper}
-                    />
-                </>
+                <ShipperInfo
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                    shipper={selectedShipper}
+                />
             )}
-        </div>
+            <ConfirmModal
+                show={showConfirm}
+                onHide={() => setShowConfirm(false)}
+                onConfirm={() => handleDeleteShipper(shipperIDToDelete)}
+                obj="shipper"
+            />
+        </>
     );
 }
 

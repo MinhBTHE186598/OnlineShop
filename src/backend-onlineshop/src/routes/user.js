@@ -9,7 +9,7 @@ router.put('/update', user.updateUser)
 router.get('/checkUsername', user.checkUsername);
 router.post('/registerShipper', user.registerShipper)
 router.get('/getShipper', user.getShipper)
-
+router.put('/banuser',user.banUser)
 
 
 
