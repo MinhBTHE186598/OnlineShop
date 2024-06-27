@@ -2,6 +2,7 @@ import { Collapse } from "react-bootstrap";
 import { Row, Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from 'react';
+import MoneyForm from "../common/MoneyForm";
 
 export default function FilterCollapse({ open, handleInputChange }) {
     const [price, setPrice] = useState(100000000)

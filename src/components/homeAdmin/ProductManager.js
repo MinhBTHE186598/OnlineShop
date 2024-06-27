@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import FilterCollapse from './FilterCollapse';
 import axios from 'axios';
+import MoneyForm from "../common/MoneyForm";
 
 export default function ProductManager() {
     const [products, setProducts] = useState([{}])
@@ -125,7 +126,7 @@ export default function ProductManager() {
                             <td>{product.CategoryName}</td>
                             <td>{product.ProductQuantity}</td>
                             <td style={{ color: product.ProductStatus === 'Đã xác thực' ? 'green' : 'red' }}>{product.ProductStatus}</td>
-                            <td>{product.ProductPrice}</td>
+                            <td><MoneyForm value={product.ProductPrice}/></td>
                             <td>
                                 <DropdownButton
                                     size="sm"
