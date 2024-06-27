@@ -130,6 +130,21 @@ const checkUsername = async (req, res) => {
     }
 };
 
+const banUser = async (req, res) => {
+    try {
+        const { userID, status } = req.body;
+        const result = await sql.query`
+            UPDATE Users
+            SET UserStatus = ${status}
+            WHERE UserID = ${userID}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
 module.exports = {
     getUser,
     deleteUser,
@@ -138,5 +153,6 @@ module.exports = {
     updateUser,
     checkUsername,
     getShipper,
-    registerShipper
+    registerShipper,
+    banUser
 };
