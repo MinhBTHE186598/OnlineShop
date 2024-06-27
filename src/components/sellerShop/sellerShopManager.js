@@ -2,7 +2,8 @@
 import Button from "react-bootstrap/Button";
 import { Container } from "react-bootstrap";
 import { useUser } from '../context/UserContext';
-import { useState, useEffect, React } from "react";
+import { useState, useEffect } from "react";
+import React from "react";
 import axios from 'axios';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -143,9 +144,7 @@ function SellerShop() {
                                 </Col>
                             </Row>
                         </Tab.Container>
-
                     </div>
-
                 </Row>
             </Container>
         ) : null

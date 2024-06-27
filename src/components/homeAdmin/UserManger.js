@@ -52,7 +52,7 @@ function UserManager() {
         try {
             setUserInf(userID)
             if (userID === 23 || userID === 24) {
-                Toast("cannot delete admin");
+                alert("cannot delete admin");
             } else {
                 setConfirmShow(true)
             }
