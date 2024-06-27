@@ -1,51 +1,40 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Modal from "react-bootstrap/Modal";
-import Row from "react-bootstrap/Row";
+import React from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 
-function ShipperInfo(props) {
-  const { shipper, onHide } = props;
-
-  if (!shipper) {
-    return null;
-  }
-
-  return (
-    <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Seller Information
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body className="grid-example">
-        <Container>
-          <Row>
-            <Col>SellerID:</Col>
-            <Col>{shipper.ShipperID}</Col>
-          </Row>
-         
-          <Row>
-            <Col>UserID:</Col>
-            <Col>{shipper.UserID}</Col>
-          </Row>
-        </Container>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={onHide}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-  );
+function ShipperInfoModal({ show, onHide, shipper }) {
+    return (
+        <Modal show={show} onHide={onHide}>
+            <Modal.Header closeButton>
+                <Modal.Title>Shipper Information</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <p><strong>Seller ID:</strong> {shipper.ShipperID}</p>
+                <p><strong>Seller Name:</strong> {shipper.name}</p>
+                <p><strong>User ID:</strong> {shipper.UserID}</p>
+                <p><strong>User First Name:</strong> {shipper.UserFirstName}</p>
+                <p><strong>User Last Name:</strong> {shipper.UserLastName}</p>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={onHide}>
+                    Close
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
 }
 
-ShipperInfo.propTypes = {
-  shipper: PropTypes.shape({
-    ShipperID: PropTypes.string,
-    UserID: PropTypes.string
-  }), 
-  onHide: PropTypes.func.isRequired
+ShipperInfoModal.propTypes = {
+    show: PropTypes.bool.isRequired,
+    onHide: PropTypes.func.isRequired,
+    shipper: PropTypes.shape({
+        ShipperID: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        UserID: PropTypes.string.isRequired,
+        UserFirstName: PropTypes.string.isRequired,
+        UserLastName: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
-export default ShipperInfo;
+export default ShipperInfoModal;

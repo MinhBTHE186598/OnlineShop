@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import ListGroup from 'react-bootstrap/ListGroup';
 import ShipperInfo from './ShipperInfo';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
+import ConfirmModal from './ConfirmModal';  // Make sure to import ConfirmModal
+
 
 function ShipperManager() {
     const [modalShow, setModalShow] = useState(false);
     const [shipperList, setShipperList] = useState([]);
     const [selectedShipper, setSelectedShipper] = useState(null);
+    const [shipperIDToDelete, setShipperIDToDelete] = useState(null);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     useEffect(() => {
         fetch("http://localhost:5000/user/getShipper")
@@ -19,12 +20,30 @@ function ShipperManager() {
             .catch(error => console.error('Error fetching shipper data:', error));
     }, []);
 
-
     const handleViewShipper = (shipper) => {
         setSelectedShipper(shipper);
         setModalShow(true);
     };
 
+    const handleDeleteShipper = async (ShipperID) => {
+        try {
+          const response = await axios.delete(`http://localhost:5000/shipper/delete/${ShipperID}`);
+          if (response.status === 200) {
+            setShipperList(shipperList.filter(shipper => shipper.ShipperID !== ShipperID));
+            console.log('Shipper deleted successfully');
+          } else {
+            console.log('Error deleting shipper');
+          }
+        } catch (error) {
+          console.error('Error', error);
+        }
+        setShowConfirm(false);
+      };
+    
+      const confirmDeleteShipper = (ShipperID) => {
+        setShipperIDToDelete(ShipperID);
+        setShowConfirm(true);
+      };
 
     return (
         <>
@@ -42,11 +61,10 @@ function ShipperManager() {
                             <td>{shipper.ShipperID}</td>
                             <td>{shipper.UserID}</td>
                             <td>
-                                
                                 <Button size="sm" variant="info" onClick={() => handleViewShipper(shipper)}>
                                     View
                                 </Button>
-                                <Button size="sm" variant="danger" >
+                                <Button size="sm" variant="danger" onClick={() => confirmDeleteShipper(shipper.ShipperID)}>
                                     Delete
                                 </Button>
                             </td>
@@ -55,16 +73,18 @@ function ShipperManager() {
                 </tbody>
             </Table>
             {selectedShipper && (
-                <>
-
-                    <ShipperInfo
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                        seller={selectedShipper}
-                    />
-                </>
+                <ShipperInfo
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                    shipper={selectedShipper}
+                />
             )}
-
+            <ConfirmModal
+                show={showConfirm}
+                onHide={() => setShowConfirm(false)}
+                onConfirm={() => handleDeleteShipper(shipperIDToDelete)}
+                obj="shipper"
+            />
         </>
     );
 }
