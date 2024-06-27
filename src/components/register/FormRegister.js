@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import axios from 'axios';
 import Image from 'react-bootstrap/Image';
-import logo from '../../utility/testlogo.png';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../utility/register.css';
-import { useNavigate } from "react-router-dom";
+import logo from '../../utility/testlogo.png';
 
 function RegisterBoard() {
   const [name, setName] = useState('');
@@ -43,7 +43,6 @@ function RegisterBoard() {
         return;
       }
 
-      // Determine which endpoint to call based on isShipper state
       const endpoint = isShipper ? 'registerShipper' : 'registerUser';
 
       const response = await axios.post(`http://localhost:5000/user/${endpoint}`, {
