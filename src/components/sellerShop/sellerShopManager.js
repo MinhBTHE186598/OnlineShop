@@ -155,9 +155,7 @@ function SellerShop() {
                                 </Col>
                             </Row>
                         </Tab.Container>
-
                     </div>
-
                 </Row>
                 <EditProfileModal show={showEdit} onHide={handleCloseEdit} profile={profileInf} />
             </Container>

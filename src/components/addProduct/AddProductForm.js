@@ -62,7 +62,14 @@ function AddProductForm() {
                 productQuantity,
                 productDesc
             });
-            if (response.status === 201) {
+            if (response.status === 0) {
+                // alert("Product added successfully");
+                // setPName('');
+                // setSelectedOption('');
+                // setPPrice('');
+                // setPPic('');
+                // setPQuantity('');
+                // setPDesc('');
                 console.log('Product added successfully');
             } else {
                 console.error('Failed to add product');

@@ -102,7 +102,6 @@ function EditProductModal({ show, onHide, product }) {
                                     <option key={index} value={category.CategoryID}>{category.CategoryName}</option>
                                 ))}
                             </Form.Control>
-                            {console.log(product.CategoryID)}
                         </Form.Group>
                         <Form.Group>
                             <Form.Label><b>Giá sản phẩm:</b></Form.Label>
