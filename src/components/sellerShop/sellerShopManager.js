@@ -1,48 +1,36 @@
-import React from "react";
-// import Modal from "react-bootstrap/Modal";
+
 import Button from "react-bootstrap/Button";
 import { Container } from "react-bootstrap";
 import { useUser } from '../context/UserContext';
-import { useState, useEffect } from "react";
+import { useState, useEffect, React } from "react";
 import axios from 'axios';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Image from 'react-bootstrap/Image';
-// import ListGroup from 'react-bootstrap/ListGroup';
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
 import SellerProduct from './sellerProductList';
-// import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import bgi from '../../utility/background_1.jpg';
-import EditProfileModal from "./EditShopProfileModal";
 
 function SellerShop() {
     const Arr = ['1', '2', '3', '4', '5'];
-    // const { id } = useParams();
+    const { id } = useParams();
 
     const { user } = useUser();
 
     const [sellerList, setSellerList] = useState([]);
-    // const [sellManagerList, setSellManagerList] = useState([]);
+    const [sellManagerList, setSellManagerList] = useState([]);
+    // const borderColor = 
 
-    const [showEdit, setShowEdit] = useState(false);
-    const handleCloseEdit = () => setShowEdit(false);
-
-    const [profileInf, setProfileInf] = useState({});
-    // const [userList, setUserList] = React.useState([]);
-
-    const editProfile = (profile) => {
-        setProfileInf(profile);
-        setShowEdit(true);
-    }
-
-    // React.useEffect(() => {
-    //     fetch("http://localhost:5000/user/get")
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             setUserList(data)
-    //         })
-    // }, [])
+    const [userList, setUserList] = React.useState([]);
+    React.useEffect(() => {
+        fetch("http://localhost:5000/user/get")
+            .then(response => response.json())
+            .then(data => {
+                setUserList(data)
+            })
+    }, [])
 
     useEffect(() => {
         fetch("http://localhost:5000/seller/get")
@@ -54,19 +42,19 @@ function SellerShop() {
 
     const myshop = sellerList.find(seller => seller.UserID === user.UserID);
 
-    // const [managerInf, setManagerInf] = React.useState({});
-    // useEffect(() => {
-    //     if (myshop)
-    //         setManagerInf(sellManagerList.find(manager => manager.UserID === myshop.UserID));
-    // }, [myshop]);
+    const [managerInf, setManagerInf] = React.useState({});
+    useEffect(() => {
+        if (myshop)
+            setManagerInf(sellManagerList.find(manager => manager.UserID === myshop.UserID));
+    }, [myshop]);
 
-    // React.useEffect(() => {
-    //     fetch("http://localhost:5000/sellManager/getInf")
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             setSellManagerList(data)
-    //         })
-    // }, [])
+    React.useEffect(() => {
+        fetch("http://localhost:5000/sellManager/getInf")
+            .then(response => response.json())
+            .then(data => {
+                setSellManagerList(data)
+            })
+    }, [])
 
     const handleSubmit = async (e) => {
         // e.preventDefault();
@@ -108,16 +96,16 @@ function SellerShop() {
                     </Col>
                     <Col md={6} style={{ margin: '10px' }}>
                         <h2 style={{ textAlign: 'center' }}><b>Thông Tin Cửa Hàng</b></h2>
-                        <hr style={{ color: 'red' }} />
+                        <hr style={{color:'red'}}/>
                         <h4>ID Cửa Hàng: {myshop.SellerID}</h4>
                         <h4>Tên Cửa Hàng: {myshop.SellerName}</h4>
                         <h4>Địa Chỉ: {myshop.SellerAddress}</h4>
-                        <hr style={{ color: 'red' }} />
+                        <hr style={{color:'red'}}/>
                         <h3>ID Người Quản Lý : {myshop.SellManagerID}</h3>
                     </Col>
                     <Col md={2} style={{ margin: '25px' }}>
-                        <Button variant="primary" onClick={() => { editProfile(myshop) }} style={{ marginTop: '10px', marginLeft: '10px', width: '100%', height: '75px' }}>Sửa Thông Tin Cửa Hàng</Button>
-                        <Button variant="primary" style={{ marginTop: '10px', marginLeft: '10px', width: '100%', height: '75px', backgroundColor: 'red' }}>TÔI MUỐN XOÁ CỬA HÀNG</Button>
+                        <Button variant="primary" style={{ marginTop: '10px', marginLeft: '10px', width: '100%', height:'75px' }}>Sửa Thông Tin Cửa Hàng</Button>
+                        <Button variant="primary" style={{ marginTop: '10px', marginLeft: '10px', width: '100%', height:'75px', backgroundColor:'red' }}>TÔI MUỐN XOÁ CỬA HÀNG</Button>
                     </Col>
                 </Row>
                 <Row style={{ display: 'flex', backgroundColor: 'white', width: '90vw', height: 'max-content', minHeight: '20vh', margin: '5vh auto', borderRadius: '10px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
@@ -159,7 +147,6 @@ function SellerShop() {
                     </div>
 
                 </Row>
-                <EditProfileModal show={showEdit} onHide={handleCloseEdit} profile={profileInf} />
             </Container>
         ) : null
     );
