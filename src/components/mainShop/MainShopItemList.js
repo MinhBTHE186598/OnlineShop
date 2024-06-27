@@ -65,7 +65,7 @@ function MainShopItemList(props) {
   };
 
   React.useEffect(() => {
-    if (categories.length > 0 && (props.id > categories.length || props.id < 0)) {
+    if ((categories.length > 0 && (props.id > categories.length || props.id < 0)) || isNaN(props.id)) {
       navigate('/notfound');
     }
   }, [categories.length, props.id, navigate]);

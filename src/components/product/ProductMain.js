@@ -64,7 +64,7 @@ function ProductMain(props) {
 
     useEffect(() => {
         fetchData();
-        if (productList.length > 0 && (props.id > productList.length || props.id <= 0)) {
+        if ((productList.length > 0 && (props.id > productList.length || props.id <= 0)) || isNaN(props.id)) {
             navigate('/notfound');
         }
     }, [productList, props.id, navigate]);

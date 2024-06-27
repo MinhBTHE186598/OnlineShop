@@ -37,6 +37,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path='/product/:id' element={<Product />} />
+            <Route path="/product" element={<Navigate to="0" replace />} />
             <Route path='/homeManager' element={<HomeManager/>}/>
             <Route path='/contact' element={<ContactForm/>}/>
             <Route path='/homeShipper' element={<HomeShipper/>}/>
