@@ -133,11 +133,8 @@ export default function ProductManager() {
                                     variant="secondary"
                                     title="Action"
                                 >
-                                    <Dropdown.Item eventKey="1">Action</Dropdown.Item>
-                                    <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
-                                    <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Item eventKey="4">Separated link</Dropdown.Item>
+                                    <Dropdown.Item eventKey="1"href={`/product/${product.ProductID}`}>Navigate no item</Dropdown.Item>
+                                    <Dropdown.Item eventKey="2">Action</Dropdown.Item>
                                 </DropdownButton>
                             </td>
                         </tr>

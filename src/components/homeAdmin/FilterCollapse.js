@@ -35,7 +35,7 @@ export default function FilterCollapse({ open, handleInputChange }) {
         }
     }, [range, price, handleInputChange])
     return (
-        <div style={{borderStyle:"unset"}}>
+        <div style={{ borderStyle: "unset" }}>
             <Collapse in={open} >
                 <Form>
                     <Row style={{ marginBottom: '10px' }}>
@@ -102,7 +102,11 @@ export default function FilterCollapse({ open, handleInputChange }) {
                                 <Form.Range value={range} onChange={(e) => setRange(e.target.value)} />
                             </Row>
                             <Row style={{ marginBottom: '30px' }}>
-                                <Form.Label>Selected Price: {price === 100000000 ? 'No Limit' : '0-'+price}</Form.Label>
+                                <Form.Label>Selected Price: {price === 100000000 ? (
+                                    <span>No Limit</span>
+                                ) : (
+                                    <span>0đ - <MoneyForm value={price}/></span>
+                                )}</Form.Label>
                             </Row>
                         </Col>
                     </Row>
