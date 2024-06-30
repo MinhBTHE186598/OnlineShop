@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ShipperInfo from './ShipperInfo';
 import { Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { Navigate } from 'react-router-dom';
@@ -21,15 +20,7 @@ function ShipperManager() {
             .catch(error => console.error('Error fetching shipper data:', error));
     }, []);
 
-    const handleViewShipper = (shipper) => {
-        setSelectedShipper(shipper);
-        setModalShow(true);
-    };
-
-    if (!isLogin || userRole !== 'Shipper') {
-        return <Navigate to="/" />;
-    }
-
+    
     return (
         <>
             <Table striped bordered hover>

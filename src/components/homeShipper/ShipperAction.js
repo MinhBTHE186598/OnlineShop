@@ -14,11 +14,11 @@ function ShipperAction() {
           <Col sm={3}>
             <Nav variant="pills" className="flex-column">
               <Nav.Item>
-                <Nav.Link eventKey="first">Quản lý Shipper</Nav.Link>
+                <Nav.Link eventKey="first">Danh sách Shipper</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="second">
-                  Quản lý đơn hàng
+                  Giao dịch
                 </Nav.Link>
               </Nav.Item>
             </Nav>
