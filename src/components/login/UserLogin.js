@@ -9,6 +9,7 @@ const UserLogin = () => {
   const [sellerList, setSellerList] = useState([]);
   const [sellManagerList, setSellManagerList] = useState([]);
   const [AdminList, setAdminList] = useState([]);
+  const [ShipperList, setShipperList] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -29,6 +30,9 @@ const UserLogin = () => {
       const responseAdmin = await fetch("http://localhost:5000/admin/get");
       const dataAdmin = await responseAdmin.json();
       setAdminList(dataAdmin);
+      const responseShipper = await fetch("http://localhost:5000/user/getShipper");
+      const dataShipper = await responseShipper.json();
+      setShipperList(dataShipper);
     } catch (error) {
       console.error(error);
     }
@@ -42,12 +46,14 @@ const UserLogin = () => {
     const seller = sellerList.find(seller => seller.UserID === id);
     const sellManager = sellManagerList.find(sellManager => sellManager.UserID === id);
     const admin = AdminList.find(admin => admin.UserID === id);
+    const shipper = ShipperList.find(shipper => shipper.UserID === id);
     if (seller) return "Seller";
     else if (sellManager) return "SellManager";
     else if (admin) return "Admin";
+    else if (shipper) return "Shipper";  
     else return "User";
-  }
- 
+  };
+  
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
