@@ -8,7 +8,7 @@ const sellManager = require("./sellManager")
 const admin = require("./admin")
 const contact = require("./contact")
 const noti = require("./noti")
-const bill = require("/bill")
+const bill = require("./bill")
 const initRoutes = (app) => {
 
     app.use('/user', user)
