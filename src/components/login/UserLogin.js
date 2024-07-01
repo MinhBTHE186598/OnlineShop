@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import '../../utility/Login.css';
 import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const UserLogin = () => {
   const [userList, setUserList] = useState([]);
@@ -53,11 +54,26 @@ const UserLogin = () => {
     else if (shipper) return "Shipper";  
     else return "User";
   };
+
+const getCart = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:5000/bill/getCart/${id}`);
+    const data = await response.json();
+    if (data.length === 0) {
+      await axios.post(`http://localhost:5000/bill/addNewBill/${id}`);
+      getCart(id);
+    }
+    setUserCart(data[0]);
+  }
+  catch(error) {
+    console.error(error);
+  }
+};
   
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { setUser, setUserRole, setIsLogin } = useUser();
+  const { setUser, setUserRole, setIsLogin, setUserCart } = useUser();
   const logIn = (event) => {
     event.preventDefault();
     let found = false;
@@ -67,6 +83,7 @@ const UserLogin = () => {
         setUser(user);
         setIsLogin(true);
         setUserRole(getRole(user.UserID));
+        getCart(user.UserID);
       } 
     })
     if (!found) {

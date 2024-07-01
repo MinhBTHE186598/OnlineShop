@@ -16,6 +16,7 @@ import HomeManager from './webpages/HomeManager';
 import ContactForm from './webpages/contactUs';
 import HomeShipper from './webpages/HomeShipper';
 import SellerShopManage from './webpages/SellerShop';
+import UserCart from './webpages/UserCart';
 import NotFound from './webpages/NotFound';
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             <Route path='/contact' element={<ContactForm/>}/>
             <Route path='/homeShipper' element={<HomeShipper/>}/>
             <Route path='/sellerShopManage' element={<SellerShopManage/>}/>
+            <Route path='/cart' element={<UserCart/>}/>
             <Route path='/notfound' element={<NotFound />} />
 
           </Routes>

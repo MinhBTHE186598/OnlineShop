@@ -16,6 +16,7 @@ import { FaBell, FaShoppingCart } from "react-icons/fa";
 import logo from "../../utility/testlogo.png";
 import { useUser } from "../context/UserContext";
 import { useNavigate, Link } from "react-router-dom";
+import '../../utility/noArrow.css';
 
 function Header() {
   const [categories, setCategories] = React.useState([]);
@@ -29,13 +30,14 @@ function Header() {
   }, []);
 
   const navigate = useNavigate();
-  const { user, setUser, userRole, setUserRole, isLogin, setIsLogin } =
+  const { user, setUser, userRole, setUserRole, isLogin, setIsLogin, userCart, setUserCart } =
     useUser();
   const logOut = () => {
     if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
       setUser(null);
       setIsLogin(false);
       setUserRole(null);
+      setUserCart(null);
       navigate("/login");
     }
     return null;
@@ -147,7 +149,7 @@ function Header() {
           <ButtonGroup className="m-1" aria-label="Third group">
             <DropdownButton
               as={ButtonGroup}
-              title={`Chào mừng trở lại, ${user.UserFirstName}`}
+              title={`Chào mừng trở lại, ${user.UserFirstName} ${user.UserLastName}`}
               id="bg-nested-dropdown"
             >
               <Dropdown.Item
@@ -161,7 +163,7 @@ function Header() {
                   System Manager
                 </Dropdown.Item>
               )}
-              <Dropdown.Item>{userRole}</Dropdown.Item>
+              <Dropdown.Item onClick={() => navigate(`/cart`)}>Giỏ hàng của tôi</Dropdown.Item>
               <Dropdown.Item onClick={logOut}>Đăng xuất</Dropdown.Item>
             </DropdownButton>
           </ButtonGroup>

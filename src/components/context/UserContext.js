@@ -31,14 +31,23 @@ export const UserProvider = ({ children }) => {
       return false;
     }
   });
+  const [userCart, setUserCart] = useState(() => {
+    const storedUserCart = localStorage.getItem('userCart');
+    if (storedUserCart) {
+      return JSON.parse(storedUserCart);
+    } else {
+      return {};
+    }
+  })
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('userRole', JSON.stringify(userRole));
     localStorage.setItem('isLogin', JSON.stringify(isLogin));
-  }, [user, userRole, isLogin]);
+    localStorage.setItem('userCart', JSON.stringify(userCart));
+  }, [user, userRole, isLogin, userCart]);
 
 
-  const value = { user, setUser, userRole, setUserRole, isLogin, setIsLogin };
+  const value = { user, setUser, userRole, setUserRole, isLogin, setIsLogin, userCart, setUserCart };
   return (
     <UserContext.Provider value={value}>
       {children}
