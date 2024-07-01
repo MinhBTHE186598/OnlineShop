@@ -7,10 +7,7 @@ import {useUser} from '../context/UserContext';
 
 
 function ShipperManager() {
-    const { userRole, isLogin } = useUser();
-    const [modalShow, setModalShow] = useState(false);
     const [shipperList, setShipperList] = useState([]);
-    const [selectedShipper, setSelectedShipper] = useState(null);
 
 
     useEffect(() => {
