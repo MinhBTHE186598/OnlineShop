@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -11,23 +11,22 @@ import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-
 import { FaBell, FaShoppingCart } from "react-icons/fa";
 import logo from "../../utility/testlogo.png";
 import { useUser } from "../context/UserContext";
 import { useNavigate, Link } from "react-router-dom";
 import '../../utility/noArrow.css';
+import axios from "axios";
+import { Col } from "react-bootstrap";
+
+const reformat = new Intl.NumberFormat('en-US', {
+
+})
 
 function Header() {
-  const [categories, setCategories] = React.useState([]);
-
-  React.useEffect(() => {
-    fetch("http://localhost:5000/category/getCategories")
-      .then((response) => response.json())
-      .then((data) => {
-        setCategories(data);
-      });
-  }, []);
+  const [categories, setCategories] = useState([]);
+  const [cartList, setCartList] = useState([]);
+  const [productList, setProductList] = useState([]);
 
   const navigate = useNavigate();
   const { user, setUser, userRole, setUserRole, isLogin, setIsLogin, userCart, setUserCart } =
@@ -42,6 +41,7 @@ function Header() {
     }
     return null;
   };
+
   const handleAdminNavi = () => {
     if (userRole === "Admin") {
       navigate("/homeAdmin");
@@ -49,6 +49,41 @@ function Header() {
       alert("You do not have permission to access this page.");
     }
   };
+
+  const fetchProduct = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/product/get`);
+      setProductList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchCategory = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/category/getCategories`);
+      setCategories(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    function fetchCart() {
+      axios
+        .get(`http://localhost:5000/bill/getBillDetailByBillID/${userCart.BillID}`)
+        .then((response) => {
+          setCartList(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+    fetchCart();
+    fetchProduct();
+    fetchCategory();
+  }, [userCart]);
+
   return (
     <Navbar
       expand="lg"
@@ -142,8 +177,38 @@ function Header() {
               title={<FaShoppingCart />}
               id="bg-nested-dropdown"
             >
-              <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>
-              <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>
+              <Dropdown.Item style={{ padding: "10px 0", textAlign: "center", borderBottom: "solid 1px black", pointerEvents: 'none' }}> <h3 style={{ margin: 0 }}>Giỏ hàng của bạn</h3></Dropdown.Item>
+              <div style={{ width: "max-content", height: "40vh", overflowY: "scroll" }}>
+                {cartList.map((item, index) => (
+                  productList.map((product) => (
+                    product.ProductID === item.ProductID &&
+                    <Dropdown.Item
+                      key={item.BillDetailID}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        backgroundColor: index % 2 === 0 ? "#fff" : "#eee",
+                        pointerEvents: 'none',
+                      }}
+                    >
+                      <Col md="3">
+                        <img
+                          src={product.ProductPic}
+                          style={{ width: "5em", height: "5em", borderRadius: "50%", border: "solid 1px black" }}
+                          alt="Logo"
+                        />
+                      </Col>
+                      <Col md="9" style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                        <p style={{ margin: "0 0 0 10px", padding: 0 }}>{product.ProductName}</p>
+                        <p style={{ margin: "0 0 0 10px", padding: 0 }}>Số lượng: {item.BillQuantity}</p>
+                        <p style={{ margin: "0 0 0 10px", padding: 0 }}>Giá: {reformat.format(product.ProductPrice)}đ</p>
+                      </Col>
+                    </Dropdown.Item>
+                  ))
+                ))}
+              </div>
+              <Dropdown.Item onClick={() => navigate(`/cart`)} style={{ display: "flex", justifyContent: "center", padding: '10px 0', backgroundColor: '#0d6efd', color: 'white' }}> Xem chi tiết</Dropdown.Item>
             </DropdownButton>
           </ButtonGroup>
           <ButtonGroup className="m-1" aria-label="Third group">
