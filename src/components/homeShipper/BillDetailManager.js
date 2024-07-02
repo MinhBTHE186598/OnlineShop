@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import BillDetailModal from './BillDetailModal';
 
@@ -18,7 +19,7 @@ export default function BillDetailManager() {
       });
   }, []);
 
-  const handleBillClick = (billId) => {
+  const handleViewProductsClick = (billId) => {
     const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillID === billId);
     setModalBillDetails(filteredBillDetails);
     setShowModal(true);
@@ -38,6 +39,7 @@ export default function BillDetailManager() {
             <th>Tổng sản phẩm</th>
             <th>Trạng thái đơn hàng</th>
             <th>Shipper ID</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -45,14 +47,19 @@ export default function BillDetailManager() {
             const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillID === billId);
             const billQuantity = filteredBillDetails.length;
             const billDetailStatus = filteredBillDetails[0]?.BillDetailStatus;
-            const shipperId = filteredBillDetails[0]?.ShipperID;
+            const shipperId = filteredBillDetails[0]?.ShipperID || 'Vẫn chưa xác nhận'; // Update this line
 
             return (
-              <tr key={index} onClick={() => handleBillClick(billId)}>
+              <tr key={index}>
                 <td>{billId}</td>
                 <td>{billQuantity}</td>
                 <td>{billDetailStatus}</td>
                 <td>{shipperId}</td>
+                <td>
+                  <Button variant="primary" onClick={() => handleViewProductsClick(billId)}>
+                    Xem sản phẩm
+                  </Button>
+                </td>
               </tr>
             );
           })}

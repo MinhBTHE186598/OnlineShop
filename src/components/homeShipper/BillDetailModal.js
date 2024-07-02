@@ -13,7 +13,7 @@ function BillDetailModal({ show, onHide, billDetails }) {
         {billDetails.map((billDetail, index) => (
           <div key={index}>
             <p><strong>Product ID:</strong> {billDetail.ProductID}</p>
-            <p><strong>Quantity:</strong> {billDetail.ProductQuantity}</p>
+            <p><strong>Quantity:</strong> {billDetail.BillQuantity}</p>
             <p><strong>Date:</strong> {billDetail.BillDetailDate}</p>
             <hr />
           </div>

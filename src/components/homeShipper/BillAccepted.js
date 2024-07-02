@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import BillDetailModal from './BillDetailModal';
+import { Button } from 'react-bootstrap';
 
 export default function BillAccepted() {
   const [billDetails, setBillDetails] = useState([]);
@@ -18,7 +19,7 @@ export default function BillAccepted() {
       });
   }, []);
 
-  const handleBillClick = (billId) => {
+  const handleViewProductsClick = (billId) => {
     const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillID === billId);
     setModalBillDetails(filteredBillDetails);
     setShowModal(true);
@@ -38,6 +39,7 @@ export default function BillAccepted() {
             <th>Tổng sản phẩm</th>
             <th>Trạng thái đơn hàng</th>
             <th>Shipper ID</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -48,11 +50,16 @@ export default function BillAccepted() {
             const shipperId = filteredBillDetails[0]?.ShipperID;
 
             return (
-              <tr key={index} onClick={() => handleBillClick(billId)}>
+              <tr key={index}>
                 <td>{billId}</td>
                 <td>{billQuantity}</td>
                 <td>{billDetailStatus}</td>
                 <td>{shipperId}</td>
+                <td>
+                  <Button variant="primary" onClick={() => handleViewProductsClick(billId)}>
+                    Xem sản phẩm
+                  </Button>
+                </td>
               </tr>
             );
           })}
