@@ -47,10 +47,11 @@ export default function BillAccepted() {
     setShowModal(true);
   };
 
+  // Lọc BillID với trạng thái "Đã nhận hàng" và sắp xếp theo thứ tự tăng dần
   const uniqueBillIds = [...new Set(billDetails
     .filter(billDetail => billDetail.BillDetailStatus === "Đã nhận hàng")
     .map(billDetail => billDetail.BillID)
-  )];
+  )].sort((a, b) => a - b); // Sắp xếp theo thứ tự tăng dần
 
   return (
     <>
