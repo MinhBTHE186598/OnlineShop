@@ -3,21 +3,43 @@ import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import BillDetailModal from './BillDetailModal';
 import { Button } from 'react-bootstrap';
+import { useUser } from '../context/UserContext';
 
 export default function BillAccepted() {
   const [billDetails, setBillDetails] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalBillDetails, setModalBillDetails] = useState([]);
+  const [shipperList, setShipperList] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState(null);
+  const { user } = useUser();
 
   useEffect(() => {
     axios.get("http://localhost:5000/bill/getBillDetail")
       .then(response => {
+        console.log('Bill Details:', response.data); // Thêm dòng này để kiểm tra dữ liệu
         setBillDetails(response.data);
       })
       .catch(error => {
         console.error("There was an error fetching the bill details!", error);
       });
-  }, []);
+
+    axios.get('http://localhost:5000/user/getShipper')
+      .then(response => {
+        console.log('Shipper List:', response.data); // Thêm dòng này để kiểm tra dữ liệu
+        if (response.data) {
+          setShipperList(response.data);
+          const currentUser = response.data.find(shipper => shipper.UserID === user.UserID);
+          if (currentUser) {
+            setCurrentUserId(currentUser.ShipperID);
+          } else {
+            console.error('No ShipperID found for the current user!');
+          }
+        }
+      })
+      .catch(error => {
+        console.error('There was an error fetching the shipper list!', error);
+      });
+  }, [user.UserID]);
 
   const handleViewProductsClick = (billId) => {
     const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillID === billId);
@@ -32,6 +54,9 @@ export default function BillAccepted() {
 
   return (
     <>
+      <div>
+        <h3>ShipperID của bạn: {currentUserId ? currentUserId : 'Đang tải...'}</h3>
+      </div>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -69,7 +94,7 @@ export default function BillAccepted() {
         show={showModal}
         onHide={() => setShowModal(false)}
         billDetails={modalBillDetails}
-      />
+      /> 
     </>
   );
 }

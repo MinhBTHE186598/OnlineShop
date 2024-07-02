@@ -46,12 +46,29 @@ const addNewBill = async (req, res) => {
 const updateBill = async (req, res) => {
     try {
         const { BillID, ShipperID, BillDetailStatus } = req.body;
-        const result = await sql.query`UPDATE BillDetails SET ShipperID = ${ShipperID}, BillDetailStatus = ${BillDetailStatus} WHERE BillID = ${BillID}`;
+
+        // Log dữ liệu nhận được từ client
+        console.log(`Received request to update BillID: ${BillID}, ShipperID: ${ShipperID}, BillDetailStatus: ${BillDetailStatus}`);
+
+        if (!BillID || !ShipperID || !BillDetailStatus) {
+            throw new Error('Missing required fields');
+        }
+
+        const result = await sql.query`
+            UPDATE BillDetails 
+            SET ShipperID = ${ShipperID}, BillDetailStatus = ${BillDetailStatus} 
+            WHERE BillID = ${BillID}
+        `;
+
+        // Log kết quả cập nhật
+        console.log('Database update result:', result);
+
         res.json({ message: 'Bill updated successfully' });
     } catch (err) {
-        console.error(err);
+        console.error('Error updating bill:', err.message);
         res.status(500).send('Server Error');
     }
 }
+
 
 module.exports = { getBillDetail, getBillDetailByBillID, getCart, addNewBill, updateBill }

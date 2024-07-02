@@ -10,14 +10,14 @@ export default function BillDetailManager() {
   const [billDetails, setBillDetails] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);  // New state for success modal
   const [modalBillDetails, setModalBillDetails] = useState([]);
-  const [currentUserId, setCurrentUserId] = useState(null); 
+  const [currentUserId, setCurrentUserId] = useState(null);
   const [selectedBillId, setSelectedBillId] = useState(null);
   const [shipperList, setShipperList] = useState([]);
-  const { user, setUser, setUserRole, setIsLogin } = useUser();
+  const { user } = useUser();
 
   useEffect(() => {
-    // Fetch bill details
     axios.get("http://localhost:5000/bill/getBillDetail")
       .then(response => {
         setBillDetails(response.data);
@@ -26,12 +26,10 @@ export default function BillDetailManager() {
         console.error("There was an error fetching the bill details!", error);
       });
 
-    // Fetch shipper list and get current user's ShipperID
     axios.get('http://localhost:5000/user/getShipper')
       .then(response => {
         if (response.data) {
           setShipperList(response.data);
-          // Find the ShipperID for the current user
           const currentUser = response.data.find(shipper => shipper.UserID === user.UserID);
           if (currentUser) {
             setCurrentUserId(currentUser.ShipperID);
@@ -57,12 +55,15 @@ export default function BillDetailManager() {
   };
 
   const handleConfirmAcceptOrder = () => {
+    console.log(`Sending request to update BillID: ${selectedBillId} with ShipperID: ${currentUserId} and BillDetailStatus: "Đang vận chuyển"`);
+
     axios.put(`http://localhost:5000/bill/updateBill`, {
       BillID: selectedBillId,
       ShipperID: currentUserId,
       BillDetailStatus: "Đang vận chuyển"
     })
       .then(response => {
+        console.log('Update successful:', response.data);
         const updatedBillDetails = billDetails.map(billDetail => {
           if (billDetail.BillID === selectedBillId) {
             return {
@@ -79,7 +80,44 @@ export default function BillDetailManager() {
       .catch(error => {
         console.error("There was an error updating the bill details!", error);
       });
+};
+
+
+  const handleSuccessDeliveryClick = (billId) => {
+    setSelectedBillId(billId);
+    setShowSuccessModal(true);  // Show the success modal
   };
+
+  const handleConfirmSuccessDelivery = () => {
+    console.log(`Sending request to update BillID: ${selectedBillId} with BillDetailStatus: "Đã nhận hàng"`);
+  
+    axios.put(`http://localhost:5000/bill/updateBill`, {
+      BillID: selectedBillId,
+      ShipperID: currentUserId,
+      BillDetailStatus: "Đã nhận hàng"
+    })
+      .then(response => {
+        console.log('Update successful:', response.data);
+        const updatedBillDetails = billDetails.map(billDetail => {
+          if (billDetail.BillID === selectedBillId) {
+            return {
+              ...billDetail,
+              ShipperID: currentUserId,
+              BillDetailStatus: "Đã nhận hàng"
+            };
+          }
+          return billDetail;
+        });
+        setBillDetails(updatedBillDetails);
+        setShowSuccessModal(false);  // Đóng modal sau khi cập nhật trạng thái thành công
+      })
+      .catch(error => {
+        console.error("There was an error updating the bill details!", error);
+      });
+  };
+  
+
+
 
   const uniqueBillIds = [...new Set(billDetails
     .filter(billDetail => billDetail.BillDetailStatus === "Chưa xác nhận" || billDetail.BillDetailStatus === "Đang vận chuyển")
@@ -123,6 +161,11 @@ export default function BillDetailManager() {
                       Nhận đơn
                     </Button>
                   )}
+                  {billDetailStatus === "Đang vận chuyển" && (
+                    <Button variant="info" onClick={() => handleSuccessDeliveryClick(billId)}>
+                      Giao hàng thành công
+                    </Button>
+                  )}
                 </td>
               </tr>
             );
@@ -145,6 +188,21 @@ export default function BillDetailManager() {
             Hủy
           </Button>
           <Button variant="primary" onClick={handleConfirmAcceptOrder}>
+            Xác nhận
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Xác nhận giao hàng thành công</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn có chắc chắn muốn đánh dấu đơn hàng này là đã nhận hàng không?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowSuccessModal(false)}>
+            Hủy
+          </Button>
+          <Button variant="primary" onClick={handleConfirmSuccessDelivery}>
             Xác nhận
           </Button>
         </Modal.Footer>
