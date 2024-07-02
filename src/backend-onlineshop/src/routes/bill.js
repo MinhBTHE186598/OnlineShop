@@ -5,5 +5,7 @@ router.get('/getBillDetail', bill.getBillDetail)
 router.get('/getCart/:id', bill.getCart)
 router.get('/getBillDetailByBillID/:id', bill.getBillDetailByBillID)
 router.post('/addNewBill/:id', bill.addNewBill)
+router.put('/updateBill', bill.updateBill);
+
 
 module.exports = router

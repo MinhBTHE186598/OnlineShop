@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import BillDetailModal from './BillDetailModal';
 
 export default function BillDetailManager() {
   const [billDetails, setBillDetails] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [modalBillDetails, setModalBillDetails] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState(1); // Replace this with actual user ID
+  const [selectedBillId, setSelectedBillId] = useState(null);
 
   useEffect(() => {
     axios.get("http://localhost:5000/bill/getBillDetail")
@@ -25,8 +29,39 @@ export default function BillDetailManager() {
     setShowModal(true);
   };
 
+  const handleAcceptOrderClick = (billId) => {
+    setSelectedBillId(billId);
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmAcceptOrder = () => {
+    axios.put(`http://localhost:5000/bill/updateBill`, {
+      BillID: selectedBillId,
+      ShipperID: currentUserId,
+      BillDetailStatus: "Đang vận chuyển"
+    })
+      .then(response => {
+        // Update billDetails with the new status and shipper ID
+        const updatedBillDetails = billDetails.map(billDetail => {
+          if (billDetail.BillID === selectedBillId) {
+            return {
+              ...billDetail,
+              ShipperID: currentUserId,
+              BillDetailStatus: "Đang vận chuyển"
+            };
+          }
+          return billDetail;
+        });
+        setBillDetails(updatedBillDetails);
+        setShowConfirmModal(false);
+      })
+      .catch(error => {
+        console.error("There was an error updating the bill details!", error);
+      });
+  };
+
   const uniqueBillIds = [...new Set(billDetails
-    .filter(billDetail => billDetail.BillDetailStatus === "Chưa xác nhận")
+    .filter(billDetail => billDetail.BillDetailStatus === "Chưa xác nhận" || billDetail.BillDetailStatus === "Đang vận chuyển")
     .map(billDetail => billDetail.BillID)
   )];
 
@@ -47,7 +82,7 @@ export default function BillDetailManager() {
             const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillID === billId);
             const billQuantity = filteredBillDetails.length;
             const billDetailStatus = filteredBillDetails[0]?.BillDetailStatus;
-            const shipperId = filteredBillDetails[0]?.ShipperID || 'Vẫn chưa xác nhận'; // Update this line
+            const shipperId = filteredBillDetails[0]?.ShipperID || 'Vẫn chưa xác nhận';
 
             return (
               <tr key={index}>
@@ -59,6 +94,11 @@ export default function BillDetailManager() {
                   <Button variant="primary" onClick={() => handleViewProductsClick(billId)}>
                     Xem sản phẩm
                   </Button>
+                  {billDetailStatus === "Chưa xác nhận" && (
+                    <Button variant="success" onClick={() => handleAcceptOrderClick(billId)}>
+                      Nhận đơn
+                    </Button>
+                  )}
                 </td>
               </tr>
             );
@@ -70,6 +110,21 @@ export default function BillDetailManager() {
         onHide={() => setShowModal(false)}
         billDetails={modalBillDetails}
       />
+
+      <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Xác nhận nhận đơn</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn có chắc chắn muốn nhận đơn hàng này không?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowConfirmModal(false)}>
+            Hủy
+          </Button>
+          <Button variant="primary" onClick={handleConfirmAcceptOrder}>
+            Xác nhận
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

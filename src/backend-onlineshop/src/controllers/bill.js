@@ -43,4 +43,15 @@ const addNewBill = async (req, res) => {
     }
 }
 
-module.exports = {getBillDetail, getBillDetailByBillID, getCart, addNewBill}
+const updateBill = async (req, res) => {
+    try {
+        const { BillID, ShipperID, BillDetailStatus } = req.body;
+        const result = await sql.query`UPDATE BillDetails SET ShipperID = ${ShipperID}, BillDetailStatus = ${BillDetailStatus} WHERE BillID = ${BillID}`;
+        res.json({ message: 'Bill updated successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
+module.exports = { getBillDetail, getBillDetailByBillID, getCart, addNewBill, updateBill }
