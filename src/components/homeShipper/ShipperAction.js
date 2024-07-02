@@ -4,9 +4,9 @@ import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
 import ShipperManager from "./ShipperManager";
-
+import BillDetailManager from "./BillDetailManager";
+import BillAccepted from "./BillAccepted";
 function ShipperAction() {
-
   return (
     <div id="wrapper" style={{ margin: "125px 30px" }}>
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">
@@ -17,9 +17,10 @@ function ShipperAction() {
                 <Nav.Link eventKey="first">Danh sách Shipper</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second">
-                  Giao dịch
-                </Nav.Link>
+                <Nav.Link eventKey="second">Giao dịch chưa được ship</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="third">Giao dịch đã hoàn thành</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>
@@ -28,8 +29,12 @@ function ShipperAction() {
               <Tab.Pane eventKey="first">
                 <ShipperManager />
               </Tab.Pane>
-              
-        
+              <Tab.Pane eventKey="second">
+              <BillDetailManager />
+              </Tab.Pane>
+              <Tab.Pane eventKey="third">
+                <BillAccepted/>
+              </Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>
