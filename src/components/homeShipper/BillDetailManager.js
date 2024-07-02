@@ -4,16 +4,20 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import BillDetailModal from './BillDetailModal';
+import { useUser } from '../context/UserContext';
 
 export default function BillDetailManager() {
   const [billDetails, setBillDetails] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [modalBillDetails, setModalBillDetails] = useState([]);
-  const [currentUserId, setCurrentUserId] = useState(1); // Replace this with actual user ID
+  const [currentUserId, setCurrentUserId] = useState(null); 
   const [selectedBillId, setSelectedBillId] = useState(null);
+  const [shipperList, setShipperList] = useState([]);
+  const { user, setUser, setUserRole, setIsLogin } = useUser();
 
   useEffect(() => {
+    // Fetch bill details
     axios.get("http://localhost:5000/bill/getBillDetail")
       .then(response => {
         setBillDetails(response.data);
@@ -21,7 +25,25 @@ export default function BillDetailManager() {
       .catch(error => {
         console.error("There was an error fetching the bill details!", error);
       });
-  }, []);
+
+    // Fetch shipper list and get current user's ShipperID
+    axios.get('http://localhost:5000/user/getShipper')
+      .then(response => {
+        if (response.data) {
+          setShipperList(response.data);
+          // Find the ShipperID for the current user
+          const currentUser = response.data.find(shipper => shipper.UserID === user.UserID);
+          if (currentUser) {
+            setCurrentUserId(currentUser.ShipperID);
+          } else {
+            console.error('No ShipperID found for the current user!');
+          }
+        }
+      })
+      .catch(error => {
+        console.error('There was an error fetching the shipper list!', error);
+      });
+  }, [user.UserID]);
 
   const handleViewProductsClick = (billId) => {
     const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillID === billId);
@@ -41,7 +63,6 @@ export default function BillDetailManager() {
       BillDetailStatus: "Đang vận chuyển"
     })
       .then(response => {
-        // Update billDetails with the new status and shipper ID
         const updatedBillDetails = billDetails.map(billDetail => {
           if (billDetail.BillID === selectedBillId) {
             return {
@@ -67,6 +88,9 @@ export default function BillDetailManager() {
 
   return (
     <>
+      <div>
+        <h3>ShipperID của bạn: {currentUserId ? currentUserId : 'Đang tải...'}</h3>
+      </div>
       <Table striped bordered hover>
         <thead>
           <tr>

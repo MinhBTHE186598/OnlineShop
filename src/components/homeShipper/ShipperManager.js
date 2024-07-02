@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 
-
-
 function ShipperManager() {
     const [shipperList, setShipperList] = useState([]);
 

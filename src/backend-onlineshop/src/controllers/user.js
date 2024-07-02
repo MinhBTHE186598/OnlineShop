@@ -145,6 +145,8 @@ const banUser = async (req, res) => {
     }
 };
 
+
+
 module.exports = {
     getUser,
     deleteUser,
@@ -154,5 +156,7 @@ module.exports = {
     checkUsername,
     getShipper,
     registerShipper,
+
     banUser
+    
 };

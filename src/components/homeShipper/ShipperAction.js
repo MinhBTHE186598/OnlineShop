@@ -17,7 +17,7 @@ function ShipperAction() {
                 <Nav.Link eventKey="first">Danh sách Shipper</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second">Giao dịch chưa được ship</Nav.Link>
+                <Nav.Link eventKey="second">Giao dịch chưa được vận chuyển</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="third">Giao dịch đã hoàn thành</Nav.Link>
