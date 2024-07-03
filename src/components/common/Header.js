@@ -234,17 +234,18 @@ function Header() {
             >
               <Dropdown.Item
                 onClick={() => navigate(`/profile/${user.UserID}`)}
+                style={{ marginTop: '10px' }}
               >
                 Hồ Sơ Của Tôi
               </Dropdown.Item>
-              {/* Neu nhu roll la admin thi moi hien ra System manager*/}
+              {/* Neu nhu role la admin thi moi hien ra System manager*/}
               {userRole === "Admin" && (
                 <Dropdown.Item onClick={handleAdminNavi}>
                   System Manager
                 </Dropdown.Item>
               )}
               <Dropdown.Item onClick={() => navigate(`/cart`)}>Giỏ hàng của tôi</Dropdown.Item>
-              <Dropdown.Item onClick={logOut}>Đăng xuất</Dropdown.Item>
+              <Dropdown.Item onClick={logOut} style={{ marginBottom: "10px" }}>Đăng xuất</Dropdown.Item>
             </DropdownButton>
           </ButtonGroup>
         </ButtonToolbar>
