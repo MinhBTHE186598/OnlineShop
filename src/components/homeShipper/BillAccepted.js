@@ -14,31 +14,38 @@ export default function BillAccepted() {
   const { user } = useUser();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/bill/getBillDetail")
-      .then(response => {
-        console.log('Bill Details:', response.data); // Thêm dòng này để kiểm tra dữ liệu
-        setBillDetails(response.data);
-      })
-      .catch(error => {
-        console.error("There was an error fetching the bill details!", error);
-      });
+    const fetchData = () => {
+      axios.get("http://localhost:5000/bill/getBillDetail")
+        .then(response => {
+          console.log('Bill Details:', response.data);
+          setBillDetails(response.data);
+        })
+        .catch(error => {
+          console.error("There was an error fetching the bill details!", error);
+        });
 
-    axios.get('http://localhost:5000/user/getShipper')
-      .then(response => {
-        console.log('Shipper List:', response.data); // Thêm dòng này để kiểm tra dữ liệu
-        if (response.data) {
-          setShipperList(response.data);
-          const currentUser = response.data.find(shipper => shipper.UserID === user.UserID);
-          if (currentUser) {
-            setCurrentUserId(currentUser.ShipperID);
-          } else {
-            console.error('No ShipperID found for the current user!');
+      axios.get('http://localhost:5000/user/getShipper')
+        .then(response => {
+          console.log('Shipper List:', response.data); // Thêm dòng này để kiểm tra dữ liệu
+          if (response.data) {
+            setShipperList(response.data);
+            const currentUser = response.data.find(shipper => shipper.UserID === user.UserID);
+            if (currentUser) {
+              setCurrentUserId(currentUser.ShipperID);
+            } else {
+              console.error('No ShipperID found for the current user!');
+            }
           }
-        }
-      })
-      .catch(error => {
-        console.error('There was an error fetching the shipper list!', error);
-      });
+        })
+        .catch(error => {
+          console.error('There was an error fetching the shipper list!', error);
+        });
+    };
+
+    fetchData(); 
+    const intervalId = setInterval(fetchData); 
+
+    return () => clearInterval(intervalId); 
   }, [user.UserID]);
 
   const handleViewProductsClick = (billId) => {
@@ -47,11 +54,10 @@ export default function BillAccepted() {
     setShowModal(true);
   };
 
-  // Lọc BillID với trạng thái "Đã nhận hàng" và sắp xếp theo thứ tự tăng dần
   const uniqueBillIds = [...new Set(billDetails
     .filter(billDetail => billDetail.BillDetailStatus === "Đã nhận hàng")
     .map(billDetail => billDetail.BillID)
-  )].sort((a, b) => a - b); // Sắp xếp theo thứ tự tăng dần
+  )].sort((a, b) => a - b);
 
   return (
     <>
