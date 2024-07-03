@@ -69,19 +69,21 @@ function Header() {
   };
 
   useEffect(() => {
-    function fetchCart() {
-      axios
-        .get(`http://localhost:5000/bill/getBillDetailByBillID/${userCart.BillID}`)
-        .then((response) => {
-          setCartList(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    if (isLogin && userCart) {
+      function fetchCart() {
+        axios
+          .get(`http://localhost:5000/bill/getBillDetailByBillID/${userCart.BillID}`)
+          .then((response) => {
+            setCartList(response.data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+      fetchCart();
+      fetchProduct();
+      fetchCategory();
     }
-    fetchCart();
-    fetchProduct();
-    fetchCategory();
   }, [userCart]);
 
   return (
@@ -177,36 +179,49 @@ function Header() {
               title={<FaShoppingCart />}
               id="bg-nested-dropdown"
             >
-              <Dropdown.Item style={{ padding: "10px 0", textAlign: "center", borderBottom: "solid 1px black", pointerEvents: 'none' }}> <h3 style={{ margin: 0 }}>Giỏ hàng của bạn</h3></Dropdown.Item>
-              <div style={{ width: "max-content", height: "40vh", overflowY: "scroll" }}>
-                {cartList.map((item, index) => (
-                  productList.map((product) => (
-                    product.ProductID === item.ProductID &&
-                    <Dropdown.Item
-                      key={item.BillDetailID}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        backgroundColor: index % 2 === 0 ? "#fff" : "#eee",
-                        pointerEvents: 'none',
-                      }}
-                    >
-                      <Col md="3">
-                        <img
-                          src={product.ProductPic}
-                          style={{ width: "5em", height: "5em", borderRadius: "50%", border: "solid 1px black" }}
-                          alt="Logo"
-                        />
-                      </Col>
-                      <Col md="9" style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <p style={{ margin: "0 0 0 10px", padding: 0 }}>{product.ProductName}</p>
-                        <p style={{ margin: "0 0 0 10px", padding: 0 }}>Số lượng: {item.BillQuantity}</p>
-                        <p style={{ margin: "0 0 0 10px", padding: 0 }}>Giá: {reformat.format(product.ProductPrice)}đ</p>
-                      </Col>
-                    </Dropdown.Item>
+              <Dropdown.Item style={{ padding: "10px", textAlign: "center", borderBottom: "solid 1px black", pointerEvents: 'none' }}> <h3 style={{ margin: 0 }}>Giỏ hàng của bạn</h3></Dropdown.Item>
+              <div style={{ width: "100%", maxHeight: "40vh", overflowY: "auto" }}>
+                {cartList.length === 0 ? (
+                  <Dropdown.Item
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "#fff",
+                      pointerEvents: 'none',
+                      marginTop: "10px",
+                    }}
+                  >
+                    <p>Chưa có sản phẩm</p>
+                  </Dropdown.Item>
+                ) : (
+                  cartList.map((item, index) => (
+                    productList.map((product) => (
+                      product.ProductID === item.ProductID &&
+                      <Dropdown.Item
+                        key={item.BillDetailID}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          backgroundColor: index % 2 === 0 ? "#fff" : "#eee",
+                          pointerEvents: 'none',
+                        }}
+                      >
+                        <Col md="3">
+                          <img
+                            src={product.ProductPic}
+                            style={{ width: "5em", height: "5em", borderRadius: "50%", border: "solid 1px black" }}
+                            alt="Logo"
+                          />
+                        </Col>
+                        <Col md="9" style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                          <p style={{ margin: "0 0 0 10px", padding: 0 }}>{product.ProductName}</p>
+                          <p style={{ margin: "0 0 0 10px", padding: 0 }}>Số lượng: {item.BillQuantity}</p>
+                          <p style={{ margin: "0 0 0 10px", padding: 0 }}>Giá: {reformat.format(product.ProductPrice)}đ</p>
+                        </Col>
+                      </Dropdown.Item>
+                    ))
                   ))
-                ))}
+                )}
               </div>
               <Dropdown.Item onClick={() => navigate(`/cart`)} style={{ display: "flex", justifyContent: "center", padding: '10px 0', backgroundColor: '#0d6efd', color: 'white' }}> Xem chi tiết</Dropdown.Item>
             </DropdownButton>
