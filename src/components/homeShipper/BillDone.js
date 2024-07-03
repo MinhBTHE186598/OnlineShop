@@ -5,7 +5,7 @@ import BillDetailModal from './BillDetailModal';
 import { Button } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
 
-export default function BillAccepted() {
+export default function BillDone() {
   const [billDetails, setBillDetails] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalBillDetails, setModalBillDetails] = useState([]);

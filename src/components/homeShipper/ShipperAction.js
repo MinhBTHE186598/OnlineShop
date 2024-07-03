@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
 import ShipperManager from "./ShipperManager";
 import BillDetailManager from "./BillDetailManager";
-import BillAccepted from "./BillAccepted";
+import BillDone from "./BillDone";
 function ShipperAction() {
   return (
     <div id="wrapper" style={{ margin: "125px 30px" }}>
@@ -33,7 +33,7 @@ function ShipperAction() {
               <BillDetailManager />
               </Tab.Pane>
               <Tab.Pane eventKey="third">
-                <BillAccepted/>
+                <BillDone/>
               </Tab.Pane>
             </Tab.Content>
           </Col>
