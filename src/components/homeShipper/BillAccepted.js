@@ -43,7 +43,8 @@ export default function BillAccepted() {
     };
 
     fetchData(); 
-    const intervalId = setInterval(fetchData); 
+    const intervalId = setInterval(fetchData,1000); 
+
 
     return () => clearInterval(intervalId); 
   }, [user.UserID]);
