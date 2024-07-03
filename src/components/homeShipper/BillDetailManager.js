@@ -80,8 +80,7 @@ export default function BillDetailManager() {
       .catch(error => {
         console.error("There was an error updating the bill details!", error);
       });
-};
-
+  };
 
   const handleSuccessDeliveryClick = (billId) => {
     setSelectedBillId(billId);
@@ -115,9 +114,6 @@ export default function BillDetailManager() {
         console.error("There was an error updating the bill details!", error);
       });
   };
-  
-
-
 
   const uniqueBillIds = [...new Set(billDetails
     .filter(billDetail => billDetail.BillDetailStatus === "Chưa xác nhận" || billDetail.BillDetailStatus === "Đang vận chuyển")
@@ -161,7 +157,7 @@ export default function BillDetailManager() {
                       Nhận đơn
                     </Button>
                   )}
-                  {billDetailStatus === "Đang vận chuyển" && (
+                  {billDetailStatus === "Đang vận chuyển" && currentUserId === shipperId && (
                     <Button variant="info" onClick={() => handleSuccessDeliveryClick(billId)}>
                       Giao hàng thành công
                     </Button>
