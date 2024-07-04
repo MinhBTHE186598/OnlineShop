@@ -12,4 +12,14 @@ const postNoti = async (req, res) => {
     }
 }
 
-module.exports = { postNoti }
+const getNoti = async (req, res) => {
+    try {
+        const result = await sql.query`SELECT * FROM Notifications`;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+module.exports = { postNoti , getNoti }

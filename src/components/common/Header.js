@@ -27,6 +27,7 @@ function Header() {
   const [categories, setCategories] = useState([]);
   const [cartList, setCartList] = useState([]);
   const [productList, setProductList] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   const navigate = useNavigate();
   const { user, setUser, userRole, setUserRole, isLogin, setIsLogin, userCart, setUserCart } =
@@ -67,6 +68,16 @@ function Header() {
       console.error(error);
     }
   };
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/noti/getNoti`);
+      setNotifications(Array.isArray(response.data) ? response.data : []);
+    } catch (error) {
+      console.error(error);
+      setNotifications([]); 
+    }
+  };
+
 
   useEffect(() => {
     if (isLogin && userCart) {
@@ -83,6 +94,7 @@ function Header() {
       fetchCart();
       fetchProduct();
       fetchCategory();
+      fetchNotifications();
     }
   }, [userCart]);
 
@@ -164,15 +176,24 @@ function Header() {
           style={{ width: "33vw", display: "flex", justifyContent: "center" }}
         >
           <ButtonGroup className="m-1" aria-label="First group">
-            <DropdownButton
-              as={ButtonGroup}
-              title={<FaBell />}
-              id="bg-nested-dropdown"
-            >
-              <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>
-              <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>
-            </DropdownButton>
-          </ButtonGroup>
+        <DropdownButton
+          as={ButtonGroup}
+          title={<FaBell />}
+          id="bg-nested-dropdown"
+          onClick={fetchNotifications}
+        >
+          {notifications.length === 0 ? (
+            <Dropdown.Item style={{ pointerEvents: 'none' }}>No notifications</Dropdown.Item>
+          ) : (
+            notifications.map((notification) => (
+              <Dropdown.Item key={notification.NotificationID}>
+                <strong>{notification.NotificationHeader}</strong><br />
+                {notification.NotificationText}
+              </Dropdown.Item>
+            ))
+          )}
+        </DropdownButton>
+      </ButtonGroup>
           <ButtonGroup className="m-1" aria-label="Second group">
             <DropdownButton
               as={ButtonGroup}
