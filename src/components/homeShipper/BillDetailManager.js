@@ -123,7 +123,7 @@ export default function BillDetailManager() {
   };
 
   const uniqueBillIds = [...new Set(billDetails
-    .filter(billDetail => billDetail.BillDetailStatus === "Chưa xác nhận" || billDetail.BillDetailStatus === "Đang vận chuyển")
+    .filter(billDetail => billDetail.BillDetailStatus === "Đã xác nhận" || billDetail.BillDetailStatus === "Đang vận chuyển")
     .map(billDetail => billDetail.BillID)
   )];
 
@@ -159,7 +159,7 @@ export default function BillDetailManager() {
                   <Button variant="primary" onClick={() => handleViewProductsClick(billId)}>
                     Xem sản phẩm
                   </Button>
-                  {billDetailStatus === "Chưa xác nhận" && (
+                  {billDetailStatus === "Đã xác nhận" && (
                     <Button variant="success" onClick={() => handleAcceptOrderClick(billId)}>
                       Nhận đơn
                     </Button>
