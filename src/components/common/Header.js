@@ -19,9 +19,7 @@ import '../../utility/noArrow.css';
 import axios from "axios";
 import { Col } from "react-bootstrap";
 
-const reformat = new Intl.NumberFormat('en-US', {
-
-})
+const reformat = new Intl.NumberFormat('en-US', {});
 
 function Header() {
   const [categories, setCategories] = useState([]);
@@ -189,7 +187,6 @@ function Header() {
               title={<FaBell />}
               id="bg-nested-dropdown"
               onClick={fetchNotifications}
-             
             >
               {notifications.length === 0 ? (
                 <Dropdown.Item style={{ pointerEvents: 'none', textAlign: 'center' }}>No notifications</Dropdown.Item>
@@ -204,8 +201,7 @@ function Header() {
                       borderBottom: "1px solid #ddd",
                     }}
                   >
-                    <strong>{notification.NotificationHeader}</strong><br />
-                    {notification.NotificationText}
+                    <strong>{notification.NotificationHeader}</strong>
                   </Dropdown.Item>
                 ))
               )}
