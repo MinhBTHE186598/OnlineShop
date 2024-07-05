@@ -663,7 +663,7 @@ insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDe
 insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 59, '02/01/2023', 1, N'Chưa xác nhận');
 insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 96, '03/01/2023', 1, N'Chưa xác nhận');
 insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 95, '19/03/2023', 1, N'Chưa xác nhận');
-insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 76, '27/03/2023', 1, N'Chưa xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (46, 76, '27/03/2023', 1, N'Đã xác nhận');
 insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (46, 3, '24/03/2024', 1, N'Đã xác nhận');
 insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (46, 57, '24/03/2024', 1, N'Đã xác nhận');
 insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (46, 59, '24/03/2024', 1, N'Đã xác nhận');
