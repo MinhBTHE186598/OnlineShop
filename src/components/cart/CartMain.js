@@ -14,35 +14,70 @@ function CartMain() {
     const [cartList, setCartList] = useState([]);
     const [productList, setProductList] = useState([]);
 
-    const fetchProduct = async () => {
-        try {
-            const response = await axios.get(`http://localhost:5000/product/get`);
-            setProductList(response.data);
-        } catch (error) {
-            console.error(error);
-        }
+const fetchCart = async () => {
+    try {
+        const response = await axios.get(`http://localhost:5000/bill/getBillDetailByBillID/${userCart.BillID}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
     }
+}
 
-    useEffect(() => {
-        if (!isLogin) {
-            alert('Bạn cần đăng nhập để thực hiện chức năng này!');
-            navigate('/login');
+const handleDelete = (id) => {
+    if (window.confirm('Bạn có muốn xóa sản phẩm này?')) {
+        axios.delete(`http://localhost:5000/bill/delete/${id}`)
+            .then(response => {
+                setCartList(cartList.filter(cart => cart.BillDetailID !== id));
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+}
+
+const handlePlusQuantity = async (id) => {
+    try {
+        await axios.put(`http://localhost:5000/bill/updatePlus/${id}`);
+        setCartList(await fetchCart());
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const handleMinusQuantity = async (id) => {
+    try {
+        const cart = cartList.find(cart => cart.BillDetailID === id);
+        if (cart?.BillQuantity === 1) {
+            handleDelete(id);
+        } else {
+            await axios.put(`http://localhost:5000/bill/updateMinus/${id}`);
+            setCartList(await fetchCart());
         }
-        function fetchCart() {
-            axios.get(`http://localhost:5000/bill/getBillDetailByBillID/${userCart.BillID}`)
-                .then(response => {
-                    setCartList(response.data);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        }
-        fetchCart();
-        fetchProduct();
-    }, [isLogin, navigate, userCart]);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const fetchProduct = async () => {
+    try {
+        const response = await axios.get('http://localhost:5000/product/get');
+        setProductList(response.data);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+useEffect(() => {
+    if (!isLogin) {
+        alert('Bạn cần đăng nhập để thực hiện chức năng này!');
+        navigate('/login');
+    }
+    fetchCart().then(data => setCartList(data));
+    fetchProduct();
+}, [isLogin, navigate, userCart]);
 
     return (
-        <div style={{ width: '100vw', marginTop: '10vh', padding: '5vh 0', backgroundColor: '#0d6efd'}}>
+        <div style={{ width: '100vw', marginTop: '10vh', padding: '5vh 0', backgroundColor: '#0d6efd' }}>
             <div style={{ width: '90%', margin: '0 auto', backgroundColor: '#fff', borderRadius: '20px', padding: '20px' }}>
                 <h1 style={{ textAlign: 'center' }}>Giỏ hàng của {user.UserFirstName} {user.UserLastName}</h1>
                 {cartList.length === 0 ? (
@@ -71,15 +106,15 @@ function CartMain() {
                                                 <td style={{ width: '150px', padding: '0' }}><img src={product.ProductPic} alt={product.ProductName} style={{ width: '100%' }} /></td>
                                                 <td>{product.ProductName}</td>
                                                 <td>
-                                                    <Button className="btn btn-danger">-</Button>
-                                                    <input key={index} type="number" defaultValue={cart.BillQuantity} disabled required style={{ width: '50px', textAlign: 'center', margin: '0 10px' }} />
-                                                    <Button className="btn btn-success">+</Button>
+                                                    <Button className="btn btn-danger" onClick={() => handleMinusQuantity(cart.BillDetailID)}>-</Button>
+                                                    <input key={index} type="number" value={cart.BillQuantity} disabled required style={{ width: '50px', textAlign: 'center', margin: '0 10px' }} />
+                                                    <Button className="btn btn-success" onClick={() => handlePlusQuantity(cart.BillDetailID)}>+</Button>
                                                 </td>
                                                 <td>{reformat.format(product.ProductPrice)}đ</td>
                                                 <td>{reformat.format(cart.BillQuantity * product.ProductPrice)}đ</td>
                                                 <td>
                                                     <Button size='lg' className="btn btn-warning" style={{ marginRight: '10px' }}>Sửa</Button>
-                                                    <Button size='lg' className="btn btn-danger">Xóa</Button>
+                                                    <Button size='lg' className="btn btn-danger" onClick={() => handleDelete(cart.BillDetailID)}>Xóa</Button>
                                                 </td>
                                             </tr>
                                         )
