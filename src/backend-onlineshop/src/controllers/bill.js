@@ -3,11 +3,12 @@ const sql = require('mssql');
 const getBillDetail = async (req, res) => {
     try {
         const result = await sql.query`
-            SELECT bd.*, b.UserID, u.UserAddress, u.UserFirstName, u.UserLastName, p.ProductName
+            SELECT bd.*, b.UserID, u.UserAddress, u.UserFirstName, u.UserLastName, p.ProductName, s.SellerAddress
             FROM BillDetails bd
             JOIN Bills b ON bd.BillID = b.BillID
             JOIN Users u ON b.UserID = u.UserID
             JOIN Products p ON bd.ProductID = p.ProductID
+            JOIN Sellers s ON p.SellerID = s.SellerID
         `;
         res.json(result.recordset);
     } catch (err) {

@@ -82,6 +82,7 @@ export default function BillDone() {
             const userLastName = filteredBillDetailsForBillDetailId[0]?.UserLastName || '';
             const userFullName = `${userFirstName} ${userLastName}`;
             const productName = filteredBillDetailsForBillDetailId[0]?.ProductName || 'Tên sản phẩm không có';
+            const sellerAddress = filteredBillDetailsForBillDetailId[0]?.SellerAddress || 'Địa chỉ không có';
 
             return (
               <tr key={index} onClick={() => handleViewProductsClick(billDetailId, userId)}>
@@ -90,7 +91,7 @@ export default function BillDone() {
                 <td>{billQuantity}</td>
                 <td>{productName}</td>
                 <td>{userAddress}</td>
-                <td></td>
+                <td>{sellerAddress}</td>
                 <td>{billDetailStatus}</td>
                 <td>{filteredBillDetailsForBillDetailId[0]?.BillDate || 'Ngày không có'}</td>
               </tr>
