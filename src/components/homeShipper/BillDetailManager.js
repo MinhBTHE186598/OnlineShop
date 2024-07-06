@@ -10,47 +10,43 @@ export default function BillDetailManager() {
   const [billDetails, setBillDetails] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);  // New state for success modal
+  const [showSuccessModal, setShowSuccessModal] = useState(false);  
   const [modalBillDetails, setModalBillDetails] = useState([]);
+  const [modalUserId, setModalUserId] = useState('');  
   const [currentUserId, setCurrentUserId] = useState(null);
   const [selectedBillId, setSelectedBillId] = useState(null);
   const { user } = useUser();
 
   useEffect(() => {
-    const fetchData = () => {
-      axios.get("http://localhost:5000/bill/getBillDetail")
-        .then(response => {
-          setBillDetails(response.data);
-        })
-        .catch(error => {
-          console.error("There was an error fetching the bill details!", error);
-        });
+    const fetchData = async () => {
+      try {
+        const billResponse = await axios.get("http://localhost:5000/bill/getBillDetail");
+        setBillDetails(billResponse.data);
 
-      axios.get('http://localhost:5000/user/getShipper')
-        .then(response => {
-          if (response.data) {
-            const currentUser = response.data.find(shipper => shipper.UserID === user.UserID);
-            if (currentUser) {
-              setCurrentUserId(currentUser.ShipperID);
-            } else {
-              console.error('No ShipperID found for the current user!');
-            }
+        const shipperResponse = await axios.get('http://localhost:5000/user/getShipper');
+        if (shipperResponse.data) {
+          const currentUser = shipperResponse.data.find(shipper => shipper.UserID === user.UserID);
+          if (currentUser) {
+            setCurrentUserId(currentUser.ShipperID);
+          } else {
+            console.error('No ShipperID found for the current user!');
           }
-        })
-        .catch(error => {
-          console.error('There was an error fetching the shipper list!', error);
-        });
+        }
+      } catch (error) {
+        console.error("There was an error fetching data!", error);
+      }
     };
 
-    fetchData(); 
-    const intervalId = setInterval(fetchData, 1000); 
+    fetchData();
+    const intervalId = setInterval(fetchData, 10000); 
 
-    return () => clearInterval(intervalId); 
+    return () => clearInterval(intervalId);
   }, [user.UserID]);
 
   const handleViewProductsClick = (billId) => {
     const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillID === billId);
     setModalBillDetails(filteredBillDetails);
+    setModalUserId(filteredBillDetails[0]?.UserID || ''); 
     setShowModal(true);
   };
 
@@ -60,8 +56,6 @@ export default function BillDetailManager() {
   };
 
   const handleConfirmAcceptOrder = () => {
-    console.log(`Sending request to update BillID: ${selectedBillId} with ShipperID: ${currentUserId} and BillDetailStatus: "Đang vận chuyển"`);
-
     axios.put(`http://localhost:5000/bill/updateBill`, {
       BillID: selectedBillId,
       ShipperID: currentUserId,
@@ -89,12 +83,10 @@ export default function BillDetailManager() {
 
   const handleSuccessDeliveryClick = (billId) => {
     setSelectedBillId(billId);
-    setShowSuccessModal(true);  // Show the success modal
+    setShowSuccessModal(true);  
   };
 
   const handleConfirmSuccessDelivery = () => {
-    console.log(`Sending request to update BillID: ${selectedBillId} with BillDetailStatus: "Đã nhận hàng"`);
-  
     axios.put(`http://localhost:5000/bill/updateBill`, {
       BillID: selectedBillId,
       ShipperID: currentUserId,
@@ -113,7 +105,7 @@ export default function BillDetailManager() {
           return billDetail;
         });
         setBillDetails(updatedBillDetails);
-        setShowSuccessModal(false);  // Đóng modal sau khi cập nhật trạng thái thành công
+        setShowSuccessModal(false);  
       })
       .catch(error => {
         console.error("There was an error updating the bill details!", error);
@@ -135,6 +127,7 @@ export default function BillDetailManager() {
           <tr>
             <th>Bill ID</th>
             <th>Tổng sản phẩm</th>
+            <th>Địa chỉ nhận hàng</th>  
             <th>Trạng thái đơn hàng</th>
             <th>Shipper ID</th>
             <th>Actions</th>
@@ -146,11 +139,12 @@ export default function BillDetailManager() {
             const billQuantity = filteredBillDetails.length;
             const billDetailStatus = filteredBillDetails[0]?.BillDetailStatus;
             const shipperId = filteredBillDetails[0]?.ShipperID || 'Vẫn chưa xác nhận';
-
+            const userAddress = filteredBillDetails[0]?.UserAddress || 'Địa chỉ không có'; 
             return (
               <tr key={index}>
                 <td>{billId}</td>
                 <td>{billQuantity}</td>
+                <td>{userAddress}</td>  
                 <td>{billDetailStatus}</td>
                 <td>{shipperId}</td>
                 <td>
@@ -177,6 +171,7 @@ export default function BillDetailManager() {
         show={showModal}
         onHide={() => setShowModal(false)}
         billDetails={modalBillDetails}
+        userId={modalUserId} 
       />
 
       <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)}>

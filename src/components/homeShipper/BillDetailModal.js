@@ -11,12 +11,13 @@ function BillDetailModal({ show, onHide, billDetails, userId }) {
       </Modal.Header>
       <Modal.Body style={{ maxHeight: 'calc(100vh - 210px)', overflowY: 'auto' }}>
         <h4 style={{textAlign:'center'}}><strong>UserID của người đặt hàng:</strong> {userId}</h4>  
+        <hr/>
         {billDetails.map((billDetail, index) => (
           <div key={index}>
             <p><strong>Product ID:</strong> {billDetail.ProductID}</p>
             <p><strong>Số lượng:</strong> {billDetail.BillQuantity}</p>
             <p><strong>Ngày đặt hàng:</strong> {billDetail.BillDetailDate}</p>
-            <hr />s
+            <hr />
           </div>
         ))}
       </Modal.Body>
