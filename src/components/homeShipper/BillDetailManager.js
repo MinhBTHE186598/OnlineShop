@@ -7,11 +7,8 @@ import { useUser } from '../context/UserContext';
 
 export default function BillDetailManager() {
   const [billDetails, setBillDetails] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);  
-  const [modalBillDetails, setModalBillDetails] = useState([]);
-  const [modalUserId, setModalUserId] = useState('');  
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [selectedBillId, setSelectedBillId] = useState(null);
   const { user } = useUser();
@@ -41,13 +38,6 @@ export default function BillDetailManager() {
 
     return () => clearInterval(intervalId);
   }, [user.UserID]);
-
-  const handleViewProductsClick = (billId) => {
-    const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillID === billId);
-    setModalBillDetails(filteredBillDetails);
-    setModalUserId(filteredBillDetails[0]?.UserID || ''); 
-    setShowModal(true);
-  };
 
   const handleAcceptOrderClick = (billId) => {
     setSelectedBillId(billId);
@@ -163,7 +153,6 @@ export default function BillDetailManager() {
           })}
         </tbody>
       </Table>
-      
 
       <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)}>
         <Modal.Header closeButton>
