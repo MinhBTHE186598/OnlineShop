@@ -10,7 +10,7 @@ function ShipperAction() {
     <div id="wrapper" style={{ margin: "125px 30px" }}>
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">
         <Row>
-          <Col sm={3}>
+          <Col sm={2}>
             <Nav variant="pills" className="flex-column">
               <Nav.Item>
                 <Nav.Link eventKey="first">Giao dịch chưa được vận chuyển</Nav.Link>
@@ -20,7 +20,7 @@ function ShipperAction() {
               </Nav.Item>
             </Nav>
           </Col>
-          <Col sm={9}>
+          <Col sm={10}>
             <Tab.Content>
               <Tab.Pane eventKey="first">
               <BillDetailManager />

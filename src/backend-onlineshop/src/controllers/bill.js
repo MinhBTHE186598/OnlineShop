@@ -3,21 +3,80 @@ const sql = require('mssql');
 const getBillDetail = async (req, res) => {
     try {
         const result = await sql.query`
-            SELECT bd.*, b.UserID, u.UserAddress, u.UserFirstName, u.UserLastName, p.ProductName, s.SellerAddress
-            FROM BillDetails bd
-            JOIN Bills b ON bd.BillID = b.BillID
-            JOIN Users u ON b.UserID = u.UserID
-            JOIN Products p ON bd.ProductID = p.ProductID
-            JOIN Sellers s ON p.SellerID = s.SellerID
+            SELECT * FROM BillDetails
         `;
         res.json(result.recordset);
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
     }
-}
+};
+const getProductToBill = async (req, res) => {
+    try {
+        const billDetailID = req.query.billDetailID;
+        if (!billDetailID) {
+            res.status(400).send('billDetailID is required');
+            return;
+        }
 
+        const result = await sql.query`
+            SELECT p.ProductName
+            FROM BillDetails bd
+            JOIN Products p ON bd.ProductID = p.ProductID
+            WHERE bd.BillDetailID = ${billDetailID}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error('Error in getProductToBill:', err);
+        res.status(500).send('Error fetching product details for bill detail');
+    }
+};
+  
+const getUserToBill = async (req, res) => {
+    try {
+        const billID = req.query.billID; 
+        const result = await sql.query`
+            SELECT u.UserID, u.UserAddress, u.UserFirstName, u.UserLastName
+            FROM Bills b
+            JOIN Users u ON b.UserID = u.UserID
+            WHERE b.BillID = ${billID}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error('Error in getUserToBill:', err);
+        res.status(500).send('Error fetching user details for bill');
+    }
+};
+const getSellerToBill = async (req, res) => {
+    try {
+        const productID = req.query.productID; 
+        const result = await sql.query`
+            SELECT s.SellerAddress
+            FROM Products p
+            JOIN Sellers s ON p.SellerID = s.SellerID
+            WHERE p.ProductID = ${productID}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error('Error in getSellerToBill:', err);
+        res.status(500).send('Error fetching seller details for product');
+    }
+};
 
+const getBill = async (req, res) => {
+    try {
+        const billID = req.query.billID; 
+        const result = await sql.query`
+            SELECT b.BillID, b.BillDate
+            FROM Bills b
+            WHERE b.BillID = ${billID}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error('Error in getBill:', err);
+        res.status(500).send('Error fetching bill details');
+    }
+};
 
 const getCart = async (req, res) => {
     try {
@@ -126,4 +185,4 @@ const updateBillDetailCustomQuantity = async (req, res) => {
     }
 }
 
-module.exports = { getBillDetail, getBillDetailByBillID, getCart, addNewBill, updateBill, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity }; 
+module.exports = { getBillDetail,getProductToBill, getBill, getSellerToBill, getUserToBill, getBillDetailByBillID, getCart, addNewBill, updateBill, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity };

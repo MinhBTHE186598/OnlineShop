@@ -5,22 +5,24 @@ import { useUser } from '../context/UserContext';
 
 export default function BillDone() {
   const [billDetails, setBillDetails] = useState([]);
-
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [userToBillMap, setUserToBillMap] = useState({});
+  const [sellerToBillMap, setSellerToBillMap] = useState({});
+  const [productNames, setProductNames] = useState({});
   const { user } = useUser();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const billResponse = await axios.get("http://localhost:5000/bill/getBillDetail");
-        console.log('Bill Details:', billResponse.data);
-        setBillDetails(billResponse.data);
+        const [billDetailResponse, shipperResponse] = await Promise.all([
+          axios.get("http://localhost:5000/bill/getBillDetail"),
+          axios.get('http://localhost:5000/user/getShipper'),
+        ]);
 
-        const shipperResponse = await axios.get('http://localhost:5000/user/getShipper');
-        console.log('Shipper List:', shipperResponse.data);
+        setBillDetails(billDetailResponse.data);
+
         if (shipperResponse.data) {
           const currentUser = shipperResponse.data.find(shipper => shipper.UserID === user.UserID);
-          console.log('Current User:', currentUser);
           if (currentUser) {
             setCurrentUserId(currentUser.ShipperID);
           } else {
@@ -28,6 +30,32 @@ export default function BillDone() {
           }
         }
 
+        const billIDs = [...new Set(billDetailResponse.data.map(billDetail => billDetail.BillID))];
+        const userToBillMapTemp = {};
+        const sellerToBillMapTemp = {};
+        const productNamesTemp = {};
+
+        await Promise.all(billDetailResponse.data.map(async (billDetail) => {
+          const billID = billDetail.BillID;
+          const billDetailID = billDetail.BillDetailID;
+
+          const [userResponse, sellerResponse, productResponse] = await Promise.all([
+            axios.get(`http://localhost:5000/bill/getUserToBill?billID=${billID}`),
+            axios.get(`http://localhost:5000/bill/getSellerToBill?productID=${billDetail.ProductID}`),
+            axios.get(`http://localhost:5000/bill/getProductToBill?billDetailID=${billDetailID}`),
+          ]);
+
+          userToBillMapTemp[billID] = userResponse.data;
+          sellerToBillMapTemp[billID] = sellerResponse.data;
+
+          if (productResponse.data.length > 0) {
+            productNamesTemp[billDetailID] = productResponse.data[0].ProductName;
+          }
+        }));
+
+        setUserToBillMap(userToBillMapTemp);
+        setSellerToBillMap(sellerToBillMapTemp);
+        setProductNames(productNamesTemp);
       } catch (error) {
         console.error("There was an error fetching data!", error);
       }
@@ -35,7 +63,6 @@ export default function BillDone() {
 
     fetchData();
   }, [user.UserID]);
-
 
   const filteredBillDetails = billDetails.filter(
     billDetail => billDetail.BillDetailStatus === "Đã nhận hàng" && billDetail.ShipperID === currentUserId
@@ -66,12 +93,13 @@ export default function BillDone() {
             const filteredBillDetailsForBillDetailId = filteredBillDetails.filter(billDetail => billDetail.BillDetailID === billDetailId);
             const billQuantity = filteredBillDetailsForBillDetailId.length;
             const billDetailStatus = filteredBillDetailsForBillDetailId[0]?.BillDetailStatus;
-            const userAddress = filteredBillDetailsForBillDetailId[0]?.UserAddress || 'Địa chỉ không có';
-            const userFirstName = filteredBillDetailsForBillDetailId[0]?.UserFirstName || 'Tên không có';
-            const userLastName = filteredBillDetailsForBillDetailId[0]?.UserLastName || '';
+            const billID = filteredBillDetailsForBillDetailId[0]?.BillID;
+            const productName = productNames[billDetailId] || 'Tên sản phẩm không có';
+            const userAddress = userToBillMap[billID]?.[0]?.UserAddress || 'Địa chỉ không có';
+            const userFirstName = userToBillMap[billID]?.[0]?.UserFirstName || 'Tên không có';
+            const userLastName = userToBillMap[billID]?.[0]?.UserLastName || '';
             const userFullName = `${userFirstName} ${userLastName}`;
-            const productName = filteredBillDetailsForBillDetailId[0]?.ProductName || 'Tên sản phẩm không có';
-            const sellerAddress = filteredBillDetailsForBillDetailId[0]?.SellerAddress || 'Địa chỉ không có';
+            const sellerAddress = sellerToBillMap[billID]?.[0]?.SellerAddress || 'Địa chỉ không có';
 
             return (
               <tr key={index}>
