@@ -39,7 +39,7 @@ const addNewBill = async (req, res) => {
         res.json(result.recordset);
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server Error');
+        res.status(500).send('Server Error'); 
     }
 }
 

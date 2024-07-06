@@ -14,7 +14,6 @@ export default function BillDetailManager() {
   const [modalBillDetails, setModalBillDetails] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [selectedBillId, setSelectedBillId] = useState(null);
-  const [shipperList, setShipperList] = useState([]);
   const { user } = useUser();
 
   useEffect(() => {
@@ -30,7 +29,6 @@ export default function BillDetailManager() {
       axios.get('http://localhost:5000/user/getShipper')
         .then(response => {
           if (response.data) {
-            setShipperList(response.data);
             const currentUser = response.data.find(shipper => shipper.UserID === user.UserID);
             if (currentUser) {
               setCurrentUserId(currentUser.ShipperID);
@@ -45,7 +43,7 @@ export default function BillDetailManager() {
     };
 
     fetchData(); 
-    const intervalId = setInterval(fetchData,1000); 
+    const intervalId = setInterval(fetchData, 1000); 
 
     return () => clearInterval(intervalId); 
   }, [user.UserID]);
