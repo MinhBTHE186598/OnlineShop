@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
 
 export default function BillDone() {
   const [billDetails, setBillDetails] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [modalBillDetails, setModalBillDetails] = useState([]);
+
   const [currentUserId, setCurrentUserId] = useState(null);
-  const [selectedUserId, setSelectedUserId] = useState(null); 
   const { user } = useUser();
 
   useEffect(() => {
@@ -39,12 +36,6 @@ export default function BillDone() {
     fetchData();
   }, [user.UserID]);
 
-  const handleViewProductsClick = (billDetailId, userId) => {
-    const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillDetailID === billDetailId);
-    setModalBillDetails(filteredBillDetails);
-    setSelectedUserId(userId);  
-    setShowModal(true);
-  };
 
   const filteredBillDetails = billDetails.filter(
     billDetail => billDetail.BillDetailStatus === "Đã nhận hàng" && billDetail.ShipperID === currentUserId
@@ -75,8 +66,6 @@ export default function BillDone() {
             const filteredBillDetailsForBillDetailId = filteredBillDetails.filter(billDetail => billDetail.BillDetailID === billDetailId);
             const billQuantity = filteredBillDetailsForBillDetailId.length;
             const billDetailStatus = filteredBillDetailsForBillDetailId[0]?.BillDetailStatus;
-            const shipperId = filteredBillDetailsForBillDetailId[0]?.ShipperID;
-            const userId = filteredBillDetailsForBillDetailId[0]?.UserID;  
             const userAddress = filteredBillDetailsForBillDetailId[0]?.UserAddress || 'Địa chỉ không có';
             const userFirstName = filteredBillDetailsForBillDetailId[0]?.UserFirstName || 'Tên không có';
             const userLastName = filteredBillDetailsForBillDetailId[0]?.UserLastName || '';
@@ -85,7 +74,7 @@ export default function BillDone() {
             const sellerAddress = filteredBillDetailsForBillDetailId[0]?.SellerAddress || 'Địa chỉ không có';
 
             return (
-              <tr key={index} onClick={() => handleViewProductsClick(billDetailId, userId)}>
+              <tr key={index}>
                 <td>{billDetailId}</td>
                 <td>{userFullName}</td>
                 <td>{billQuantity}</td>
