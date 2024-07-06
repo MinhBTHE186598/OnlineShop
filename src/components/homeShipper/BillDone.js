@@ -91,7 +91,7 @@ export default function BillDone() {
         <tbody>
           {uniqueBillDetailIds.map((billDetailId, index) => {
             const filteredBillDetailsForBillDetailId = filteredBillDetails.filter(billDetail => billDetail.BillDetailID === billDetailId);
-            const billQuantity = filteredBillDetailsForBillDetailId.length;
+            const billQuantity = filteredBillDetailsForBillDetailId.reduce((sum, billDetail) => sum + (billDetail.BillQuantity || 0), 0);
             const billDetailStatus = filteredBillDetailsForBillDetailId[0]?.BillDetailStatus;
             const billID = filteredBillDetailsForBillDetailId[0]?.BillID;
             const productName = productNames[billDetailId] || 'Tên sản phẩm không có';
