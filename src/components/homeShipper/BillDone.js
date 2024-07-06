@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
-import BillDetailModal from './BillDetailModal';
 import { Button } from 'react-bootstrap';
 import { useUser } from '../context/UserContext';
 
@@ -40,8 +39,8 @@ export default function BillDone() {
     fetchData();
   }, [user.UserID]);
 
-  const handleViewProductsClick = (billId, userId) => {
-    const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillID === billId);
+  const handleViewProductsClick = (billDetailId, userId) => {
+    const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillDetailID === billDetailId);
     setModalBillDetails(filteredBillDetails);
     setSelectedUserId(userId);  
     setShowModal(true);
@@ -51,7 +50,7 @@ export default function BillDone() {
     billDetail => billDetail.BillDetailStatus === "Đã nhận hàng" && billDetail.ShipperID === currentUserId
   );
 
-  const uniqueBillIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillID))].sort((a, b) => a - b);
+  const uniqueBillDetailIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillDetailID))].sort((a, b) => a - b);
 
   return (
     <>
@@ -61,49 +60,43 @@ export default function BillDone() {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Bill ID</th>
+            <th>Mã đơn</th>
+            <th>Tên người nhận</th>
             <th>Số lượng sản phẩm</th>
-            <th>Địa chỉ nhận hàng</th>
+            <th>Tên sản phẩm</th>
+            <th>Địa chỉ giao hàng</th>
+            <th>Địa chỉ lấy hàng</th>
             <th>Trạng thái đơn hàng</th>
-            <th>Shipper ID</th>
-            <th>Actions</th>
+            <th>Ngày tạo đơn hàng</th>
           </tr>
         </thead>
         <tbody>
-          {uniqueBillIds.map((billId, index) => {
-            const filteredBillDetailsForBillId = filteredBillDetails.filter(billDetail => billDetail.BillID === billId);
-            const billQuantity = filteredBillDetailsForBillId.length;
-            const billDetailStatus = filteredBillDetailsForBillId[0]?.BillDetailStatus;
-            const shipperId = filteredBillDetailsForBillId[0]?.ShipperID;
-            const userId = filteredBillDetailsForBillId[0]?.UserID;  
-            const userAddress = filteredBillDetailsForBillId[0]?.UserAddress || 'Địa chỉ không có';
+          {uniqueBillDetailIds.map((billDetailId, index) => {
+            const filteredBillDetailsForBillDetailId = filteredBillDetails.filter(billDetail => billDetail.BillDetailID === billDetailId);
+            const billQuantity = filteredBillDetailsForBillDetailId.length;
+            const billDetailStatus = filteredBillDetailsForBillDetailId[0]?.BillDetailStatus;
+            const shipperId = filteredBillDetailsForBillDetailId[0]?.ShipperID;
+            const userId = filteredBillDetailsForBillDetailId[0]?.UserID;  
+            const userAddress = filteredBillDetailsForBillDetailId[0]?.UserAddress || 'Địa chỉ không có';
+            const userFirstName = filteredBillDetailsForBillDetailId[0]?.UserFirstName || 'Tên không có';
+            const userLastName = filteredBillDetailsForBillDetailId[0]?.UserLastName || '';
+            const userFullName = `${userFirstName} ${userLastName}`;
 
             return (
-              <tr key={index}>
-                <td>{billId}</td>
+              <tr key={index} onClick={() => handleViewProductsClick(billDetailId, userId)}>
+                <td>{billDetailId}</td>
+                <td>{userFullName}</td>
                 <td>{billQuantity}</td>
+                <td>{filteredBillDetailsForBillDetailId[0]?.ProductName || 'Tên sản phẩm không có'}</td>
                 <td>{userAddress}</td>
+                <td></td>
                 <td>{billDetailStatus}</td>
-                <td>{shipperId}</td>
-                <td>
-                  <Button
-                    variant="primary"
-                    onClick={() => handleViewProductsClick(billId, userId)} 
-                  >
-                    Xem sản phẩm
-                  </Button>
-                </td>
+                <td>{filteredBillDetailsForBillDetailId[0]?.BillDate || 'Ngày không có'}</td>
               </tr>
             );
           })}
         </tbody>
       </Table>
-      <BillDetailModal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        billDetails={modalBillDetails}
-        userId={selectedUserId}  
-      />
     </>
   );
 }

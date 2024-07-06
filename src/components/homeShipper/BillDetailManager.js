@@ -3,7 +3,6 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
-import BillDetailModal from './BillDetailModal';
 import { useUser } from '../context/UserContext';
 
 export default function BillDetailManager() {
@@ -148,9 +147,6 @@ export default function BillDetailManager() {
                 <td>{billDetailStatus}</td>
                 <td>{shipperId}</td>
                 <td>
-                  <Button variant="primary" onClick={() => handleViewProductsClick(billId)}>
-                    Xem sản phẩm
-                  </Button>
                   {billDetailStatus === "Đã xác nhận" && (
                     <Button variant="success" onClick={() => handleAcceptOrderClick(billId)}>
                       Nhận đơn
@@ -167,12 +163,7 @@ export default function BillDetailManager() {
           })}
         </tbody>
       </Table>
-      <BillDetailModal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        billDetails={modalBillDetails}
-        userId={modalUserId} 
-      />
+      
 
       <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)}>
         <Modal.Header closeButton>
