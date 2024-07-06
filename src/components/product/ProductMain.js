@@ -6,6 +6,7 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const reformat = new Intl.NumberFormat('en-US', {
 
@@ -38,7 +39,8 @@ function ProductMain(props) {
     const [stars, setStars] = useState([]);
     const [sellerList, setSellerList] = useState([]);
     const [categories, setCategories] = useState([]);
-    const { user, isLogin } = useUser();
+    const { user, isLogin, userCart } = useUser();
+    const [cartList, setCartList] = useState([]);
 
     const fetchData = async () => {
         try {
@@ -67,9 +69,35 @@ function ProductMain(props) {
         if ((productList.length > 0 && (props.id > productList.length || props.id <= 0)) || isNaN(props.id)) {
             navigate('/notfound');
         }
-    }, [productList, props.id, navigate]);
+        if (isLogin && userCart) {
+            function fetchCart() {
+                axios
+                    .get(`http://localhost:5000/bill/getBillDetailByBillID/${userCart.BillID}`)
+                    .then((response) => {
+                        setCartList(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+            fetchCart();
+        }
+    }, [productList, props.id, navigate, isLogin, userCart]);
 
     const product = productList.find(product => product.ProductID.toString() === props.id);
+
+    
+    const isInCart = () => {
+        if (cartList.length > 0) {
+            return cartList.find(item => item.ProductID === product.ProductID);
+        }
+        return false;
+    }
+
+    const isSeller = () => {
+        return sellerList.some(item => item.SellerID === product.SellerID && item.UserID === user.UserID);
+    }
+
     return (
         product ? (
             <Container fluid style={containerStyle}>
@@ -104,9 +132,11 @@ function ProductMain(props) {
                                 {Array(5 - (stars.find(star => star.ProductID === product.ProductID)?.ProductStar || 0)).fill(<FaRegStar />)}
                             </div>
                             <p style={{ fontSize: 'xx-large', color: 'orange', margin: '0' }}>{reformat.format(product.ProductPrice)}đ</p>
-                            <Button variant="primary" size='lg'>
-                                Thêm vào giỏ hảng
-                            </Button>
+                            {isInCart() ? (<Button variant="secondary" disabled size='lg'>Đã có trong giỏ hàng</Button>
+                            ) : (
+                                isSeller() ? (
+                                    <Button variant="secondary" disabled size='lg'>Bạn đang bán sản phẩm này</Button>
+                                ) : (<Button variant="primary" size='lg'>Thêm vào giỏ hàng</Button>))}
                         </div>
                     </Col>
                 </Row>

@@ -4,14 +4,15 @@ import Card from 'react-bootstrap/Card';
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { useState, useEffect } from 'react';
+import { useUser } from "../context/UserContext";
+import axios from "axios";
 const reformat = new Intl.NumberFormat('en-US', {
-    
+
 })
 
 
 const CardStyle = {
     width: '15vw',
-    //height: '60vh',
     backgroundColor: 'white',
     color: 'black',
     border: 'solid black 1px',
@@ -36,12 +37,25 @@ const Clamp = {
     textOverflow: 'ellipsis',
     WebkitLineClamp: '1',
     WebkitBoxOrient: 'vertical',
-    margin:'0'
+    margin: '0'
 }
 function ProductCardSmall(props) {
-    const [sellers, setSellers] = useState([])
-    const [stars, setStars] = useState([])
-    const [categories, setCategories] = useState([])
+    const [sellers, setSellers] = useState([]);
+    const [stars, setStars] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const { user, isLogin, userCart } = useUser();
+    const [cartList, setCartList] = useState([]);
+
+    const isInCart = () => {
+        if (cartList.length > 0) {
+            return cartList.find(item => item.ProductID === props.id);
+        }
+        return false;
+    }
+
+    const isSeller = () => {
+        return sellers.some(item => item.SellerID === props.seller && item.UserID === user.UserID);
+    }
 
 
     useEffect(() => {
@@ -61,32 +75,49 @@ function ProductCardSmall(props) {
         }).catch(error => {
             console.error(error);
         });
-    }, [])
+        if (isLogin && userCart) {
+            function fetchCart() {
+                axios
+                    .get(`http://localhost:5000/bill/getBillDetailByBillID/${userCart.BillID}`)
+                    .then((response) => {
+                        setCartList(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+            fetchCart();
+        }
+    }, [isLogin, userCart]);
 
     return (
         <Card style={CardStyle}>
             <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 1px black', borderRadius: '0px' }} />
-            <Card.Body style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-                <Card.Title style={{ textAlign: 'center',fontSize:'x-large' }}><a href={`/product/${props.star}`} style={{ textDecoration: 'none', color: '#0d6efd' }}><p style={Clamp}>{props.name}</p></a></Card.Title>
+            <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <Card.Title style={{ textAlign: 'center', fontSize: 'x-large' }}><a href={`/product/${props.star}`} style={{ textDecoration: 'none', color: '#0d6efd' }}><p style={Clamp}>{props.name}</p></a></Card.Title>
                 <div>
                     <p style={Clamp}>{props.description}</p>
-                    <p style={{...Clamp, marginBottom: '20px'}}>Người bán: {sellers.map(seller => {
+                    <p style={{ ...Clamp, marginBottom: '20px' }}>Người bán: {sellers.map(seller => {
                         if (seller.SellerID === props.seller) {
-                            return <a href={`/profile/${seller.UserID}`} style={{ textDecoration: 'none'}} key={seller.SellerID}>{seller.SellerName}</a>
+                            return <a href={`/profile/${seller.UserID}`} style={{ textDecoration: 'none' }} key={seller.SellerID}>{seller.SellerName}</a>
                         }
                         return null
                     })}</p>
-                    
+
                     <p style={Clamp}>Danh mục: {categories.find(category => category.CategoryID === props.category)?.CategoryName}</p>
                     <p style={Clamp}>Số luợng: {props.quantity}</p>
-                    <p style={{color: props.quantity === 0? 'red' : 'green'}}>Tình trạng: {props.quantity === 0? 'Đã hết hàng' : 'Còn hàng'}</p>
+                    <p style={{ color: props.quantity === 0 ? 'red' : 'green' }}>Tình trạng: {props.quantity === 0 ? 'Đã hết hàng' : 'Còn hàng'}</p>
                     <div style={StarStyle}>
                         {Array(stars.find(star => star.ProductID === props.star)?.ProductStar || 0).fill(<FaStar />)}
                         {Array(5 - (stars.find(star => star.ProductID === props.star)?.ProductStar || 0)).fill(<FaRegStar />)}
                     </div>
                     <h4 style={{ color: 'orange' }}>{reformat.format(props.price)}đ</h4>
                 </div>
-                <Button variant="primary" style={MakeCenter}>Thêm vào giỏ hàng</Button>
+                {isInCart() ? (<Button variant="secondary" disabled style={MakeCenter}>Đã có trong giỏ hàng</Button>
+                ) : (
+                    isSeller() ? (
+                        <Button variant="secondary" disabled style={MakeCenter}>Bạn đang bán sản phẩm này</Button>
+                    ) : (<Button variant="primary" style={MakeCenter}>Thêm vào giỏ hàng</Button>))}
             </Card.Body>
         </Card>
     )

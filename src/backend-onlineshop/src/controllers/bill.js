@@ -2,7 +2,12 @@ const sql = require('mssql');
 
 const getBillDetail = async (req, res) => {
     try {
-        const result = await sql.query`SELECT * FROM BillDetails`;
+        const result = await sql.query`
+            SELECT bd.*, b.UserID, u.UserAddress
+            FROM BillDetails bd
+            JOIN Bills b ON bd.BillID = b.BillID
+            JOIN Users u ON b.UserID = u.UserID
+        `;
         res.json(result.recordset);
     } catch (err) {
         console.error(err);

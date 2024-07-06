@@ -10,54 +10,47 @@ export default function BillDone() {
   const [showModal, setShowModal] = useState(false);
   const [modalBillDetails, setModalBillDetails] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [selectedUserId, setSelectedUserId] = useState(null); 
   const { user } = useUser();
 
   useEffect(() => {
-    const fetchData = () => {
-      axios.get("http://localhost:5000/bill/getBillDetail")
-        .then(response => {
-          console.log('Bill Details:', response.data);
-          setBillDetails(response.data);
-        })
-        .catch(error => {
-          console.error("There was an error fetching the bill details!", error);
-        });
+    const fetchData = async () => {
+      try {
+        const billResponse = await axios.get("http://localhost:5000/bill/getBillDetail");
+        console.log('Bill Details:', billResponse.data);
+        setBillDetails(billResponse.data);
 
-      axios.get('http://localhost:5000/user/getShipper')
-        .then(response => {
-          console.log('Shipper List:', response.data);
-          if (response.data) {
-            const currentUser = response.data.find(shipper => shipper.UserID === user.UserID);
-            if (currentUser) {
-              setCurrentUserId(currentUser.ShipperID);
-            } else {
-              console.error('No ShipperID found for the current user!');
-            }
+        const shipperResponse = await axios.get('http://localhost:5000/user/getShipper');
+        console.log('Shipper List:', shipperResponse.data);
+        if (shipperResponse.data) {
+          const currentUser = shipperResponse.data.find(shipper => shipper.UserID === user.UserID);
+          console.log('Current User:', currentUser);
+          if (currentUser) {
+            setCurrentUserId(currentUser.ShipperID);
+          } else {
+            console.error('No ShipperID found for the current user!');
           }
-        })
-        .catch(error => {
-          console.error('There was an error fetching the shipper list!', error);
-        });
+        }
+
+      } catch (error) {
+        console.error("There was an error fetching data!", error);
+      }
     };
 
     fetchData();
-    const intervalId = setInterval(fetchData, 1000);
-
-    return () => clearInterval(intervalId);
   }, [user.UserID]);
 
-  const handleViewProductsClick = (billId) => {
+  const handleViewProductsClick = (billId, userId) => {
     const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillID === billId);
     setModalBillDetails(filteredBillDetails);
+    setSelectedUserId(userId);  
     setShowModal(true);
   };
 
-  // Lọc danh sách các BillDetails có trạng thái là "Đã nhận hàng" và ShipperID trùng với currentUserId
   const filteredBillDetails = billDetails.filter(
     billDetail => billDetail.BillDetailStatus === "Đã nhận hàng" && billDetail.ShipperID === currentUserId
   );
 
-  // Lấy danh sách các BillID duy nhất từ filteredBillDetails
   const uniqueBillIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillID))].sort((a, b) => a - b);
 
   return (
@@ -69,7 +62,8 @@ export default function BillDone() {
         <thead>
           <tr>
             <th>Bill ID</th>
-            <th>Tổng sản phẩm</th>
+            <th>Số lượng sản phẩm</th>
+            <th>Địa chỉ nhận hàng</th>
             <th>Trạng thái đơn hàng</th>
             <th>Shipper ID</th>
             <th>Actions</th>
@@ -77,20 +71,25 @@ export default function BillDone() {
         </thead>
         <tbody>
           {uniqueBillIds.map((billId, index) => {
-            // Chỉ lấy những BillDetail có BillID hiện tại
             const filteredBillDetailsForBillId = filteredBillDetails.filter(billDetail => billDetail.BillID === billId);
             const billQuantity = filteredBillDetailsForBillId.length;
             const billDetailStatus = filteredBillDetailsForBillId[0]?.BillDetailStatus;
             const shipperId = filteredBillDetailsForBillId[0]?.ShipperID;
+            const userId = filteredBillDetailsForBillId[0]?.UserID;  
+            const userAddress = filteredBillDetailsForBillId[0]?.UserAddress || 'Địa chỉ không có';
 
             return (
               <tr key={index}>
                 <td>{billId}</td>
                 <td>{billQuantity}</td>
+                <td>{userAddress}</td>
                 <td>{billDetailStatus}</td>
                 <td>{shipperId}</td>
                 <td>
-                  <Button variant="primary" onClick={() => handleViewProductsClick(billId)}>
+                  <Button
+                    variant="primary"
+                    onClick={() => handleViewProductsClick(billId, userId)} 
+                  >
                     Xem sản phẩm
                   </Button>
                 </td>
@@ -103,6 +102,7 @@ export default function BillDone() {
         show={showModal}
         onHide={() => setShowModal(false)}
         billDetails={modalBillDetails}
+        userId={selectedUserId}  
       />
     </>
   );

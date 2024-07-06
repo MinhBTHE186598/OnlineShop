@@ -153,7 +153,7 @@ function MainShopItemList(props) {
             <Dropdown.Menu>
               <Dropdown.Item eventKey='ProductName asc' onClick={() => setSortTitle('Tên A-Z')}>Tên A-Z</Dropdown.Item>
               <Dropdown.Item eventKey='ProductName desc' onClick={() => setSortTitle('Tên Z-A')}>Tên Z-A</Dropdown.Item>
-              <Dropdown.Item eventKey='ProductPrice asc' onClick={() => setSortTitle('Giá thấp đén cao')}>Giá thấp đến cao</Dropdown.Item>
+              <Dropdown.Item eventKey='ProductPrice asc' onClick={() => setSortTitle('Giá thấp đến cao')}>Giá thấp đến cao</Dropdown.Item>
               <Dropdown.Item eventKey='ProductPrice desc' onClick={() => setSortTitle('Giá cao đến thấp')}>Giá cao đến thấp</Dropdown.Item>
               <Dropdown.Item eventKey='ProductID asc' onClick={() => setSortTitle('Sắp xếp')}>Bỏ chọn</Dropdown.Item>
             </Dropdown.Menu>
