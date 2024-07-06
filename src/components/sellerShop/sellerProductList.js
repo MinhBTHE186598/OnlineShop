@@ -46,7 +46,7 @@ export default function ProductManager(props) {
             .then(data => {
                 setProducts(data)
             })
-    }, [])
+    }, [props.id])
 
     return (
         <div>
