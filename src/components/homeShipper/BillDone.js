@@ -65,7 +65,7 @@ export default function BillDone() {
   }, [user.UserID]);
 
   const filteredBillDetails = billDetails.filter(
-    billDetail => billDetail.BillDetailStatus === "Đã nhận hàng" && billDetail.ShipperID === currentUserId
+    billDetail => billDetail.BillDetailStatus === "Đã nhận hàng" && "Đã giao hàng" && billDetail.ShipperID === currentUserId
   );
 
   const uniqueBillDetailIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillDetailID))].sort((a, b) => a - b);
