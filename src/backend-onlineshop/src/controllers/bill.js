@@ -106,4 +106,20 @@ const updateBillDetailMinusQuantity = async (req, res) => {
     }
 }
 
-module.exports = { getBillDetail, getBillDetailByBillID, getCart, addNewBill, updateBill, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity }; 
+const updateBillDetailCustomQuantity = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const { quantity } = req.body;
+        const result = await sql.query`
+            UPDATE BillDetails 
+            SET BillQuantity = ${quantity}
+            WHERE BillDetailID = ${id}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error('Error updating bill:', err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+module.exports = { getBillDetail, getBillDetailByBillID, getCart, addNewBill, updateBill, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity }; 

@@ -2,13 +2,11 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
-import { useUser } from '../context/UserContext';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
 
 function EditProductModal({ show, onHide, product }) {
-    const { user } = useUser();
     const [productName, setPName] = useState(product.ProductName);
     const [productCategory, setSelectedOption] = useState(product.categoryID);
     const [productPrice, setPPrice] = useState(product.ProductPrice);
@@ -17,8 +15,6 @@ function EditProductModal({ show, onHide, product }) {
     const [productDesc, setPDesc] = useState(product.ProductDescription);
 
     const [categoryList, setCategories] = useState([{}])
-
-    const [sellerList, setSellerList] = useState([]);
 
     useEffect(() => {
         setPName(product.ProductName);
@@ -29,7 +25,6 @@ function EditProductModal({ show, onHide, product }) {
         setPDesc(product.ProductDescription);
     }, [product.ProductName, product.CategoryID, product.ProductPrice, product.ProductPic, product.ProductQuantity, product.ProductDescription]);
 
-    const userID = user.UserID;
     const productID = product.ProductID;
     const handleSubmit = async (e) => {
         // e.preventDefault();
@@ -62,22 +57,6 @@ function EditProductModal({ show, onHide, product }) {
             }
         )
     }, [])
-
-    React.useEffect(() => {
-        fetch("http://localhost:5000/seller/get")
-            .then(response => response.json())
-            .then(data => {
-                setSellerList(data)
-            })
-    }, [])
-
-    const getSellerID = () => {
-        const seller = sellerList.find(seller => seller.UserID === user.UserID);
-        if (seller) return seller.SellerID;
-        else return null;
-    }
-
-    const sellerID = getSellerID();
 
     return (
         <div>

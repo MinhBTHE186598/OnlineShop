@@ -19,7 +19,7 @@ function EditSellerModal({ show, onHide, Seller, onUpdate }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`http://localhost:5000/seller/update/${Seller.SellerID}`, {
+            const response = await axios.put(`http://localhost:5000/seller/updateSeller/${Seller.SellerID}`, {
                 SellerName: sellerName,
                 SellerAddress: sellerAddress
             });
