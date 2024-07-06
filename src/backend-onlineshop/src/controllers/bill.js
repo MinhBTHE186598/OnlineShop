@@ -3,10 +3,11 @@ const sql = require('mssql');
 const getBillDetail = async (req, res) => {
     try {
         const result = await sql.query`
-            SELECT bd.*, b.UserID, u.UserAddress, u.UserFirstName, u.UserLastName
+            SELECT bd.*, b.UserID, u.UserAddress, u.UserFirstName, u.UserLastName, p.ProductName
             FROM BillDetails bd
             JOIN Bills b ON bd.BillID = b.BillID
             JOIN Users u ON b.UserID = u.UserID
+            JOIN Products p ON bd.ProductID = p.ProductID
         `;
         res.json(result.recordset);
     } catch (err) {
@@ -14,6 +15,7 @@ const getBillDetail = async (req, res) => {
         res.status(500).send('Server Error');
     }
 }
+
 
 
 const getCart = async (req, res) => {
