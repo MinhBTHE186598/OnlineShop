@@ -19,9 +19,7 @@ import '../../utility/noArrow.css';
 import axios from "axios";
 import { Col } from "react-bootstrap";
 
-const reformat = new Intl.NumberFormat('en-US', {
-
-})
+const reformat = new Intl.NumberFormat('en-US', {});
 
 function Header() {
   const [categories, setCategories] = useState([]);
@@ -32,6 +30,7 @@ function Header() {
   const navigate = useNavigate();
   const { user, setUser, userRole, setUserRole, isLogin, setIsLogin, userCart, setUserCart } =
     useUser();
+
   const logOut = () => {
     if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
       setUser(null);
@@ -68,16 +67,23 @@ function Header() {
       console.error(error);
     }
   };
+
   const fetchNotifications = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/noti/getNoti`);
-      setNotifications(Array.isArray(response.data) ? response.data : []);
-    } catch (error) {
-      console.error(error);
-      setNotifications([]); 
+    if (user && user.UserID) { 
+      try {
+        const response = await axios.get(`http://localhost:5000/noti/getNoti`, {
+          params: { userID: user.UserID },
+        });
+        const filteredNotifications = Array.isArray(response.data)
+          ? response.data.filter(notification => notification.UserID === user.UserID)
+          : [];
+        setNotifications(filteredNotifications);
+      } catch (error) {
+        console.error(error);
+        setNotifications([]);
+      }
     }
   };
-
 
   useEffect(() => {
     if (isLogin && userCart) {
@@ -96,7 +102,7 @@ function Header() {
       fetchCategory();
       fetchNotifications();
     }
-  }, [userCart]);
+  }, [userCart, user?.UserID]);
 
   return (
     <Navbar
@@ -176,24 +182,37 @@ function Header() {
           style={{ width: "33vw", display: "flex", justifyContent: "center" }}
         >
           <ButtonGroup className="m-1" aria-label="First group">
-        <DropdownButton
-          as={ButtonGroup}
-          title={<FaBell />}
-          id="bg-nested-dropdown"
-          onClick={fetchNotifications}
-        >
-          {notifications.length === 0 ? (
-            <Dropdown.Item style={{ pointerEvents: 'none' }}>No notifications</Dropdown.Item>
-          ) : (
-            notifications.map((notification) => (
-              <Dropdown.Item key={notification.NotificationID}>
-                <strong>{notification.NotificationHeader}</strong><br />
-                {notification.NotificationText}
+            <DropdownButton
+              as={ButtonGroup}
+              title={<FaBell />}
+              id="bg-nested-dropdown"
+              onClick={fetchNotifications}
+            >
+              {notifications.length === 0 ? (
+                <Dropdown.Item style={{ pointerEvents: 'none', textAlign: 'center' }}>No notifications</Dropdown.Item>
+              ) : (
+                notifications.map((notification) => (
+                  <Dropdown.Item
+                    key={notification.NotificationID}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      padding: "10px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    <strong>{notification.NotificationHeader}</strong>
+                  </Dropdown.Item>
+                ))
+              )}
+              <Dropdown.Item
+                onClick={() => navigate(`/notification`)}
+                style={{ display: "flex", justifyContent: "center", padding: '10px 0', backgroundColor: '#0d6efd', color: 'white' }}
+              >
+                Xem tất cả thông báo
               </Dropdown.Item>
-            ))
-          )}
-        </DropdownButton>
-      </ButtonGroup>
+            </DropdownButton>
+          </ButtonGroup>
           <ButtonGroup className="m-1" aria-label="Second group">
             <DropdownButton
               as={ButtonGroup}

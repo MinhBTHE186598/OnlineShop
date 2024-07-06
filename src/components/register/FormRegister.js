@@ -77,34 +77,34 @@ function RegisterBoard() {
               <h2>{isShipper ? 'Đăng kí tài khoản Shipper' : 'Đăng kí tài khoản Người dùng'}</h2>
               <Form.Group className="mb-3" controlId="formGroupNameShop">
                 <div className='input-box'>
-                  <Form.Control type="text" placeholder="Tài khoản" value={name} onChange={(e) => setName(e.target.value)} required />
+                  <Form.Control type="text" id="user_name" placeholder="Tài khoản" value={name} onChange={(e) => setName(e.target.value)} required />
                 </div>
                 <div className='input-box'>
-                  <Form.Control type="text" placeholder="Địa chỉ" value={address} onChange={(e) => setAddress(e.target.value)} required />
+                  <Form.Control type="text" id="address" placeholder="Địa chỉ" value={address} onChange={(e) => setAddress(e.target.value)} required />
                 </div>
                 <Row>
                   <Col>
                     <div className='input-box'>
-                      <Form.Control type="text" placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+                      <Form.Control id="first_name" type="text" placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
                     </div>
                   </Col>
                   <Col>
                     <div className='input-box'>
-                      <Form.Control type="text" placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+                      <Form.Control id="last_name" type="text" placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
                     </div>
                   </Col>
                 </Row>
                 <div className='input-box'>
-                  <Form.Control type="email" placeholder="Gmail" value={gmail} onChange={(e) => setGmail(e.target.value)} required />
+                  <Form.Control id="email" type="email" placeholder="Gmail" value={gmail} onChange={(e) => setGmail(e.target.value)} required />
                 </div>
                 <div className='input-box'>
-                  <Form.Control type="text" placeholder="Số điện thoại" value={number} onChange={(e) => setNumber(e.target.value)} required />
+                  <Form.Control id="number" type="text" placeholder="Số điện thoại" value={number} onChange={(e) => setNumber(e.target.value)} required />
                 </div>
                 <div className='input-box'>
-                  <Form.Control type="password" placeholder="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                  <Form.Control id="password" type="password" placeholder="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 </div>
                 <div className='input-box'>
-                  <Form.Control type="password" placeholder="Xác nhận mật khẩu" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                  <Form.Control id="cf_password" type="password" placeholder="Xác nhận mật khẩu" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
                 </div>
                 {error && <p style={{ color: 'red', marginTop: '5px' }}>{error}</p>}
               </Form.Group>

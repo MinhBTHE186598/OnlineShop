@@ -9,7 +9,6 @@ export default function BillDone() {
   const [billDetails, setBillDetails] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalBillDetails, setModalBillDetails] = useState([]);
-  const [shipperList, setShipperList] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
   const { user } = useUser();
 
@@ -26,9 +25,8 @@ export default function BillDone() {
 
       axios.get('http://localhost:5000/user/getShipper')
         .then(response => {
-          console.log('Shipper List:', response.data); // Thêm dòng này để kiểm tra dữ liệu
+          console.log('Shipper List:', response.data);
           if (response.data) {
-            setShipperList(response.data);
             const currentUser = response.data.find(shipper => shipper.UserID === user.UserID);
             if (currentUser) {
               setCurrentUserId(currentUser.ShipperID);
@@ -42,11 +40,10 @@ export default function BillDone() {
         });
     };
 
-    fetchData(); 
-    const intervalId = setInterval(fetchData,1000); 
+    fetchData();
+    const intervalId = setInterval(fetchData, 1000);
 
-
-    return () => clearInterval(intervalId); 
+    return () => clearInterval(intervalId);
   }, [user.UserID]);
 
   const handleViewProductsClick = (billId) => {
@@ -55,10 +52,13 @@ export default function BillDone() {
     setShowModal(true);
   };
 
-  const uniqueBillIds = [...new Set(billDetails
-    .filter(billDetail => billDetail.BillDetailStatus === "Đã nhận hàng")
-    .map(billDetail => billDetail.BillID)
-  )].sort((a, b) => a - b);
+  // Lọc danh sách các BillDetails có trạng thái là "Đã nhận hàng" và ShipperID trùng với currentUserId
+  const filteredBillDetails = billDetails.filter(
+    billDetail => billDetail.BillDetailStatus === "Đã nhận hàng" && billDetail.ShipperID === currentUserId
+  );
+
+  // Lấy danh sách các BillID duy nhất từ filteredBillDetails
+  const uniqueBillIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillID))].sort((a, b) => a - b);
 
   return (
     <>
@@ -77,10 +77,11 @@ export default function BillDone() {
         </thead>
         <tbody>
           {uniqueBillIds.map((billId, index) => {
-            const filteredBillDetails = billDetails.filter(billDetail => billDetail.BillID === billId);
-            const billQuantity = filteredBillDetails.length;
-            const billDetailStatus = filteredBillDetails[0]?.BillDetailStatus;
-            const shipperId = filteredBillDetails[0]?.ShipperID;
+            // Chỉ lấy những BillDetail có BillID hiện tại
+            const filteredBillDetailsForBillId = filteredBillDetails.filter(billDetail => billDetail.BillID === billId);
+            const billQuantity = filteredBillDetailsForBillId.length;
+            const billDetailStatus = filteredBillDetailsForBillId[0]?.BillDetailStatus;
+            const shipperId = filteredBillDetailsForBillId[0]?.ShipperID;
 
             return (
               <tr key={index}>
@@ -102,7 +103,7 @@ export default function BillDone() {
         show={showModal}
         onHide={() => setShowModal(false)}
         billDetails={modalBillDetails}
-      /> 
+      />
     </>
   );
 }
