@@ -558,6 +558,7 @@ insert into Bills (UserID, BillDate, BillStatus) values (4, '30/05/2024', N'Đã
 insert into Bills (UserID, BillDate, BillStatus) values (5, '21/11/2024', N'Đã thanh toán');
 insert into Bills (UserID, BillDate, BillStatus) values (5, '26/08/2024', N'Đã thanh toán');
 insert into Bills (UserID, BillDate, BillStatus) values (5, '24/03/2024', N'Đã thanh toán');
+insert into Bills (UserID, BillDate, BillStatus) values (1, '24/03/2024', N'Đã thanh toán');
 go
 --select * from Bills
 --delete from Bills
@@ -662,6 +663,12 @@ insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDe
 insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 59, '02/01/2023', 1, N'Chưa xác nhận');
 insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 96, '03/01/2023', 1, N'Chưa xác nhận');
 insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (1, 95, '19/03/2023', 1, N'Chưa xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (46, 76, '27/03/2023', 1, N'Đã xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (46, 3, '24/03/2024', 1, N'Đã xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (46, 57, '24/03/2024', 1, N'Đã xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (46, 59, '24/03/2024', 1, N'Đã xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (46, 96, '24/03/2024', 1, N'Đã xác nhận');
+insert into BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus) values (46, 95, '24/03/2024', 1, N'Đã xác nhận');
 go
 --select * from BillDetails
 --delete from BillDetails

@@ -14,33 +14,38 @@ export default function BillDetailManager() {
   const [modalBillDetails, setModalBillDetails] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [selectedBillId, setSelectedBillId] = useState(null);
-  const [shipperList, setShipperList] = useState([]);
   const { user } = useUser();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/bill/getBillDetail")
-      .then(response => {
-        setBillDetails(response.data);
-      })
-      .catch(error => {
-        console.error("There was an error fetching the bill details!", error);
-      });
+    const fetchData = () => {
+      axios.get("http://localhost:5000/bill/getBillDetail")
+        .then(response => {
+          setBillDetails(response.data);
+        })
+        .catch(error => {
+          console.error("There was an error fetching the bill details!", error);
+        });
 
-    axios.get('http://localhost:5000/user/getShipper')
-      .then(response => {
-        if (response.data) {
-          setShipperList(response.data);
-          const currentUser = response.data.find(shipper => shipper.UserID === user.UserID);
-          if (currentUser) {
-            setCurrentUserId(currentUser.ShipperID);
-          } else {
-            console.error('No ShipperID found for the current user!');
+      axios.get('http://localhost:5000/user/getShipper')
+        .then(response => {
+          if (response.data) {
+            const currentUser = response.data.find(shipper => shipper.UserID === user.UserID);
+            if (currentUser) {
+              setCurrentUserId(currentUser.ShipperID);
+            } else {
+              console.error('No ShipperID found for the current user!');
+            }
           }
-        }
-      })
-      .catch(error => {
-        console.error('There was an error fetching the shipper list!', error);
-      });
+        })
+        .catch(error => {
+          console.error('There was an error fetching the shipper list!', error);
+        });
+    };
+
+    fetchData(); 
+    const intervalId = setInterval(fetchData, 1000); 
+
+    return () => clearInterval(intervalId); 
   }, [user.UserID]);
 
   const handleViewProductsClick = (billId) => {
@@ -80,8 +85,7 @@ export default function BillDetailManager() {
       .catch(error => {
         console.error("There was an error updating the bill details!", error);
       });
-};
-
+  };
 
   const handleSuccessDeliveryClick = (billId) => {
     setSelectedBillId(billId);
@@ -115,12 +119,9 @@ export default function BillDetailManager() {
         console.error("There was an error updating the bill details!", error);
       });
   };
-  
-
-
 
   const uniqueBillIds = [...new Set(billDetails
-    .filter(billDetail => billDetail.BillDetailStatus === "Chưa xác nhận" || billDetail.BillDetailStatus === "Đang vận chuyển")
+    .filter(billDetail => billDetail.BillDetailStatus === "Đã xác nhận" || billDetail.BillDetailStatus === "Đang vận chuyển")
     .map(billDetail => billDetail.BillID)
   )];
 
@@ -156,12 +157,12 @@ export default function BillDetailManager() {
                   <Button variant="primary" onClick={() => handleViewProductsClick(billId)}>
                     Xem sản phẩm
                   </Button>
-                  {billDetailStatus === "Chưa xác nhận" && (
+                  {billDetailStatus === "Đã xác nhận" && (
                     <Button variant="success" onClick={() => handleAcceptOrderClick(billId)}>
                       Nhận đơn
                     </Button>
                   )}
-                  {billDetailStatus === "Đang vận chuyển" && (
+                  {billDetailStatus === "Đang vận chuyển" && currentUserId === shipperId && (
                     <Button variant="info" onClick={() => handleSuccessDeliveryClick(billId)}>
                       Giao hàng thành công
                     </Button>

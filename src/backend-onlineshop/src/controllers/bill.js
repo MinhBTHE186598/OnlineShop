@@ -39,7 +39,7 @@ const addNewBill = async (req, res) => {
         res.json(result.recordset);
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server Error');
+        res.status(500).send('Server Error'); 
     }
 }
 
@@ -47,21 +47,11 @@ const updateBill = async (req, res) => {
     try {
         const { BillID, ShipperID, BillDetailStatus } = req.body;
 
-        // Log dữ liệu nhận được từ client
-        console.log(`Received request to update BillID: ${BillID}, ShipperID: ${ShipperID}, BillDetailStatus: ${BillDetailStatus}`);
-
-        if (!BillID || !ShipperID || !BillDetailStatus) {
-            throw new Error('Missing required fields');
-        }
-
         const result = await sql.query`
             UPDATE BillDetails 
             SET ShipperID = ${ShipperID}, BillDetailStatus = ${BillDetailStatus} 
             WHERE BillID = ${BillID}
         `;
-
-        // Log kết quả cập nhật
-        console.log('Database update result:', result);
 
         res.json({ message: 'Bill updated successfully' });
     } catch (err) {
@@ -70,5 +60,61 @@ const updateBill = async (req, res) => {
     }
 }
 
+const deleteBill = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const result = await sql.query`DELETE FROM BillDetails WHERE BillDetailID = ${id}`;
+        res.json({ message: 'Bill deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
 
-module.exports = { getBillDetail, getBillDetailByBillID, getCart, addNewBill, updateBill }
+const updateBillDetailPlusQuantity = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const result = await sql.query`
+            UPDATE BillDetails 
+            SET BillQuantity = BillQuantity + 1
+            WHERE BillDetailID = ${id}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error('Error updating bill:', err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+const updateBillDetailMinusQuantity = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const result = await sql.query`
+            UPDATE BillDetails 
+            SET BillQuantity = BillQuantity - 1
+            WHERE BillDetailID = ${id}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error('Error updating bill:', err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+const updateBillDetailCustomQuantity = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const { quantity } = req.body;
+        const result = await sql.query`
+            UPDATE BillDetails 
+            SET BillQuantity = ${quantity}
+            WHERE BillDetailID = ${id}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error('Error updating bill:', err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+module.exports = { getBillDetail, getBillDetailByBillID, getCart, addNewBill, updateBill, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity }; 
