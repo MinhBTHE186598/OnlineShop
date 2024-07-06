@@ -65,7 +65,7 @@ export default function BillDone() {
   }, [user.UserID]);
 
   const filteredBillDetails = billDetails.filter(
-    billDetail => billDetail.BillDetailStatus === "Đã nhận hàng" && "Đã giao hàng" && billDetail.ShipperID === currentUserId
+    billDetail => (billDetail.BillDetailStatus === "Đã nhận hàng" || billDetail.BillDetailStatus === "Đã giao hàng") && billDetail.ShipperID === currentUserId
   );
 
   const uniqueBillDetailIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillDetailID))].sort((a, b) => a - b);
@@ -82,10 +82,10 @@ export default function BillDone() {
             <th>Tên người nhận</th>
             <th>Số lượng sản phẩm</th>
             <th>Tên sản phẩm</th>
+            <th>Ngày tạo đơn hàng</th>
             <th>Địa chỉ giao hàng</th>
             <th>Địa chỉ lấy hàng</th>
             <th>Trạng thái đơn hàng</th>
-            <th>Ngày tạo đơn hàng</th>
           </tr>
         </thead>
         <tbody>
@@ -100,6 +100,7 @@ export default function BillDone() {
             const userLastName = userToBillMap[billID]?.[0]?.UserLastName || '';
             const userFullName = `${userFirstName} ${userLastName}`;
             const sellerAddress = sellerToBillMap[billID]?.[0]?.SellerAddress || 'Địa chỉ không có';
+            const billDate = filteredBillDetailsForBillDetailId[0]?.BillDetailDate || 'Ngày không có';
 
             return (
               <tr key={index}>
@@ -107,10 +108,10 @@ export default function BillDone() {
                 <td>{userFullName}</td>
                 <td>{billQuantity}</td>
                 <td>{productName}</td>
+                <td>{billDate}</td>
                 <td>{userAddress}</td>
                 <td>{sellerAddress}</td>
                 <td>{billDetailStatus}</td>
-                <td>{filteredBillDetailsForBillDetailId[0]?.BillDate || 'Ngày không có'}</td>
               </tr>
             );
           })}
