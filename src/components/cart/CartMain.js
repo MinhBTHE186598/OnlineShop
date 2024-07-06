@@ -14,67 +14,74 @@ function CartMain() {
     const [cartList, setCartList] = useState([]);
     const [productList, setProductList] = useState([]);
 
-const fetchCart = async () => {
-    try {
-        const response = await axios.get(`http://localhost:5000/bill/getBillDetailByBillID/${userCart.BillID}`);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-const handleDelete = (id) => {
-    if (window.confirm('Bạn có muốn xóa sản phẩm này?')) {
-        axios.delete(`http://localhost:5000/bill/delete/${id}`)
-            .then(response => {
-                setCartList(cartList.filter(cart => cart.BillDetailID !== id));
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
-}
-
-const handlePlusQuantity = async (id) => {
-    try {
-        await axios.put(`http://localhost:5000/bill/updatePlus/${id}`);
-        setCartList(await fetchCart());
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-const handleMinusQuantity = async (id) => {
-    try {
-        const cart = cartList.find(cart => cart.BillDetailID === id);
-        if (cart?.BillQuantity === 1) {
-            handleDelete(id);
-        } else {
-            await axios.put(`http://localhost:5000/bill/updateMinus/${id}`);
-            setCartList(await fetchCart());
+    const fetchCart = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/bill/getBillDetailByBillID/${userCart.BillID}`);
+            return response.data;
+        } catch (error) {
+            console.error(error);
         }
-    } catch (error) {
-        console.error(error);
     }
-}
 
-const fetchProduct = async () => {
-    try {
-        const response = await axios.get('http://localhost:5000/product/get');
-        setProductList(response.data);
-    } catch (error) {
-        console.error(error);
+    const handleDelete = (id) => {
+        if (window.confirm('Bạn có muốn xóa sản phẩm này?')) {
+            axios.delete(`http://localhost:5000/bill/delete/${id}`)
+                .then(response => {
+                    setCartList(cartList.filter(cart => cart.BillDetailID !== id));
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
     }
-}
 
-useEffect(() => {
-    if (!isLogin) {
-        alert('Bạn cần đăng nhập để thực hiện chức năng này!');
-        navigate('/login');
+    const handlePlusQuantity = async (id) => {
+        try {
+            const cart = cartList.find(cart => cart.BillDetailID === id);
+            const product = productList.find(product => product.ProductID === cart.ProductID);
+            if (cart.BillQuantity >= product.ProductQuantity) {
+                alert('Đã vượt quá số lượng sản phẩm, số lượng sản phẩm còn lại: ' + product.ProductQuantity);
+            } else {
+                await axios.put(`http://localhost:5000/bill/updatePlus/${id}`);
+                setCartList(await fetchCart());
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
     }
-    fetchCart().then(data => setCartList(data));
-    fetchProduct();
-}, [isLogin, navigate, userCart]);
+
+    const handleMinusQuantity = async (id) => {
+        try {
+            const cart = cartList.find(cart => cart.BillDetailID === id);
+            if (cart?.BillQuantity === 1) {
+                handleDelete(id);
+            } else {
+                await axios.put(`http://localhost:5000/bill/updateMinus/${id}`);
+                setCartList(await fetchCart());
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const fetchProduct = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/product/get');
+            setProductList(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        if (!isLogin) {
+            alert('Bạn cần đăng nhập để thực hiện chức năng này!');
+            navigate('/login');
+        }
+        fetchCart().then(data => setCartList(data));
+        fetchProduct();
+    }, [isLogin, navigate, userCart]);
 
     return (
         <div style={{ width: '100vw', marginTop: '10vh', padding: '5vh 0', backgroundColor: '#0d6efd' }}>
@@ -92,6 +99,7 @@ useEffect(() => {
                                 <tr style={{ textAlign: 'center' }}>
                                     <th>Ảnh</th>
                                     <th>Tên sản phẩm</th>
+                                    <th>Ngày thêm</th>
                                     <th>Số lượng</th>
                                     <th>Giá</th>
                                     <th>Thành tiền</th>
@@ -105,6 +113,7 @@ useEffect(() => {
                                             <tr key={cart.ProductID} style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 'x-large' }}>
                                                 <td style={{ width: '150px', padding: '0' }}><img src={product.ProductPic} alt={product.ProductName} style={{ width: '100%' }} /></td>
                                                 <td>{product.ProductName}</td>
+                                                <td>{cart.BillDetailDate}</td>
                                                 <td>
                                                     <Button className="btn btn-danger" onClick={() => handleMinusQuantity(cart.BillDetailID)}>-</Button>
                                                     <input key={index} type="number" value={cart.BillQuantity} disabled required style={{ width: '50px', textAlign: 'center', margin: '0 10px' }} />
