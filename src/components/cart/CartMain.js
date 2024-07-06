@@ -23,6 +23,26 @@ function CartMain() {
         }
     }
 
+    const handleQuantityChange = async (id, quantity) => {
+        try {
+            const cart = cartList.find(cart => cart.BillDetailID === id);
+            const product = productList.find(product => product.ProductID === cart.ProductID);
+            const isInvalidQuantity = quantity <= 0;
+            const isOverQuantity = quantity > product.ProductQuantity;
+
+            if (isOverQuantity) {
+                alert('Đã vượt quá số lượng sản phẩm, số lượng sản phẩm còn lại: ' + product.ProductQuantity);
+            } else if (isInvalidQuantity) {
+                alert('Số bạn nhập không hợp lệ, vui lòng thử lại.');
+            } else {
+                await axios.put(`http://localhost:5000/bill/updateCustom/${id}`, { quantity });
+                setCartList(await fetchCart());
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const handleDelete = (id) => {
         if (window.confirm('Bạn có muốn xóa sản phẩm này?')) {
             axios.delete(`http://localhost:5000/bill/delete/${id}`)
@@ -45,7 +65,6 @@ function CartMain() {
                 await axios.put(`http://localhost:5000/bill/updatePlus/${id}`);
                 setCartList(await fetchCart());
             }
-
         } catch (error) {
             console.error(error);
         }
@@ -79,7 +98,17 @@ function CartMain() {
             alert('Bạn cần đăng nhập để thực hiện chức năng này!');
             navigate('/login');
         }
-        fetchCart().then(data => setCartList(data));
+        function fetchCartEffect() {
+            axios
+                .get(`http://localhost:5000/bill/getBillDetailByBillID/${userCart.BillID}`)
+                .then((response) => {
+                    setCartList(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+        fetchCartEffect();
         fetchProduct();
     }, [isLogin, navigate, userCart]);
 
@@ -102,7 +131,7 @@ function CartMain() {
                                     <th>Ngày thêm</th>
                                     <th>Số lượng</th>
                                     <th>Giá</th>
-                                    <th>Thành tiền</th>
+                                    <th style={{ width: '10%' }}>Thành tiền</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -116,13 +145,12 @@ function CartMain() {
                                                 <td>{cart.BillDetailDate}</td>
                                                 <td>
                                                     <Button className="btn btn-danger" onClick={() => handleMinusQuantity(cart.BillDetailID)}>-</Button>
-                                                    <input key={index} type="number" value={cart.BillQuantity} disabled required style={{ width: '50px', textAlign: 'center', margin: '0 10px' }} />
+                                                    <input key={index} type="number" value={cart.BillQuantity} style={{ width: '100px', textAlign: 'center', margin: '0 10px' }} onChange={(e) => { handleQuantityChange(cart.BillDetailID, e.target.value) }} />
                                                     <Button className="btn btn-success" onClick={() => handlePlusQuantity(cart.BillDetailID)}>+</Button>
                                                 </td>
                                                 <td>{reformat.format(product.ProductPrice)}đ</td>
                                                 <td>{reformat.format(cart.BillQuantity * product.ProductPrice)}đ</td>
                                                 <td>
-                                                    <Button size='lg' className="btn btn-warning" style={{ marginRight: '10px' }}>Sửa</Button>
                                                     <Button size='lg' className="btn btn-danger" onClick={() => handleDelete(cart.BillDetailID)}>Xóa</Button>
                                                 </td>
                                             </tr>
