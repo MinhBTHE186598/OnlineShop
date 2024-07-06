@@ -24,9 +24,17 @@ const imageStyle = {
 function ProductReview(props) {
     const [productReview, setProductReview] = useState([]);
     const [userList, setUserList] = useState([]);
+    const [sellerList, setSellerList] = useState([]);
+    const [productList, setProductList] = useState([]);
     const { user, isLogin } = useUser();
     const [editReview, setEditReview] = useState(false);
     const [reviewDetail, setReviewDetail] = useState({});
+
+    const isSeller = () => {
+        const product = productList.find(product => product.ProductID === Number(props.id));
+        const seller = sellerList.find(seller => seller.SellerID === product.SellerID);
+        return seller ? seller.UserID === user.UserID : false;
+    }
 
     const closeEditReview = () => {
         setEditReview(false);
@@ -104,18 +112,17 @@ function ProductReview(props) {
     };
 
     useEffect(() => {
+        Promise.all([
+            fetch("http://localhost:5000/seller/get").then(response => response.json()),
+            fetch("http://localhost:5000/user/get").then(response => response.json()),
+            fetch("http://localhost:5000/product/get").then(response => response.json()),
+        ]).then(([sellerData, userData, productData]) => {
+            setSellerList(sellerData);
+            setUserList(userData);
+            setProductList(productData);
+        });
         fetchReview();
-    }, [])
-
-    useEffect(() => {
-        fetch("http://localhost:5000/user/get").then(
-            response => response.json()
-        ).then(
-            data => {
-                setUserList(data)
-            }
-        )
-    }, [])
+    }, []);
 
     const handleDelete = async (id) => {
         if (window.confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
@@ -176,7 +183,7 @@ function ProductReview(props) {
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <Form.Label style={{ fontSize: 'x-large' }}>Thêm đánh giá:</Form.Label>
-                        <Form.Control as="textarea" rows={3} value={review.ProductReviewText} onChange={(e) => setReview({ ...review, ProductReviewText: e.target.value })} required />
+                        <Form.Control as="textarea" rows={3} value={review.ProductReviewText} disabled={isSeller()} onChange={(e) => setReview({ ...review, ProductReviewText: e.target.value })} required />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
                         <Form.Label style={{ fontSize: 'x-large', marginBottom: '0px' }}>Chọn đánh giá sao:</Form.Label>
@@ -184,15 +191,19 @@ function ProductReview(props) {
                             {Array.from({ length: review.ProductReviewStar }, (_, i) => <FaStar key={i} />)}
                             {Array.from({ length: 5 - review.ProductReviewStar }, (_, i) => <FaRegStar key={i} />)}
                         </div>
-                        <Form.Control as="select" style={{ width: '6%' }} value={review.ProductReviewStar} onChange={(e) => setReview({ ...review, ProductReviewStar: Number(e.target.value) })}>
+                        <Form.Control as="select" style={{ width: '6%' }} value={review.ProductReviewStar} disabled={isSeller()} onChange={(e) => setReview({ ...review, ProductReviewStar: Number(e.target.value) })}>
                             {Array.from({ length: 5 }, (_, i) => i + 1).map(num => (
                                 <option key={num} value={num}>{num}</option>
                             ))}
                         </Form.Control>
                     </Form.Group>
-                    <Button variant="success" type="submit" style={{ marginTop: '10px' }}>
-                        Thêm đánh giá
-                    </Button>
+                    {!isSeller() ? (
+                        <Button variant="success" type="submit" style={{ marginTop: '10px' }}>
+                            Thêm đánh giá
+                        </Button>
+                    ) : (<Button variant="secondary" type="submit" disabled style={{ marginTop: '10px' }}>
+                        Bạn không thể đánh giá sản phẩm chính mình bán
+                    </Button>)}
                 </Form> : null}
             <EditReviewModal show={editReview} onHide={closeEditReview} Review={reviewDetail} onUpdate={handleUpdate} />
         </div>

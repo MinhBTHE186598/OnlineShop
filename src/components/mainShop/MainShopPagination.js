@@ -15,6 +15,7 @@ const MainShopPagination = ({ products }) => {
             {products.map((product) => (
                 <ProductCardSmall
                     key={product.ProductID}
+                    id={product.ProductID}
                     name={product.ProductName}
                     pic={product.ProductPic}
                     description={product.ProductDescription}

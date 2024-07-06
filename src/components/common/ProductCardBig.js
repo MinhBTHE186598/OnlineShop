@@ -4,7 +4,8 @@ import Card from 'react-bootstrap/Card';
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { useState, useEffect } from 'react';
-
+import { useUser } from "../context/UserContext";
+import axios from "axios";
 const reformat = new Intl.NumberFormat('en-US', {
     
 })
@@ -37,9 +38,22 @@ const Clamp = {
 }
 
 function ProductCardBig(props) {
-    const [sellers, setSellers] = useState([])
-    const [stars, setStars] = useState([])
-    const [categories, setCategories] = useState([])
+    const [sellers, setSellers] = useState([]);
+    const [stars, setStars] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const { user, isLogin, userCart } = useUser();
+    const [cartList, setCartList] = useState([]);
+
+    const isInCart = () => {
+        if (cartList.length > 0) {
+            return cartList.find(item => item.ProductID === props.id);
+        }
+        return false;
+    }
+
+    const isSeller = () => {
+        return sellers.some(item => item.SellerID === props.seller && item.UserID === user.UserID);
+    }
 
 
     useEffect(() => {
@@ -59,7 +73,20 @@ function ProductCardBig(props) {
         }).catch(error => {
             console.error(error);
         });
-    }, [])
+        if (isLogin && userCart) {
+            function fetchCart() {
+                axios
+                    .get(`http://localhost:5000/bill/getBillDetailByBillID/${userCart.BillID}`)
+                    .then((response) => {
+                        setCartList(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+            fetchCart();
+        }
+    }, [isLogin, userCart]);
 
 
     return (
@@ -85,7 +112,11 @@ function ProductCardBig(props) {
                     </div>
                     <h4 style={{ color: 'orange' }}>{reformat.format(props.price)}đ</h4>
                 </div>
-                <Button variant="primary" style={MakeCenter}><a href='/' style={{ textDecoration: 'none', color: 'white' }}>Thêm vào giỏ hàng</a></Button>
+                {isInCart() ? (<Button variant="secondary" disabled style={MakeCenter}>Đã có trong giỏ hàng</Button>
+                ) : (
+                    isSeller() ? (
+                        <Button variant="secondary" disabled style={MakeCenter}>Bạn đang bán sản phẩm này</Button>
+                    ) : (<Button variant="primary" style={MakeCenter}>Thêm vào giỏ hàng</Button>))}
             </Card.Body>
         </Card>
     )

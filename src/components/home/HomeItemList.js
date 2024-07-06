@@ -50,6 +50,7 @@ function HomeItemList() {
           <div style={ListItem}>
             {productList.slice(0, 3).map((product, index) => (
               <ProductCardBig key={index}
+                id={product.ProductID}
                 name={product.ProductName}
                 pic={product.ProductPic}
                 description={product.ProductDescription}
