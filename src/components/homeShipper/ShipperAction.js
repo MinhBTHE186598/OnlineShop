@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
 import BillDetailManager from "./BillDetailManager";
 import BillDone from "./BillDone";
+import BillOTW from "./BillOTW";
 function ShipperAction() {
   return (
     <div id="wrapper" style={{ margin: "125px 30px" }}>
@@ -16,7 +17,10 @@ function ShipperAction() {
                 <Nav.Link eventKey="first">Giao dịch chưa được vận chuyển</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second">Giao dịch đã hoàn thành</Nav.Link>
+                <Nav.Link eventKey="second">Giao dịch đang vận chuyển</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="third">Giao dịch đã hoàn thành</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>
@@ -26,6 +30,9 @@ function ShipperAction() {
               <BillDetailManager />
               </Tab.Pane>
               <Tab.Pane eventKey="second">
+              <BillOTW/>
+              </Tab.Pane>
+              <Tab.Pane eventKey="third">
               <BillDone/>
               </Tab.Pane>
             </Tab.Content>

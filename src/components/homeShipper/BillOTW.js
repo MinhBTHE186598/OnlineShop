@@ -76,7 +76,7 @@ export default function BillDetailManager() {
     try {
       await axios.put("http://localhost:5000/bill/updateBillDetail", {
         BillDetailID: selectedBillDetailId,
-        BillDetailStatus: "Đang vận chuyển",
+        BillDetailStatus: "Đã giao hàng",
         ShipperID: currentUserId,
       });
       fetchData(); 
@@ -97,7 +97,7 @@ export default function BillDetailManager() {
   };
 
   const filteredBillDetails = billDetails.filter(billDetail => 
-    (billDetail.BillDetailStatus === "Đã xác nhận" ) &&
+    (billDetail.BillDetailStatus === "Đang vận chuyển" ) &&
     (billDetail.ShipperID === null || billDetail.ShipperID === currentUserId)
   );
 
@@ -119,7 +119,6 @@ export default function BillDetailManager() {
             <th>Địa chỉ giao hàng</th>
             <th>Địa chỉ lấy hàng</th>
             <th>Trạng thái đơn hàng</th>
-            <th>ShipperID</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -136,8 +135,6 @@ export default function BillDetailManager() {
             const userFullName = `${userFirstName} ${userLastName}`;
             const sellerAddress = sellerToBillMap[billID]?.[0]?.SellerAddress || 'Địa chỉ không có';
             const billDate = filteredBillDetailsForBillDetailId[0]?.BillDetailDate || 'Ngày không có';
-            const shipperID = filteredBillDetailsForBillDetailId[0]?.ShipperID || 'Đơn trống';
-
             return (
               <tr key={index}>
                 <td>{billDetailId}</td>
@@ -148,10 +145,9 @@ export default function BillDetailManager() {
                 <td>{userAddress}</td>
                 <td>{sellerAddress}</td>
                 <td>{billDetailStatus}</td>
-                <td>{shipperID}</td>
                 <td>
-                  {billDetailStatus === "Đã xác nhận" && (
-                    <Button onClick={() => handleShowModal(billDetailId)}>Nhận đơn</Button>
+                  {billDetailStatus === "Đang vận chuyển" && (
+                    <Button onClick={() => handleShowModal(billDetailId)}>Đã giao hàng</Button>
                   )}
                 </td>
               </tr>

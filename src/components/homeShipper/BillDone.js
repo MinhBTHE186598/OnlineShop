@@ -30,7 +30,6 @@ export default function BillDone() {
           }
         }
 
-        const billIDs = [...new Set(billDetailResponse.data.map(billDetail => billDetail.BillID))];
         const userToBillMapTemp = {};
         const sellerToBillMapTemp = {};
         const productNamesTemp = {};
