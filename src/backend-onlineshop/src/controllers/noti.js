@@ -22,4 +22,15 @@ const getNoti = async (req, res) => {
     }
 };
 
-module.exports = { postNoti , getNoti }
+const deleteNoti = async (req, res) => {
+    try {
+        const { notificationID } = req.params;
+        await sql.query`DELETE FROM Notifications WHERE NotificationID = ${notificationID}`;
+        res.send('Notification deleted');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+
+module.exports = { postNoti, getNoti, deleteNoti };
