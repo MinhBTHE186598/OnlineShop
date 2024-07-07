@@ -14,5 +14,6 @@ router.delete('/delete/:id', bill.deleteBill)
 router.put('/updatePlus/:id', bill.updateBillDetailPlusQuantity)
 router.put('/updateMinus/:id', bill.updateBillDetailMinusQuantity)
 router.put('/updateCustom/:id', bill.updateBillDetailCustomQuantity)
+router.get('/getBills', bill.getBillsByUserID)
 
 module.exports = router

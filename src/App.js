@@ -19,6 +19,7 @@ import SellerShopManage from './webpages/SellerShop';
 import UserCart from './webpages/UserCart';
 import NotFound from './webpages/NotFound';
 import Noti from './webpages/Noti';
+import UserHistory from './webpages/UserHistory';
 function App() {
   return (
     <div>
@@ -47,6 +48,7 @@ function App() {
             <Route path='/cart' element={<UserCart/>}/>
             <Route path='/notfound' element={<NotFound />} />
             <Route path='/notification' element={<Noti />} />
+            <Route path='/history' element={<UserHistory/>} />
           </Routes>
         </BrowserRouter>
       </UserProvider>

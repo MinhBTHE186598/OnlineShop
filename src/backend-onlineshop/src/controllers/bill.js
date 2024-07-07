@@ -183,4 +183,23 @@ const updateBillDetailCustomQuantity = async (req, res) => {
     }
 }
 
-module.exports = { getBillDetail,getProductToBill, getBill, getSellerToBill, getUserToBill, getBillDetailByBillID, getCart, addNewBill, updateBillDetail, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity };
+const getBillsByUserID = async (req, res) => {
+    try {
+        const { userID } = req.query;
+        if (!userID) {
+            res.status(400).send('userID is required');
+            return;
+        }
+
+        const result = await sql.query`
+            SELECT *
+            FROM Bills 
+            WHERE UserID = ${userID} 
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        res.status(500).send('Error fetching bills');
+    }
+};
+
+module.exports = { getBillDetail,getBillsByUserID ,getProductToBill, getBill, getSellerToBill, getUserToBill, getBillDetailByBillID, getCart, addNewBill, updateBillDetail, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity };
