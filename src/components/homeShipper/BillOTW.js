@@ -67,7 +67,9 @@ export default function BillDetailManager() {
 
   useEffect(() => {
     fetchData();
-    const intervalId = setInterval(fetchData, 10000);
+      const intervalId = setInterval(() => {
+      fetchData();
+    }, 2000);
 
     return () => clearInterval(intervalId);
   }, [fetchData]);

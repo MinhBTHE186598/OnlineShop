@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import { useUser } from '../context/UserContext';
@@ -11,57 +11,62 @@ export default function BillDone() {
   const [productNames, setProductNames] = useState({});
   const { user } = useUser();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [billDetailResponse, shipperResponse] = await Promise.all([
-          axios.get("http://localhost:5000/bill/getBillDetail"),
-          axios.get('http://localhost:5000/user/getShipper'),
+  const fetchData = useCallback(async () => {
+    try {
+      const [billDetailResponse, shipperResponse] = await Promise.all([
+        axios.get("http://localhost:5000/bill/getBillDetail"),
+        axios.get('http://localhost:5000/user/getShipper'),
+      ]);
+
+      setBillDetails(billDetailResponse.data);
+
+      if (shipperResponse.data) {
+        const currentUser = shipperResponse.data.find(shipper => shipper.UserID === user.UserID);
+        if (currentUser) {
+          setCurrentUserId(currentUser.ShipperID);
+        } else {
+          console.error('No ShipperID found for the current user!');
+        }
+      }
+
+      const userToBillMapTemp = {};
+      const sellerToBillMapTemp = {};
+      const productNamesTemp = {};
+
+      await Promise.all(billDetailResponse.data.map(async (billDetail) => {
+        const billID = billDetail.BillID;
+        const billDetailID = billDetail.BillDetailID;
+
+        const [userResponse, sellerResponse, productResponse] = await Promise.all([
+          axios.get(`http://localhost:5000/bill/getUserToBill?billID=${billID}`),
+          axios.get(`http://localhost:5000/bill/getSellerToBill?productID=${billDetail.ProductID}`),
+          axios.get(`http://localhost:5000/bill/getProductToBill?billDetailID=${billDetailID}`),
         ]);
 
-        setBillDetails(billDetailResponse.data);
+        userToBillMapTemp[billID] = userResponse.data;
+        sellerToBillMapTemp[billID] = sellerResponse.data;
 
-        if (shipperResponse.data) {
-          const currentUser = shipperResponse.data.find(shipper => shipper.UserID === user.UserID);
-          if (currentUser) {
-            setCurrentUserId(currentUser.ShipperID);
-          } else {
-            console.error('No ShipperID found for the current user!');
-          }
+        if (productResponse.data.length > 0) {
+          productNamesTemp[billDetailID] = productResponse.data[0].ProductName;
         }
+      }));
 
-        const userToBillMapTemp = {};
-        const sellerToBillMapTemp = {};
-        const productNamesTemp = {};
-
-        await Promise.all(billDetailResponse.data.map(async (billDetail) => {
-          const billID = billDetail.BillID;
-          const billDetailID = billDetail.BillDetailID;
-
-          const [userResponse, sellerResponse, productResponse] = await Promise.all([
-            axios.get(`http://localhost:5000/bill/getUserToBill?billID=${billID}`),
-            axios.get(`http://localhost:5000/bill/getSellerToBill?productID=${billDetail.ProductID}`),
-            axios.get(`http://localhost:5000/bill/getProductToBill?billDetailID=${billDetailID}`),
-          ]);
-
-          userToBillMapTemp[billID] = userResponse.data;
-          sellerToBillMapTemp[billID] = sellerResponse.data;
-
-          if (productResponse.data.length > 0) {
-            productNamesTemp[billDetailID] = productResponse.data[0].ProductName;
-          }
-        }));
-
-        setUserToBillMap(userToBillMapTemp);
-        setSellerToBillMap(sellerToBillMapTemp);
-        setProductNames(productNamesTemp);
-      } catch (error) {
-        console.error("There was an error fetching data!", error);
-      }
-    };
-
-    fetchData();
+      setUserToBillMap(userToBillMapTemp);
+      setSellerToBillMap(sellerToBillMapTemp);
+      setProductNames(productNamesTemp);
+    } catch (error) {
+      console.error("There was an error fetching data!", error);
+    }
   }, [user.UserID]);
+
+  useEffect(() => {
+    fetchData();
+      const intervalId = setInterval(() => {
+      fetchData();
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, [fetchData]);
 
   const filteredBillDetails = billDetails.filter(
     billDetail => (billDetail.BillDetailStatus === "Đã nhận hàng" || billDetail.BillDetailStatus === "Đã giao hàng") && billDetail.ShipperID === currentUserId

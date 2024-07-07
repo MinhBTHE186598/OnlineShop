@@ -16,7 +16,6 @@ export default function BillDetailManager() {
   const [showModal, setShowModal] = useState(false);
   const [selectedBillDetailId, setSelectedBillDetailId] = useState(null);
 
-  // Moved fetchData to useCallback
   const fetchData = useCallback(async () => {
     try {
       const [billDetailResponse, shipperResponse] = await Promise.all([
@@ -31,7 +30,6 @@ export default function BillDetailManager() {
         if (currentUser) {
           setCurrentUserId(currentUser.ShipperID);
         } else {
-          console.error('No ShipperID found for the current user!');
         }
       }
 
@@ -61,13 +59,14 @@ export default function BillDetailManager() {
       setSellerToBillMap(sellerToBillMapTemp);
       setProductNames(productNamesTemp);
     } catch (error) {
-      console.error("There was an error fetching data!", error);
     }
   }, [user.UserID]);
 
   useEffect(() => {
     fetchData();
-    const intervalId = setInterval(fetchData, 10000);
+      const intervalId = setInterval(() => {
+      fetchData();
+    }, 2000);
 
     return () => clearInterval(intervalId);
   }, [fetchData]);
@@ -79,13 +78,13 @@ export default function BillDetailManager() {
         BillDetailStatus: "Đang vận chuyển",
         ShipperID: currentUserId,
       });
+      setShowModal(false);
       fetchData(); 
     } catch (error) {
       console.error("Error updating order status:", error);
-    } finally {
-      setShowModal(false);
     }
   };
+  
 
   const handleShowModal = (billDetailId) => {
     setSelectedBillDetailId(billDetailId);
