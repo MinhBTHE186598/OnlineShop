@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { Table, Button, Modal } from 'react-bootstrap';
@@ -12,7 +12,7 @@ function Notification() {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [selectedNotification, setSelectedNotification] = useState(null);
 
-    const fetchNotifications = async () => {
+    const fetchNotifications = useCallback(async () => {
         if (user && user.UserID) {
             try {
                 const response = await axios.get(`http://localhost:5000/noti/getNoti`, {
@@ -27,7 +27,7 @@ function Notification() {
                 setNotifications([]);
             }
         }
-    };
+    }, [user]);
 
     useEffect(() => {
         if (!isLogin) {
@@ -36,7 +36,7 @@ function Notification() {
         } else {
             fetchNotifications();
         }
-    }, [isLogin, navigate, user]);
+    }, [isLogin, navigate, fetchNotifications]);
 
     const handleShowDetails = (notification) => {
         setSelectedNotification(notification);
