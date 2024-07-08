@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -24,6 +24,9 @@ function RegisterBoard() {
   const [isShipper, setIsShipper] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.title = "Register"
+  }, [])
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -120,7 +123,7 @@ function RegisterBoard() {
               </Form.Group>
 
               <div className='input-box button'>
-                <Button variant="dark" type="submit" style={{ zoom :'1.5' }}>
+                <Button id="submit_bt" variant="dark" type="submit" style={{ zoom :'1.5' }}>
                   Đăng kí
                 </Button>
               </div>
