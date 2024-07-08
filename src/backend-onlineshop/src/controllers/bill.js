@@ -201,5 +201,19 @@ const getBillsByUserID = async (req, res) => {
         res.status(500).send('Error fetching bills');
     }
 };
+const addToCart = async (req, res) => {
+    try {
+        const { BillID } = req.userCart; 
+        const { ProductID, BillDetailDate } = req.body;
+        const result = await sql.query`
+            INSERT INTO BillDetails (BillID, ProductID, BillDetailDate, BillDetailQuantity, BillDetailStatus, ShipperID)
+            VALUES (${BillID}, ${ProductID}, ${BillDetailDate}, ${BillDetailQuantity}, N'Chưa thanh toán', ${ShipperID})
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error('Error adding to cart:', err.message);
+        res.status(500).send('Server Error');
+    }
+};
 
-module.exports = { getBillDetail,getBillsByUserID ,getProductToBill, getBill, getSellerToBill, getUserToBill, getBillDetailByBillID, getCart, addNewBill, updateBillDetail, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity };
+module.exports = { getBillDetail,getBillsByUserID ,getProductToBill, getBill, getSellerToBill, getUserToBill, getBillDetailByBillID, getCart, addNewBill, updateBillDetail, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity, addToCart };
