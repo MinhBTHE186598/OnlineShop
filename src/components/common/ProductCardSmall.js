@@ -69,6 +69,7 @@ function ProductCardSmall(props) {
             await axios.post('http://localhost:5000/bill/addToCart', {
                 BillID: userCart.BillID,
                 ProductID: props.id,
+                BillDetailDate:"homnay",
                 BillDetailQuantity: 1,
                 ShipperID: null
             });
