@@ -16,7 +16,6 @@ export default function BillDetailManager() {
   const [showModal, setShowModal] = useState(false);
   const [selectedBillDetailId, setSelectedBillDetailId] = useState(null);
 
-  // Moved fetchData to useCallback
   const fetchData = useCallback(async () => {
     try {
       const [billDetailResponse, shipperResponse] = await Promise.all([
@@ -106,7 +105,7 @@ export default function BillDetailManager() {
   const uniqueBillDetailIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillDetailID))];
 
   return (
-    <>
+    <div style={{ overflowY: "scroll", height: "70vh" }}>
       <div>
         <h3>ShipperID của bạn: {currentUserId ? currentUserId : 'Đang tải...'}</h3>
       </div>
@@ -172,6 +171,6 @@ export default function BillDetailManager() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }

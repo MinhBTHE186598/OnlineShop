@@ -103,7 +103,7 @@ export default function BillDetailManager() {
   const uniqueBillDetailIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillDetailID))];
 
   return (
-    <>
+    <div style={{ overflowY: "scroll", height: "70vh" }}>
       <div>
         <h3>ShipperID của bạn: {currentUserId ? currentUserId : 'Đang tải...'}</h3>
       </div>
@@ -173,6 +173,6 @@ export default function BillDetailManager() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }
