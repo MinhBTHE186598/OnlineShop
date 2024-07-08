@@ -31,9 +31,12 @@ function ProductReview(props) {
     const [reviewDetail, setReviewDetail] = useState({});
 
     const isSeller = () => {
-        const product = productList.find(product => product.ProductID === Number(props.id));
-        const seller = sellerList.find(seller => seller.SellerID === product.SellerID);
-        return seller ? seller.UserID === user.UserID : false;
+        if (isLogin) {
+            const product = productList.find(product => product.ProductID === Number(props.id));
+            const seller = sellerList.find(seller => seller.SellerID === product.SellerID);
+            return seller ? seller.UserID === user.UserID : false;
+        }
+        return false;
     }
 
     const closeEditReview = () => {

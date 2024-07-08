@@ -8,7 +8,7 @@ import BillDone from "./BillDone";
 import BillOTW from "./BillOTW";
 function ShipperAction() {
   return (
-    <div id="wrapper" style={{ margin: "125px 30px" }}>
+    <div id="wrapper" style={{ margin: "125px 30px" , height :"70vh" }}>
       <Tab.Container id="left-tabs-example" defaultActiveKey="first">
         <Row>
           <Col sm={2}>
@@ -32,7 +32,7 @@ function ShipperAction() {
               <Tab.Pane eventKey="second">
               <BillOTW/>
               </Tab.Pane>
-              <Tab.Pane eventKey="third">
+              <Tab.Pane eventKey="third" >
               <BillDone/>
               </Tab.Pane>
             </Tab.Content>

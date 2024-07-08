@@ -188,6 +188,29 @@ function Profile(props) {
                         Quản Lý Sellers
                     </Button>
                 );
+                case (profileRole.startsWith("Shipper")):
+                return (
+                    <Button style={{
+                        width: '200px',
+                        height: '50px',
+                        marginTop: '15vh',
+                        backgroundColor: 'white',
+                        color: 'orange',
+                        borderColor: 'orange',
+                    }}
+                        onMouseEnter={(e) => {
+                            e.target.style.backgroundColor = 'orange';
+                            e.target.style.color = 'white'
+                        }}
+
+                        onMouseLeave={(e) => {
+                            e.target.style.backgroundColor = 'white';
+                            e.target.style.color = 'orange'
+                        }}
+                        onClick={() => { navigate('/homeShipper') }}>
+                        Quản Lý Đơn Hàng
+                    </Button>
+                );
             default:
                 return null;
         }

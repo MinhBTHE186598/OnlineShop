@@ -54,7 +54,10 @@ function ProductCardSmall(props) {
     }
 
     const isSeller = () => {
-        return sellers.some(item => item.SellerID === props.seller && item.UserID === user.UserID);
+        if (isLogin) {
+            return sellers.some(item => item.SellerID === props.seller && item.UserID === user.UserID);
+        }
+        return false;
     }
 
 
