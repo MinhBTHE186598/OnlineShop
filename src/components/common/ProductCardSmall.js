@@ -59,17 +59,27 @@ function ProductCardSmall(props) {
         return false;
     };
 
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+    
     const addToCart = async () => {
         if (!isLogin) {
             alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.');
             return;
         }
-
+    
+        const currentDate = formatDate(new Date());
+    
         try {
             await axios.post('http://localhost:5000/bill/addToCart', {
                 BillID: userCart.BillID,
                 ProductID: props.id,
-                BillDetailDate:"homnay",
+                BillDetailDate: currentDate,
                 BillDetailQuantity: 1,
                 ShipperID: null
             });
@@ -80,6 +90,8 @@ function ProductCardSmall(props) {
             alert('Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.');
         }
     };
+    
+    
     useEffect(() => {
         Promise.all([
             fetch("http://localhost:5000/category/getCategories"),

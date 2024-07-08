@@ -6,6 +6,7 @@ import { FaRegStar } from "react-icons/fa";
 import { useState, useEffect } from 'react';
 import { useUser } from "../context/UserContext";
 import axios from "axios";
+import ConfirmModal from './ConfirmModal'; 
 const reformat = new Intl.NumberFormat('en-US', {
     
 })
@@ -43,6 +44,7 @@ function ProductCardBig(props) {
     const [categories, setCategories] = useState([]);
     const { user, isLogin, userCart } = useUser();
     const [cartList, setCartList] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     const isInCart = () => {
         if (cartList.length > 0) {
@@ -57,7 +59,37 @@ function ProductCardBig(props) {
         }        
         return false;
     }
-
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+    
+    const addToCart = async () => {
+        if (!isLogin) {
+            alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.');
+            return;
+        }
+    
+        const currentDate = formatDate(new Date());
+    
+        try {
+            await axios.post('http://localhost:5000/bill/addToCart', {
+                BillID: userCart.BillID,
+                ProductID: props.id,
+                BillDetailDate: currentDate,
+                BillDetailQuantity: 1,
+                ShipperID: null
+            });
+            setCartList([...cartList, { ProductID: props.id }]);
+            alert('Đã thêm sản phẩm vào giỏ hàng.');
+        } catch (error) {
+            console.error('Failed to add product to cart:', error);
+            alert('Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.');
+        }
+    };
 
     useEffect(() => {
         Promise.all([
@@ -119,8 +151,14 @@ function ProductCardBig(props) {
                 ) : (
                     isSeller() ? (
                         <Button variant="secondary" disabled style={MakeCenter}>Bạn đang bán sản phẩm này</Button>
-                    ) : (<Button variant="primary" style={MakeCenter}>Thêm vào giỏ hàng</Button>))}
+                    ) : (<Button variant="primary" style={MakeCenter} onClick={() => setShowModal(true)}>Thêm vào giỏ hàng</Button>))}
             </Card.Body>
+            <ConfirmModal
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                onConfirm={addToCart}
+                productName={props.name}
+            />
         </Card>
     )
 
