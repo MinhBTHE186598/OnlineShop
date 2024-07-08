@@ -86,7 +86,7 @@ function ProductMain(props) {
 
     const product = productList.find(product => product.ProductID.toString() === props.id);
 
-    
+
     const isInCart = () => {
         if (cartList.length > 0) {
             return cartList.find(item => item.ProductID === product.ProductID);
@@ -95,7 +95,10 @@ function ProductMain(props) {
     }
 
     const isSeller = () => {
-        return sellerList.some(item => item.SellerID === product.SellerID && item.UserID === user.UserID);
+        if (isLogin) {
+            return sellerList.some(item => item.SellerID === product.SellerID && item.UserID === user.UserID);
+        }
+        return false;
     }
 
     return (
