@@ -9,7 +9,7 @@ export default function BillDetailManager() {
   const [billDetails, setBillDetails] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [userToBillMap, setUserToBillMap] = useState({});
-  const [sellerToBillMap, setSellerToBillMap] = useState({});
+  const [sellerAddresses, setSellerAddresses] = useState({});
   const [productNames, setProductNames] = useState({});
   const { user } = useUser();
 
@@ -29,42 +29,45 @@ export default function BillDetailManager() {
         const currentUser = shipperResponse.data.find(shipper => shipper.UserID === user.UserID);
         if (currentUser) {
           setCurrentUserId(currentUser.ShipperID);
-        } else {
         }
       }
 
       const userToBillMapTemp = {};
-      const sellerToBillMapTemp = {};
+      const sellerAddressesTemp = {};
       const productNamesTemp = {};
 
       await Promise.all(billDetailResponse.data.map(async (billDetail) => {
         const billID = billDetail.BillID;
         const billDetailID = billDetail.BillDetailID;
 
-        const [userResponse, sellerResponse, productResponse] = await Promise.all([
+        const [userResponse, productResponse, sellerAddressResponse] = await Promise.all([
           axios.get(`http://localhost:5000/bill/getUserToBill?billID=${billID}`),
-          axios.get(`http://localhost:5000/bill/getSellerToBill?productID=${billDetail.ProductID}`),
           axios.get(`http://localhost:5000/bill/getProductToBill?billDetailID=${billDetailID}`),
+          axios.get(`http://localhost:5000/bill/getSellerAddress?billDetailID=${billDetailID}`),
         ]);
 
         userToBillMapTemp[billID] = userResponse.data;
-        sellerToBillMapTemp[billID] = sellerResponse.data;
 
         if (productResponse.data.length > 0) {
           productNamesTemp[billDetailID] = productResponse.data[0].ProductName;
         }
+
+        if (sellerAddressResponse.data.length > 0) {
+          sellerAddressesTemp[billDetailID] = sellerAddressResponse.data[0].SellerAddress;
+        }
       }));
 
       setUserToBillMap(userToBillMapTemp);
-      setSellerToBillMap(sellerToBillMapTemp);
+      setSellerAddresses(sellerAddressesTemp);
       setProductNames(productNamesTemp);
     } catch (error) {
+      console.error('Error fetching data:', error);
     }
   }, [user.UserID]);
 
   useEffect(() => {
     fetchData();
-      const intervalId = setInterval(() => {
+    const intervalId = setInterval(() => {
       fetchData();
     }, 2000);
 
@@ -85,7 +88,6 @@ export default function BillDetailManager() {
     }
   };
   
-
   const handleShowModal = (billDetailId) => {
     setSelectedBillDetailId(billDetailId);
     setShowModal(true);
@@ -133,7 +135,7 @@ export default function BillDetailManager() {
             const userFirstName = userToBillMap[billID]?.[0]?.UserFirstName || 'Tên không có';
             const userLastName = userToBillMap[billID]?.[0]?.UserLastName || '';
             const userFullName = `${userFirstName} ${userLastName}`;
-            const sellerAddress = sellerToBillMap[billID]?.[0]?.SellerAddress || 'Địa chỉ không có';
+            const sellerAddress = sellerAddresses[billDetailId] || 'Địa chỉ không có';
             const billDate = filteredBillDetailsForBillDetailId[0]?.BillDetailDate || 'Ngày không có';
             const shipperID = filteredBillDetailsForBillDetailId[0]?.ShipperID || 'Đơn trống';
 
@@ -145,7 +147,7 @@ export default function BillDetailManager() {
                 <td>{productName}</td>
                 <td>{billDate}</td>
                 <td>{userAddress}</td>
-                <td>{sellerAddress}</td>
+                <td>{sellerAddress}</td> 
                 <td>{billDetailStatus}</td>
                 <td>{shipperID}</td>
                 <td>

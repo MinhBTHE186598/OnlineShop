@@ -5,11 +5,11 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import { useUser } from '../context/UserContext';
 
-export default function BillDetailManager() {
+export default function BillOTW() {
   const [billDetails, setBillDetails] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [userToBillMap, setUserToBillMap] = useState({});
-  const [sellerToBillMap, setSellerToBillMap] = useState({});
+  const [sellerAddresses, setSellerAddresses] = useState({});
   const [productNames, setProductNames] = useState({});
   const { user } = useUser();
 
@@ -35,21 +35,21 @@ export default function BillDetailManager() {
       }
 
       const userToBillMapTemp = {};
-      const sellerToBillMapTemp = {};
+      const sellerAddressesTemp = {};
       const productNamesTemp = {};
 
       await Promise.all(billDetailResponse.data.map(async (billDetail) => {
         const billID = billDetail.BillID;
         const billDetailID = billDetail.BillDetailID;
 
-        const [userResponse, sellerResponse, productResponse] = await Promise.all([
+        const [userResponse, sellerAddressResponse, productResponse] = await Promise.all([
           axios.get(`http://localhost:5000/bill/getUserToBill?billID=${billID}`),
-          axios.get(`http://localhost:5000/bill/getSellerToBill?productID=${billDetail.ProductID}`),
+          axios.get(`http://localhost:5000/bill/getSellerAddress?billDetailID=${billDetailID}`),
           axios.get(`http://localhost:5000/bill/getProductToBill?billDetailID=${billDetailID}`),
         ]);
 
         userToBillMapTemp[billID] = userResponse.data;
-        sellerToBillMapTemp[billID] = sellerResponse.data;
+        sellerAddressesTemp[billDetailID] = sellerAddressResponse.data[0]?.SellerAddress || 'Địa chỉ không có';
 
         if (productResponse.data.length > 0) {
           productNamesTemp[billDetailID] = productResponse.data[0].ProductName;
@@ -57,7 +57,7 @@ export default function BillDetailManager() {
       }));
 
       setUserToBillMap(userToBillMapTemp);
-      setSellerToBillMap(sellerToBillMapTemp);
+      setSellerAddresses(sellerAddressesTemp);
       setProductNames(productNamesTemp);
     } catch (error) {
       console.error("There was an error fetching data!", error);
@@ -66,7 +66,7 @@ export default function BillDetailManager() {
 
   useEffect(() => {
     fetchData();
-      const intervalId = setInterval(() => {
+    const intervalId = setInterval(() => {
       fetchData();
     }, 2000);
 
@@ -134,7 +134,7 @@ export default function BillDetailManager() {
             const userFirstName = userToBillMap[billID]?.[0]?.UserFirstName || 'Tên không có';
             const userLastName = userToBillMap[billID]?.[0]?.UserLastName || '';
             const userFullName = `${userFirstName} ${userLastName}`;
-            const sellerAddress = sellerToBillMap[billID]?.[0]?.SellerAddress || 'Địa chỉ không có';
+            const sellerAddress = sellerAddresses[billDetailId] || 'Địa chỉ không có';
             const billDate = filteredBillDetailsForBillDetailId[0]?.BillDetailDate || 'Ngày không có';
             return (
               <tr key={index}>
