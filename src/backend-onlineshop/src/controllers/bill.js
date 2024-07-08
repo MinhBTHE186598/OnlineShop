@@ -203,13 +203,12 @@ const getBillsByUserID = async (req, res) => {
 };
 const addToCart = async (req, res) => {
     try {
-        const { BillID } = req.userCart; 
-        const { ProductID, BillDetailDate } = req.body;
-        const result = await sql.query`
-            INSERT INTO BillDetails (BillID, ProductID, BillDetailDate, BillDetailQuantity, BillDetailStatus, ShipperID)
+        const { BillID, ProductID,BillDetailDate,BillDetailQuantity,ShipperID } = req.body;
+         await sql.query`
+            INSERT INTO BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID)
             VALUES (${BillID}, ${ProductID}, ${BillDetailDate}, ${BillDetailQuantity}, N'Chưa thanh toán', ${ShipperID})
         `;
-        res.json(result.recordset);
+        res.send('yay');
     } catch (err) {
         console.error('Error adding to cart:', err.message);
         res.status(500).send('Server Error');
