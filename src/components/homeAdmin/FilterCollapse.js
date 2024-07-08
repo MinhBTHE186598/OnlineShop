@@ -68,6 +68,7 @@ export default function FilterCollapse({ open, handleInputChange }) {
                                 <option value='%'>Choose status</option>
                                 <option value='Đã xác thực'>Đã xác thực</option>
                                 <option value='Chờ xác thực'>Chờ xác thực</option>
+                                <option value='Đã xoá'>Đã xóa</option>
                             </Form.Select>
                         </Col>
                     </Row>

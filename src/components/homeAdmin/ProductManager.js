@@ -12,11 +12,14 @@ import Row from 'react-bootstrap/Row';
 import FilterCollapse from './FilterCollapse';
 import axios from 'axios';
 import MoneyForm from "../common/MoneyForm";
+import EditProductModal from '../sellerShop/EditProductModal';
 
 export default function ProductManager() {
     const [products, setProducts] = useState([{}])
     const [search, setSearch] = useState('')
     const [open, setOpen] = useState(false);
+    const [showEdit, setShowEdit] = useState(false)
+    const [productinf, setProductinf] = useState({})
 
     const [filter, setFilter] = useState({
         category: '%',
@@ -71,6 +74,15 @@ export default function ProductManager() {
         }
     }
 
+    const handleEdit = async (producti) => {
+        try {
+            setProductinf(producti)
+            setShowEdit(true)
+        } catch(error){
+            console.error('Error:',error);
+        }
+    }
+
 
     return (
         <div>
@@ -97,7 +109,7 @@ export default function ProductManager() {
                         Filter
                     </Button>
                 </Col>
-                <FilterCollapse open={open} handleInputChange={handleInputChange}/>
+                <FilterCollapse open={open} handleInputChange={handleInputChange} />
             </Row>
 
             <Table striped bordered hover>
@@ -126,21 +138,23 @@ export default function ProductManager() {
                             <td>{product.CategoryName}</td>
                             <td>{product.ProductQuantity}</td>
                             <td style={{ color: product.ProductStatus === 'Đã xác thực' ? 'green' : 'red' }}>{product.ProductStatus}</td>
-                            <td><MoneyForm value={product.ProductPrice}/></td>
+                            <td><MoneyForm value={product.ProductPrice} /></td>
                             <td>
                                 <DropdownButton
                                     size="sm"
                                     variant="secondary"
                                     title="Action"
                                 >
-                                    <Dropdown.Item eventKey="1"href={`/product/${product.ProductID}`}>Navigate no item</Dropdown.Item>
-                                    <Dropdown.Item eventKey="2">Action</Dropdown.Item>
+                                    <Dropdown.Item eventKey="1" href={`/product/${product.ProductID}`}>Navigate no item</Dropdown.Item>
+                                    <Dropdown.Item eventKey="2" onClick={() => deleteProduct(product.ProductID)}>Delete product</Dropdown.Item>
+                                    <Dropdown.Item eventKey="3" onClick={()=>handleEdit(product)}>Edit product</Dropdown.Item>
                                 </DropdownButton>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
+            <EditProductModal show={showEdit} onHide={()=>setShowEdit(false)} product={productinf}/>
         </div>
     )
 }
