@@ -47,21 +47,6 @@ const getUserToBill = async (req, res) => {
         res.status(500).send('Error fetching user details for bill');
     }
 };
-const getSellerToBill = async (req, res) => {
-    try {
-        const productID = req.query.productID; 
-        const result = await sql.query`
-            SELECT s.SellerAddress
-            FROM Products p
-            JOIN Sellers s ON p.SellerID = s.SellerID
-            WHERE p.ProductID = ${productID}
-        `;
-        res.json(result.recordset);
-    } catch (err) {
-        console.error('Error in getSellerToBill:', err);
-        res.status(500).send('Error fetching seller details for product');
-    }
-};
 
 const getBill = async (req, res) => {
     try {
@@ -77,6 +62,28 @@ const getBill = async (req, res) => {
         res.status(500).send('Error fetching bill details');
     }
 };
+
+const getSellerAddress = async (req, res) => {
+    try {
+      const billDetailID = req.query.billDetailID;
+      if (!billDetailID) {
+        res.status(400).send('billDetailID is required');
+        return;
+      }
+  
+      const result = await sql.query`
+        SELECT s.SellerAddress
+        FROM BillDetails bd
+        JOIN Products p ON bd.ProductID = p.ProductID
+        JOIN Sellers s ON p.SellerID = s.SellerID
+        WHERE bd.BillDetailID = ${billDetailID}
+      `;
+      res.json(result.recordset);
+    } catch (err) {
+      console.error('Error in getSellerAddress:', err);
+      res.status(500).send('Error fetching seller address for bill detail');
+    }
+  };
 
 const getCart = async (req, res) => {
     try {
@@ -215,4 +222,4 @@ const addToCart = async (req, res) => {
     }
 };
 
-module.exports = { getBillDetail,getBillsByUserID ,getProductToBill, getBill, getSellerToBill, getUserToBill, getBillDetailByBillID, getCart, addNewBill, updateBillDetail, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity, addToCart };
+module.exports = { getBillDetail,getSellerAddress,getBillsByUserID ,getProductToBill, getBill, getUserToBill, getBillDetailByBillID, getCart, addNewBill, updateBillDetail, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity, addToCart };

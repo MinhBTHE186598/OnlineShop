@@ -3,9 +3,9 @@ const router = require('express').Router();
 
 router.get('/getBill', bill.getBill)
 router.get('/getBillDetail', bill.getBillDetail)
-router.get('/getSellerToBill', bill.getSellerToBill)
 router.get('/getUserToBill', bill.getUserToBill)
 router.get('/getProductToBill', bill.getProductToBill);
+router.get('/getSellerAddress', bill.getSellerAddress);
 router.get('/getCart/:id', bill.getCart)
 router.get('/getBillDetailByBillID/:id', bill.getBillDetailByBillID)
 router.post('/addNewBill/:id', bill.addNewBill)

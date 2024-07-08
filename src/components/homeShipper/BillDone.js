@@ -7,8 +7,8 @@ export default function BillDone() {
   const [billDetails, setBillDetails] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [userToBillMap, setUserToBillMap] = useState({});
-  const [sellerToBillMap, setSellerToBillMap] = useState({});
   const [productNames, setProductNames] = useState({});
+  const [sellerAddresses, setSellerAddresses] = useState({});
   const { user } = useUser();
 
   const fetchData = useCallback(async () => {
@@ -30,21 +30,21 @@ export default function BillDone() {
       }
 
       const userToBillMapTemp = {};
-      const sellerToBillMapTemp = {};
       const productNamesTemp = {};
+      const sellerAddressesTemp = {};
 
       await Promise.all(billDetailResponse.data.map(async (billDetail) => {
         const billID = billDetail.BillID;
         const billDetailID = billDetail.BillDetailID;
 
-        const [userResponse, sellerResponse, productResponse] = await Promise.all([
+        const [userResponse, productResponse, sellerAddressResponse] = await Promise.all([
           axios.get(`http://localhost:5000/bill/getUserToBill?billID=${billID}`),
-          axios.get(`http://localhost:5000/bill/getSellerToBill?productID=${billDetail.ProductID}`),
           axios.get(`http://localhost:5000/bill/getProductToBill?billDetailID=${billDetailID}`),
+          axios.get(`http://localhost:5000/bill/getSellerAddress?billDetailID=${billDetailID}`),
         ]);
 
         userToBillMapTemp[billID] = userResponse.data;
-        sellerToBillMapTemp[billID] = sellerResponse.data;
+        sellerAddressesTemp[billDetailID] = sellerAddressResponse.data[0]?.SellerAddress || 'Địa chỉ không có';
 
         if (productResponse.data.length > 0) {
           productNamesTemp[billDetailID] = productResponse.data[0].ProductName;
@@ -52,8 +52,8 @@ export default function BillDone() {
       }));
 
       setUserToBillMap(userToBillMapTemp);
-      setSellerToBillMap(sellerToBillMapTemp);
       setProductNames(productNamesTemp);
+      setSellerAddresses(sellerAddressesTemp);
     } catch (error) {
       console.error("There was an error fetching data!", error);
     }
@@ -79,8 +79,8 @@ export default function BillDone() {
       <div>
         <h3>ShipperID của bạn: {currentUserId ? currentUserId : 'Đang tải...'}</h3>
       </div>
-      <div >
-        <Table striped bordered hover >
+      <div>
+        <Table striped bordered hover>
           <thead>
             <tr>
               <th>Mã đơn</th>
@@ -104,7 +104,7 @@ export default function BillDone() {
               const userFirstName = userToBillMap[billID]?.[0]?.UserFirstName || 'Tên không có';
               const userLastName = userToBillMap[billID]?.[0]?.UserLastName || '';
               const userFullName = `${userFirstName} ${userLastName}`;
-              const sellerAddress = sellerToBillMap[billID]?.[0]?.SellerAddress || 'Địa chỉ không có';
+              const sellerAddress = sellerAddresses[billDetailId] || 'Địa chỉ không có';
               const billDate = filteredBillDetailsForBillDetailId[0]?.BillDetailDate || 'Ngày không có';
 
               return (
