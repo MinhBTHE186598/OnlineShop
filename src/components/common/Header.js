@@ -164,9 +164,16 @@ function Header() {
           justifyContent: "center",
           alignItems: "center",
         }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          const searchTerm = e.target[0].value;
+          if (!searchTerm || searchTerm.trim() === "") return;
+          navigate(`/search/${searchTerm}`);
+        }}
       >
         <InputGroup style={{ margin: 0 }}>
           <Form.Control
+            type="text"
             placeholder="Search"
             aria-label="Search"
             aria-describedby="basic-addon2"
