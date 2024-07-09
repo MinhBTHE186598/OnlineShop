@@ -5,9 +5,10 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import { useUser } from '../context/UserContext';
 
-export default function AcceptBill() {
+export default function PaidBill() {
   const [bills, setBills] = useState([]);
   const [selectedBill, setSelectedBill] = useState(null);
+  const [billDetails, setBillDetails] = useState([]);
   const { user } = useUser();
 
   const fetchData = useCallback(async () => {
@@ -35,12 +36,25 @@ export default function AcceptBill() {
     bill => bill.BillStatus === "Đã thanh toán"
   );
 
-  const handleShowModal = (bill) => {
+  const handleShowModal = async (bill) => {
     setSelectedBill(bill);
+    try {
+      const response = await axios.get('http://localhost:5000/bill/getBillDetail');
+      const filteredDetails = response.data
+        .filter(detail => detail.BillID === bill.BillID)
+        .map(detail => ({
+          ...detail,
+          ShipperID: detail.ShipperID || 'Chưa giao hàng'
+        }));
+      setBillDetails(filteredDetails);
+    } catch (error) {
+      console.error("There was an error fetching bill details!", error);
+    }
   };
 
   const handleCloseModal = () => {
     setSelectedBill(null);
+    setBillDetails([]);
   };
 
   return (
@@ -83,12 +97,26 @@ export default function AcceptBill() {
             <Modal.Title>Chi tiết hóa đơn</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p><strong>Mã đơn:</strong> {selectedBill.BillID}</p>
-            <p><strong>Ngày tạo:</strong> {selectedBill.BillDate}</p>
-            <p><strong>Trạng thái:</strong> {selectedBill.BillStatus}</p>
-            <p><strong>Thông tin khác:</strong></p>
-            <ul>
-            </ul>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Mã chi tiết đơn</th>
+                  <th>Số lượng</th>
+                  <th>Ngày đặt hàng</th>
+                  <th>ShipperID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {billDetails.map((detail, index) => (
+                  <tr key={index}>
+                    <td>{detail.BillDetailID}</td>
+                    <td>{detail.BillQuantity}</td>
+                    <td>{detail.BillDetailDate}</td>
+                    <td>{detail.ShipperID}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseModal}>Đóng</Button>

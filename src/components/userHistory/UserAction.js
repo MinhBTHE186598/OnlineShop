@@ -3,7 +3,7 @@ import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
-import AcceptBill from "./AcceptBill";
+import PaidBill from "./PaidBill";
 
 function UserAction() {
   return (
@@ -26,7 +26,7 @@ function UserAction() {
           <Col sm={10}>
             <Tab.Content>
               <Tab.Pane eventKey="first">
-                <AcceptBill/>
+                <PaidBill/>
               </Tab.Pane>
               <Tab.Pane eventKey="second">
               </Tab.Pane>
