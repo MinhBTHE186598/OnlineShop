@@ -63,4 +63,19 @@ const updateSeller = async (req, res) => {
       res.status(500).send("Server Error");
     }
   };
-module.exports = { getSeller, getSellerByID, addSeller, updateSeller };
+
+  const deleteSeller = async (req, res) => {
+    try {
+        const sellerId = req.params.id;
+        const result = await sql.query`delete from BillDetails where ProductID in (select ProductID from Products where SellerID = ${sellerId})
+delete from ProductReviews where ProductID in (select ProductID from Products where SellerID = ${sellerId})
+delete from Products where SellerID = ${sellerId}
+delete from SellerReviews where SellerID = ${sellerId}
+delete from Sellers where SellerID = ${sellerId}`;
+        res.send('Seller deleted');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+module.exports = { getSeller, getSellerByID, addSeller, updateSeller, deleteSeller };

@@ -11,7 +11,7 @@ function AddProductForm() {
     const { user } = useUser();
     const navigate = useNavigate();
     const [productName, setPName] = useState('');
-    const [productCategory, setSelectedOption] = useState('');
+    const [productCategory, setSelectedOption] = useState(1);
     const [productPrice, setPPrice] = useState('')
     const [productPic, setPPic] = useState('')
     const [productQuantity, setPQuantity] = useState('')
@@ -62,15 +62,9 @@ function AddProductForm() {
                 productQuantity,
                 productDesc
             });
-            if (response.status === 0) {
-                // alert("Product added successfully");
-                // setPName('');
-                // setSelectedOption('');
-                // setPPrice('');
-                // setPPic('');
-                // setPQuantity('');
-                // setPDesc('');
-                console.log('Product added successfully');
+            if (response.status === 201) {
+                alert("Thêm sản phẩm thành công!");
+                // console.log('Product added successfully');
             } else {
                 console.error('Failed to add product');
             }
@@ -93,7 +87,7 @@ function AddProductForm() {
                     <Form.Group>
                         <Form.Label><b>Phân loại sản phẩm:</b></Form.Label><br />
                         
-                        <Form.Control as="select" value={productCategory} onChange={(e) => setSelectedOption(e.target.value)}>
+                        <Form.Control as="select" defaultValue={1} onChange={(e) => setSelectedOption(e.target.value)}>
                             {categoryList.map((category, index) => (
                                 <option key={index} value={category.CategoryID}>{category.CategoryName}</option>
                             ))}

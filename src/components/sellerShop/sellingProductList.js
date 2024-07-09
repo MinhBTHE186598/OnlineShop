@@ -68,7 +68,7 @@ export default function ProductManager(props) {
                 </thead>
                 <tbody>
                     {products.map((product) => (
-                        
+                        product.ProductStatus === 'Đã xác thực' ? (
                         <tr>
                             <td><Image src={product.ProductPic} rounded style={{ width: "33px" }} />{product.ProductName}</td>
                             <td>{product.Sold !== null ? (product.Sold) : (0)}</td>
@@ -90,7 +90,7 @@ export default function ProductManager(props) {
                                 </DropdownButton>
                             </td>
                         </tr>
-                    
+                    ) : null
                     ))}
                 </tbody>
             </Table>
