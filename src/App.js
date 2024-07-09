@@ -54,8 +54,8 @@ function App() {
             <Route path='/history' element={<UserHistory/>} />
             <Route path='/checkout' element={<CheckOut/>} />
             <Route path='/search/:keyword' element={<Search/>} />
-            <Route path='/sellerShopForUser/:id' element={<SellerShopForUser/>} />
-            <Route path="/sellerShopForUser" element={<Navigate to="0" replace />} />
+            <Route path='/shop/:id' element={<SellerShopForUser/>} />
+            <Route path="/shop" element={<Navigate to="0" replace />} />
           </Routes>
         </BrowserRouter>
       </UserProvider>
