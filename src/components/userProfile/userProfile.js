@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import { useState, useEffect } from 'react';
 import EditProfileModal from './editProfile';
 import Image from 'react-bootstrap/Image';
-
+import axios from 'axios';
 import bgi from '../../utility/background_1.jpg';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -87,23 +87,16 @@ function Profile(props) {
         else return "User";
     }
 
-    const handleDelete = (user) => {
+    const handleDelete = async (id) => {
         if (window.confirm("Bạn muốn xóa tài khoản này?")) {
-            fetch(`http://localhost:5000/user/delete/${user.UserID}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-
-                })
-            })
+            const response = await axios.delete(`http://localhost:5000/user/delete/${id}`);
             setUser(null);
             setIsLogin(false);
             setUserRole(null);
             navigate('/login');
+            }
         }
-    }
+    
     const isMyProfile = (user && user.UserID.toString() === props.id);
 
     const profile = userList.find(User => User.UserID.toString() === props.id);
@@ -348,7 +341,7 @@ function Profile(props) {
                                     e.target.style.backgroundColor = 'white';
                                     e.target.style.color = `red`
                                 }}
-                                onClick={handleDelete}
+                                onClick={() => handleDelete(user.UserID)}
                             >
                                 TÔI MUỐN XOÁ TÀI KHOẢN CỦA MÌNH
                             </Button>
