@@ -82,6 +82,7 @@ const addProduct = async (req, res) => {
         const { sellerID, productName, productCategory, productPrice, productPic, productQuantity, productDesc } = req.body;
         await sql.query`insert into Products (SellerID, CategoryID, ProductName, ProductDescription, ProductPrice, ProductQuantity, ProductPic, ProductStatus)
         values(${sellerID}, ${productCategory}, ${productName}, ${productDesc}, ${productPrice}, ${productQuantity},${productPic}, N'Chờ xác thực')`;
+        res.status(201).send('Thêm sản phẩm thành công');
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');

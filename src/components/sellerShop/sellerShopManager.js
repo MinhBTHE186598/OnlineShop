@@ -10,6 +10,8 @@ import Image from 'react-bootstrap/Image';
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
 import SellerProduct from './sellerProductList';
+import SellerSellingProduct from './sellingProductList';
+import SellerWaitingProduct from './waitingProductList';
 import bgi from '../../utility/background_1.jpg';
 import EditProfileModal from "./EditShopProfileModal";
 
@@ -103,7 +105,12 @@ function SellerShop() {
                                         <Tab.Pane eventKey="first">
                                             <SellerProduct id={myshop.SellerID} />
                                         </Tab.Pane>
-
+                                        <Tab.Pane eventKey="third">
+                                            <SellerSellingProduct id={myshop.SellerID} />
+                                        </Tab.Pane>
+                                        <Tab.Pane eventKey="fourth">
+                                            <SellerWaitingProduct id={myshop.SellerID} />
+                                        </Tab.Pane>
                                     </Tab.Content>
                                 </Col>
                             </Row>
