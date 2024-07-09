@@ -4,6 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
 import PaidBill from "./PaidBill";
+import DeliveryConfirm from "./DeliveryConfirm";
 
 function UserAction() {
   return (
@@ -18,9 +19,7 @@ function UserAction() {
               <Nav.Item>
                 <Nav.Link eventKey="second">Giao dịch đã hoàn thành</Nav.Link>
               </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="third">Giao dịch</Nav.Link>
-              </Nav.Item>
+             
             </Nav>
           </Col>
           <Col sm={10}>
@@ -29,8 +28,7 @@ function UserAction() {
                 <PaidBill/>
               </Tab.Pane>
               <Tab.Pane eventKey="second">
-              </Tab.Pane>
-              <Tab.Pane eventKey="third">
+                <DeliveryConfirm/>
               </Tab.Pane>
             </Tab.Content>
           </Col>
