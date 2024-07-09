@@ -14,11 +14,13 @@ import SellerSellingProduct from './sellingProductList';
 import SellerWaitingProduct from './waitingProductList';
 import bgi from '../../utility/background_1.jpg';
 import EditProfileModal from "./EditShopProfileModal";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function SellerShop() {
 
     const { user } = useUser();
-
+    const navigate = useNavigate();
     const [sellerList, setSellerList] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
@@ -29,6 +31,14 @@ function SellerShop() {
         setProfileInf(profile);
         setShowEdit(true);
     }
+
+    const handleDelete = async (id) => {
+        if (window.confirm("Bạn muốn xóa cửa hàng này?")) {
+            const response = await axios.delete(`http://localhost:5000/seller/deleteSeller/${id}`);
+            console.log(response);
+            navigate('/home');
+            }
+        } 
 
     useEffect(() => {
         fetch("http://localhost:5000/seller/get")
@@ -73,6 +83,7 @@ function SellerShop() {
                     </Col>
                     <Col md={2} style={{ margin: '25px' }}>
                     <Button onClick={() => { editProfile(myshop) }} style={{ marginTop: '10px', marginLeft: '10px', width: '100%', height: '75px' }}>Sửa Thông Tin Cửa Hàng</Button>
+                    <Button onClick={() => { handleDelete(myshop.SellerID) }} style={{ marginTop: '10px', marginLeft: '10px', width: '100%', height: '75px', backgroundColor: 'red' }}>XOÁ CỬA HÀNG</Button>
                     </Col>
                 </Row>
                 <Row style={{ display: 'flex', backgroundColor: 'white', width: '90vw', height: 'max-content', minHeight: '20vh', margin: '5vh auto', borderRadius: '10px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
