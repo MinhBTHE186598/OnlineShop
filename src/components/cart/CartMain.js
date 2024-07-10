@@ -159,12 +159,12 @@ function CartMain() {
                                 ))}
                             </tbody>
                         </Table>
-                        <h3 style={{ textAlign: 'right', marginRight: '20px' }}>
-                            Tổng thanh toán: {reformat.format(cartList.reduce((sum, cart) => sum + (productList.find(product => product.ProductID === cart.ProductID)?.ProductPrice || 0) * cart.BillQuantity, 0))}đ
+                        <h3 style={{ textAlign: 'right', margin: '20px' }}>
+                            Tổng thanh toán ước tính: {reformat.format(cartList.reduce((sum, cart) => sum + (productList.find(product => product.ProductID === cart.ProductID)?.ProductPrice || 0) * cart.BillQuantity, 0))}đ
                         </h3>
                         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', gap: '20px', marginRight: '20px' }}>
                             <Button size='lg' variant='primary' onClick={() => navigate('/mainShop')}>Tiếp tục mua hàng</Button>
-                            <Button size='lg' variant='success'>Thanh toán</Button>
+                            <Button size='lg' variant='success' onClick={() => navigate('/checkout')}>Thanh toán</Button>
                         </div>
                     </div>
                 )}

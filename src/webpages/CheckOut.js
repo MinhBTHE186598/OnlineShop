@@ -1,8 +1,15 @@
 import React from 'react'
+import Header from '../components/common/Header'
+import Footer from '../components/common/Footer'
+import CheckOutMain from '../components/checkOut/CheckOutMain'
 
 function CheckOut() {
   return (
-    <div>CheckOut</div>
+    <div>
+        <Header/>
+        <CheckOutMain/>
+        <Footer/>
+    </div>
   )
 }
 
