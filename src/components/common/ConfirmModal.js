@@ -11,17 +11,17 @@ function ConfirmModal({ show, onHide, onConfirm, productName }) {
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Confirm</Modal.Title>
+                <Modal.Title>Xác nhận thêm</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Are you sure you want to add {productName} to the cart?
+                Bạn có muốn thêm sản phẩm này vào giỏ hàng?
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={handleConfirm}>
-                    Confirm
+                    Xác nhận
                 </Button>
                 <Button variant="secondary" onClick={onHide}>
-                    Close
+                    Từ chối
                 </Button>
             </Modal.Footer>
         </Modal>

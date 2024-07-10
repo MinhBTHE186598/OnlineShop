@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ProductCardSmall from '../common/ProductCardSmall';
 import SellerShopPagination from './SellerShopPagination';
 import SellerShopPaginationBar from './SellerShopPaginationBar';
 import axios from 'axios';

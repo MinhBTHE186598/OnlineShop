@@ -3,9 +3,6 @@ import Form from 'react-bootstrap/Form';
 import Dropdown from 'react-bootstrap/Dropdown';
 import SearchPagination from './SearchPagination';
 import SearchPaginationBar from './SearchPaginationBar';
-import { useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import axios from 'axios'
 
 const containerStyle = {
     width: '100%',
@@ -41,7 +38,6 @@ const filterStyle = {
 }
 
 function SearchList(props) {
-    const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);

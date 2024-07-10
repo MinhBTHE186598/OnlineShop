@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from 'react-bootstrap'
 
 const SearchPaginationBar = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
     const pageNumber = []
@@ -12,9 +13,9 @@ const SearchPaginationBar = ({ itemsPerPage, totalItems, paginate, currentPage }
             <ul className="pagination justify-content-center">
                 {pageNumber.map(number => (
                     <li key={number} className={`page-item cursor ${number === currentPage ? 'active' : ''}`}>
-                        <a onClick={() => paginate(number)} className="page-link" style={{ cursor: 'pointer' }}>
+                        <Button onClick={() => paginate(number)} className="page-link" style={{ cursor: 'pointer', margin: '0 3px' }}>
                             {number}
-                        </a>
+                        </Button>
                     </li>
                 ))}
             </ul>

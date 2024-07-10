@@ -67,14 +67,8 @@ function ProductCardBig(props) {
         return `${day}/${month}/${year}`;
     };
     
-    const addToCart = async () => {
-        if (!isLogin) {
-            alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.');
-            return;
-        }
-    
-        const currentDate = formatDate(new Date());
-    
+    const addToCart = async () => {   
+        const currentDate = formatDate(new Date());  
         try {
             await axios.post('http://localhost:5000/bill/addToCart', {
                 BillID: userCart.BillID,
@@ -89,6 +83,15 @@ function ProductCardBig(props) {
             console.error('Failed to add product to cart:', error);
             alert('Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.');
         }
+    };
+
+    const handleAddToCart = () => {
+        if (!isLogin) {
+            alert('Bạn cần đăng nhập để thực hiện chức năng này');
+            return;
+        } else {
+            setShowModal(true);
+        }    
     };
 
     useEffect(() => {
@@ -151,7 +154,7 @@ function ProductCardBig(props) {
                 ) : (
                     isSeller() ? (
                         <Button variant="secondary" disabled style={MakeCenter}>Bạn đang bán sản phẩm này</Button>
-                    ) : (<Button variant="primary" style={MakeCenter} onClick={() => setShowModal(true)}>Thêm vào giỏ hàng</Button>))}
+                    ) : (<Button variant="primary" style={MakeCenter} onClick={() => handleAddToCart()}>Thêm vào giỏ hàng</Button>))}
             </Card.Body>
             <ConfirmModal
                 show={showModal}

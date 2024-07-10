@@ -68,23 +68,6 @@ function Header() {
     }
   };
 
-  const fetchNotifications = async () => {
-    if (user && user.UserID) { 
-      try {
-        const response = await axios.get(`http://localhost:5000/noti/getNoti`, {
-          params: { userID: user.UserID },
-        });
-        const filteredNotifications = Array.isArray(response.data)
-          ? response.data.filter(notification => notification.UserID === user.UserID)
-          : [];
-        setNotifications(filteredNotifications);
-      } catch (error) {
-        console.error(error);
-        setNotifications([]);
-      }
-    }
-  };
-
   useEffect(() => {
     if (isLogin && userCart) {
       function fetchCart() {
@@ -97,12 +80,28 @@ function Header() {
             console.error(error);
           });
       }
+      const fetchNotifications = async () => {
+        if (user && user.UserID) {
+          try {
+            const response = await axios.get(`http://localhost:5000/noti/getNoti`, {
+              params: { userID: user.UserID },
+            });
+            const filteredNotifications = Array.isArray(response.data)
+              ? response.data.filter((notification) => notification && notification.UserID === user.UserID)
+              : [];
+            setNotifications(filteredNotifications);
+          } catch (error) {
+            console.error(error);
+            setNotifications([]);
+          }
+        }
+      };
       fetchCart();
       fetchProduct();
       fetchCategory();
       fetchNotifications();
     }
-  }, [userCart, user?.UserID]);
+  }, [userCart, isLogin, user]);
 
   return (
     <Navbar
@@ -194,7 +193,6 @@ function Header() {
               as={ButtonGroup}
               title={<FaBell />}
               id="bg-nested-dropdown"
-              onClick={fetchNotifications}
             >
               {notifications.length === 0 ? (
                 <Dropdown.Item style={{ pointerEvents: 'none', textAlign: 'center' }}>No notifications</Dropdown.Item>

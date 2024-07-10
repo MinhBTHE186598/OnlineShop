@@ -351,12 +351,12 @@ go
 
 
 --insert Notifications
-insert into Notifications (UserID, NotificationText) values (1, 'Lorem ipsum dolor sit amet');
-insert into Notifications (UserID, NotificationText) values (1, 'consectetur adipiscing elit');
-insert into Notifications (UserID, NotificationText) values (1, 'sed do eiusmod tempor incididunt');
-insert into Notifications (UserID, NotificationText) values (1, 'ut labore et dolore magna aliqua');
-insert into Notifications (UserID, NotificationText) values (1, 'Lorem ipsum dolor sit amet');
-insert into Notifications (UserID, NotificationText) values (1, 'consectetur adipiscing elit');
+insert into Notifications (UserID, NotificationText, NotificationHeader) values (1, 'Lorem ipsum dolor sit amet', N'Thông báo 1');
+insert into Notifications (UserID, NotificationText, NotificationHeader) values (1, 'consectetur adipiscing elit', N'Thông báo 2');
+insert into Notifications (UserID, NotificationText, NotificationHeader) values (1, 'sed do eiusmod tempor incididunt', N'Thông báo 3');
+insert into Notifications (UserID, NotificationText, NotificationHeader) values (1, 'ut labore et dolore magna aliqua', N'Thông báo 4');
+insert into Notifications (UserID, NotificationText, NotificationHeader) values (1, 'Lorem ipsum dolor sit amet', N'Thông báo 5');
+insert into Notifications (UserID, NotificationText, NotificationHeader) values (1, 'consectetur adipiscing elit', N'Thông báo 6');
 go
 --select * from Notifications
 --delete from Notifications

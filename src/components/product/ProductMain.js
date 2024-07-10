@@ -6,6 +6,7 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import ConfirmModal from '../common/ConfirmModal';
 import axios from 'axios';
 
 const reformat = new Intl.NumberFormat('en-US', {
@@ -41,6 +42,7 @@ function ProductMain(props) {
     const [categories, setCategories] = useState([]);
     const { user, isLogin, userCart } = useUser();
     const [cartList, setCartList] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     const fetchData = async () => {
         try {
@@ -86,6 +88,13 @@ function ProductMain(props) {
 
     const product = productList.find(product => product.ProductID.toString() === props.id);
 
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
 
     const isInCart = () => {
         if (cartList.length > 0) {
@@ -100,6 +109,33 @@ function ProductMain(props) {
         }
         return false;
     }
+
+    const addToCart = async () => {
+        const currentDate = formatDate(new Date());
+        try {
+            await axios.post('http://localhost:5000/bill/addToCart', {
+                BillID: userCart.BillID,
+                ProductID: props.id,
+                BillDetailDate: currentDate,
+                BillDetailQuantity: 1,
+                ShipperID: null
+            });
+            setCartList([...cartList, { ProductID: props.id }]);
+            alert('Đã thêm sản phẩm vào giỏ hàng.');
+        } catch (error) {
+            console.error('Failed to add product to cart:', error);
+            alert('Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.');
+        }
+    };
+
+    const handleAddToCart = () => {
+        if (!isLogin) {
+            alert('Bạn cần đăng nhập để thực hiện chức năng này');
+            return;
+        } else {
+            setShowModal(true);
+        }
+    };
 
     return (
         product ? (
@@ -139,9 +175,15 @@ function ProductMain(props) {
                             ) : (
                                 isSeller() ? (
                                     <Button variant="secondary" disabled size='lg'>Bạn đang bán sản phẩm này</Button>
-                                ) : (<Button variant="primary" size='lg'>Thêm vào giỏ hàng</Button>))}
+                                ) : (<Button variant="primary" size='lg' onClick={handleAddToCart}>Thêm vào giỏ hàng</Button>))}
                         </div>
                     </Col>
+                    <ConfirmModal
+                        show={showModal}
+                        onHide={() => setShowModal(false)}
+                        onConfirm={addToCart}
+                        productName={props.name}
+                    />
                 </Row>
                 <Row style={{ padding: '100px 0' }}>
                     <Col xs={8} style={reviewStyle}>
