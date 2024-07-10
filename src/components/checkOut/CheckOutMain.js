@@ -5,6 +5,7 @@ import { Table } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
+import CheckOutModal from './CheckOutModal';
 
 const reformat = new Intl.NumberFormat('en-US', {
 
@@ -12,9 +13,47 @@ const reformat = new Intl.NumberFormat('en-US', {
 
 function CheckOutMain() {
     const navigate = useNavigate();
-    const { userCart, isLogin, user } = useUser();
+    const { userCart, setUserCart, isLogin, user } = useUser();
     const [cartList, setCartList] = useState([]);
     const [productList, setProductList] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
+    const getCart = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:5000/bill/getCart/${id}`);
+            const data = await response.json();
+            if (data.length === 0) {
+                await axios.post(`http://localhost:5000/bill/addNewBill/${id}`);
+                getCart(id);
+            }
+            setUserCart(data[0]);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleCheckOut = async () => {
+        const currentDate = formatDate(new Date());
+        try {
+            await axios.put(`http://localhost:5000/bill/checkOut/${userCart.BillID}`, {
+                date: currentDate,
+            })
+            alert('Thanh toán thành công!');
+            getCart(user.UserID);
+            navigate('/home');
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const fetchProduct = async () => {
         try {
@@ -99,24 +138,22 @@ function CheckOutMain() {
                                 <Form.Group>
                                     <Form.Check
                                         type="radio"
-                                        id="creditCard"
-                                        name='paymentMethod'
-                                        label="Thanh toán bằng thẻ tín dụng"
-                                        required
-                                    />
-                                    <Form.Check
-                                        type="radio"
                                         id="cashOnDelivery"
                                         name='paymentMethod'
                                         label="Thanh toán khi nhận hàng"
-                                        required
+                                        defaultChecked
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        id="creditCard"
+                                        name='paymentMethod'
+                                        label="Thanh toán bằng thẻ tín dụng"
                                     />
                                     <Form.Check
                                         type="radio"
                                         id="bankTransfer"
                                         name='paymentMethod'
                                         label="Chuyển khoản ngân hàng"
-                                        required
                                     />
                                 </Form.Group>
                             </div>
@@ -129,11 +166,15 @@ function CheckOutMain() {
                                 </h4>
                                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', gap: '20px', marginRight: '20px' }}>
                                     <Button size='lg' variant='primary' onClick={() => navigate('/mainShop')}>Tiếp tục mua hàng</Button>
-                                    <Button size='lg' variant='success'>Xác nhận thanh toán</Button>
+                                    <Button size='lg' variant='success' onClick={() => setShowModal(true)}>Xác nhận thanh toán</Button>
                                 </div>
+                                <CheckOutModal
+                                    show={showModal}
+                                    onHide={() => setShowModal(false)}
+                                    onConfirm={handleCheckOut}
+                                />
                             </div>
                         </div>
-
                     </div>
                 )}
             </div>

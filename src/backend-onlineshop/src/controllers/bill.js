@@ -31,10 +31,10 @@ const getProductToBill = async (req, res) => {
         res.status(500).send('Error fetching product details for bill detail');
     }
 };
-  
+
 const getUserToBill = async (req, res) => {
     try {
-        const billID = req.query.billID; 
+        const billID = req.query.billID;
         const result = await sql.query`
             SELECT u.UserID, u.UserAddress, u.UserFirstName, u.UserLastName
             FROM Bills b
@@ -50,7 +50,7 @@ const getUserToBill = async (req, res) => {
 
 const getBill = async (req, res) => {
     try {
-        const billID = req.query.billID; 
+        const billID = req.query.billID;
         const result = await sql.query`
             SELECT b.BillID, b.BillDate
             FROM Bills b
@@ -65,25 +65,25 @@ const getBill = async (req, res) => {
 
 const getSellerAddress = async (req, res) => {
     try {
-      const billDetailID = req.query.billDetailID;
-      if (!billDetailID) {
-        res.status(400).send('billDetailID is required');
-        return;
-      }
-  
-      const result = await sql.query`
+        const billDetailID = req.query.billDetailID;
+        if (!billDetailID) {
+            res.status(400).send('billDetailID is required');
+            return;
+        }
+
+        const result = await sql.query`
         SELECT s.SellerAddress
         FROM BillDetails bd
         JOIN Products p ON bd.ProductID = p.ProductID
         JOIN Sellers s ON p.SellerID = s.SellerID
         WHERE bd.BillDetailID = ${billDetailID}
       `;
-      res.json(result.recordset);
+        res.json(result.recordset);
     } catch (err) {
-      console.error('Error in getSellerAddress:', err);
-      res.status(500).send('Error fetching seller address for bill detail');
+        console.error('Error in getSellerAddress:', err);
+        res.status(500).send('Error fetching seller address for bill detail');
     }
-  };
+};
 
 const getCart = async (req, res) => {
     try {
@@ -114,7 +114,7 @@ const addNewBill = async (req, res) => {
         res.json(result.recordset);
     } catch (err) {
         console.error(err);
-        res.status(500).send('Server Error'); 
+        res.status(500).send('Server Error');
     }
 }
 
@@ -223,8 +223,8 @@ const getBillsByUserID = async (req, res) => {
 };
 const addToCart = async (req, res) => {
     try {
-        const { BillID, ProductID,BillDetailDate,BillDetailQuantity,ShipperID } = req.body;
-         await sql.query`
+        const { BillID, ProductID, BillDetailDate, BillDetailQuantity, ShipperID } = req.body;
+        await sql.query`
             INSERT INTO BillDetails (BillID, ProductID, BillDetailDate, BillQuantity, BillDetailStatus, ShipperID)
             VALUES (${BillID}, ${ProductID}, ${BillDetailDate}, ${BillDetailQuantity}, N'Chưa thanh toán', ${ShipperID})
         `;
@@ -256,4 +256,26 @@ const getBillDetailsByUserID = async (req, res) => {
     }
 };
 
-module.exports = { getBillDetail,updateBillDetailU,getBillDetailsByUserID,getSellerAddress,getBillsByUserID ,getProductToBill, getBill, getUserToBill, getBillDetailByBillID, getCart, addNewBill, updateBillDetail, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity, addToCart };
+const checkOut = async (req, res) => {
+    try {
+        const { date } = req.body;
+
+        const id = req.params.id;
+
+        const result = await sql.query`
+            UPDATE Bills
+            SET BillStatus = N'Đã thanh toán', BillDate = ${date}
+            WHERE BillID = ${id}`;
+
+        await sql.query`
+            UPDATE BillDetails
+            SET BillDetailStatus = N'Chưa xác nhận'
+            WHERE BillID = ${id}`;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error('Error fetching bill details by user ID:', err);
+        res.status(500).send('Server Error');
+    }
+};
+
+module.exports = { getBillDetail, updateBillDetailU, getBillDetailsByUserID, getSellerAddress, getBillsByUserID, getProductToBill, getBill, getUserToBill, getBillDetailByBillID, getCart, addNewBill, updateBillDetail, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity, addToCart, checkOut };
