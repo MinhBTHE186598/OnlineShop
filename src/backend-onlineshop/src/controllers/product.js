@@ -165,4 +165,25 @@ where ProductID = ${productID}`;
     }
 }
 
-module.exports = { postAllProductFilter, getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct, approveProduct, deleteProduct, getProductBySellerID, updateProduct }
+const searchProduct = async (req, res) => {
+    try {
+        const { category, range, name, order } = req.body;
+        const result = await sql.query`SELECT * FROM Products p 
+        where ProductStatus like N'Đã xác thực' 
+        and CategoryID like ${category}
+        and ProductPrice between ${range[0]} and ${range[1]}
+        and ProductName like ${name}
+        order by 
+        case ${order} WHEN 'ProductID asc' THEN ProductID end asc,
+        case ${order} WHEN 'ProductName asc' THEN ProductName end asc,
+        case ${order} WHEN 'ProductName desc' THEN ProductName end desc,
+        case ${order} WHEN 'ProductPrice asc' THEN ProductPrice end asc,
+        case ${order} WHEN 'ProductPrice desc' THEN ProductPrice end desc`;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
+module.exports = { postAllProductFilter, getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct, approveProduct, deleteProduct, getProductBySellerID, updateProduct, searchProduct }

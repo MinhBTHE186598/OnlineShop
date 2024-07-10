@@ -169,6 +169,7 @@ function Header() {
           const searchTerm = e.target[0].value;
           if (!searchTerm || searchTerm.trim() === "") return;
           navigate(`/search/${searchTerm}`);
+          window.location.reload();
         }}
       >
         <InputGroup style={{ margin: 0 }}>

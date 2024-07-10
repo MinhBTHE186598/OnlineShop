@@ -190,7 +190,7 @@ function MainShopItemList(props) {
         </div>
         <div>
           <MainShopPagination products={currentProducts} />
-          <MainShopPaginationBar itemsPerPage={itemsPerPage} totalItems={products.length} paginate={paginate} />
+          <MainShopPaginationBar itemsPerPage={itemsPerPage} totalItems={products.length} paginate={paginate} currentPage={currentPage} />
         </div>
       </div>
     </div>

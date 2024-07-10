@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MainShopPaginationBar = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
+const SearchPaginationBar = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
     const pageNumber = []
 
     for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
@@ -22,4 +22,4 @@ const MainShopPaginationBar = ({ itemsPerPage, totalItems, paginate, currentPage
     )
 }
 
-export default MainShopPaginationBar
+export default SearchPaginationBar

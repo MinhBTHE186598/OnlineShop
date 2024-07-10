@@ -31,7 +31,7 @@ function SellerShopForUserList(props) {
       <h1 style={{ textAlign: 'center', marginBottom: '5vh' }}>Sản phẩm của người bán</h1>
       <div style={{ width: '95%', margin: '0 auto', display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap', gap: '2.5em' }}>
         <SellerShopPagination products={currentProducts} />
-        <SellerShopPaginationBar itemsPerPage={itemsPerPage} totalItems={filteredProducts.length} paginate={paginate} />
+        <SellerShopPaginationBar itemsPerPage={itemsPerPage} totalItems={filteredProducts.length} paginate={paginate} currentPage={currentPage}/>
       </div>
     </div>
   )

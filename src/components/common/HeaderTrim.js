@@ -16,7 +16,7 @@ function HeaderTrim() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/aboutUs" className='link-light link-opacity-50-hover'>Về chúng tôi</Nav.Link>
-            <Nav.Link href="#link" className='link-light link-opacity-50-hover'>Hỗ trợ</Nav.Link>
+            <Nav.Link href="/contact" className='link-light link-opacity-50-hover'>Hỗ trợ</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
