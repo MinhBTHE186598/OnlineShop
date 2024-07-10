@@ -103,6 +103,7 @@ const deleteProduct = async (req, res) => {
         await sql.query`update Products
 set ProductStatus=N'Đã xoá'
 where ProductID = ${id}`;
+        res.status(200).send('Success')
     } catch (err) {
         console.error(err);
         res.status(500).send('Server Error');
