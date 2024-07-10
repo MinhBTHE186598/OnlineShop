@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 function Profile(props) {
     const borderColor = '#0d6efd';
     const navigate = useNavigate();
-    const { user, setUser, setUserRole, setIsLogin } = useUser();
+    const { user, setUser, setUserRole, setIsLogin, isLogin } = useUser();
 
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
@@ -212,6 +212,7 @@ function Profile(props) {
     }
 
     return (
+        isLogin ?(
         profile ? (
             <Container fluid style={{ backgroundColor: '#0d6efd', backgroundSize: 'cover', minHeight: '100vh', height: 'max-content', overflow: 'auto' }}>
                 <Row>
@@ -353,6 +354,7 @@ function Profile(props) {
                 <EditProfileModal show={showEdit} onHide={handleCloseEdit} />
             </Container>
         ) : null
+    ) : navigate('/notfound')
     );
 }
 

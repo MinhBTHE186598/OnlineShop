@@ -6,7 +6,9 @@ import { useState, useEffect } from 'react';
 import EditProductModal from './EditProductModal';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 export default function ProductManager(props) {
     const [products, setProducts] = useState([{}])
@@ -16,6 +18,7 @@ export default function ProductManager(props) {
     const [productInf, setProductInf] = useState({});
     const navigate = useNavigate();
 
+    const [search, setSearch] = useState('');
     const editProduct = async (product) => {
         try {
             setProductInf(product);
@@ -50,8 +53,33 @@ export default function ProductManager(props) {
 
     return (
         <div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "end", marginBottom: "10px" }}>
-                <Button onClick={() => navigate('/addProduct')}>Thêm Sản Phẩm</Button>
+            <div style={{ display: "flex", flexDirection: "row", alignItems: "start", marginBottom: "10px", justifyContent: "space-between" }}>
+                <Form
+                    inline="true"
+                    style={{
+                        width: "33vw",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                    }}
+                >
+                    <InputGroup style={{ margin: 0 }}>
+                        <Form.Control
+                            type="text"
+                            placeholder="Tìm kiếm sản phẩm"
+                            aria-label="Search"
+                            aria-describedby="basic-addon2"
+                            onChange={(e) => {setSearch(e.target.value)}}
+                        />
+                        <Button variant="primary" id="button-addon2">
+                            <FaMagnifyingGlass />
+                        </Button>
+                    </InputGroup>
+                </Form>
+                <Button style={{height: "45px"}} onClick={() => navigate('/addProduct')}>Thêm Sản Phẩm</Button>
             </div>
             <Table striped bordered hover>
                 <thead >
@@ -68,7 +96,7 @@ export default function ProductManager(props) {
                 </thead>
                 <tbody>
                     {products.map((product) => (
-                        
+                        product.ProductName?.toLowerCase().includes(search.toLowerCase()) ?
                         <tr>
                             <td><Image src={product.ProductPic} rounded style={{ width: "33px" }} />{product.ProductName}</td>
                             <td>{product.Sold !== null ? (product.Sold) : (0)}</td>
@@ -89,7 +117,7 @@ export default function ProductManager(props) {
                                     <Dropdown.Item eventKey="4" onClick={() => { navigate(`/product/${product.ProductID}`) }}>Tới trang sản phẩm</Dropdown.Item>
                                 </DropdownButton>
                             </td>
-                        </tr>
+                        </tr> : null
                     
                     ))}
                 </tbody>
