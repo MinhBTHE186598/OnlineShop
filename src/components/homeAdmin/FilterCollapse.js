@@ -33,7 +33,7 @@ export default function FilterCollapse({ open, handleInputChange }) {
             setPrice(range * 10000)
             handleInputChange({ target: { name: 'price', value: [0, price] } })
         }
-    }, [range, price, handleInputChange])
+    }, [range, price])
     return (
         <div style={{ borderStyle: "unset" }}>
             <Collapse in={open} >

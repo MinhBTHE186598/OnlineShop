@@ -13,13 +13,19 @@ import FilterCollapse from './FilterCollapse';
 import axios from 'axios';
 import MoneyForm from "../common/MoneyForm";
 import EditProductModal from '../sellerShop/EditProductModal';
+import ConfirmModalWithNoti from './ConfirmModalWithNoti';
 
 export default function ProductManager() {
     const [products, setProducts] = useState([{}])
     const [search, setSearch] = useState('')
     const [open, setOpen] = useState(false);
     const [showEdit, setShowEdit] = useState(false)
+    const [showCf, setShowCf] = useState(false)
     const [productinf, setProductinf] = useState({})
+    const [userID, setUserID] = useState(0)
+    const [sellerName, setSellerName] = useState('')
+    const [productID, setProductID] = useState(1)
+    const [productName,setProductName] = useState('')
 
     const [filter, setFilter] = useState({
         category: '%',
@@ -36,7 +42,6 @@ export default function ProductManager() {
             [name]: value
         }));
     };
-
 
     useEffect(() => {
         (async () => {
@@ -59,8 +64,12 @@ export default function ProductManager() {
 
     const deleteProduct = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/product/delete/${id}`);
 
+            const response = await axios.delete(`http://localhost:5000/product/delete/${id}`);
+            setProducts(products.map(product =>
+                product.ProductID === id ? { ...product, ProductStatus: "Đã xóa" } : product
+            )
+            );
             if (response.status === 200) {
                 console.log('product deleted successfully');
                 // Handle success (e.g., update the UI)
@@ -68,18 +77,31 @@ export default function ProductManager() {
                 console.error('Failed to delete product');
                 // Handle failure
             }
-            setProducts(products.filter((product) => product.ProductID !== id));
+
+
         } catch (error) {
             console.error('Error:', error);
         }
     }
 
-    const handleEdit = async (producti) => {
+    const handleDelete = (Uid, name, Pid, status,pname) => {
+        if (status === 'Đã xoá') {
+            alert('You cant delete deleted product')
+        } else {
+            setUserID(Uid)
+            setSellerName(name)
+            setProductID(Pid)
+            setProductName(pname)
+            setShowCf(true)
+        }
+    }
+
+    const handleEdit = (producti) => {
         try {
             setProductinf(producti)
             setShowEdit(true)
-        } catch(error){
-            console.error('Error:',error);
+        } catch (error) {
+            console.error('Error:', error);
         }
     }
 
@@ -146,15 +168,18 @@ export default function ProductManager() {
                                     title="Action"
                                 >
                                     <Dropdown.Item eventKey="1" href={`/product/${product.ProductID}`}>Navigate no item</Dropdown.Item>
-                                    <Dropdown.Item eventKey="2" onClick={() => deleteProduct(product.ProductID)}>Delete product</Dropdown.Item>
-                                    <Dropdown.Item eventKey="3" onClick={()=>handleEdit(product)}>Edit product</Dropdown.Item>
+                                    <Dropdown.Item eventKey="2" onClick={() => handleDelete(product.UserID, product.SellerName, product.ProductID, product.ProductStatus,product.ProductName)}>Delete product</Dropdown.Item>
+                                    <Dropdown.Item eventKey="3" onClick={() => handleEdit(product)}>Edit product</Dropdown.Item>
                                 </DropdownButton>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
-            <EditProductModal show={showEdit} onHide={()=>setShowEdit(false)} product={productinf}/>
+            <EditProductModal show={showEdit} onHide={() => setShowEdit(false)} product={productinf} />
+            <ConfirmModalWithNoti show={showCf} onHide={() => setShowCf(false)} onConfirm={() => deleteProduct(productID)} userID={userID}
+                sellerName={sellerName} productid={productID} productName={productName}
+            />
         </div>
     )
 }
