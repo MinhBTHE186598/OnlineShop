@@ -79,7 +79,7 @@ function SellerReview(props) {
         <h1 style={{ textAlign: 'center', marginBottom: '10px' }}>Đánh giá trung bình</h1>
         <h4><div style={AvgStarStyle}>{Array.from({ length: 5 }, (_, index) => index < sellerStars ? <FaStar /> : <FaRegStar />)}</div></h4>
         <hr/>
-        <h3 style={{ textAlign: 'center', marginBottom: '30px' }}>Đánh giá người mua</h3>
+        <h3 style={{ textAlign: 'center', marginBottom: '30px' }}>Người dùng nói gì về cửa hàng này?</h3>
         {items ? items.map((item) => {
           const currentUser = userList.find((currentUser) => currentUser.UserID === item.UserID);
           return (

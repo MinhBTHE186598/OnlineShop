@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 
 function SellerShop() {
 
-    const { user } = useUser();
+    const { user, isLogin } = useUser();
     const navigate = useNavigate();
     const [sellerList, setSellerList] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
@@ -48,9 +48,10 @@ function SellerShop() {
             })
     }, []);
 
-    const myshop = sellerList.find(seller => seller.UserID === user.UserID);
+    const myshop = sellerList.find(seller => seller.UserID === user?.UserID);
 
     return (
+        isLogin ? (
         myshop ? (
             <Container fluid style={{ height: 'max-content', minHeight: '100vh', marginTop: '70px', backgroundColor: '#0d6efd', overflow: 'auto' }}>
                 <Row style={{ display: 'flex', backgroundColor: 'white', width: '90vw', height: 'max-content', minHeight: '20vh', margin: '5vh auto', borderRadius: '10px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
@@ -106,9 +107,6 @@ function SellerShop() {
                                         <Nav.Item>
                                             <Nav.Link eventKey="second">Đánh Giá Của Tôi</Nav.Link>
                                         </Nav.Item>
-                                        <Nav.Item>
-                                            <Nav.Link eventKey="fifth">Tìm Kiếm Sản Phẩm</Nav.Link>
-                                        </Nav.Item>
                                     </Nav>
                                 </Col>
                                 <Col sm={8}>
@@ -134,6 +132,7 @@ function SellerShop() {
                 <EditProfileModal show={showEdit} onHide={handleCloseEdit} profile={profileInf} />
             </Container>
         ) : null
+    ) : navigate('/notfound')
     );
 }
 
