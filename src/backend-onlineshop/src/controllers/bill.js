@@ -132,7 +132,20 @@ const updateBillDetail = async (req, res) => {
         res.status(500).send('Server Error');
     }
 }
-
+const updateBillDetailU = async (req, res) => {
+    try {
+        const { BillDetailID, ShipperID, BillDetailStatus } = req.body;
+        const result = await sql.query`
+            UPDATE BillDetails 
+            SET BillDetailStatus = ${BillDetailStatus} 
+            WHERE BillDetailID = ${BillDetailID}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
 const deleteBill = async (req, res) => {
     try {
         const id = req.params.id;
@@ -222,4 +235,25 @@ const addToCart = async (req, res) => {
     }
 };
 
-module.exports = { getBillDetail,getSellerAddress,getBillsByUserID ,getProductToBill, getBill, getUserToBill, getBillDetailByBillID, getCart, addNewBill, updateBillDetail, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity, addToCart };
+const getBillDetailsByUserID = async (req, res) => {
+    try {
+        const { userID } = req.query;
+        if (!userID) {
+            res.status(400).send('userID is required');
+            return;
+        }
+
+        const result = await sql.query`
+            SELECT bd.BillDetailID, bd.ProductID, bd.BillDetailDate, bd.BillQuantity, bd.BillDetailStatus
+            FROM BillDetails bd
+            JOIN Bills b ON bd.BillID = b.BillID
+            WHERE b.UserID = ${userID}
+        `;
+        res.json(result.recordset);
+    } catch (err) {
+        console.error('Error fetching bill details by user ID:', err);
+        res.status(500).send('Server Error');
+    }
+};
+
+module.exports = { getBillDetail,updateBillDetailU,getBillDetailsByUserID,getSellerAddress,getBillsByUserID ,getProductToBill, getBill, getUserToBill, getBillDetailByBillID, getCart, addNewBill, updateBillDetail, deleteBill, updateBillDetailPlusQuantity, updateBillDetailMinusQuantity, updateBillDetailCustomQuantity, addToCart };
