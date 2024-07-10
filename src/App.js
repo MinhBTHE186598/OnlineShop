@@ -20,6 +20,9 @@ import UserCart from './webpages/UserCart';
 import NotFound from './webpages/NotFound';
 import Noti from './webpages/Noti';
 import UserHistory from './webpages/UserHistory';
+import CheckOut from './webpages/CheckOut';
+import Search from './webpages/Search';
+import SellerShopForUser from './webpages/SellerShopForUser';
 function App() {
   return (
     <div>
@@ -49,6 +52,10 @@ function App() {
             <Route path='/notfound' element={<NotFound />} />
             <Route path='/notification' element={<Noti />} />
             <Route path='/history' element={<UserHistory/>} />
+            <Route path='/checkout' element={<CheckOut/>} />
+            <Route path='/search/:keyword' element={<Search/>} />
+            <Route path='/shop/:id' element={<SellerShopForUser/>} />
+            <Route path="/shop" element={<Navigate to="0" replace />} />
           </Routes>
         </BrowserRouter>
       </UserProvider>

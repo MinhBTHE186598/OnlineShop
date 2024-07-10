@@ -139,7 +139,7 @@ function ProductCardSmall(props) {
                     <p style={{ ...Clamp, marginBottom: '20px' }}>
                         Người bán: {sellers.map(seller => {
                             if (seller.SellerID === props.seller) {
-                                return <a href={`/profile/${seller.UserID}`} style={{ textDecoration: 'none' }} key={seller.SellerID}>{seller.SellerName}</a>;
+                                return <a href={`/shop/${seller.SellerID}`} style={{ textDecoration: 'none' }} key={seller.SellerID}>{seller.SellerName}</a>;
                             }
                             return null;
                         })}
