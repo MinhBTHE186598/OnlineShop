@@ -12,7 +12,7 @@ import Tab from 'react-bootstrap/Tab';
 import SellerProduct from './sellerProductList';
 import SellerSellingProduct from './sellingProductList';
 import SellerWaitingProduct from './waitingProductList';
-import bgi from '../../utility/background_1.jpg';
+import SellerReview from "./sellerReviewList";
 import EditProfileModal from "./EditShopProfileModal";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -52,7 +52,7 @@ function SellerShop() {
 
     return (
         myshop ? (
-            <Container fluid style={{ height: 'max-content', minHeight: '100vh', marginTop: '70px', backgroundImage: `url(${bgi})`, overflow: 'auto' }}>
+            <Container fluid style={{ height: 'max-content', minHeight: '100vh', marginTop: '70px', backgroundColor: '#0d6efd', overflow: 'auto' }}>
                 <Row style={{ display: 'flex', backgroundColor: 'white', width: '90vw', height: 'max-content', minHeight: '20vh', margin: '5vh auto', borderRadius: '10px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                     <Col md={3}>
                         <div style={{
@@ -121,6 +121,9 @@ function SellerShop() {
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="fourth">
                                             <SellerWaitingProduct id={myshop.SellerID} />
+                                        </Tab.Pane>
+                                        <Tab.Pane eventKey="second">
+                                            <SellerReview id={myshop.SellerID} />
                                         </Tab.Pane>
                                     </Tab.Content>
                                 </Col>

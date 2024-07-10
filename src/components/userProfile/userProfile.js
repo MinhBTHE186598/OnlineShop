@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import EditProfileModal from './editProfile';
 import Image from 'react-bootstrap/Image';
 import axios from 'axios';
-import bgi from '../../utility/background_1.jpg';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -90,6 +89,9 @@ function Profile(props) {
     const handleDelete = async (id) => {
         if (window.confirm("Bạn muốn xóa tài khoản này?")) {
             const response = await axios.delete(`http://localhost:5000/user/delete/${id}`);
+            if(response.status === 200){
+                console.log('User deleted successfully');
+            }
             setUser(null);
             setIsLogin(false);
             setUserRole(null);
@@ -211,7 +213,7 @@ function Profile(props) {
 
     return (
         profile ? (
-            <Container fluid style={{ backgroundImage: `url(${bgi})`, backgroundSize: 'cover', minHeight: '100vh', height: 'max-content', overflow: 'auto' }}>
+            <Container fluid style={{ backgroundColor: '#0d6efd', backgroundSize: 'cover', minHeight: '100vh', height: 'max-content', overflow: 'auto' }}>
                 <Row>
                     <Col md={3} style={{ backgroundColor: '#f8f9fa', display: 'flex', flexDirection: 'column', alignItems: 'center', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', marginLeft: '8%', minHeight: '900px' }}>
                         <div style={{

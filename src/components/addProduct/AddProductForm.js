@@ -21,9 +21,6 @@ function AddProductForm() {
 
     const [sellerList, setSellerList] = useState([]);
 
-
-    const bgimg = `https://images.pexels.com/photos/6985003/pexels-photo-6985003.jpeg?cs=srgb&dl=pexels-codioful-6985003.jpg&fm=jpg`
-
     useEffect(() => {
         fetch("http://localhost:5000/category/getCategories").then(
           response => response.json()
@@ -75,7 +72,7 @@ function AddProductForm() {
 
     return (
         sellerID ? (
-        <Container fluid style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', marginTop: '50px', backgroundImage: `url(${bgimg})`, width: '100%', backgroundSize: 'cover'}}>
+        <Container fluid style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', marginTop: '50px', backgroundColor: '#0d6efd', width: '100%', backgroundSize: 'cover'}}>
             <div style={{ backgroundColor: 'white', width: '100%', maxWidth: '600px', padding: '20px', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0 ,0, 0.1)' }}>
                 <Form onSubmit={handleSubmit}>
                     <h2 style={{ textAlign: 'center' }}>Đăng ký sản phẩm mới cho cửa hàng</h2>
