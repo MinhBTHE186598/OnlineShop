@@ -78,4 +78,40 @@ delete from Sellers where SellerID = ${sellerId}`;
         res.status(500).send('Server Error');
     }
 };
-module.exports = { getSeller, getSellerByID, addSeller, updateSeller, deleteSeller };
+const viewBillDetailForSeller = async (req, res) => {
+  try {
+    const { SellerID, BillID } = req.query;
+    
+    const result = await sql.query`
+            select d.BillDetailID, d.BillDetailDate, d.BillDetailStatus, p.ProductID, p.ProductName, p.ProductPic, p.ProductQuantity, p.ProductPrice, p.ProductDescription, u.UserFirstName, u.UserLastName, u.UserAddress, u.UserPFP from Bills b
+            join BillDetails d on b.BillID=d.BillID
+            join Products p on p.ProductID=d.ProductID
+            join Sellers s on s.SellerID=p.SellerID
+            join Users u on b.UserID=u.UserID
+            where s.SellerID=${SellerID} and b.BillID=${BillID}
+            order by b.BillID`;
+            res.json(result.recordset);
+  } catch (err) {
+    console.error("Error fetching bill details by user ID:", err);
+    res.status(500).send("Server Error");
+  }
+};
+
+const listBillForSeller = async (req, res) => {
+    try{
+        const { SellerID } = req.query;
+        const result = await sql.query`select b.BillID ,u.UserID, u.UserAddress, u.UserFirstName, u.UserLastName, u.UserPFP,u.UserPhone,u.UserEmail from Bills b
+                                        join BillDetails c on b.BillID=c.BillID
+                                        join Products p on p.ProductID=c.ProductID
+                                        join Sellers s on s.SellerID=p.SellerID
+                                        join Users u on b.UserID=u.UserID
+                                        where s.SellerID=${SellerID}
+                                        group by b.BillID ,u.UserID, u.UserAccountName, u.UserAddress, u.UserFirstName, u.UserLastName, u.UserPFP,u.UserPhone,u.UserEmail`
+                                        res.json(result.recordset);
+    }catch(err){
+        console.error("Error fetching bill details by user ID:", err);
+        res.status(500).send("Server Error");
+    }
+};
+
+module.exports = { getSeller, getSellerByID, addSeller, updateSeller, deleteSeller,viewBillDetailForSeller,listBillForSeller };

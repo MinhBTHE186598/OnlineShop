@@ -2,7 +2,6 @@ import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
-import ListGroup from 'react-bootstrap/ListGroup';
 import UserManager from './UserManger';
 import BannerManager from './BannerManager';
 import ProductManager from './ProductManager';
@@ -10,7 +9,7 @@ import ProductManager from './ProductManager';
 
 function AdminAction() {
     return (
-        <div id="wrapper" style={{ margin: '125px 30px' }}>
+        <div id="wrapper" style={{ margin: '125px 30px', minHeight:'61vh' }}>
             <Tab.Container  id="left-tabs-example" defaultActiveKey="first">
                 <Row>
                     <Col sm={3}>

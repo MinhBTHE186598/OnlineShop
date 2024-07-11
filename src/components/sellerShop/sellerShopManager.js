@@ -16,6 +16,7 @@ import SellerReview from "./sellerReviewList";
 import EditProfileModal from "./EditShopProfileModal";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import BillManager from "./BillManager"
 
 function SellerShop() {
 
@@ -107,6 +108,9 @@ function SellerShop() {
                                         <Nav.Item>
                                             <Nav.Link eventKey="second">Đánh Giá Của Tôi</Nav.Link>
                                         </Nav.Item>
+                                        <Nav.Item>
+                                            <Nav.Link eventKey="fifth">Quản lý đơn hàng</Nav.Link>
+                                        </Nav.Item>
                                     </Nav>
                                 </Col>
                                 <Col sm={8}>
@@ -122,6 +126,9 @@ function SellerShop() {
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="second">
                                             <SellerReview id={myshop.SellerID} />
+                                        </Tab.Pane>
+                                        <Tab.Pane eventKey="fifth">
+                                            <BillManager id={myshop.SellerID} />
                                         </Tab.Pane>
                                     </Tab.Content>
                                 </Col>
