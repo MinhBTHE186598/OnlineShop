@@ -80,7 +80,8 @@ delete from Sellers where SellerID = ${sellerId}`;
 };
 const viewBillDetailForSeller = async (req, res) => {
   try {
-    const { SellerID, BillID } = req.query;
+    const SellerID = req.params.id;
+    const {BillID } = req.body;
     
     const result = await sql.query`
             select d.BillDetailID, d.BillDetailDate, d.BillDetailStatus, p.ProductID, p.ProductName, p.ProductPic, p.ProductQuantity, p.ProductPrice, p.ProductDescription, u.UserFirstName, u.UserLastName, u.UserAddress, u.UserPFP from Bills b
@@ -99,7 +100,7 @@ const viewBillDetailForSeller = async (req, res) => {
 
 const listBillForSeller = async (req, res) => {
     try{
-        const { SellerID } = req.query;
+        const SellerID = req.params.id;
         const result = await sql.query`select b.BillID ,u.UserID, u.UserAddress, u.UserFirstName, u.UserLastName, u.UserPFP,u.UserPhone,u.UserEmail from Bills b
                                         join BillDetails c on b.BillID=c.BillID
                                         join Products p on p.ProductID=c.ProductID
