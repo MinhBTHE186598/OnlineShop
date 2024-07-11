@@ -46,9 +46,11 @@ export default function PaidBill() {
           const productResponse = await axios.get('http://localhost:5000/bill/getProductToBill', {
             params: { billDetailID: detail.BillDetailID }
           });
+          const product = productResponse.data[0] || {};
           return {
             ...detail,
-            ProductName: productResponse.data.length > 0 ? productResponse.data[0].ProductName : 'N/A',
+            ProductName: product.ProductName || 'N/A',
+            ProductPrice: product.ProductPrice || 0,
             ShipperID: detail.ShipperID || 'Chưa giao hàng'
           };
         }));
@@ -112,6 +114,7 @@ export default function PaidBill() {
                   <th>Ngày đặt hàng</th>
                   <th>Trạng thái đơn hàng</th>
                   <th>ShipperID</th>
+                  <th>Thành tiền</th>
                 </tr>
               </thead>
               <tbody>
@@ -123,6 +126,7 @@ export default function PaidBill() {
                     <td>{detail.BillDetailDate}</td>
                     <td>{detail.BillDetailStatus}</td>
                     <td>{detail.ShipperID}</td>
+                    <td>{(detail.BillQuantity * detail.ProductPrice).toLocaleString()} VND</td>
                   </tr>
                 ))}
               </tbody>
