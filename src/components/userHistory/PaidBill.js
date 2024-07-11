@@ -65,6 +65,8 @@ export default function PaidBill() {
     setBillDetails([]);
   };
 
+  const totalAmount = billDetails.reduce((total, detail) => total + (detail.BillQuantity * detail.ProductPrice), 0);
+
   return (
     <>
       <div>
@@ -133,6 +135,9 @@ export default function PaidBill() {
             </Table>
           </Modal.Body>
           <Modal.Footer>
+            <div style={{ marginRight: 'auto', fontWeight: 'bold' }}>
+              Tổng tiền: {totalAmount.toLocaleString()} VND
+            </div>
             <Button variant="secondary" onClick={handleCloseModal}>Đóng</Button>
           </Modal.Footer>
         </Modal>
