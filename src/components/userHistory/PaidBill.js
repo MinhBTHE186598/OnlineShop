@@ -40,13 +40,19 @@ export default function PaidBill() {
     setSelectedBill(bill);
     try {
       const response = await axios.get('http://localhost:5000/bill/getBillDetail');
-      const filteredDetails = response.data
+      const details = await Promise.all(response.data
         .filter(detail => detail.BillID === bill.BillID)
-        .map(detail => ({
-          ...detail,
-          ShipperID: detail.ShipperID || 'Chưa giao hàng'
+        .map(async (detail) => {
+          const productResponse = await axios.get('http://localhost:5000/bill/getProductToBill', {
+            params: { billDetailID: detail.BillDetailID }
+          });
+          return {
+            ...detail,
+            ProductName: productResponse.data.length > 0 ? productResponse.data[0].ProductName : 'N/A',
+            ShipperID: detail.ShipperID || 'Chưa giao hàng'
+          };
         }));
-      setBillDetails(filteredDetails);
+      setBillDetails(details);
     } catch (error) {
       console.error("There was an error fetching bill details!", error);
     }
@@ -66,7 +72,7 @@ export default function PaidBill() {
         <thead>
           <tr>
             <th>Mã đơn</th>
-            <th>Ngày tạo đơn hàng</th>
+            <th>Ngày thanh toán</th>
             <th>Trạng thái hóa đơn</th>
             <th>Hành động</th>
           </tr>
@@ -92,7 +98,7 @@ export default function PaidBill() {
       </Table>
 
       {selectedBill && (
-        <Modal show={true} onHide={handleCloseModal}>
+        <Modal show={true} onHide={handleCloseModal} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>Chi tiết hóa đơn</Modal.Title>
           </Modal.Header>
@@ -101,8 +107,10 @@ export default function PaidBill() {
               <thead>
                 <tr>
                   <th>Mã chi tiết đơn</th>
+                  <th>Tên sản phẩm</th>
                   <th>Số lượng</th>
                   <th>Ngày đặt hàng</th>
+                  <th>Trạng thái đơn hàng</th>
                   <th>ShipperID</th>
                 </tr>
               </thead>
@@ -110,8 +118,10 @@ export default function PaidBill() {
                 {billDetails.map((detail, index) => (
                   <tr key={index}>
                     <td>{detail.BillDetailID}</td>
+                    <td>{detail.ProductName}</td>
                     <td>{detail.BillQuantity}</td>
                     <td>{detail.BillDetailDate}</td>
+                    <td>{detail.BillDetailStatus}</td>
                     <td>{detail.ShipperID}</td>
                   </tr>
                 ))}
