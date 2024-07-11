@@ -84,7 +84,7 @@ const viewBillDetailForSeller = async (req, res) => {
     const {BillID } = req.body;
     
     const result = await sql.query`
-            select d.BillDetailID, d.BillDetailDate, d.BillDetailStatus, p.ProductID, p.ProductName, p.ProductPic, p.ProductQuantity, p.ProductPrice, p.ProductDescription, u.UserFirstName, u.UserLastName, u.UserAddress, u.UserPFP from Bills b
+            select d.BillDetailID, d.BillDetailDate, d.BillDetailStatus, p.ProductID, p.ProductName, p.ProductPic, p.ProductQuantity, p.ProductPrice, p.ProductDescription from Bills b
             join BillDetails d on b.BillID=d.BillID
             join Products p on p.ProductID=d.ProductID
             join Sellers s on s.SellerID=p.SellerID

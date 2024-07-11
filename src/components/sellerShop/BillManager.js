@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Image from 'react-bootstrap/Image';
 import { Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import BillDetailModal from './BillDetailModal'; // Import the new component
 
 export default function BillManager({ id }) {
     const [bills, setBills] = useState([]);
     const [search, setSearch] = useState('');
-    const navigate = useNavigate();
+    const [selectedBill, setSelectedBill] = useState(null);
+    const [showDetailModal, setShowDetailModal] = useState(false);
 
     useEffect(() => {
         fetch(`http://localhost:5000/seller/listBillForSeller/${id}`)
@@ -24,6 +22,24 @@ export default function BillManager({ id }) {
                 console.error("Error fetching bills:", error);
             });
     }, [id]);
+
+    const handleViewBillDetails = (billID) => {
+        fetch(`http://localhost:5000/seller/viewBillDetailForSeller/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ BillID: billID }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            setSelectedBill(data);
+            setShowDetailModal(true);
+        })
+        .catch(error => {
+            console.error("Error fetching bill details:", error);
+        });
+    }
 
     return (
         <div>
@@ -76,18 +92,19 @@ export default function BillManager({ id }) {
                             <td>{bill.UserPhone}</td>
                             <td>{bill.UserEmail}</td>
                             <td>
-                                <DropdownButton
-                                    size="sm"
-                                    variant="secondary"
-                                    title="Chọn"
-                                >
-                                    <Dropdown.Item eventKey="4" onClick={() => { navigate(`/bill/${bill.BillID}`) }}>Tới trang đơn</Dropdown.Item>
-                                </DropdownButton>
+                                <Button onClick={() => handleViewBillDetails(bill.BillID)}>Xem chi tiết</Button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
+            {selectedBill && (
+                <BillDetailModal
+                    show={showDetailModal}
+                    onHide={() => setShowDetailModal(false)}
+                    bill={selectedBill}
+                />
+            )}
         </div>
     )
 }
