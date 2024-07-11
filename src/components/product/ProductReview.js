@@ -77,6 +77,10 @@ function ProductReview(props) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (review.ProductReviewText.trim() === '') {
+            alert('Nội dung đánh giá không thể để trống!');  
+            return;
+        };
         try {
             const response = await axios.post('http://localhost:5000/productReview/add', {
                 ProductID: Number(review.ProductID),
@@ -101,6 +105,7 @@ function ProductReview(props) {
         } catch (error) {
             console.error('Error:', error);
         }
+
     }
 
 

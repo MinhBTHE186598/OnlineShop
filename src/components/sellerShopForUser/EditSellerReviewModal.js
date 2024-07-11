@@ -38,6 +38,10 @@ function EditSellerReviewModal({ show, onHide, Review, onUpdate }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (newSellerReviewText.trim() === '') {
+            alert('Nội dung đánh giá không thể để trống!');
+            return;
+        };
         try {
             const response = await axios.put(`http://localhost:5000/sellerReview/update/${Review.SellerReviewID}`, {
                 SellerReviewStar: newSellerReviewStar,

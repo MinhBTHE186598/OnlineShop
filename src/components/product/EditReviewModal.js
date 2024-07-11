@@ -38,6 +38,10 @@ function EditReviewModal({ show, onHide, Review, onUpdate }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (newProductReviewText.trim() === '') {
+            alert('Nội dung đánh giá không thể để trống!');
+            return;
+        };
         try {
             const response = await axios.put(`http://localhost:5000/productReview/update/${Review.ProductReviewID}`, {
                 ProductReviewStar: newProductReviewStar,

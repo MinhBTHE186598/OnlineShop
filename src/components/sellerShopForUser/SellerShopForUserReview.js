@@ -75,6 +75,10 @@ function SellerReview(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (review.SellerReviewText.trim() === '') {
+      alert('Nội dung đánh giá không thể để trống!');
+      return;
+    };
     try {
       const response = await axios.post('http://localhost:5000/sellerReview/add', {
         SellerID: Number(review.SellerID),

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
-import { Container, Row, Col } from "react-bootstrap";
-import { useUser } from '../context/UserContext';
+import { Row, Col } from "react-bootstrap";
 
 const StarStyle = {
   display: 'flex',
