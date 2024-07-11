@@ -249,7 +249,7 @@ const getBillDetailsByUserID = async (req, res) => {
     }
 
     const result = await sql.query`
-            SELECT bd.BillDetailID, bd.ProductID, bd.BillDetailDate, bd.BillQuantity, bd.BillDetailStatus
+            SELECT bd.BillDetailID, bd.ProductID, bd.BillDetailDate, bd.BillQuantity, bd.BillDetailStatus, bd.ShipperID
             FROM BillDetails bd
             JOIN Bills b ON bd.BillID = b.BillID
             WHERE b.UserID = ${userID}

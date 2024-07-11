@@ -7,6 +7,7 @@ import { useUser } from '../context/UserContext';
 
 export default function DeliveryConfirm() {
   const [billDetails, setBillDetails] = useState([]);
+  const [productNames, setProductNames] = useState({});
   const { user } = useUser();
   const [showModal, setShowModal] = useState(false);
   const [selectedBillDetailID, setSelectedBillDetailID] = useState(null);
@@ -18,6 +19,16 @@ export default function DeliveryConfirm() {
       });
       console.log("Fetched bill details data:", response.data);
       setBillDetails(response.data);
+      
+      // Fetch product names for each bill detail
+      const products = {};
+      for (const detail of response.data) {
+        const productResponse = await axios.get('http://localhost:5000/bill/getProductToBill', {
+          params: { billDetailID: detail.BillDetailID }
+        });
+        products[detail.BillDetailID] = productResponse.data[0]?.ProductName || 'Unknown';
+      }
+      setProductNames(products);
     } catch (error) {
       console.error("There was an error fetching bill details data!", error);
     }
@@ -62,6 +73,7 @@ export default function DeliveryConfirm() {
             <th>Ngày vận chuyển</th>
             <th>Số lượng</th>
             <th>Trạng thái đơn hàng</th>
+            <th>ShipperID</th>
             <th>Hành động</th>
           </tr>
         </thead>
@@ -70,10 +82,11 @@ export default function DeliveryConfirm() {
             filteredBillDetails.map((detail, index) => (
               <tr key={index}>
                 <td>{detail.BillDetailID}</td>
-                <td>{detail.ProductID}</td>
+                <td>{productNames[detail.BillDetailID]}</td>
                 <td>{detail.BillDetailDate}</td>
                 <td>{detail.BillQuantity}</td>
-                <td>{detail.BillDetailStatus}</td>
+                <td>{detail.BillDetailStatus}</td>  
+                <td>{detail.ShipperID}</td>
                 <td>
                   <Button
                     variant="primary"
@@ -89,7 +102,7 @@ export default function DeliveryConfirm() {
             ))
           ) : (
             <tr>
-              <td colSpan="6">Không có dữ liệu để hiển thị</td>
+              <td colSpan="7">Không có dữ liệu để hiển thị</td>
             </tr>
           )}
         </tbody>
