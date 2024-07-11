@@ -57,7 +57,7 @@ function ConfirmModalWithNoti({ show, onHide, onConfirm, userID, sellerName,prod
     }
     return (
 
-        <Modal show={show} onHide={onHide}>
+        <Modal show={show} onHide={hide} backdrop="static">
             <Modal.Header closeButton>
                 <Modal.Title>Waring</Modal.Title>
             </Modal.Header>
@@ -81,11 +81,11 @@ function ConfirmModalWithNoti({ show, onHide, onConfirm, userID, sellerName,prod
                     <Form>
                         <Form.Group>
                             <Form.Label>Notification Title</Form.Label>
-                            <Form.Control value={'Sản phẩm của bạn đã bị xóa'} type="text" min={0} onChange={(e) => setTitle(e.target.value)} />
+                            <Form.Control defaultValue={'Sản phẩm của bạn đã bị xóa'} type="text" min={0} onChange={(e) => setTitle(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Notification Body</Form.Label>
-                            <Form.Control value={'Sản phẩm tên: '+productName+ ' của bạn đã bị xóa'} style={{ marginBottom: '5px' }} as="textarea" rows={3} onChange={(e) => setBody(e.target.value)} />
+                            <Form.Control defaultValue={'Sản phẩm tên: '+productName+ ' của bạn đã bị xóa'} style={{ marginBottom: '5px' }} as="textarea" rows={3} onChange={(e) => setBody(e.target.value)} />
                         </Form.Group>
                         <Button style={{ marginRight: '5px' }} variant="primary" onClick={() => handleAddNoti()}>
                             Confirm
