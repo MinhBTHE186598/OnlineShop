@@ -49,6 +49,15 @@ where SupportID=${ResponseID}
     }
 }
 
+const deleteSupport = async (req,res) => {
+    try{
+        const id = req.params.id;
+        await sql.query`delete from Supports where SupportID=${id}`;
+        res.status(200).send('yay')
+    }catch(error){
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
+}
 
-
-module.exports = { getContact, addContact, getContactDetail,response };
+module.exports = { getContact, addContact, getContactDetail,response,deleteSupport };

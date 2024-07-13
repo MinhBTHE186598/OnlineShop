@@ -5,12 +5,13 @@ import Tab from 'react-bootstrap/Tab';
 import UserManager from './UserManger';
 import BannerManager from './BannerManager';
 import ProductManager from './ProductManager';
+import SupportManager from './SupportManager';
 
 
 function AdminAction() {
     return (
-        <div id="wrapper" style={{ margin: '125px 30px', minHeight:'61vh' }}>
-            <Tab.Container  id="left-tabs-example" defaultActiveKey="first">
+        <div id="wrapper" style={{ margin: '125px 30px', minHeight: '61vh' }}>
+            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                 <Row>
                     <Col sm={3}>
                         <Nav variant="pills" className="flex-column">
@@ -34,14 +35,14 @@ function AdminAction() {
                     <Col sm={9}>
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
-                                <UserManager/>
+                                <UserManager />
                             </Tab.Pane>
                             <Tab.Pane eventKey="third">
-                                <BannerManager/>
+                                <BannerManager />
                             </Tab.Pane>
                             <Tab.Pane eventKey="fourth">
                                 <Row>
-                                    <ProductManager/>
+                                    <ProductManager />
                                 </Row>
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
@@ -51,7 +52,7 @@ function AdminAction() {
                             </Tab.Pane>
                             <Tab.Pane eventKey="fifth">
                                 <Row>
-     
+                                    <SupportManager />
                                 </Row>
                             </Tab.Pane>
                         </Tab.Content>
