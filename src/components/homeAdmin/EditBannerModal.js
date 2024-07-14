@@ -97,7 +97,7 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
 
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Edit Banner</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
