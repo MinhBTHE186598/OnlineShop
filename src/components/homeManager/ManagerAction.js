@@ -5,9 +5,29 @@ import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
 import SellerManager from "./SellerManager";
 import ProductManager from "./ProductManager";
+import { useUser } from '../context/UserContext';
+import { useState, useEffect } from 'react';
 
 function ManagerAction() {
-  const Arr = ["1", "2", "3", "4", "5"];
+  const { user} = useUser();
+  const [managers, setManager] = useState([{}]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/sellManager/get").then(
+      response => response.json()
+    ).then(
+      data => {
+        setManager(data)
+      }
+    )
+  }, [])
+
+  function getManagerID(id) {
+    let intID = +id;
+    let manager = managers.find(manager => manager.UserID === intID)
+    return manager ? manager.SellManagerID : 0
+  }
+
 
   return (
     <div id="wrapper" style={{ margin: "125px 30px" }}>
@@ -28,7 +48,7 @@ function ManagerAction() {
           <Col sm={9}>
             <Tab.Content>
               <Tab.Pane eventKey="first">
-                <SellerManager />
+                <SellerManager id={getManagerID(user.UserID)}/>
               </Tab.Pane>
               <Tab.Pane eventKey="second">
               <ProductManager />

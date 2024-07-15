@@ -22,5 +22,16 @@ group by c.CategoryID, c.CategoryName`;
     }
 }
 
+const addCate = async (req, res) => {
+    try {
+        const {cate} = req.body;
+        await sql.query`insert into Categories (CategoryName) values (${cate})`
+        res.status(200).send('success')
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
 
 module.exports = { getCategories, getCategoryQuantity }
