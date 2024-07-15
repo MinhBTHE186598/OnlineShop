@@ -9,6 +9,7 @@ export default function PaidBill() {
   const [bills, setBills] = useState([]);
   const [selectedBill, setSelectedBill] = useState(null);
   const [billDetails, setBillDetails] = useState([]);
+  const [shipperNames, setShipperNames] = useState({});
   const { user } = useUser();
 
   const fetchData = useCallback(async () => {
@@ -32,9 +33,20 @@ export default function PaidBill() {
     return () => clearInterval(intervalId);
   }, [fetchData]);
 
-  const filteredBills = bills.filter(
-    bill => bill.BillStatus === "Đã thanh toán"
-  );
+  const fetchShipperNames = async (shipperIDs) => {
+    try {
+      const names = {};
+      for (const id of shipperIDs) {
+        const response = await axios.get('http://localhost:5000/user/getShipperName', {
+          params: { shipperID: id }
+        });
+        names[id] = response.data.ShipperName;
+      }
+      setShipperNames(names);
+    } catch (error) {
+      console.error("There was an error fetching shipper names!", error);
+    }
+  };
 
   const handleShowModal = async (bill) => {
     setSelectedBill(bill);
@@ -55,6 +67,10 @@ export default function PaidBill() {
           };
         }));
       setBillDetails(details);
+
+      // Extract unique shipper IDs
+      const shipperIDs = [...new Set(details.map(detail => detail.ShipperID))];
+      await fetchShipperNames(shipperIDs);
     } catch (error) {
       console.error("There was an error fetching bill details!", error);
     }
@@ -66,6 +82,10 @@ export default function PaidBill() {
   };
 
   const totalAmount = billDetails.reduce((total, detail) => total + (detail.BillQuantity * detail.ProductPrice), 0);
+
+  const filteredBills = bills.filter(
+    bill => bill.BillStatus === "Đã thanh toán"
+  );
 
   return (
     <>
@@ -115,7 +135,7 @@ export default function PaidBill() {
                   <th>Số lượng</th>
                   <th>Ngày đặt hàng</th>
                   <th>Trạng thái đơn hàng</th>
-                  <th>ShipperID</th>
+                  <th>Shipper</th>
                   <th>Thành tiền</th>
                 </tr>
               </thead>
@@ -127,7 +147,7 @@ export default function PaidBill() {
                     <td>{detail.BillQuantity}</td>
                     <td>{detail.BillDetailDate}</td>
                     <td>{detail.BillDetailStatus}</td>
-                    <td>{detail.ShipperID}</td>
+                    <td>{shipperNames[detail.ShipperID] || 'Chưa giao hàng'}</td>
                     <td>{(detail.BillQuantity * detail.ProductPrice).toLocaleString()} VND</td>
                   </tr>
                 ))}
