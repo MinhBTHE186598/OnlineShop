@@ -106,7 +106,7 @@ const BillManager = ({ id }) => {
             {billDetails.filter(detail => detail.ProductName.toLowerCase().includes(search.toLowerCase())).map((detail) => (
               <tr key={detail.BillDetailID}>
                 <td>{detail.BillDetailID}</td>
-                <td>{new Date(detail.BillDetailDate).toLocaleDateString()}</td>
+                <td>{detail.BillDetailDate}</td>
                 <td>{detail.BillDetailStatus}</td>
                 <td>{detail.ProductID}</td>
                 <td>{detail.ProductName}</td>
