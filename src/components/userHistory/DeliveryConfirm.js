@@ -8,7 +8,7 @@ import { Modal } from 'react-bootstrap';
 export default function DeliveryConfirm() {
   const [billDetails, setBillDetails] = useState([]);
   const [productNames, setProductNames] = useState({});
-  const [productPics, setProductPics] = useState({}); // New state for product images
+  const [productPics, setProductPics] = useState({}); 
   const [shipperNames, setShipperNames] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [selectedBillDetailID, setSelectedBillDetailID] = useState(null);
@@ -86,7 +86,7 @@ export default function DeliveryConfirm() {
           <tr>
             <th>Mã đơn</th>
             <th>Sản phẩm</th>
-            <th>Ảnh sản phẩm</th> {/* New column for product image */}
+            <th>Ảnh sản phẩm</th> 
             <th>Ngày vận chuyển</th>
             <th>Số lượng</th>
             <th>Trạng thái đơn hàng</th>

@@ -290,6 +290,7 @@ function Header() {
                   System Manager
                 </Dropdown.Item>
               )}
+              <Dropdown.Item onClick={() => navigate(`/history`)}>Lịch sử thanh toán</Dropdown.Item>
               <Dropdown.Item onClick={() => navigate(`/cart`)}>Giỏ hàng của tôi</Dropdown.Item>
               <Dropdown.Item onClick={logOut} style={{ marginBottom: "10px" }}>Đăng xuất</Dropdown.Item>
             </DropdownButton>
