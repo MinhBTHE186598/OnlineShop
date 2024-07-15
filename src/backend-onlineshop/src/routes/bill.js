@@ -19,6 +19,7 @@ router.put('/updateCustom/:id', bill.updateBillDetailCustomQuantity)
 router.get('/getBills', bill.getBillsByUserID)
 router.post('/addToCart', bill.addToCart)
 router.put('/checkOut/:id', bill.checkOut)
+router.put('/approve/:id', bill.approveBillDetail)
 
 
 module.exports = router

@@ -160,6 +160,20 @@ const deleteBill = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+const approveBillDetail = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await sql.query`
+            UPDATE BillDetails 
+            SET BillDetailStatus = N'Đã xác nhận'
+            WHERE BillDetailID = ${id}
+        `;
+    res.json(result.recordset);
+  } catch (err) {
+    console.error("Error updating bill:", err.message);
+    res.status(500).send("Server Error");
+  }
+};
 
 const updateBillDetailPlusQuantity = async (req, res) => {
   try {
@@ -302,4 +316,5 @@ module.exports = {
   updateBillDetailCustomQuantity,
   addToCart,
   checkOut,
+  approveBillDetail
 };

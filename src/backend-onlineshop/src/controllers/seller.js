@@ -81,22 +81,23 @@ delete from Sellers where SellerID = ${sellerId}`;
 const viewBillDetailForSeller = async (req, res) => {
   try {
     const SellerID = req.params.id;
-    const {BillID } = req.body;
+   
     
     const result = await sql.query`
-            select d.BillDetailID, d.BillDetailDate, d.BillDetailStatus, p.ProductID, p.ProductName, p.ProductPic, p.ProductQuantity, p.ProductPrice, p.ProductDescription from Bills b
+            select d.BillDetailID, d.BillDetailDate, d.BillDetailStatus, p.ProductID, p.ProductName, p.ProductPic, p.ProductQuantity, p.ProductPrice, p.ProductDescription, u.UserAddress, u.UserFirstName, u.UserLastName, u.UserPhone, u.UserEmail from Bills b
             join BillDetails d on b.BillID=d.BillID
             join Products p on p.ProductID=d.ProductID
             join Sellers s on s.SellerID=p.SellerID
             join Users u on b.UserID=u.UserID
-            where s.SellerID=${SellerID} and b.BillID=${BillID}
+            where s.SellerID=${SellerID}
             order by b.BillID`;
-            res.json(result.recordset);
+    res.json(result.recordset);
   } catch (err) {
-    console.error("Error fetching bill details by user ID:", err);
+    console.error("Error fetching bill details by seller ID:", err);
     res.status(500).send("Server Error");
   }
 };
+
 
 const listBillForSeller = async (req, res) => {
     try{

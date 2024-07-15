@@ -7,7 +7,7 @@ import {Navigate } from "react-router-dom";
 
 function HomeManager() {
   const { userRole,isLogin } = useUser();
-  if(isLogin&&userRole==='sellManager'){
+  if(isLogin&&userRole==='SellManager'){
   return (
     <div>
         <Header/>
