@@ -115,5 +115,19 @@ const listBillForSeller = async (req, res) => {
         res.status(500).send("Server Error");
     }
 };
+const getSellerBySellManagerID = async (req, res) => {
+  try {
+    const id = req.params.id; 
 
-module.exports = { getSeller, getSellerByID, addSeller, updateSeller, deleteSeller,viewBillDetailForSeller,listBillForSeller };
+    const result = await sql.query`
+      SELECT * FROM Sellers WHERE SellManagerID = ${id}
+    `;
+
+    res.json(result.recordset);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+};
+
+module.exports = {getSellerBySellManagerID, getSeller, getSellerByID, addSeller, updateSeller, deleteSeller,viewBillDetailForSeller,listBillForSeller };

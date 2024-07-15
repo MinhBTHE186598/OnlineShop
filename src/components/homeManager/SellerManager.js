@@ -3,25 +3,27 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import SellerInfoModal from './SellerInfoModal';
 import EditSellerModal from './EditSellerModal';
-import ConfirmModal from './ConfirmModal';
-import Image from 'react-bootstrap/Image';
 import axios from 'axios';
 
-export default function SellerManager() {
+export default function SellerManager({ id }) {
   const [sellers, setSellers] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [selectedSeller, setSelectedSeller] = useState(null);
-  const [sellerIDToDelete, setSellerIDToDelete] = useState(null);
   const [modalShow, setModalShow] = useState(false);
 
+  const fetchSellers = async () => {
+  try {
+    const response = await axios.get(`http://localhost:5000/seller/getSellerBySellManagerID/${id}`);
+    console.log("Response Data:", response.data); // Kiểm tra dữ liệu trả về
+    setSellers(response.data);
+  } catch (error) {
+    console.error('Error fetching sellers:', error);
+  }
+};
+
   useEffect(() => {
-    fetch("http://localhost:5000/seller/get")
-      .then(response => response.json())
-      .then(data => {
-        setSellers(data);
-      });
-  }, []);
+    fetchSellers();
+  }, [id]);
 
   const handleEditSeller = (seller) => {
     setSelectedSeller(seller);
@@ -40,26 +42,6 @@ export default function SellerManager() {
     setShowEdit(false);
   };
 
-  const handleDeleteSeller = async (sellerID) => {
-    try {
-      const response = await axios.delete(`http://localhost:5000/seller/delete/${sellerID}`);
-      if (response.status === 200) {
-        setSellers(sellers.filter(seller => seller.SellerID !== sellerID));
-        console.log('Seller deleted successfully');
-      } else {
-        console.log('Error deleting seller');
-      }
-    } catch (error) {
-      console.error('Error', error);
-    }
-    setShowConfirm(false);
-  };
-
-  const confirmDeleteSeller = (sellerID) => {
-    setSellerIDToDelete(sellerID);
-    setShowConfirm(true);
-  };
-
   return (
     <>
       <Table striped bordered hover>
@@ -68,7 +50,6 @@ export default function SellerManager() {
             <th>Seller ID</th>
             <th>Seller Name</th>
             <th>Seller Address</th>
-
             <th>User ID</th>
             <th>Action</th>
           </tr>
@@ -79,7 +60,6 @@ export default function SellerManager() {
               <td>{seller.SellerID}</td>
               <td>{seller.SellerName}</td>
               <td>{seller.SellerAddress}</td>
-          
               <td>{seller.UserID}</td>
               <td>
                 <Button size="sm" variant="primary" onClick={() => handleEditSeller(seller)}>
@@ -88,7 +68,6 @@ export default function SellerManager() {
                 <Button size="sm" variant="info" onClick={() => handleViewSeller(seller)} style={{ marginLeft: '10px' }}>
                   View
                 </Button>
-
               </td>
             </tr>
           ))}
@@ -99,7 +78,7 @@ export default function SellerManager() {
           <EditSellerModal
             show={showEdit}
             onHide={() => setShowEdit(false)}
-            Seller={selectedSeller}
+            seller={selectedSeller}
             onUpdate={handleUpdate}
           />
           <SellerInfoModal
@@ -109,12 +88,6 @@ export default function SellerManager() {
           />
         </>
       )}
-      <ConfirmModal
-        show={showConfirm}
-        onHide={() => setShowConfirm(false)}
-        onConfirm={() => handleDeleteSeller(sellerIDToDelete)}
-        obj="seller"
-      />
     </>
   );
 }

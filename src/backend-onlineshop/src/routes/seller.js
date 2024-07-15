@@ -8,4 +8,5 @@ router.put('/updateSeller/:id', seller.updateSeller)
 router.delete('/deleteSeller/:id', seller.deleteSeller)
 router.get('/viewBillDetailForSeller/:id', seller.viewBillDetailForSeller)
 router.get('/listBillForSeller/:id', seller.listBillForSeller)
+router.get('/getSellerBySellManagerID/:id', seller.getSellerBySellManagerID)
 module.exports = router
