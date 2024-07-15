@@ -9,6 +9,7 @@ export default function PaidBill() {
   const [bills, setBills] = useState([]);
   const [selectedBill, setSelectedBill] = useState(null);
   const [billDetails, setBillDetails] = useState([]);
+  const [productPics, setProductPics] = useState({}); // State for product images
   const [shipperNames, setShipperNames] = useState({});
   const { user } = useUser();
 
@@ -48,6 +49,21 @@ export default function PaidBill() {
     }
   };
 
+  const fetchProductPics = async (billDetails) => {
+    try {
+      const pics = {};
+      for (const detail of billDetails) {
+        const productResponse = await axios.get('http://localhost:5000/bill/getProductToBill', {
+          params: { billDetailID: detail.BillDetailID }
+        });
+        pics[detail.BillDetailID] = productResponse.data[0]?.ProductPic || '';
+      }
+      setProductPics(pics);
+    } catch (error) {
+      console.error("There was an error fetching product images!", error);
+    }
+  };
+
   const handleShowModal = async (bill) => {
     setSelectedBill(bill);
     try {
@@ -63,11 +79,12 @@ export default function PaidBill() {
             ...detail,
             ProductName: product.ProductName || 'N/A',
             ProductPrice: product.ProductPrice || 0,
+            ProductPic: product.ProductPic || '', // Add ProductPic
             ShipperID: detail.ShipperID || 'Chưa giao hàng'
           };
         }));
       setBillDetails(details);
-
+      await fetchProductPics(details); // Fetch product images
       const shipperIDs = [...new Set(details.map(detail => detail.ShipperID))];
       await fetchShipperNames(shipperIDs);
     } catch (error) {
@@ -121,16 +138,17 @@ export default function PaidBill() {
       </Table>
 
       {selectedBill && (
-        <Modal show={true} onHide={handleCloseModal} size="lg">
+        <Modal show={true} onHide={handleCloseModal} size="xl" centered>
           <Modal.Header closeButton>
             <Modal.Title>Chi tiết hóa đơn</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body style={{ maxHeight: '60vh', overflowY: 'auto' }}>
             <Table striped bordered hover>
               <thead>
                 <tr>
                   <th>Mã chi tiết đơn</th>
                   <th>Tên sản phẩm</th>
+                  <th>Ảnh sản phẩm</th> {/* New column for product image */}
                   <th>Số lượng</th>
                   <th>Ngày đặt hàng</th>
                   <th>Trạng thái đơn hàng</th>
@@ -143,6 +161,17 @@ export default function PaidBill() {
                   <tr key={index}>
                     <td>{detail.BillDetailID}</td>
                     <td>{detail.ProductName}</td>
+                    <td>
+                      {productPics[detail.BillDetailID] ? (
+                        <img
+                          src={productPics[detail.BillDetailID]}
+                          alt="Product"
+                          style={{ width: '100px', height: 'auto' }}
+                        />
+                      ) : (
+                        <p>Không có ảnh</p>
+                      )}
+                    </td>
                     <td>{detail.BillQuantity}</td>
                     <td>{detail.BillDetailDate}</td>
                     <td>{detail.BillDetailStatus}</td>
