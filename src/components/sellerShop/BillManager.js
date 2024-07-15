@@ -1,110 +1,143 @@
 import React, { useState, useEffect } from 'react';
-import Table from 'react-bootstrap/Table';
-import { Button } from 'react-bootstrap';
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import { FaMagnifyingGlass } from "react-icons/fa6";
-import BillDetailModal from './BillDetailModal'; // Import the new component
+import axios from 'axios';
+import { Table, Form, InputGroup, Button, Image } from 'react-bootstrap';
+import { FaMagnifyingGlass } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
 
-export default function BillManager({ id }) {
-    const [bills, setBills] = useState([]);
-    const [search, setSearch] = useState('');
-    const [selectedBill, setSelectedBill] = useState(null);
-    const [showDetailModal, setShowDetailModal] = useState(false);
+const BillManager = ({ id }) => {
+  const [billDetails, setBillDetails] = useState([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        fetch(`http://localhost:5000/seller/listBillForSeller/${id}`)
-            .then(response => response.json())
-            .then(data => {
-                setBills(data);
-            })
-            .catch(error => {
-                console.error("Error fetching bills:", error);
-            });
-    }, [id]);
-
-    const handleViewBillDetails = (billID) => {
-        fetch(`http://localhost:5000/seller/viewBillDetailForSeller/${id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ BillID: billID }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            setSelectedBill(data);
-            setShowDetailModal(true);
-        })
-        .catch(error => {
-            console.error("Error fetching bill details:", error);
-        });
+  const fetchBillDetails = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/seller/viewBillDetailForSeller/${id}`);
+      setBillDetails(response.data);
+      setLoading(false);
+    } catch (err) {
+      setError(err);
+      setLoading(false);
     }
+  };
 
-    return (
-        <div>
-            <div style={{ display: "flex", flexDirection: "row", alignItems: "start", marginBottom: "10px", justifyContent: "space-between" }}>
-                <Form
-                    inline="true"
-                    style={{
-                        width: "33vw",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                    }}
-                >
-                    <InputGroup style={{ margin: 0 }}>
-                        <Form.Control
-                            type="text"
-                            placeholder="Tìm kiếm đơn"
-                            aria-label="Search"
-                            aria-describedby="basic-addon2"
-                            onChange={(e) => { setSearch(e.target.value) }}
-                        />
-                        <Button variant="primary" id="button-addon2">
-                            <FaMagnifyingGlass />
-                        </Button>
-                    </InputGroup>
-                </Form>
-            </div>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>Mã Đơn</th>
-                        <th>Tên khách hàng</th>
-                        <th>Địa chỉ</th>
-                        <th>Số điện thoại</th>
-                        <th>Email</th>
-                        <th>Hành Động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {bills.filter(bill =>
-                        (bill.UserFirstName + ' ' + bill.UserLastName).toLowerCase().includes(search.toLowerCase())
-                    ).map(bill => (
-                        <tr key={bill.BillID}>
-                            <td>{bill.BillID}</td>
-                            <td>{bill.UserFirstName} {bill.UserLastName}</td>
-                            <td>{bill.UserAddress}</td>
-                            <td>{bill.UserPhone}</td>
-                            <td>{bill.UserEmail}</td>
-                            <td>
-                                <Button onClick={() => handleViewBillDetails(bill.BillID)}>Xem chi tiết</Button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-            {selectedBill && (
-                <BillDetailModal
-                    show={showDetailModal}
-                    onHide={() => setShowDetailModal(false)}
-                    bill={selectedBill}
-                />
-            )}
-        </div>
-    )
-}
+  useEffect(() => {
+    fetchBillDetails();
+  }, [id]);
+
+  const handleApprove = async (billDetailID) => {
+    try {
+      await axios.put(`http://localhost:5000/bill/approve/${billDetailID}`);
+      fetchBillDetails(); // Refresh bill details after approving
+    } catch (err) {
+      console.error("Error updating bill status:", err);
+    }
+  };
+
+  const handleReject = async (billDetailID) => {
+    try {
+      await axios.delete(`http://localhost:5000/seller/delete/${billDetailID}`);
+      fetchBillDetails(); // Refresh bill details after rejecting
+    } catch (err) {
+      console.error("Error deleting bill:", err);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error fetching bill details: {error.message}</div>;
+  }
+
+  return (
+    <div>
+      <div style={{ display: "flex", flexDirection: "row", alignItems: "start", marginBottom: "10px", justifyContent: "space-between" }}>
+        <Form
+          inline="true"
+          style={{
+            width: "33vw",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <InputGroup style={{ margin: 0 }}>
+            <Form.Control
+              type="text"
+              placeholder="Tìm kiếm sản phẩm"
+              aria-label="Search"
+              aria-describedby="basic-addon2"
+              onChange={(e) => { setSearch(e.target.value) }}
+            />
+            <Button variant="primary" id="button-addon2">
+              <FaMagnifyingGlass />
+            </Button>
+          </InputGroup>
+        </Form>
+      </div>
+      <div style={{ overflowX: "auto", maxHeight: "500px" }}>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th style={{ minWidth: '120px' }}>Bill Detail ID</th>
+              <th style={{ minWidth: '150px' }}>Bill Detail Date</th>
+              <th style={{ minWidth: '150px' }}>Bill Detail Status</th>
+              <th style={{ minWidth: '120px' }}>Product ID</th>
+              <th style={{ minWidth: '200px' }}>Product Name</th>
+              <th style={{ minWidth: '150px' }}>Product Picture</th>
+              <th style={{ minWidth: '120px' }}>Product Quantity</th>
+              <th style={{ minWidth: '150px' }}>Product Price</th>
+              <th style={{ minWidth: '250px' }}>Product Description</th>
+              <th style={{ minWidth: '250px' }}>User Address</th>
+              <th style={{ minWidth: '150px' }}>User First Name</th>
+              <th style={{ minWidth: '150px' }}>User Last Name</th>
+              <th style={{ minWidth: '150px' }}>User Phone</th>
+              <th style={{ minWidth: '200px' }}>User Email</th>
+              <th style={{ minWidth: '250px' }}>Quản lý đơn hàng</th>
+            </tr>
+          </thead>
+          <tbody>
+            {billDetails.filter(detail => detail.ProductName.toLowerCase().includes(search.toLowerCase())).map((detail) => (
+              <tr key={detail.BillDetailID}>
+                <td>{detail.BillDetailID}</td>
+                <td>{detail.BillDetailDate}</td>
+                <td>{detail.BillDetailStatus}</td>
+                <td>{detail.ProductID}</td>
+                <td>{detail.ProductName}</td>
+                <td><Image src={detail.ProductPic} rounded style={{ width: '50px' }} /></td>
+                <td>{detail.ProductQuantity}</td>
+                <td>{detail.ProductPrice}</td>
+                <td>{detail.ProductDescription}</td>
+                <td>{detail.UserAddress}</td>
+                <td>{detail.UserFirstName}</td>
+                <td>{detail.UserLastName}</td>
+                <td>{detail.UserPhone}</td>
+                <td>{detail.UserEmail}</td>
+                <td>
+                  {detail.BillDetailStatus === 'Chưa xác nhận' && (
+                    <>
+                      <Button variant="success" size="sm" onClick={() => handleApprove(detail.BillDetailID)}>
+                        Đồng ý
+                      </Button>
+                      <Button variant="danger" size="sm" onClick={() => handleReject(detail.BillDetailID)} style={{ marginLeft: '5px' }}>
+                        Từ chối
+                      </Button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </div>
+  );
+};
+
+export default BillManager;
