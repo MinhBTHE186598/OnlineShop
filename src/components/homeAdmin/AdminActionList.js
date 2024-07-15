@@ -6,6 +6,7 @@ import UserManager from './UserManger';
 import BannerManager from './BannerManager';
 import ProductManager from './ProductManager';
 import SupportManager from './SupportManager';
+import CategoryManager from './CategoryManager';
 
 
 function AdminAction() {
@@ -47,7 +48,7 @@ function AdminAction() {
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
                                 <Row>
-
+                                    <CategoryManager/>
                                 </Row>
                             </Tab.Pane>
                             <Tab.Pane eventKey="fifth">

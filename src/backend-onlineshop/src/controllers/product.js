@@ -28,7 +28,7 @@ group by c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p
 
 const postAllProductFilter = async (req, res) => {
     try {
-        const { category, price, seller, order,status } = req.body;
+        const { category, price, seller, order, status } = req.body;
         const result = await sql.query`SELECT SUM(b.BillQuantity)as Sold, c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p.ProductStatus,p.ProductQuantity,s.SellerName,u.UserID FROM Products P
         join Categories c on p.CategoryID=c.CategoryID
         join Sellers s on p.SellerID = s.SellerID
@@ -186,4 +186,15 @@ const searchProduct = async (req, res) => {
     }
 }
 
-module.exports = { postAllProductFilter, getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct, approveProduct, deleteProduct, getProductBySellerID, updateProduct, searchProduct }
+const getProductByCate = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const result = await sql.query`select * from Products where CategoryID = ${id}`
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
+module.exports = { postAllProductFilter, getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct, approveProduct, deleteProduct, getProductBySellerID, updateProduct, searchProduct, getProductByCate }
