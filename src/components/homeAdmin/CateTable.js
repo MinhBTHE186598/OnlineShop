@@ -37,9 +37,9 @@ export default function CateTable({ id }) {
                         <td>
                             <Form.Check
                                 inline
-                                name="group1"
                                 type="checkbox"
                                 id={`inline-checkbox-1`}
+                                value={product.ProductID}
                             />
                         </td>
                     </tr>

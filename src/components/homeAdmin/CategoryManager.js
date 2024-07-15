@@ -5,6 +5,7 @@ import Tab from 'react-bootstrap/Tab';
 import Badge from 'react-bootstrap/Badge';
 import { useEffect, useState } from 'react';
 import CateTable from './CateTable';
+import { Button } from 'react-bootstrap';
 
 export default function CategoryManager() {
     const [categories, setCategories] = useState([{}])
@@ -39,6 +40,7 @@ export default function CategoryManager() {
                                 </Nav.Item>
                             ))}
                         </Nav>
+                        <Button style={{marginTop:'10px'}}>Add</Button>
                     </Col>
                     <Col sm={9}>
                         <Tab.Content>
