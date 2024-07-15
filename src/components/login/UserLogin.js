@@ -13,9 +13,6 @@ const UserLogin = () => {
   const [ShipperList, setShipperList] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  useEffect(() => {
-    document.title = "Login Page"
-  }, [])
   const fetchData = async () => {
     try {
       const responseUser = await fetch("http://localhost:5000/user/get");

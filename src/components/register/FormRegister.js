@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -24,9 +24,6 @@ function RegisterBoard() {
   const [isShipper, setIsShipper] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    document.title = "Register"
-  }, [])
   const handleSubmit = async (e) => {
     e.preventDefault();
 
