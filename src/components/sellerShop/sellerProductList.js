@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import MoneyForm from "../common/MoneyForm";
 
 export default function ProductManager(props) {
     const [products, setProducts] = useState([{}])
@@ -104,7 +105,7 @@ export default function ProductManager(props) {
                             <td>{product.CategoryName}</td>
                             <td>{product.ProductQuantity}</td>
                             <td style={{ color: product.ProductStatus === 'Đã xác thực' ? 'green' : 'red' }}>{product.ProductStatus}</td>
-                            <td>{product.ProductPrice}</td>
+                            <td><MoneyForm value={product.ProductPrice} /></td>
                             <td>
                                 <DropdownButton
                                     size="sm"
