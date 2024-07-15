@@ -68,7 +68,6 @@ export default function PaidBill() {
         }));
       setBillDetails(details);
 
-      // Extract unique shipper IDs
       const shipperIDs = [...new Set(details.map(detail => detail.ShipperID))];
       await fetchShipperNames(shipperIDs);
     } catch (error) {

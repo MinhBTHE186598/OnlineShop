@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import { useUser } from '../context/UserContext';
+import { Modal } from 'react-bootstrap';
 
 export default function DeliveryConfirm() {
   const [billDetails, setBillDetails] = useState([]);
   const [productNames, setProductNames] = useState({});
+  const [productPics, setProductPics] = useState({}); // New state for product images
   const [shipperNames, setShipperNames] = useState({});
-  const { user } = useUser();
   const [showModal, setShowModal] = useState(false);
   const [selectedBillDetailID, setSelectedBillDetailID] = useState(null);
+  const { user } = useUser();
 
   const fetchBillDetails = useCallback(async () => {
     try {
@@ -21,17 +22,18 @@ export default function DeliveryConfirm() {
       console.log("Fetched bill details data:", response.data);
       setBillDetails(response.data);
       
-      // Fetch product names for each bill detail
       const products = {};
+      const pics = {};
       for (const detail of response.data) {
         const productResponse = await axios.get('http://localhost:5000/bill/getProductToBill', {
           params: { billDetailID: detail.BillDetailID }
         });
         products[detail.BillDetailID] = productResponse.data[0]?.ProductName || 'Unknown';
+        pics[detail.BillDetailID] = productResponse.data[0]?.ProductPic || '';
       }
       setProductNames(products);
+      setProductPics(pics);
 
-      // Fetch shipper names for each bill detail
       const shippers = {};
       for (const detail of response.data) {
         if (detail.ShipperID) {
@@ -84,6 +86,7 @@ export default function DeliveryConfirm() {
           <tr>
             <th>Mã đơn</th>
             <th>Sản phẩm</th>
+            <th>Ảnh sản phẩm</th> {/* New column for product image */}
             <th>Ngày vận chuyển</th>
             <th>Số lượng</th>
             <th>Trạng thái đơn hàng</th>
@@ -97,10 +100,21 @@ export default function DeliveryConfirm() {
               <tr key={index}>
                 <td>{detail.BillDetailID}</td>
                 <td>{productNames[detail.BillDetailID]}</td>
+                <td>
+                  {productPics[detail.BillDetailID] ? (
+                    <img
+                      src={productPics[detail.BillDetailID]}
+                      alt="Product"
+                      style={{ width: '100px', height: 'auto' }}
+                    />
+                  ) : (
+                    <p>Không có ảnh</p>
+                  )}
+                </td>
                 <td>{detail.BillDetailDate}</td>
                 <td>{detail.BillQuantity}</td>
                 <td>{detail.BillDetailStatus}</td>
-                <td>{shipperNames[detail.ShipperID]}</td> {/* Display Shipper Name */}
+                <td>{shipperNames[detail.ShipperID]}</td>
                 <td>
                   <Button
                     variant="primary"
@@ -116,7 +130,7 @@ export default function DeliveryConfirm() {
             ))
           ) : (
             <tr>
-              <td colSpan="7">Không có dữ liệu để hiển thị</td>
+              <td colSpan="8">Không có dữ liệu để hiển thị</td>
             </tr>
           )}
         </tbody>

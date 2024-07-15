@@ -20,7 +20,7 @@ const getProductToBill = async (req, res) => {
     }
 
         const result = await sql.query`
-            SELECT p.ProductName , p.ProductPrice
+            SELECT p.ProductName , p.ProductPrice, p.ProductPic
             FROM BillDetails bd
             JOIN Products p ON bd.ProductID = p.ProductID
             WHERE bd.BillDetailID = ${billDetailID}
