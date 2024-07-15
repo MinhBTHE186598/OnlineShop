@@ -207,7 +207,8 @@ const searchProduct = async (req, res) => {
 const getProductByCate = async (req, res) => {
     try {
         const id = req.params.id;
-        const result = await sql.query`select * from Products where CategoryID = ${id}`
+
+        const result = await sql.query`select * from Products where CategoryID like ${id}`
         res.json(result.recordset);
     } catch (err) {
         console.error(err);

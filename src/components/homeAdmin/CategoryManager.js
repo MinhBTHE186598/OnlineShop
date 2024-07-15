@@ -6,9 +6,11 @@ import Badge from 'react-bootstrap/Badge';
 import { useEffect, useState } from 'react';
 import CateTable from './CateTable';
 import { Button } from 'react-bootstrap';
+import AddCateModal from './AddCateModal';
 
 export default function CategoryManager() {
     const [categories, setCategories] = useState([{}])
+    const [show, setShow] = useState(false)
 
     useEffect(() => {
         fetch("http://localhost:5000/category/getCategoryQuantity").then(
@@ -40,19 +42,21 @@ export default function CategoryManager() {
                                 </Nav.Item>
                             ))}
                         </Nav>
-                        <Button style={{marginTop:'10px'}}>Add</Button>
+                        <Button style={{marginTop:'10px'}} onClick={()=>setShow(true)}>Manage</Button>
                     </Col>
                     <Col sm={9}>
                         <Tab.Content>
                             {categories.map((category) => (
                                 <Tab.Pane eventKey={category.CategoryID}>
-                                    <CateTable id={category.CategoryID}/>
+                                    {category.counts===0?(<div>No</div>):(<CateTable id={category.CategoryID}/>)}
+                                    
                                 </Tab.Pane>
                             ))}
                         </Tab.Content>
                     </Col>
                 </Row>
             </Tab.Container>
+            <AddCateModal show={show} onHide={()=>setShow(false)} categories={categories}/>
         </div>
     );
 }

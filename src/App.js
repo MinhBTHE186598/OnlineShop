@@ -23,7 +23,12 @@ import UserHistory from './webpages/UserHistory';
 import CheckOut from './webpages/CheckOut';
 import Search from './webpages/Search';
 import SellerShopForUser from './webpages/SellerShopForUser';
+import { useEffect } from 'react';
+
 function App() {
+  useEffect(() => {
+    document.title = "Online Shop"
+  }, [])
   return (
     <div>
       {/* npm install react-router-dom neu bi loi */}
