@@ -4,7 +4,13 @@ import Button from 'react-bootstrap/Button';
 import ApproveProductModal from './ApproveProductModal';
 import Image from 'react-bootstrap/Image';
 import axios from 'axios';
-import ConfirmModal from './ConfirmModal'; // Import ConfirmModal
+import ConfirmModal from './ConfirmModal';
+import FilterCollapse from './FilterCollapse';
+import InputGroup from 'react-bootstrap/InputGroup';
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export default function ProductManager() {
   const [products, setProducts] = useState([]);
@@ -12,14 +18,58 @@ export default function ProductManager() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productIDToDelete, setProductIDToDelete] = useState(null);
+  const [search, setSearch] = useState('');
+  const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState({
+    category: '%',
+    order: 'ProductID asc',
+    price: [0, 100000000],
+    seller: '%',
+    status: 'Chờ xác thực' // Filter by 'Waiting for approval'
+  });
 
   useEffect(() => {
-    fetch("http://localhost:5000/product/getWhitelistProduct")
-      .then(response => response.json())
-      .then(data => {
-        setProducts(data);
-      });
+    fetchWhitelistProducts();
   }, []);
+
+  useEffect(() => {
+    fetchFilteredProducts();
+  }, [filter]);
+
+  const fetchWhitelistProducts = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/product/getWhitelistProduct");
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchFilteredProducts = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/product/getAllFilter", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(filter)
+      });
+      const data = await response.json();
+      setProducts(data);
+      console.log(filter);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFilter(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
 
   const handleApprove = (approvedProduct) => {
     setProducts(products.map(product =>
@@ -55,6 +105,30 @@ export default function ProductManager() {
 
   return (
     <>
+      <Row>
+        <Col>
+          <InputGroup>
+            <Form.Control
+              placeholder="Search by product name"
+              aria-label="Search"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <Button variant="primary">
+              <FaMagnifyingGlass />
+            </Button>
+          </InputGroup>
+        </Col>
+        <Col>
+          <Button
+            onClick={() => setOpen(!open)}
+            aria-controls="example-collapse-text"
+            aria-expanded={open}
+          >
+            Filter
+          </Button>
+        </Col>
+        <FilterCollapse open={open} handleInputChange={handleInputChange} />
+      </Row>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -68,7 +142,9 @@ export default function ProductManager() {
           </tr>
         </thead>
         <tbody>
-          {products.map((product, index) => (
+          {products.filter(product => 
+            product.ProductName.toLowerCase().includes(search.toLowerCase())
+          ).map((product, index) => (
             <tr key={index}>
               <td>
                 <Image src={product.ProductPic} rounded style={{ width: "33px" }} />
