@@ -77,7 +77,7 @@ export default function DeliveryConfirm() {
   );
 
   return (
-    <>
+    <div style={{ overflowY: "scroll", height: "70vh" }}>
       <div>
         <h3>Xin chào {user.UserFirstName} {user.UserLastName}</h3>
       </div>
@@ -150,6 +150,6 @@ export default function DeliveryConfirm() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }

@@ -159,9 +159,9 @@ export default function BillOTW() {
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Xác nhận nhận đơn</Modal.Title>
+          <Modal.Title>Xác nhận đơn hàng</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Bạn có chắc chắn muốn nhận đơn này không?</Modal.Body>
+        <Modal.Body>Xác nhận đơn hàng đã giao thành công?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             Hủy
