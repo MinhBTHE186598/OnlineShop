@@ -62,7 +62,7 @@ function EditProductModal({ show, onHide, product }) {
         <div>
             <Modal show={show} onHide={onHide} size="lg" centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Chỉnh Sửa Hồ Sơ Cá Nhân</Modal.Title>
+                    <Modal.Title>Chỉnh Sửa Thông Tin Sản Phẩm</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
