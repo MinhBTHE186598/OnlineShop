@@ -145,7 +145,25 @@ const banUser = async (req, res) => {
     }
 };
 
-
+const getShipperName = async (req, res) => {
+    try {
+        const { shipperID } = req.query;
+        const result = await sql.query`
+            SELECT UserFirstName, UserLastName
+            FROM Users
+            JOIN Shippers ON Users.UserID = Shippers.UserID
+            WHERE Shippers.ShipperID = ${shipperID}
+        `;
+        if (result.recordset.length === 0) {
+            return res.status(404).send('Shipper not found');
+        }
+        const { UserFirstName, UserLastName } = result.recordset[0];
+        res.json({ ShipperName: `${UserFirstName} ${UserLastName}` });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
 
 module.exports = {
     getUser,
@@ -157,6 +175,7 @@ module.exports = {
     getShipper,
     registerShipper,
 
+    getShipperName,
     banUser
     
 };
