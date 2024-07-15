@@ -98,7 +98,7 @@ export default function BillDetailManager() {
   };
 
   const filteredBillDetails = billDetails.filter(billDetail => 
-    (billDetail.BillDetailStatus === "Đã xác nhận" ) &&
+    (billDetail.BillDetailStatus === "Đã xác nhận" ) &&
     (billDetail.ShipperID === null || billDetail.ShipperID === currentUserId)
   );
 
@@ -151,7 +151,7 @@ export default function BillDetailManager() {
                 <td>{billDetailStatus}</td>
                 <td>{shipperID}</td>
                 <td>
-                  {billDetailStatus === "Đã xác nhận" && (
+                  {billDetailStatus === "Đã xác nhận" && (
                     <Button onClick={() => handleShowModal(billDetailId)}>Nhận đơn</Button>
                   )}
                 </td>
