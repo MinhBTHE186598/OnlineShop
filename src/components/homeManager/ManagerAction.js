@@ -51,7 +51,7 @@ function ManagerAction() {
                 <SellerManager id={getManagerID(user.UserID)}/>
               </Tab.Pane>
               <Tab.Pane eventKey="second">
-              <ProductManager />
+              <ProductManager id={getManagerID(user.UserID)} />
               </Tab.Pane>
         
             </Tab.Content>

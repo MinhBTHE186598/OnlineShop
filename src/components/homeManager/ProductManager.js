@@ -12,7 +12,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-export default function ProductManager() {
+export default function ProductManager({ id }) { // Accept SellManagerID as a prop
   const [products, setProducts] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -25,20 +25,16 @@ export default function ProductManager() {
     order: 'ProductID asc',
     price: [0, 100000000],
     seller: '%',
-    status: 'Chờ xác thực' // Filter by 'Waiting for approval'
+    status: 'Chờ xác thực'
   });
 
   useEffect(() => {
-    fetchWhitelistProducts();
-  }, []);
+    fetchProductsBySeller();
+  }, [id]);
 
-  useEffect(() => {
-    fetchFilteredProducts();
-  }, [filter]);
-
-  const fetchWhitelistProducts = async () => {
+  const fetchProductsBySeller = async () => {
     try {
-      const response = await fetch("http://localhost:5000/product/getWhitelistProduct");
+      const response = await fetch(`http://localhost:5000/product/getWhiteListProductsBySeller/${id}`);
       const data = await response.json();
       setProducts(data);
     } catch (error) {
@@ -151,7 +147,7 @@ export default function ProductManager() {
                 {product.ProductName}
               </td>
               <td>{product.ProductDescription}</td>
-              <td>{product.UserID}</td>
+              <td>{product.SellerID}</td>
               <td>{product.ProductQuantity}</td>
               <td>{product.ProductPrice}</td>
               <td>{product.ProductStatus}</td>

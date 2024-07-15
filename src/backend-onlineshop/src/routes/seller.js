@@ -9,4 +9,5 @@ router.delete('/deleteSeller/:id', seller.deleteSeller)
 router.get('/viewBillDetailForSeller/:id', seller.viewBillDetailForSeller)
 router.get('/listBillForSeller/:id', seller.listBillForSeller)
 router.get('/getSellerBySellManagerID/:id', seller.getSellerBySellManagerID)
+router.get('/checkSellerName/:SellerName', seller.checkSellerName)
 module.exports = router

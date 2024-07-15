@@ -5,28 +5,28 @@ import Form from 'react-bootstrap/Form';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-function EditSellerModal({ show, onHide, Seller, onUpdate }) {
+function EditSellerModal({ show, onHide, seller, onUpdate }) {
     const [sellerName, setSellerName] = useState('');
     const [sellerAddress, setSellerAddress] = useState('');
 
     useEffect(() => {
-        if (Seller) {
-            setSellerName(Seller.SellerName);
-            setSellerAddress(Seller.SellerAddress);
+        if (seller) {
+            setSellerName(seller.SellerName);
+            setSellerAddress(seller.SellerAddress);
         }
-    }, [Seller]);
+    }, [seller]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`http://localhost:5000/seller/updateSeller/${Seller.SellerID}`, {
+            const response = await axios.put(`http://localhost:5000/seller/updateSeller/${seller.SellerID}`, {
                 SellerName: sellerName,
                 SellerAddress: sellerAddress
             });
 
             if (response.status === 200) {
                 onUpdate({
-                    ...Seller,
+                    ...seller,
                     SellerName: sellerName,
                     SellerAddress: sellerAddress
                 });

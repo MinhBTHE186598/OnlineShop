@@ -14,5 +14,6 @@ router.get('/getProductSID/:id', product.getProductBySellerID)
 router.put('/update', product.updateProduct)
 router.post('/search', product.searchProduct)
 router.get('/getProductByCate/:id', product.getProductByCate)
+router.get('/getWhiteListProductsBySeller/:id', product.getWhiteListProductsBySeller)
 
 module.exports = router

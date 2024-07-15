@@ -36,6 +36,30 @@ const addSeller = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+// Check if sellername exists
+const checkSellerName = async (req, res) => {
+  try {
+      const { name } = req.query;
+      const result = await sql.query`SELECT COUNT(*) AS count FROM Sellers WHERE SellerName = ${name}`;
+      const exists = result.recordset[0].count > 0;
+      res.json({ exists });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+  }
+};
+// Check if sellername exists
+const checkSellerAddress = async (req, res) => {
+  try {
+      const { name } = req.query;
+      const result = await sql.query`SELECT COUNT(*) AS count FROM Sellers WHERE SellerAddress = ${address}`;
+      const exists = result.recordset[0].count > 0;
+      res.json({ exists });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+  }
+};
 const updateSeller = async (req, res) => {
     try {
       const { SellerName, SellerAddress } = req.body;
@@ -130,4 +154,4 @@ const getSellerBySellManagerID = async (req, res) => {
   }
 };
 
-module.exports = {getSellerBySellManagerID, getSeller, getSellerByID, addSeller, updateSeller, deleteSeller,viewBillDetailForSeller,listBillForSeller };
+module.exports = {checkSellerName, getSellerBySellManagerID, getSeller, getSellerByID, addSeller, updateSeller, deleteSeller,viewBillDetailForSeller,listBillForSeller };

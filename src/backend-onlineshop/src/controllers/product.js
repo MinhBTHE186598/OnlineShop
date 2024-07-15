@@ -66,6 +66,24 @@ const getWhitelistProduct = async (req, res) => {
         res.status(500).send('Server Error');
     }
 }
+const getWhiteListProductsBySeller = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const result = await sql.query`
+            SELECT p.*, s.SellerName FROM Products p
+            JOIN Sellers s ON p.SellerID = s.SellerID
+            WHERE s.SellManagerID = ${id}
+            AND p.ProductStatus LIKE N'Chờ xác thực'
+        `;
+
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
 
 const getProductByID = async (req, res) => {
     try {
@@ -197,4 +215,4 @@ const getProductByCate = async (req, res) => {
     }
 }
 
-module.exports = { postAllProductFilter, getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct, approveProduct, deleteProduct, getProductBySellerID, updateProduct, searchProduct, getProductByCate }
+module.exports = {getWhiteListProductsBySeller, postAllProductFilter, getProduct, getWhitelistProduct, getProductByID, addProduct, filterProduct, getAllProduct, approveProduct, deleteProduct, getProductBySellerID, updateProduct, searchProduct, getProductByCate }

@@ -13,13 +13,21 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 function FormGroupExample() {
   const navigate = useNavigate();
+  const [error, setError] = useState('');
   const { user } = useUser();
   const [SellerName, setPName] = useState("");
   const [SellerAddress, setAddress] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
+      const checkSellerResponse = await axios.get('http://localhost:5000/seller/checkSellerName', {
+        params: { SellerName }
+      });
+      
+      if (checkSellerResponse.data.exists) {
+        setError('Tài khoản tồn tại');
+        return;
+      }
       let UserID = user.UserID;
       const response = await axios.post(
         "http://localhost:5000/seller/addSeller",
@@ -39,7 +47,10 @@ function FormGroupExample() {
     } catch (error) {
       console.error("Error:", error);
     }
-  };
+
+  }
+      
+  ;
   return (
     <Container
       fluid
