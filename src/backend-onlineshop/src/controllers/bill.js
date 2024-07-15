@@ -283,7 +283,7 @@ const checkOut = async (req, res) => {
 
     const result = await sql.query`
             UPDATE Bills
-            SET BillStatus = N'Đã thanh toán', BillDate = ${date}
+            SET BillStatus = N'Đã thanh toán', BillDate = ${date}
             WHERE BillID = ${id}`;
 
     await sql.query`
