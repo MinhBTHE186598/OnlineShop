@@ -8,6 +8,7 @@ import { useUser } from '../context/UserContext';
 export default function DeliveryConfirm() {
   const [billDetails, setBillDetails] = useState([]);
   const [productNames, setProductNames] = useState({});
+  const [shipperNames, setShipperNames] = useState({});
   const { user } = useUser();
   const [showModal, setShowModal] = useState(false);
   const [selectedBillDetailID, setSelectedBillDetailID] = useState(null);
@@ -29,6 +30,19 @@ export default function DeliveryConfirm() {
         products[detail.BillDetailID] = productResponse.data[0]?.ProductName || 'Unknown';
       }
       setProductNames(products);
+
+      // Fetch shipper names for each bill detail
+      const shippers = {};
+      for (const detail of response.data) {
+        if (detail.ShipperID) {
+          const shipperResponse = await axios.get('http://localhost:5000/user/getShipperName', {
+            params: { shipperID: detail.ShipperID }
+          });
+          shippers[detail.ShipperID] = shipperResponse.data.ShipperName || 'Unknown';
+        }
+      }
+      setShipperNames(shippers);
+
     } catch (error) {
       console.error("There was an error fetching bill details data!", error);
     }
@@ -73,7 +87,7 @@ export default function DeliveryConfirm() {
             <th>Ngày vận chuyển</th>
             <th>Số lượng</th>
             <th>Trạng thái đơn hàng</th>
-            <th>ShipperID</th>
+            <th>Shipper</th>
             <th>Hành động</th>
           </tr>
         </thead>
@@ -85,8 +99,8 @@ export default function DeliveryConfirm() {
                 <td>{productNames[detail.BillDetailID]}</td>
                 <td>{detail.BillDetailDate}</td>
                 <td>{detail.BillQuantity}</td>
-                <td>{detail.BillDetailStatus}</td>  
-                <td>{detail.ShipperID}</td>
+                <td>{detail.BillDetailStatus}</td>
+                <td>{shipperNames[detail.ShipperID]}</td> {/* Display Shipper Name */}
                 <td>
                   <Button
                     variant="primary"
