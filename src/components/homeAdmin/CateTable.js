@@ -10,7 +10,6 @@ export default function CateTable({ id }) {
             response => response.json()
         ).then(
             data => {
-                console.log(id)
                 setProducts(data)
             }
         )

@@ -29,7 +29,7 @@ group by c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p
 const postAllProductFilter = async (req, res) => {
     try {
         const { category, price, seller, order, status } = req.body;
-        const result = await sql.query`SELECT SUM(b.BillQuantity)as Sold, c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p.ProductStatus,p.ProductQuantity,s.SellerName,u.UserID FROM Products P
+        const result = await sql.query`SELECT SUM(b.BillQuantity)as Sold, c.CategoryName, p.ProductID,p.ProductName,p.ProductPic,p.ProductPrice,p.ProductStatus,p.ProductQuantity,s.SellerName,u.UserID,p.ProductDescription,c.CategoryID FROM Products P
         join Categories c on p.CategoryID=c.CategoryID
         join Sellers s on p.SellerID = s.SellerID
         join Users u on u.UserID = s.UserID
@@ -38,7 +38,7 @@ const postAllProductFilter = async (req, res) => {
         and p.ProductPrice between ${price[0]} and ${price[1]}
         and s.sellerID like ${seller}
         and p.productStatus like ${status}
-        group by c.CategoryName, p.ProductID, p.ProductName, p.ProductPic, p.ProductPrice, p.ProductStatus, p.ProductQuantity, s.SellerName, u.UserID
+        group by c.CategoryName, p.ProductID, p.ProductName, p.ProductPic, p.ProductPrice, p.ProductStatus, p.ProductQuantity, s.SellerName, u.UserID, p.ProductDescription, c.CategoryID
         order by 
         case ${order} WHEN 'ProductID asc' THEN p.ProductID end asc,
         case ${order} WHEN 'ProductID desc' THEN p.ProductID end desc,

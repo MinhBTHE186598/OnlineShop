@@ -12,8 +12,8 @@ const getCategories = async (req, res) => {
 
 const getCategoryQuantity = async (req, res) => {
     try {
-        const result = await sql.query`select c.CategoryID, c.CategoryName, count(c.CategoryID) as counts from Categories c
-join Products p on p.CategoryID = c.CategoryID
+        const result = await sql.query`select c.CategoryID, c.CategoryName, count(p.ProductID) as counts from Categories c
+left join Products p on p.CategoryID = c.CategoryID
 group by c.CategoryID, c.CategoryName`;
         res.json(result.recordset);
     } catch (err) {
@@ -34,4 +34,4 @@ const addCate = async (req, res) => {
 }
 
 
-module.exports = { getCategories, getCategoryQuantity }
+module.exports = { getCategories, getCategoryQuantity, addCate }

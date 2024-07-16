@@ -43,6 +43,11 @@ export default function ProductManager() {
         }));
     };
 
+    const handleUpdate = (updateProduct) => {
+        setProducts(products.map((product)=> product.ProductID===updateProduct.ProductID?updateProduct:product))
+        setShowEdit(false);
+    }
+
     useEffect(() => {
         (async () => {
             try {

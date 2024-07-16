@@ -10,7 +10,7 @@ export default function AddCateModal({ show, onHide, handleChange, categories })
 
     const handleAdd = async () => {
         try {
-            const res = await axios.put('http://localhost:5000/category/addCate', {
+            const res = await axios.post('http://localhost:5000/category/addCate', {
                 cate
             });
             if (res.status === 200) {
@@ -23,13 +23,12 @@ export default function AddCateModal({ show, onHide, handleChange, categories })
         }
     }
 
-    
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
         handleAdd()
         onHide()
-        handleChange()
     }
 
     return (
@@ -47,23 +46,30 @@ export default function AddCateModal({ show, onHide, handleChange, categories })
                         </tr>
                     </thead>
                     <tbody>
-                        {categories.map((category)=>(
+                        {categories.map((category) => (
                             <tr>
                                 <td>{category.CategoryID}</td>
                                 <td>{category.CategoryName}</td>
-                                <td>:D</td>
+                                <td>
+                                    <Button style={{ marginRight: '10px' }}>
+                                        Rename
+                                    </Button>
+                                    <Button variant="danger" disabled={category.counts !== 0}>
+                                        Delete
+                                    </Button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
                 <Form onSubmit={handleSubmit}>
                     <Form.Label>Category Name:</Form.Label>
-                    <Form.Control type='text' onChange={(e)=>setCate(e.target.value)} />
-                    <Button variant='primary' type="submit" >
-                        Confirm
+                    <Form.Control type='text' onChange={(e) => setCate(e.target.value)} />
+                    <Button variant='primary' type="submit" style={{ marginTop: '10px' }}>
+                        Add
                     </Button>
                 </Form>
-                
+
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
