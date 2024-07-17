@@ -5,10 +5,10 @@ import CheckOutMain from '../components/checkOut/CheckOutMain'
 
 function CheckOut() {
   return (
-    <div>
-        <Header/>
-        <CheckOutMain/>
-        <Footer/>
+    <div style={{ overflowX: 'hidden' }}>
+      <Header />
+      <CheckOutMain />
+      <Footer />
     </div>
   )
 }
