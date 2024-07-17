@@ -12,7 +12,7 @@ import Row from 'react-bootstrap/Row';
 import FilterCollapse from './FilterCollapse';
 import axios from 'axios';
 import MoneyForm from "../common/MoneyForm";
-import EditProductModal from '../sellerShop/EditProductModal';
+import EditPModal from './EditPModal';
 import ConfirmModalWithNoti from './ConfirmModalWithNoti';
 
 export default function ProductManager() {
@@ -181,7 +181,8 @@ export default function ProductManager() {
                     ))}
                 </tbody>
             </Table>
-            <EditProductModal show={showEdit} onHide={() => setShowEdit(false)} product={productinf} />
+            <EditPModal show={showEdit} onHide={() => setShowEdit(false)} product={productinf} 
+                handleUpdate={handleUpdate}/>
             <ConfirmModalWithNoti show={showCf} onHide={() => setShowCf(false)} onConfirm={() => deleteProduct(productID)} userID={userID}
                 sellerName={sellerName} productid={productID} productName={productName}
             />

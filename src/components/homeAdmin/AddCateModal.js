@@ -6,6 +6,7 @@ import axios from 'axios';
 
 export default function AddCateModal({ show, onHide, handleChange, categories }) {
     const [cate, setCate] = useState('')
+    const [edit, setEdit] = useState(false)
 
 
     const handleAdd = async () => {
@@ -65,9 +66,15 @@ export default function AddCateModal({ show, onHide, handleChange, categories })
                 <Form onSubmit={handleSubmit}>
                     <Form.Label>Category Name:</Form.Label>
                     <Form.Control type='text' onChange={(e) => setCate(e.target.value)} />
-                    <Button variant='primary' type="submit" style={{ marginTop: '10px' }}>
-                        Add
-                    </Button>
+                    {edit === true ? (
+                        <Button variant='primary' style={{ marginTop: '10px' }}>
+                            Confrim
+                        </Button>
+                    ) : (
+                        <Button variant='primary' type="submit" style={{ marginTop: '10px' }}>
+                            Add
+                        </Button>
+                    )}
                 </Form>
 
             </Modal.Body>
