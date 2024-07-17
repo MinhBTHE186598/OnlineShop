@@ -1,7 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form'
 import { Button, Table } from 'react-bootstrap';
-import { useState, useEffect } from 'react';
+import { useState    } from 'react';
 import axios from 'axios';
 
 export default function AddCateModal({ show, onHide, handleChange, categories, handleDelete }) {

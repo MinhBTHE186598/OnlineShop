@@ -65,5 +65,26 @@ where CategoryID like ${id}`
     }
 }
 
+const changeCate = async (req, res) => {
+    try {
+        const { productIDs, newCategoryID } = req.body;
+        const productIDsString = productIDs.join(',');
+        const pool = await sql.connect();
+        const query = `
+            UPDATE Products
+            SET CategoryID = @newCategoryID
+            WHERE ProductID IN (${productIDsString})
+        `;
+        await pool.request()
+            .input('newCategoryID', sql.Int, newCategoryID)
+            .query(query);
 
-module.exports = { getCategories, getCategoryQuantity, addCate, deleteCate, updateCate }
+        res.status(200).send('Category updated successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
+
+module.exports = { getCategories, getCategoryQuantity, addCate, deleteCate, updateCate, changeCate }

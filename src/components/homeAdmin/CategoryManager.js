@@ -76,7 +76,7 @@ export default function CategoryManager() {
                         <Tab.Content>
                             {categories.map((category) => (
                                 <Tab.Pane eventKey={category.CategoryID}>
-                                    {category.counts === 0 ? (<div>No</div>) : (<CateTable id={category.CategoryID} />)}
+                                    {category.counts === 0 ? (<div>No product here :(</div>) : (<CateTable id={category.CategoryID} categories={categories}/>)}
 
                                 </Tab.Pane>
                             ))}
