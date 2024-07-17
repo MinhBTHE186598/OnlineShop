@@ -24,7 +24,7 @@ group by c.CategoryID, c.CategoryName`;
 
 const addCate = async (req, res) => {
     try {
-        const {cate} = req.body;
+        const { cate } = req.body;
         await sql.query`insert into Categories (CategoryName) values (${cate})`
         res.status(200).send('success')
     } catch (err) {
@@ -33,5 +33,25 @@ const addCate = async (req, res) => {
     }
 }
 
+const deleteCate = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (id === '12') {
+            res.status(500).send('Server Error')
+        } else {
+            await sql.query`update SellManagers set CategoryID = 12 
+where CategoryID like ${id}
+update Banners set CategoryID = 12 
+where CategoryID like ${id}
+delete from Categories where CategoryID like ${id}`
+            res.status(200).send('success')
+        }
 
-module.exports = { getCategories, getCategoryQuantity, addCate }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
+
+
+module.exports = { getCategories, getCategoryQuantity, addCate, deleteCate }
