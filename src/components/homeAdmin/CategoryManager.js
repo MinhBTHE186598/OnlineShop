@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import CateTable from './CateTable';
 import { Button } from 'react-bootstrap';
 import AddCateModal from './AddCateModal';
+import axios from 'axios';
 
 export default function CategoryManager() {
     const [categories, setCategories] = useState([{}])
@@ -21,6 +22,33 @@ export default function CategoryManager() {
             }
         )
     }, [])
+
+    const deleteCate = async (id) => {
+        try {
+            const response = await axios.delete(`http://localhost:5000/category/delCate/${id}`);
+
+            if (response.status === 200) {
+                console.log('Category deleted successfully');
+                // Handle success (e.g., update the UI)
+            } else {
+                console.error('Failed to delete category');
+                // Handle failure
+            }
+            setCategories(categories.filter((cate) => cate.CategoryID !== id));
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    const handleChange = (newCate, method) => {
+        if(method==="add"){
+            setCategories([...categories, newCate])
+        }
+        if(method==="edit"){
+            setCategories(categories.map(category=>category.CategoryID===newCate.CategoryID ? newCate:category))
+        }
+    }
+
 
 
     return (
@@ -42,21 +70,22 @@ export default function CategoryManager() {
                                 </Nav.Item>
                             ))}
                         </Nav>
-                        <Button style={{marginTop:'10px'}} onClick={()=>setShow(true)}>Manage</Button>
+                        <Button style={{ marginTop: '10px' }} onClick={() => setShow(true)}>Manage</Button>
                     </Col>
                     <Col sm={9}>
                         <Tab.Content>
                             {categories.map((category) => (
                                 <Tab.Pane eventKey={category.CategoryID}>
-                                    {category.counts===0?(<div>No</div>):(<CateTable id={category.CategoryID}/>)}
-                                    
+                                    {category.counts === 0 ? (<div>No</div>) : (<CateTable id={category.CategoryID} />)}
+
                                 </Tab.Pane>
                             ))}
                         </Tab.Content>
                     </Col>
                 </Row>
             </Tab.Container>
-            <AddCateModal show={show} onHide={()=>setShow(false)} categories={categories}/>
+            <AddCateModal show={show} onHide={() => setShow(false)} handleChange={handleChange}
+            categories={categories} handleDelete={deleteCate}/>
         </div>
     );
 }

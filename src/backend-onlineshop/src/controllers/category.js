@@ -53,5 +53,17 @@ delete from Categories where CategoryID like ${id}`
     }
 }
 
+const updateCate = async (req, res) => {
+    try {
+        const { id, name } = req.body;
+        await sql.query`update Categories set CategoryName=${name}
+where CategoryID like ${id}`
+        res.status(200).send('success')
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+}
 
-module.exports = { getCategories, getCategoryQuantity, addCate, deleteCate }
+
+module.exports = { getCategories, getCategoryQuantity, addCate, deleteCate, updateCate }

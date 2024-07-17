@@ -4,32 +4,75 @@ import { Button, Table } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export default function AddCateModal({ show, onHide, handleChange, categories }) {
+export default function AddCateModal({ show, onHide, handleChange, categories, handleDelete }) {
     const [cate, setCate] = useState('')
     const [edit, setEdit] = useState(false)
+    const [id, setID] = useState(0)
+    const [count, setCount] = useState(0)
 
 
     const handleAdd = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/category/addCate', {
-                cate
-            });
-            if (res.status === 200) {
-                console.log('Responsed successfully');
+            if (cate === '') {
+                alert('you should fill the field')
             } else {
-                console.error('Failed to response');
+                let newCate = {
+                    CategoryID: categories.length + 1,
+                    CategoryName: cate,
+                    counts: 0
+                }
+                const res = await axios.post('http://localhost:5000/category/addCate', {
+                    cate
+                });
+                handleChange(newCate, "add")
+                if (res.status === 200) {
+                    console.log('Responsed successfully');
+                } else {
+                    console.error('Failed to response');
+                }
             }
         } catch (error) {
             console.error('Error:', error);
         }
     }
 
+    const updateCate = async () => {
+        try {
+            let newCate = {
+                CategoryID: id,
+                CategoryName: cate,
+                counts: count
+            }
+            const response = await axios.put('http://localhost:5000/category/update', {
+                id: id,
+                name: cate
+            });
+            handleChange(newCate, "edit")
+            if (response.status === 200) {
+                console.log('Category edited successfully');
+            } else {
+                console.error('Failed to edit category');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
+    const handleRename = (CategoryName,CategoryID,counts) => {
+        setCount(counts)
+        setID(CategoryID)
+        setEdit(true)
+        setCate(CategoryName)
+    }
+
+    const handleUpdate = () => {
+        updateCate()
+        setEdit(false)
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         handleAdd()
-        onHide()
     }
 
     return (
@@ -52,10 +95,10 @@ export default function AddCateModal({ show, onHide, handleChange, categories })
                                 <td>{category.CategoryID}</td>
                                 <td>{category.CategoryName}</td>
                                 <td>
-                                    <Button style={{ marginRight: '10px' }}>
+                                    <Button style={{ marginRight: '10px' }} onClick={() => handleRename(category.CategoryName,category.CategoryID,category.counts)}>
                                         Rename
                                     </Button>
-                                    <Button variant="danger" disabled={category.counts !== 0}>
+                                    <Button variant="danger" disabled={category.counts !== 0} onClick={() => handleDelete(category.CategoryID)}>
                                         Delete
                                     </Button>
                                 </td>
@@ -65,13 +108,18 @@ export default function AddCateModal({ show, onHide, handleChange, categories })
                 </Table>
                 <Form onSubmit={handleSubmit}>
                     <Form.Label>Category Name:</Form.Label>
-                    <Form.Control type='text' onChange={(e) => setCate(e.target.value)} />
+                    <Form.Control type='text' onChange={(e) => setCate(e.target.value)} defaultValue={cate} />
                     {edit === true ? (
-                        <Button variant='primary' style={{ marginTop: '10px' }}>
-                            Confrim
-                        </Button>
+                        <div>
+                            <Button variant='primary' style={{ marginTop: '10px', marginRight: '10px' }} onClick={handleUpdate}>
+                                Rename
+                            </Button>
+                            <Button variant='secondary' style={{ marginTop: '10px' }} onClick={() => setEdit(false)}>
+                                Cancel
+                            </Button>
+                        </div>
                     ) : (
-                        <Button variant='primary' type="submit" style={{ marginTop: '10px' }}>
+                        <Button variant='primary' onClick={handleSubmit} style={{ marginTop: '10px' }}>
                             Add
                         </Button>
                     )}
