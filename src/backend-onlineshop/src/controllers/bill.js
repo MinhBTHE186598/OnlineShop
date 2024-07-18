@@ -166,7 +166,19 @@ const approveBillDetail = async (req, res) => {
     const result = await sql.query`
             UPDATE BillDetails 
             SET BillDetailStatus = N'Đã xác nhận'
-            WHERE BillDetailID = ${id}
+            WHERE BillDetailID = ${id};
+
+            UPDATE Products
+      SET ProductQuantity = ProductQuantity - (
+        SELECT BillQuantity 
+        FROM BillDetails 
+        WHERE BillDetailID = ${id}
+      )
+      WHERE ProductID = (
+        SELECT ProductID 
+        FROM BillDetails 
+        WHERE BillDetailID = ${id}
+      );
         `;
     res.json(result.recordset);
   } catch (err) {

@@ -88,6 +88,7 @@ const BillManager = ({ id }) => {
               <th style={{ minWidth: '120px' }}>Bill Detail ID</th>
               <th style={{ minWidth: '150px' }}>Bill Detail Date</th>
               <th style={{ minWidth: '150px' }}>Bill Detail Status</th>
+              <th style={{ minWidth: '120px' }}>Bill Quantity</th>
               <th style={{ minWidth: '120px' }}>Product ID</th>
               <th style={{ minWidth: '200px' }}>Product Name</th>
               <th style={{ minWidth: '150px' }}>Product Picture</th>
@@ -108,6 +109,7 @@ const BillManager = ({ id }) => {
                 <td>{detail.BillDetailID}</td>
                 <td>{detail.BillDetailDate}</td>
                 <td>{detail.BillDetailStatus}</td>
+                <td>{detail.BillQuantity}</td>
                 <td>{detail.ProductID}</td>
                 <td>{detail.ProductName}</td>
                 <td><Image src={detail.ProductPic} rounded style={{ width: '50px' }} /></td>
