@@ -37,7 +37,7 @@ const BillManager = ({ id }) => {
 
   const handleReject = async (billDetailID) => {
     try {
-      await axios.delete(`http://localhost:5000/seller/delete/${billDetailID}`);
+      await axios.delete(`http://localhost:5000/bill/delete/${billDetailID}`);
       fetchBillDetails(); // Refresh bill details after rejecting
     } catch (err) {
       console.error("Error deleting bill:", err);
@@ -94,11 +94,11 @@ const BillManager = ({ id }) => {
               <th style={{ minWidth: '120px' }}>Product Quantity</th>
               <th style={{ minWidth: '150px' }}>Product Price</th>
               <th style={{ minWidth: '250px' }}>Product Description</th>
-              <th style={{ minWidth: '250px' }}>User Address</th>
-              <th style={{ minWidth: '150px' }}>User First Name</th>
-              <th style={{ minWidth: '150px' }}>User Last Name</th>
-              <th style={{ minWidth: '150px' }}>User Phone</th>
-              <th style={{ minWidth: '200px' }}>User Email</th>
+              <th style={{ minWidth: '250px' }}>Customer Address</th>
+              <th style={{ minWidth: '150px' }}>Customer First Name</th>
+              <th style={{ minWidth: '150px' }}>Customer Last Name</th>
+              <th style={{ minWidth: '150px' }}>Customer Phone</th>
+              <th style={{ minWidth: '200px' }}>Customer Email</th>
               <th style={{ minWidth: '250px' }}>Quản lý đơn hàng</th>
             </tr>
           </thead>
