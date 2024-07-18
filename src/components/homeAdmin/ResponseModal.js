@@ -29,9 +29,7 @@ export default function ResponseModal({ Request, show, onHide,handleChange }) {
     const handleResponse = async () => {
         try {
             let ResponseID = Request.SupportID;
-            console.log(user.UserID)
             let AdminID = getAdminID(user.UserID)
-            console.log(AdminID)
             const res = await axios.put('http://localhost:5000/contact/response', {
                 AdminID,
                 Response,

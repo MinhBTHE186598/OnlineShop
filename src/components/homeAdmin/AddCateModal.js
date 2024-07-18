@@ -17,7 +17,7 @@ export default function AddCateModal({ show, onHide, handleChange, categories, h
                 alert('you should fill the field')
             } else {
                 let newCate = {
-                    CategoryID: categories.length + 1,
+                    CategoryID: categories.length + 2,
                     CategoryName: cate,
                     counts: 0
                 }
@@ -90,9 +90,9 @@ export default function AddCateModal({ show, onHide, handleChange, categories, h
                         </tr>
                     </thead>
                     <tbody>
-                        {categories.map((category) => (
+                        {categories.map((category,id) => (
                             <tr>
-                                <td>{category.CategoryID}</td>
+                                <td>{id}</td>
                                 <td>{category.CategoryName}</td>
                                 <td>
                                     <Button style={{ marginRight: '10px' }} onClick={() => handleRename(category.CategoryName,category.CategoryID,category.counts)}>
