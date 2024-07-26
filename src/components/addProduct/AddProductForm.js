@@ -61,6 +61,7 @@ function AddProductForm() {
             });
             if (response.status === 201) {
                 alert("Thêm sản phẩm thành công!");
+                navigate('/sellerShopManage')
                 // console.log('Product added successfully');
             } else {
                 console.error('Failed to add product');
