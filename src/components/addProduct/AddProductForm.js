@@ -92,7 +92,12 @@ function AddProductForm() {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Giá sản phẩm:</b></Form.Label>
-                        <Form.Control type="number" min={0} placeholder="Nhập giá sản phẩm (VND)" onChange={(e) => setPPrice(e.target.value)} required />
+                        <Form.Control type="number" min={0} placeholder="Nhập giá sản phẩm (VND)" onChange={(e) => {setPPrice(e.target.value)
+                            if(e.target.value < 0) {
+                                window.alert('Giá đang là số âm!')
+                                setPPrice(0)
+                            }
+                        }} required />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Hình ảnh sản phẩm:</b></Form.Label><br />
@@ -100,7 +105,12 @@ function AddProductForm() {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Số lượng trong kho:</b></Form.Label>
-                        <Form.Control type="number" min={0} placeholder="Nhập số lượng sản phẩm còn lại trong kho" onChange={(e) => setPQuantity(e.target.value)} required />
+                        <Form.Control type="number" min={0} placeholder="Nhập số lượng sản phẩm còn lại trong kho" onChange={(e) => {setPQuantity(e.target.value)
+                            if(e.target.value < 0) {
+                                window.alert('Số lượng đang là số âm!')
+                                setPQuantity(0)
+                            }
+                        }} required />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label><b>Mô tả sản phẩm:</b></Form.Label>
