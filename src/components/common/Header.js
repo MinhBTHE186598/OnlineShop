@@ -287,7 +287,7 @@ function Header() {
               {/* Neu nhu role la admin thi moi hien ra System manager*/}
               {userRole === "Admin" && (
                 <Dropdown.Item onClick={handleAdminNavi}>
-                  System Manager
+                  Quản lý hệ thống
                 </Dropdown.Item>
               )}
               <Dropdown.Item onClick={() => navigate(`/history`)}>Lịch sử thanh toán</Dropdown.Item>
