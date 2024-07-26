@@ -260,9 +260,9 @@ function Header() {
                           />
                         </Col>
                         <Col md="9" style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                          <p style={{ margin: "0 0 0 10px", padding: 0 }}>{product.ProductName}</p>
-                          <p style={{ margin: "0 0 0 10px", padding: 0 }}>Số lượng: {item.BillQuantity}</p>
-                          <p style={{ margin: "0 0 0 10px", padding: 0 }}>Giá: {reformat.format(product.ProductPrice)}đ</p>
+                          <p style={{ margin: "0 0 0 30px", padding: 0 }}>{product.ProductName}</p>
+                          <p style={{ margin: "0 0 0 30px", padding: 0 }}>Số lượng: {item.BillQuantity}</p>
+                          <p style={{ margin: "0 0 0 30px", padding: 0 }}>Giá: {reformat.format(product.ProductPrice)}đ</p>
                         </Col>
                       </Dropdown.Item>
                     ))
