@@ -6,12 +6,12 @@ import MainShopItemList from '../components/mainShop/MainShopItemList'
 import { useParams } from 'react-router-dom'
 
 function MainShop() {
-    const {id} = useParams();
+    const { id } = useParams();
     return (
-        <div>
+        <div style={{ overflowX: 'hidden' }}>
             <Header />
-            <MainShopTitle/>
-            <MainShopItemList id={id}/>
+            <MainShopTitle />
+            <MainShopItemList id={id} />
             <Footer />
         </div>
     )
