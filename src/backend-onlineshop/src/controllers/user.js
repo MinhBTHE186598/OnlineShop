@@ -25,10 +25,13 @@ const deleteUser = async (req, res) => {
 		delete from BillDetails where ShipperID in (select ShipperID from Shippers where UserID=${userId})
 		delete from Shippers where UserID=${userId}
         delete from SellerReviews where UserID=${userId}
+        delete from BillDetails where ProductID in (select ProductID from Products where SellerID in (select SellerID from Sellers where UserID=${userId}))
+		delete from ProductReviews where ProductID in (select ProductID from Products where SellerID in (select SellerID from Sellers where UserID=${userId}))
         delete from Products where SellerID in (select SellerID from Sellers where UserID=${userId})
+        delete from SellerReviews where SellerID in (select SellerID from Sellers where UserID=${userId})
         delete from Sellers where UserID=${userId}
         delete from Users where UserID=${userId}`;
-        if (result.rowsAffected[12] === 0) {
+        if (result.rowsAffected[15] === 0) {
             return res.status(404).send('User not found');
         }
         res.send('User deleted');
@@ -177,5 +180,5 @@ module.exports = {
 
     getShipperName,
     banUser
-    
+
 };

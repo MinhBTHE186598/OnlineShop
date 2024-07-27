@@ -52,7 +52,9 @@ function UserManager() {
             setUserInf(userID)
             if (userID === 23 || userID === 24) {
                 alert("cannot delete admin");
-            } else {
+            } else if (userID >=11 && userID<=22) {
+                alert("cannot delete manager");
+            } else{
                 setConfirmShow(true)
             }
         } catch (error) {
