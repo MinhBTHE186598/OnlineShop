@@ -41,12 +41,12 @@ function EditSellerModal({ show, onHide, seller, onUpdate }) {
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit Seller</Modal.Title>
+                <Modal.Title>Thay đổi thông tin Người bán</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formSellerName">
-                        <Form.Label>Seller Name</Form.Label>
+                        <Form.Label>Tên người bán</Form.Label>
                         <Form.Control
                             type="text"
                             value={sellerName}
@@ -54,7 +54,7 @@ function EditSellerModal({ show, onHide, seller, onUpdate }) {
                         />
                     </Form.Group>
                     <Form.Group controlId="formSellerAddress">
-                        <Form.Label>Seller Address</Form.Label>
+                        <Form.Label>Địa chỉ người bán</Form.Label>
                         <Form.Control
                             type="text"
                             value={sellerAddress}
@@ -62,13 +62,13 @@ function EditSellerModal({ show, onHide, seller, onUpdate }) {
                         />
                     </Form.Group>
                     <Button variant="primary" type="submit">
-                        Save Changes
+                        Lưu thay đổi
                     </Button>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
-                    Close
+                    Đóng
                 </Button>
             </Modal.Footer>
         </Modal>

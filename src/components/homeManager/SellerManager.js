@@ -47,11 +47,10 @@ export default function SellerManager({ id }) {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Seller ID</th>
-            <th>Seller Name</th>
-            <th>Seller Address</th>
-            <th>User ID</th>
-            <th>Action</th>
+            <th>ID người bán</th>
+            <th>Tên người bán</th>
+            <th>Địa chỉ người bán</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -60,13 +59,12 @@ export default function SellerManager({ id }) {
               <td>{seller.SellerID}</td>
               <td>{seller.SellerName}</td>
               <td>{seller.SellerAddress}</td>
-              <td>{seller.UserID}</td>
               <td>
                 <Button size="sm" variant="primary" onClick={() => handleEditSeller(seller)}>
-                  Edit
+                  Chỉnh sửa
                 </Button>
                 <Button size="sm" variant="info" onClick={() => handleViewSeller(seller)} style={{ marginLeft: '10px' }}>
-                  View
+                  Xem thông tin
                 </Button>
               </td>
             </tr>

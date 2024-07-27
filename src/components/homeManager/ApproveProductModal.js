@@ -61,38 +61,38 @@ function ApproveProductModal({ show, onHide, Product = {}, onUpdate }) {
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Approve Product</Modal.Title>
+        <Modal.Title>Chấp thuận sản phẩm</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          <Form.Label>Product Name</Form.Label>
+          <Form.Label>Tên sản phẩm</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter Product Name"
+            placeholder="Điền tên sản phẩm"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
             disabled
           />
-          <Form.Label>Product Description</Form.Label>
+          <Form.Label>Mô tả sản phẩm</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter Product Description"
+            placeholder="Điền mô tả sản phẩm"
             value={productDescription}
             onChange={(e) => setProductDescription(e.target.value)}
             disabled
           />
-          <Form.Label>Product Quantity</Form.Label>
+          <Form.Label>Số lượng sản phẩm</Form.Label>
           <Form.Control
             type="number"
-            placeholder="Enter Product Quantity"
+            placeholder="Điền số lượng sản phẩm"
             value={productQuantity}
             onChange={(e) => setProductQuantity(e.target.value)}
             disabled
           />
-          <Form.Label>Product Price</Form.Label>
+          <Form.Label>Giá</Form.Label>
           <Form.Control
             type="number"
-            placeholder="Enter Product Price"
+            placeholder="Điền giá sản phẩm"
             value={productPrice}
             onChange={(e) => setProductPrice(e.target.value)}
             disabled

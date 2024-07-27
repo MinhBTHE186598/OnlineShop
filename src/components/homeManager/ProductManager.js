@@ -105,7 +105,7 @@ export default function ProductManager({ id }) { // Accept SellManagerID as a pr
         <Col>
           <InputGroup>
             <Form.Control
-              placeholder="Search by product name"
+              placeholder="Tìm theo tên sản phẩm"
               aria-label="Search"
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -122,13 +122,13 @@ export default function ProductManager({ id }) { // Accept SellManagerID as a pr
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Product</th>
-            <th>Product Description</th>
-            <th>Seller ID</th>
-            <th>Stock</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Action</th>
+            <th>Sản phẩm</th>
+            <th>Mô tả</th>
+            <th>ID người bán</th>
+            <th>Tồn kho</th>
+            <th>Giá</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -147,10 +147,10 @@ export default function ProductManager({ id }) { // Accept SellManagerID as a pr
               <td>{product.ProductStatus}</td>
               <td>
                 <Button size="sm" variant="primary" onClick={() => handleEditProduct(product)}>
-                  Approve
+                  Đồng ý
                 </Button>
                 <Button size="sm" variant="danger" onClick={() => confirmDeleteProduct(product.ProductID)}>
-                  Refuse
+                  Từ chối
                 </Button>
               </td>
             </tr>

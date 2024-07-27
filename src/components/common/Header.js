@@ -174,7 +174,7 @@ function Header() {
         <InputGroup style={{ margin: 0 }}>
           <Form.Control
             type="text"
-            placeholder="Search"
+            placeholder="Tìm kiếm"
             aria-label="Search"
             aria-describedby="basic-addon2"
           />

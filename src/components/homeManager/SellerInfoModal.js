@@ -7,13 +7,13 @@ function SellerInfoModal({ show, onHide, seller }) {
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Seller Information</Modal.Title>
+                <Modal.Title>Thông tin người bán</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p><strong>Seller ID:</strong> {seller.SellerID}</p>
-                <p><strong>Seller Name:</strong> {seller.SellerName}</p>
-                <p><strong>Seller Address:</strong> {seller.SellerAddress}</p>
-                <p><strong>User ID:</strong> {seller.UserID}</p>
+                <p><strong>ID người bán:</strong> {seller.SellerID}</p>
+                <p><strong>Tên người bán:</strong> {seller.SellerName}</p>
+                <p><strong>Địa chỉ người bán:</strong> {seller.SellerAddress}</p>
+                <p><strong>ID tài khoản người dùng:</strong> {seller.UserID}</p>
                 
             </Modal.Body>
             <Modal.Footer>

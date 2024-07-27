@@ -7,17 +7,17 @@ function ConfirmModal({ show, onHide, onConfirm, obj }) {
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Confirm Delete</Modal.Title>
+                <Modal.Title>Xác nhận từ chối</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Are you sure you want to delete this {obj}?
+                Từ chối đăng bán sản phẩm {obj}?
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
-                    Cancel
+                    Huỷ
                 </Button>
                 <Button variant="danger" onClick={onConfirm}>
-                    Confirm
+                    Xác nhận từ chối
                 </Button>
             </Modal.Footer>
         </Modal>

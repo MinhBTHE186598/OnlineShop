@@ -85,21 +85,19 @@ const BillManager = ({ id }) => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th style={{ minWidth: '120px' }}>Bill Detail ID</th>
-              <th style={{ minWidth: '150px' }}>Bill Detail Date</th>
-              <th style={{ minWidth: '150px' }}>Bill Detail Status</th>
-              <th style={{ minWidth: '120px' }}>Bill Quantity</th>
-              <th style={{ minWidth: '120px' }}>Product ID</th>
-              <th style={{ minWidth: '200px' }}>Product Name</th>
-              <th style={{ minWidth: '150px' }}>Product Picture</th>
-              <th style={{ minWidth: '120px' }}>Product Quantity</th>
-              <th style={{ minWidth: '150px' }}>Product Price</th>
-              <th style={{ minWidth: '250px' }}>Product Description</th>
-              <th style={{ minWidth: '250px' }}>Customer Address</th>
-              <th style={{ minWidth: '150px' }}>Customer First Name</th>
-              <th style={{ minWidth: '150px' }}>Customer Last Name</th>
-              <th style={{ minWidth: '150px' }}>Customer Phone</th>
-              <th style={{ minWidth: '200px' }}>Customer Email</th>
+              <th style={{ minWidth: '120px' }}>Mã đơn hàng</th>
+              <th style={{ minWidth: '150px' }}>Ngày tạo đơn</th>
+              <th style={{ minWidth: '150px' }}>Trạng thái</th>
+              <th style={{ minWidth: '200px' }}>Số lượng đặt mua</th>
+              <th style={{ minWidth: '120px' }}>Mã sản phẩm</th>
+              <th style={{ minWidth: '200px' }}>Tên sản phẩm</th>
+              <th style={{ minWidth: '150px' }}>Hình ảnh</th>
+              <th style={{ minWidth: '250px' }}>Số lượng còn trong kho</th>
+              <th style={{ minWidth: '150px' }}>Giá</th>
+              <th style={{ minWidth: '250px' }}>Địa chỉ khách hàng</th>
+              <th style={{ minWidth: '150px' }}>Khách hàng</th>
+              <th style={{ minWidth: '150px' }}>Số điện thoại</th>
+              <th style={{ minWidth: '200px' }}>Email</th>
               <th style={{ minWidth: '250px' }}>Quản lý đơn hàng</th>
             </tr>
           </thead>
@@ -115,10 +113,8 @@ const BillManager = ({ id }) => {
                 <td><Image src={detail.ProductPic} rounded style={{ width: '50px' }} /></td>
                 <td>{detail.ProductQuantity}</td>
                 <td>{detail.ProductPrice}</td>
-                <td>{detail.ProductDescription}</td>
                 <td>{detail.UserAddress}</td>
-                <td>{detail.UserFirstName}</td>
-                <td>{detail.UserLastName}</td>
+                <td>{`${detail.UserFirstName} ${detail.UserLastName}`}</td>
                 <td>{detail.UserPhone}</td>
                 <td>{detail.UserEmail}</td>
                 <td>
