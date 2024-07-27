@@ -115,13 +115,7 @@ export default function ProductManager({ id }) { // Accept SellManagerID as a pr
           </InputGroup>
         </Col>
         <Col>
-          <Button
-            onClick={() => setOpen(!open)}
-            aria-controls="example-collapse-text"
-            aria-expanded={open}
-          >
-            Filter
-          </Button>
+          
         </Col>
         <FilterCollapse open={open} handleInputChange={handleInputChange} />
       </Row>
