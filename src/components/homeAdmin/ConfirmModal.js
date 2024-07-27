@@ -11,17 +11,17 @@ function confirmModal({ show, onHide, onConfirm, obj }) {
 
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Waring</Modal.Title>
+                <Modal.Title>Cảnh báo</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Are you sure you want to delete this {obj}
+                Bạn có chắc bạn muốn xóa {obj} này
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={cf}>
-                    Confirm
+                    Xác nhận
                 </Button>
                 <Button variant="secondary" onClick={onHide}>
-                    Close
+                    Đóng
                 </Button>
             </Modal.Footer>
         </Modal>

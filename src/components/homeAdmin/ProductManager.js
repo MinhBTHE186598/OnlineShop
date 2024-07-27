@@ -133,7 +133,7 @@ export default function ProductManager() {
                         aria-controls="example-collapse-text"
                         aria-expanded={open}
                     >
-                        Filter
+                        Lọc
                     </Button>
                 </Col>
                 <FilterCollapse open={open} handleInputChange={handleInputChange} />
@@ -143,14 +143,14 @@ export default function ProductManager() {
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Product</th>
-                        <th>Sold</th>
-                        <th>Saler</th>
-                        <th>Category</th>
-                        <th>Stock</th>
-                        <th>Status</th>
-                        <th>Price</th>
-                        <th>Action</th>
+                        <th>Sản phẩm</th>
+                        <th>Đã bán</th>
+                        <th>Người bán</th>
+                        <th>Danh mục</th>
+                        <th>Còn</th>
+                        <th>Trạng thái</th>
+                        <th>Giá</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -170,11 +170,11 @@ export default function ProductManager() {
                                 <DropdownButton
                                     size="sm"
                                     variant="secondary"
-                                    title="Action"
+                                    title="Hành động"
                                 >
-                                    <Dropdown.Item eventKey="1" href={`/product/${product.ProductID}`}>Navigate no item</Dropdown.Item>
-                                    <Dropdown.Item eventKey="2" onClick={() => handleDelete(product.UserID, product.SellerName, product.ProductID, product.ProductStatus,product.ProductName)}>Delete product</Dropdown.Item>
-                                    <Dropdown.Item eventKey="3" onClick={() => handleEdit(product)}>Edit product</Dropdown.Item>
+                                    <Dropdown.Item eventKey="1" href={`/product/${product.ProductID}`}>Điều hướng</Dropdown.Item>
+                                    <Dropdown.Item eventKey="2" onClick={() => handleDelete(product.UserID, product.SellerName, product.ProductID, product.ProductStatus,product.ProductName)}>Xóa</Dropdown.Item>
+                                    <Dropdown.Item eventKey="3" onClick={() => handleEdit(product)}>Chỉnh sửa</Dropdown.Item>
                                 </DropdownButton>
                             </td>
                         </tr>

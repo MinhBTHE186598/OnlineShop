@@ -97,7 +97,7 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
 
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Edit Banner</Modal.Title>
+        <Modal.Title>Chỉnh sửa Banner</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -108,18 +108,18 @@ function EditBannerModal({ show, onHide, Banner, onUpdate }) {
               <option value={category.CategoryID}>{category.CategoryName}</option>
             ))}
           </Form.Select>
-          <Form.Label>Baner Image Url</Form.Label>
+          <Form.Label>Ảnh baner Url</Form.Label>
           <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} defaultValue={Banner.BannerPic} />
           <Form.Label>Admin</Form.Label>
           <Form.Control type="text" value={user.UserAccountName+" ("+user.UserFirstName+" "+user.UserLastName+")"} disabled readOnly />
           <Button variant="primary" type="submit" style={{ marginTop: '30px' }} onClick={handleClick}>
-            Save change
+            Lưu thay đổi
           </Button>
         </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
-          Close
+          Đóng
         </Button>
       </Modal.Footer>
     </Modal>

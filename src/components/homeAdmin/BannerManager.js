@@ -85,15 +85,15 @@ function BannerManager() {
                         <Card.Body>
                             <Card.Img variant="top" src={banner.BannerPic} />
                             <Card.Title>Danh mục: {banner.CategoryName}</Card.Title>
-                            <Button variant="primary" onClick={() => handleDelete(banner.BannerID)}>Delete</Button>
-                            <Button variant="primary" onClick={() => editBanner(banner)} style={{marginLeft:'10px'}}>Edit</Button>
+                            <Button variant="primary" onClick={() => handleDelete(banner.BannerID)}>Xóa</Button>
+                            <Button variant="primary" onClick={() => editBanner(banner)} style={{marginLeft:'10px'}}>Chỉnh sửa</Button>
                         </Card.Body>
                         <Card.Footer className="text-muted">Người đăng: {banner.UserAccountName} ({banner.UserFirstName} {banner.UserLastName}) </Card.Footer>
                     </Card>
                 ))}
             </Row>
             <Row>
-                <Button variant="primary" onClick={() => handleShow()}>Add</Button>
+                <Button variant="primary" onClick={() => handleShow()}>Thêm banner</Button>
             </Row>
             <AddBannerModal show={show} onHide={handleClose} onAdd={handleAdd} bannerID={bannerList.length}/>
             <EditBannerModal show={showEdit} onHide={handleCloseEdit} Banner={bannerInf} onUpdate={handleUpdate}/>

@@ -40,32 +40,32 @@ export default function FilterCollapse({ open, handleInputChange }) {
                 <Form>
                     <Row style={{ marginBottom: '10px' }}>
                         <Col>
-                            <Form.Label>Sort By</Form.Label>
+                            <Form.Label>Sắp xếp theo</Form.Label>
                         </Col>
                         <Col>
                             <Form.Select onChange={(e) => {
                                 handleInputChange({ target: { name: 'order', value: e.target.value } });
                             }}>
-                                <option value='ProductID asc'>Product ID asc</option>
-                                <option value='ProductID desc'>Product ID desc</option>
-                                <option value='ProductName asc'>Product Name (A=&gt;Z) </option>
-                                <option value='ProductName desc'>Product Name (X=&gt;A) </option>
-                                <option value='ProductPrice asc'>Product Price (Low to high) </option>
-                                <option value='ProductPrice desc'>Product Price (High to Low) </option>
-                                <option value='ProductSold asc'>Product Sold (Low to high) </option>
-                                <option value='ProductSold desc'>Product Sold (High to Low) </option>
-                                <option value='Quantity asc'>Stock (Low to high) </option>
-                                <option value='Quantity  desc'>Stock (High to Low) </option>
+                                <option value='ProductID asc'>ID tăng dần</option>
+                                <option value='ProductID desc'>ID giảm dần</option>
+                                <option value='ProductName asc'>Tên (A=&gt;Z) </option>
+                                <option value='ProductName desc'>Tên (X=&gt;A) </option>
+                                <option value='ProductPrice asc'>Giá (tăng dần) </option>
+                                <option value='ProductPrice desc'>Giá (giảm dần) </option>
+                                <option value='ProductSold asc'>Đã bán (tăng dần) </option>
+                                <option value='ProductSold desc'>Đã bán (Giảm dần) </option>
+                                <option value='Quantity asc'>Kho (Tăng dần) </option>
+                                <option value='Quantity  desc'>Kho (giảm dần) </option>
                             </Form.Select>
                         </Col>
                         <Col>
-                            <Col><Form.Label>Filter by Status</Form.Label></Col>
+                            <Col><Form.Label>Lọc theo trạng thái</Form.Label></Col>
                         </Col>
                         <Col>
                             <Form.Select onChange={(e) => {
                                 handleInputChange({ target: { name: 'status', value: e.target.value } });
                             }}>
-                                <option value='%'>Choose status</option>
+                                <option value='%'>Chọn trạng thaí</option>
                                 <option value='Đã xác thực'>Đã xác thực</option>
                                 <option value='Chờ xác thực'>Chờ xác thực</option>
                                 <option value='Đã xoá'>Đã xóa</option>
@@ -73,23 +73,23 @@ export default function FilterCollapse({ open, handleInputChange }) {
                         </Col>
                     </Row>
                     <Row style={{ marginBottom: '10px' }}>
-                        <Col><Form.Label>Filter by Category</Form.Label></Col>
+                        <Col><Form.Label>Lọc theo danh mục</Form.Label></Col>
                         <Col>
                             <Form.Select onChange={(e) => {
                                 handleInputChange({ target: { name: 'category', value: e.target.value } });
                             }}>
-                                <option value='%'>Choose Category</option>
+                                <option value='%'>Chọn danh mục</option>
                                 {categories.map((category) => (
                                     <option value={category.CategoryID}>{category.CategoryName}</option>
                                 ))}
                             </Form.Select>
                         </Col>
-                        <Col><Form.Label>Filter by Seller</Form.Label></Col>
+                        <Col><Form.Label>Lọc theo người bán</Form.Label></Col>
                         <Col>
                             <Form.Select onChange={(e) => {
                                 handleInputChange({ target: { name: 'seller', value: e.target.value } });
                             }}>
-                                <option value='%'>Choose Seller</option>
+                                <option value='%'>Chọn người bán</option>
                                 {sellers.map((seller) => (
                                     <option value={seller.SellerID}>{seller.SellerName}</option>
                                 ))}
@@ -98,13 +98,13 @@ export default function FilterCollapse({ open, handleInputChange }) {
                     </Row>
                     <Row>
                         <Col md={4}>
-                            <Row><Form.Label>Filter by price</Form.Label></Row>
+                            <Row><Form.Label>Lọc theo giá</Form.Label></Row>
                             <Row>
                                 <Form.Range value={range} onChange={(e) => setRange(e.target.value)} />
                             </Row>
                             <Row style={{ marginBottom: '30px' }}>
-                                <Form.Label>Selected Price: {price === 100000000 ? (
-                                    <span>No Limit</span>
+                                <Form.Label>Chọn mức giá: {price === 100000000 ? (
+                                    <span>Không giới hạn</span>
                                 ) : (
                                     <span>0đ - <MoneyForm value={price}/></span>
                                 )}</Form.Label>

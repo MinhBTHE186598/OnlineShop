@@ -3,7 +3,6 @@ import axios from 'axios';
 import UserIModal from './UserInfoModal';
 import ConfirmModal from './ConfirmModal';
 import Table from 'react-bootstrap/Table';
-import { Toast } from 'react-bootstrap';
 
 function UserManager() {
     const [modalShow, setModalShow] = useState(false);
@@ -76,11 +75,11 @@ function UserManager() {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>UserName</th>
-                    <th>Password</th>
-                    <th>Full name</th>
-                    <th>Contact Number</th>
-                    <th colSpan={2} style={{}}>Action</th>
+                    <th>Tên người dùng</th>
+                    <th>Mật khẩu</th>
+                    <th>Tên đầy đủ</th>
+                    <th>Số điện thoại</th>
+                    <th colSpan={2} style={{}}>Hành động</th>
                 </tr>
             </thead>
             <tbody>
@@ -95,16 +94,16 @@ function UserManager() {
                             style={hoveredCell === `delete-${user.UserID}` ? { ...buttonStyle, ...buttonHoverStyle } : buttonStyle}
                             onMouseEnter={() => setHoveredCell(`delete-${user.UserID}`)}
                             onMouseLeave={() => setHoveredCell(null)}
-                            action onClick={() => { handleDelete(user.UserID) }}>Delete</td>
+                            action onClick={() => { handleDelete(user.UserID) }}>Xóa</td>
                         <td
                             style={hoveredCell === `view-${user.UserID}` ? { ...buttonStyle, ...buttonHoverStyle } : buttonStyle}
                             onMouseEnter={() => setHoveredCell(`view-${user.UserID}`)}
                             onMouseLeave={() => setHoveredCell(null)}
-                            action onClick={() => { handleModel(user) }}>View</td>
+                            action onClick={() => { handleModel(user) }}>Xem</td>
                     </tr>
                 ))}
                 <UserIModal show={modalShow} onHide={() => setModalShow(false)} user={userInf} />
-                <ConfirmModal show={confirmShow} onHide={() => setConfirmShow(false)} onConfirm={() => { deleteUser(userInf) }} obj="user" />
+                <ConfirmModal show={confirmShow} onHide={() => setConfirmShow(false)} onConfirm={() => { deleteUser(userInf) }} obj="người dùng" />
             </tbody>
         </Table>
     )

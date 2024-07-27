@@ -67,20 +67,18 @@ export default function SupportManager() {
                                 {support.UserAccountName} : {support.SupportTitle}
                                 {
                                     support.SupportResponse === null ?
-                                        (<span style={{ color: 'red', marginLeft: '5px' }}>(Not yet responsed)</span>) :
-                                        (<span style={{ color: 'green', marginLeft: '5px' }}>(Responsed)</span>)
+                                        (<span style={{ color: 'red', marginLeft: '5px' }}>(Chưa phản hồi)</span>) :
+                                        (<span style={{ color: 'green', marginLeft: '5px' }}>(Đã phản hồi)</span>)
                                 }
                                 <div style={{ marginLeft: 'auto' }}>
-                                    {support.SupportResponse !== null &&
-                                        (<Button variant="info" onClick={()=>handleResponse(support)} style={{ marginRight: '10px' }}>Edit</Button>)}
-                                    <Button variant="danger" onClick={()=>handleDelete(support.SupportID)}>Delete</Button>
+                                    <Button variant="danger" onClick={()=>handleDelete(support.SupportID)}>Xóa</Button>
                                 </div>
 
                             </div>
                         </Accordion.Header>
                         <Accordion.Body>
-                            <p>Customer question: {support.SupportRequest}</p>
-                            <p>Response : {support.SupportResponse === null ? 
+                            <p>Câu hỏi khách hàng: {support.SupportRequest}</p>
+                            <p>Phản hồi : {support.SupportResponse === null ? 
                             (<Button variant="primary" onClick={()=>handleResponse(support)}>Response</Button>) :
                                 (<span>{support.SupportResponse}</span>)}</p>
                         </Accordion.Body>

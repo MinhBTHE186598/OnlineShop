@@ -59,39 +59,39 @@ function ConfirmModalWithNoti({ show, onHide, onConfirm, userID, sellerName,prod
 
         <Modal show={show} onHide={hide} backdrop="static">
             <Modal.Header closeButton>
-                <Modal.Title>Waring</Modal.Title>
+                <Modal.Title>Cảnh báo</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Are you sure you want to delete this product
+                Bạn có muốn xóa sản phẩm này
             </Modal.Body>
             <Modal.Footer>
             {visible && (
                 <><Button variant="primary" onClick={cf}>
-                Confirm
+                Xác nhận
             </Button>
             <Button variant="secondary" onClick={hide}>
-                Close
+                Hủy
             </Button></>
             )}
                 
             </Modal.Footer>
             <Collapse in={open}>
                 <div style={{ margin: '15px' }}>
-                    <h5>Do you want to send a notification to seller {sellerName}?</h5>
+                    <h5>Bạn có muốn gửi thông báo đến người bán {sellerName}?</h5>
                     <Form>
                         <Form.Group>
-                            <Form.Label>Notification Title</Form.Label>
+                            <Form.Label>Tiêu đề</Form.Label>
                             <Form.Control defaultValue={'Sản phẩm của bạn đã bị xóa'} type="text" min={0} onChange={(e) => setTitle(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Notification Body</Form.Label>
+                            <Form.Label>Nội dung</Form.Label>
                             <Form.Control defaultValue={'Sản phẩm tên: '+productName+ ' của bạn đã bị xóa'} style={{ marginBottom: '5px' }} as="textarea" rows={3} onChange={(e) => setBody(e.target.value)} />
                         </Form.Group>
                         <Button style={{ marginRight: '5px' }} variant="primary" onClick={() => handleAddNoti()}>
-                            Confirm
+                            Xác nhận
                         </Button>
                         <Button variant="secondary" onClick={hide}>
-                            Close
+                            Đóng
                         </Button>
                     </Form>
                 </div>

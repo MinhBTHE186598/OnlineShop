@@ -78,15 +78,15 @@ export default function AddCateModal({ show, onHide, handleChange, categories, h
     return (
         <Modal show={show} onHide={onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>Category</Modal.Title>
+                <Modal.Title>Danh mục</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Table>
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Category Name</th>
-                            <th>Action</th>
+                            <th>Tên danh mục</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,10 +96,10 @@ export default function AddCateModal({ show, onHide, handleChange, categories, h
                                 <td>{category.CategoryName}</td>
                                 <td>
                                     <Button style={{ marginRight: '10px' }} onClick={() => handleRename(category.CategoryName,category.CategoryID,category.counts)}>
-                                        Rename
+                                        Đổi tên
                                     </Button>
                                     <Button variant="danger" disabled={category.counts !== 0} onClick={() => handleDelete(category.CategoryID)}>
-                                        Delete
+                                        xóa
                                     </Button>
                                 </td>
                             </tr>
@@ -107,20 +107,20 @@ export default function AddCateModal({ show, onHide, handleChange, categories, h
                     </tbody>
                 </Table>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Label>Category Name:</Form.Label>
+                    <Form.Label>Tên danh mục:</Form.Label>
                     <Form.Control type='text' onChange={(e) => setCate(e.target.value)} defaultValue={cate} />
                     {edit === true ? (
                         <div>
                             <Button variant='primary' style={{ marginTop: '10px', marginRight: '10px' }} onClick={handleUpdate}>
-                                Rename
+                                Đổi tên
                             </Button>
                             <Button variant='secondary' style={{ marginTop: '10px' }} onClick={() => setEdit(false)}>
-                                Cancel
+                                Hủy
                             </Button>
                         </div>
                     ) : (
                         <Button variant='primary' onClick={handleSubmit} style={{ marginTop: '10px' }}>
-                            Add
+                            Thêm
                         </Button>
                     )}
                 </Form>
@@ -128,7 +128,7 @@ export default function AddCateModal({ show, onHide, handleChange, categories, h
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
-                    Close
+                    Hủy
                 </Button>
             </Modal.Footer>
         </Modal>

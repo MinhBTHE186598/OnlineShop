@@ -56,10 +56,10 @@ export default function CateTable({ id, categories }) {
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Product</th>
-                        <th>Status</th>
-                        <th>Price</th>
-                        <th>Select</th>
+                        <th>Sản phẩm</th>
+                        <th>Trạng thái</th>
+                        <th>Giá</th>
+                        <th>Chọn</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,13 +84,13 @@ export default function CateTable({ id, categories }) {
             </Table>
             {selectedProducts.length > 0 && (
                 <div>
-                    Select Category:
+                    Chọn danh mục:
                     <Form.Select style={{ width: '20%' }} onChange={(e) => setCateID(e.target.value)}>
                         {categories.map(cate => (
                             <option value={cate.CategoryID}>{cate.CategoryName}</option>
                         ))}
                     </Form.Select>
-                    <Button onClick={() => changeCategory(selectedProducts)} style={{ marginTop: '10px' }}>Change Category</Button>
+                    <Button onClick={() => changeCategory(selectedProducts)} style={{ marginTop: '10px' }}>Đổi danh mục</Button>
                 </div>
             )}
 

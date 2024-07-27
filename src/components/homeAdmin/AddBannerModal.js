@@ -90,7 +90,7 @@ function AddBannerModal({ show, onHide, onAdd,bannerID }) {
 
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Add banner</Modal.Title>
+        <Modal.Title>Thêm banner</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -99,19 +99,19 @@ function AddBannerModal({ show, onHide, onAdd,bannerID }) {
               <option value={category.CategoryID}>{category.CategoryName}</option>
             ))}
           </Form.Select>
-          <Form.Label>Banner Image Url</Form.Label>
+          <Form.Label>Ảnh banner Url</Form.Label>
           <Form.Control type="text" onChange={(e) => setBannerPic(e.target.value)} required />
           <Form.Label>Admin</Form.Label>
           <Form.Control type="text" value={user.UserAccountName+" ("+user.UserFirstName+" "+user.UserLastName+")"} disabled readOnly on />
           <Button variant="primary" type="submit" style={{ marginTop: '30px' }} onClick={handleClick}>
-            Add Banner
+            Thêm banner
           </Button>
         </Form>
 
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
-          Close
+          Hủy
         </Button>
       </Modal.Footer>
     </Modal>

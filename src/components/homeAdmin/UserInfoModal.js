@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -10,7 +10,7 @@ function UserIModal(props) {
         <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    User Information
+                    Thông tin người dùng
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body className="grid-example">
@@ -22,7 +22,7 @@ function UserIModal(props) {
                     </Row>
                     <Row>
                         <Col >
-                            UserID:
+                            ID người dùng:
                         </Col>
                         <Col >
                             {props.user.UserID}
@@ -30,7 +30,7 @@ function UserIModal(props) {
                     </Row>
                     <Row>
                         <Col >
-                            UserAccountName:
+                            Tên tài khoản:
                         </Col>
                         <Col >
                             {props.user.UserAccountName}
@@ -38,7 +38,7 @@ function UserIModal(props) {
                     </Row>
                     <Row>
                         <Col >
-                            UserFullName:
+                            Tên đầy đủ:
                         </Col>
                         <Col >
                             {props.user.UserFirstName} {props.user.UserFirstName}
@@ -46,7 +46,7 @@ function UserIModal(props) {
                     </Row>
                     <Row>
                         <Col >
-                            User Password:
+                            Mật khẩu:
                         </Col>
                         <Col >
                             {props.user.UserPassword}
@@ -54,7 +54,7 @@ function UserIModal(props) {
                     </Row>
                     <Row>
                         <Col >
-                            User Email:
+                            Email:
                         </Col>
                         <Col >
                             {props.user.UserEmail}
@@ -62,7 +62,7 @@ function UserIModal(props) {
                     </Row>
                     <Row>
                         <Col >
-                            User Address:
+                            Địa chỉ:
                         </Col>
                         <Col >
                             {props.user.UserAddress}
@@ -70,7 +70,7 @@ function UserIModal(props) {
                     </Row>
                     <Row>
                         <Col >
-                            User Phone:
+                            Số điện thoại:
                         </Col>
                         <Col >
                             {props.user.UserPhone}
@@ -80,7 +80,7 @@ function UserIModal(props) {
                 </Container>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={props.onHide}>Close</Button>
+                <Button onClick={props.onHide}>Đóng</Button>
             </Modal.Footer>
         </Modal>
     );
