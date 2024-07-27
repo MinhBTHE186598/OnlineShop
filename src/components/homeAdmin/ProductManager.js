@@ -90,7 +90,7 @@ export default function ProductManager() {
     }
 
     const handleDelete = (Uid, name, Pid, status,pname) => {
-        if (status === 'Đã xoá') {
+        if (status === 'Đã xóa') {
             alert('You cant delete deleted product')
         } else {
             setUserID(Uid)
