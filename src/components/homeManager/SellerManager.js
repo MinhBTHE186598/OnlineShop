@@ -43,7 +43,7 @@ export default function SellerManager({ id }) {
   };
 
   return (
-    <>
+    <div style={{overflowY: "scroll", height: "70vh"}}>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -88,6 +88,6 @@ export default function SellerManager({ id }) {
           />
         </>
       )}
-    </>
+    </div>
   );
 }

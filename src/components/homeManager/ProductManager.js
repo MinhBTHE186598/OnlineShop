@@ -100,7 +100,7 @@ export default function ProductManager({ id }) { // Accept SellManagerID as a pr
   };
 
   return (
-    <>
+    <div style={{overflowY: "scroll", height: "70vh"}}>
       <Row>
         <Col>
           <InputGroup>
@@ -171,6 +171,6 @@ export default function ProductManager({ id }) { // Accept SellManagerID as a pr
         onConfirm={() => handleDeleteProduct(productIDToDelete)}
         obj="product"
       />
-    </>
+    </div>
   );
 }
