@@ -118,8 +118,9 @@ const approveProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        await sql.query`DELETE FROM [dbo].[Products]
-      WHERE ProductID = ${id}`;
+        await sql.query`update Products
+set ProductStatus=N'Đã xoá'
+where ProductID = ${id}`;
         res.status(200).send('Success')
     } catch (err) {
         console.error(err);
