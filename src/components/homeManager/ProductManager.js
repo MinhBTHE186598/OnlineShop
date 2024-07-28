@@ -11,8 +11,9 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Pagination from 'react-bootstrap/Pagination';
 
-export default function ProductManager({ id }) { // Accept SellManagerID as a prop
+export default function ProductManager({ id }) {
   const [products, setProducts] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -27,6 +28,8 @@ export default function ProductManager({ id }) { // Accept SellManagerID as a pr
     seller: '%',
     status: 'Chờ xác thực'
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(10);
 
   useEffect(() => {
     fetchProductsBySeller();
@@ -37,23 +40,6 @@ export default function ProductManager({ id }) { // Accept SellManagerID as a pr
       const response = await fetch(`http://localhost:5000/product/getWhiteListProductsBySeller/${id}`);
       const data = await response.json();
       setProducts(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchFilteredProducts = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/product/getAllFilter", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(filter)
-      });
-      const data = await response.json();
-      setProducts(data);
-      console.log(filter);
     } catch (error) {
       console.error(error);
     }
@@ -99,8 +85,15 @@ export default function ProductManager({ id }) { // Accept SellManagerID as a pr
     setShowConfirm(true);
   };
 
+  // Pagination logic
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
-    <div style={{overflowY: "scroll", height: "70vh"}}>
+    <div style={{ height: "70vh" }}>
       <Row>
         <Col>
           <InputGroup>
@@ -132,7 +125,7 @@ export default function ProductManager({ id }) { // Accept SellManagerID as a pr
           </tr>
         </thead>
         <tbody>
-          {products.filter(product => 
+          {currentProducts.filter(product => 
             product.ProductName.toLowerCase().includes(search.toLowerCase())
           ).map((product, index) => (
             <tr key={index}>
@@ -157,6 +150,13 @@ export default function ProductManager({ id }) { // Accept SellManagerID as a pr
           ))}
         </tbody>
       </Table>
+      <Pagination>
+        {[...Array(Math.ceil(products.length / productsPerPage)).keys()].map(number => (
+          <Pagination.Item key={number + 1} onClick={() => paginate(number + 1)}>
+            {number + 1}
+          </Pagination.Item>
+        ))}
+      </Pagination>
       {selectedProduct && (
         <ApproveProductModal
           show={showEdit}

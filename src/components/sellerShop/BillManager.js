@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, Form, InputGroup, Button, Image } from 'react-bootstrap';
+import { Table, Form, InputGroup, Button, Image, Pagination } from 'react-bootstrap';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,12 +9,15 @@ const BillManager = ({ id }) => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [billsPerPage] = useState(7); // Set to 7 rows per page
   const navigate = useNavigate();
 
   const fetchBillDetails = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/seller/viewBillDetailForSeller/${id}`);
-      setBillDetails(response.data);
+      const sortedData = response.data.sort((a, b) => new Date(b.BillDetailDate) - new Date(a.BillDetailDate)); // Sort by date in descending order
+      setBillDetails(sortedData);
       setLoading(false);
     } catch (err) {
       setError(err);
@@ -43,6 +46,13 @@ const BillManager = ({ id }) => {
       console.error("Error deleting bill:", err);
     }
   };
+
+  // Pagination logic
+  const indexOfLastBill = currentPage * billsPerPage;
+  const indexOfFirstBill = indexOfLastBill - billsPerPage;
+  const currentBills = billDetails.filter(detail => detail.ProductName.toLowerCase().includes(search.toLowerCase())).slice(indexOfFirstBill, indexOfLastBill);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -81,9 +91,9 @@ const BillManager = ({ id }) => {
           </InputGroup>
         </Form>
       </div>
-      <div style={{ overflowX: "auto", maxHeight: "500px" }}>
+      <div style={{ overflowX: "auto", maxHeight: "none" }}>
         <Table striped bordered hover>
-          <thead>
+          <thead style={{ position: 'sticky', top: 0, backgroundColor: 'white' }}>
             <tr>
               <th style={{ minWidth: '120px' }}>Mã đơn hàng</th>
               <th style={{ minWidth: '150px' }}>Ngày tạo đơn</th>
@@ -101,8 +111,8 @@ const BillManager = ({ id }) => {
               <th style={{ minWidth: '250px' }}>Quản lý đơn hàng</th>
             </tr>
           </thead>
-          <tbody>
-            {billDetails.filter(detail => detail.ProductName.toLowerCase().includes(search.toLowerCase())).map((detail) => (
+          <tbody style={{ fontSize: '12px' }}>
+            {currentBills.map((detail) => (
               <tr key={detail.BillDetailID}>
                 <td>{detail.BillDetailID}</td>
                 <td>{detail.BillDetailDate}</td>
@@ -134,6 +144,13 @@ const BillManager = ({ id }) => {
           </tbody>
         </Table>
       </div>
+      <Pagination className="justify-content-center">
+        {[...Array(Math.ceil(billDetails.length / billsPerPage)).keys()].map(number => (
+          <Pagination.Item key={number + 1} active={number + 1 === currentPage} onClick={() => paginate(number + 1)}>
+            {number + 1}
+          </Pagination.Item>
+        ))}
+      </Pagination>
     </div>
   );
 };
