@@ -27,6 +27,11 @@ const BillManager = ({ id }) => {
 
   useEffect(() => {
     fetchBillDetails();
+    const intervalId = setInterval(() => {
+      fetchBillDetails();
+    }, 2000);
+
+    return () => clearInterval(intervalId);
   }, [id]);
 
   const handleApprove = async (billDetailID) => {
@@ -108,7 +113,7 @@ const BillManager = ({ id }) => {
               <th style={{ minWidth: '150px' }}>Khách hàng</th>
               <th style={{ minWidth: '150px' }}>Số điện thoại</th>
               <th style={{ minWidth: '200px' }}>Email</th>
-              <th style={{ minWidth: '250px' }}>Quản lý đơn hàng</th>
+              <th style={{ minWidth: '170px', position: 'sticky', right: 0, backgroundColor: 'white', zIndex: 1, boxShadow: '-1px 0 5px -2px #000' }}>Quản lý đơn hàng</th>
             </tr>
           </thead>
           <tbody style={{ fontSize: '12px' }}>
@@ -127,7 +132,7 @@ const BillManager = ({ id }) => {
                 <td>{`${detail.UserFirstName} ${detail.UserLastName}`}</td>
                 <td>{detail.UserPhone}</td>
                 <td>{detail.UserEmail}</td>
-                <td>
+                <td style={{ position: 'sticky', right: 0, backgroundColor: 'white', zIndex: 1, boxShadow: '-1px 0 5px -2px #000' }}>
                   {detail.BillDetailStatus === 'Chưa xác nhận' && (
                     <>
                       <Button variant="success" size="sm" onClick={() => handleApprove(detail.BillDetailID)}>

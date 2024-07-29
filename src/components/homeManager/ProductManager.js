@@ -33,6 +33,11 @@ export default function ProductManager({ id }) {
 
   useEffect(() => {
     fetchProductsBySeller();
+    const intervalId = setInterval(() => {
+      fetchProductsBySeller();
+    }, 2000); // Refresh every 2 seconds
+    return () => clearInterval(intervalId);
+  
   }, [id]);
 
   const fetchProductsBySeller = async () => {

@@ -23,6 +23,10 @@ export default function SellerManager({ id }) {
 
   useEffect(() => {
     fetchSellers();
+    const intervalId = setInterval(() => {
+      fetchSellers();
+    }, 2000);
+    return () => clearInterval(intervalId);
   }, [id]);
 
   const handleEditSeller = (seller) => {
