@@ -129,7 +129,7 @@ function ProductCardBig(props) {
 
     return (
         <Card style={CardStyle}>
-            <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 2px black', width: '100%', aspectRatio: '1/1', objectFit: 'cover' }} />
+            <Card.Img variant="top" src={props.pic} alt={props.name} style={{ borderBottom: 'solid 2px black', width: '100%', aspectRatio: '1/1', objectFit: 'cover' }} />
             <Card.Body>
                 <Card.Title style={{ textAlign: 'center', fontSize: 'x-large' }}><a href={`/product/${props.star}`} style={{ textDecoration: 'none', color: '#0d6efd' }}>{props.name}</a></Card.Title>
                 <div>

@@ -278,7 +278,7 @@ function Header() {
           <ButtonGroup className="m-1" aria-label="Third group">
             <DropdownButton
               as={ButtonGroup}
-              title={`Chào mừng trở lại, ${user.UserFirstName} ${user.UserLastName}`}
+              title={`Chào mừng trở lại, ${user.UserLastName} ${user.UserFirstName}`}
               id="bg-nested-dropdown"
             >
               <Dropdown.Item

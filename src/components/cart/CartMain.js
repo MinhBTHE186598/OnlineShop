@@ -115,7 +115,7 @@ function CartMain() {
     return (
         <div style={{ width: '100vw', marginTop: '10vh', padding: '5vh 0', backgroundColor: '#0d6efd', minHeight: '70vh' }}>
             <div style={{ width: '90%', margin: '0 auto', backgroundColor: '#fff', borderRadius: '20px', padding: '20px' }}>
-                <h1 style={{ textAlign: 'center' }}>Giỏ hàng của {user.UserFirstName} {user.UserLastName}</h1>
+                <h1 style={{ textAlign: 'center' }}>Giỏ hàng của {user.UserLastName} {user.UserFirstName}</h1>
                 {cartList.length === 0 ? (
                     <div style={{ height: '45vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '10px' }}>
                         <h3>Chưa có sản phẩm trong giỏ hàng</h3>

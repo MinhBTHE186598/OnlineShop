@@ -130,7 +130,7 @@ function ProductCardSmall(props) {
 
     return (
         <Card style={CardStyle}>
-            <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 1px black', borderRadius: '0px', width: '100%', aspectRatio: '1/1', objectFit: 'cover' }} />
+            <Card.Img variant="top" src={props.pic} alt={props.name} style={{ borderBottom: 'solid 1px black', borderRadius: '0px', width: '100%', aspectRatio: '1/1', objectFit: 'cover' }} />
             <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <Card.Title style={{ textAlign: 'center', fontSize: 'x-large' }}>
                     <a href={`/product/${props.star}`} style={{ textDecoration: 'none', color: '#0d6efd' }}>
