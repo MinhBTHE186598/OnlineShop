@@ -11,6 +11,7 @@ export default function BillDetailManager() {
   const [userToBillMap, setUserToBillMap] = useState({});
   const [sellerAddresses, setSellerAddresses] = useState({});
   const [productNames, setProductNames] = useState({});
+  const [productPrices, setProductPrices] = useState({});
   const { user } = useUser();
 
   const [showModal, setShowModal] = useState(false);
@@ -35,6 +36,7 @@ export default function BillDetailManager() {
       const userToBillMapTemp = {};
       const sellerAddressesTemp = {};
       const productNamesTemp = {};
+      const productPricesTemp = {};
 
       await Promise.all(billDetailResponse.data.map(async (billDetail) => {
         const billID = billDetail.BillID;
@@ -50,6 +52,7 @@ export default function BillDetailManager() {
 
         if (productResponse.data.length > 0) {
           productNamesTemp[billDetailID] = productResponse.data[0].ProductName;
+          productPricesTemp[billDetailID] = productResponse.data[0].ProductPrice;
         }
 
         if (sellerAddressResponse.data.length > 0) {
@@ -60,6 +63,7 @@ export default function BillDetailManager() {
       setUserToBillMap(userToBillMapTemp);
       setSellerAddresses(sellerAddressesTemp);
       setProductNames(productNamesTemp);
+      setProductPrices(productPricesTemp);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -114,11 +118,13 @@ export default function BillDetailManager() {
           <tr>
             <th>Mã đơn</th>
             <th>Tên người nhận</th>
-            <th>Số lượng sản phẩm</th>
+            <th>Số lượng</th>
             <th>Tên sản phẩm</th>
             <th>Ngày tạo đơn hàng</th>
             <th>Địa chỉ giao hàng</th>
             <th>Địa chỉ lấy hàng</th>
+            <th>Giá tri đơn hàng</th>
+            <th>Tiền ship</th>
             <th>Trạng thái đơn hàng</th>
             <th>ShipperID</th>
             <th>Action</th>
@@ -131,6 +137,9 @@ export default function BillDetailManager() {
             const billDetailStatus = filteredBillDetailsForBillDetailId[0]?.BillDetailStatus;
             const billID = filteredBillDetailsForBillDetailId[0]?.BillID;
             const productName = productNames[billDetailId] || 'Tên sản phẩm không có';
+            const productPrice = productPrices[billDetailId] || 0;
+            const totalPrice = productPrice * billQuantity;
+            const shippingCost = totalPrice * 0.1;
             const userAddress = userToBillMap[billID]?.[0]?.UserAddress || 'Địa chỉ không có';
             const userFirstName = userToBillMap[billID]?.[0]?.UserFirstName || 'Tên không có';
             const userLastName = userToBillMap[billID]?.[0]?.UserLastName || '';
@@ -148,6 +157,8 @@ export default function BillDetailManager() {
                 <td>{billDate}</td>
                 <td>{userAddress}</td>
                 <td>{sellerAddress}</td> 
+                <td>{totalPrice.toLocaleString('vi-VN')} VND</td>
+                <td>{shippingCost.toLocaleString('vi-VN')} VND</td>
                 <td>{billDetailStatus}</td>
                 <td>{shipperID}</td>
                 <td>

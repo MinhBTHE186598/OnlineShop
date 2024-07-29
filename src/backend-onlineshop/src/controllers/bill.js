@@ -36,7 +36,7 @@ const getUserToBill = async (req, res) => {
   try {
     const billID = req.query.billID;
     const result = await sql.query`
-            SELECT u.UserID, u.UserAddress, u.UserFirstName, u.UserLastName
+            SELECT u.UserID, u.UserAddress, u.UserFirstName, u.UserLastName, u.UserPhone
             FROM Bills b
             JOIN Users u ON b.UserID = u.UserID
             WHERE b.BillID = ${billID}

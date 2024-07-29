@@ -11,6 +11,7 @@ export default function BillOTW() {
   const [userToBillMap, setUserToBillMap] = useState({});
   const [sellerAddresses, setSellerAddresses] = useState({});
   const [productNames, setProductNames] = useState({});
+  const [productPrices, setProductPrices] = useState({});
   const { user } = useUser();
 
   const [showModal, setShowModal] = useState(false);
@@ -37,6 +38,7 @@ export default function BillOTW() {
       const userToBillMapTemp = {};
       const sellerAddressesTemp = {};
       const productNamesTemp = {};
+      const productPricesTemp = {};
 
       await Promise.all(billDetailResponse.data.map(async (billDetail) => {
         const billID = billDetail.BillID;
@@ -53,12 +55,14 @@ export default function BillOTW() {
 
         if (productResponse.data.length > 0) {
           productNamesTemp[billDetailID] = productResponse.data[0].ProductName;
+          productPricesTemp[billDetailID] = productResponse.data[0].ProductPrice;
         }
       }));
 
       setUserToBillMap(userToBillMapTemp);
       setSellerAddresses(sellerAddressesTemp);
       setProductNames(productNamesTemp);
+      setProductPrices(productPricesTemp);
     } catch (error) {
       console.error("There was an error fetching data!", error);
     }
@@ -114,11 +118,14 @@ export default function BillOTW() {
           <tr>
             <th>Mã đơn</th>
             <th>Tên người nhận</th>
-            <th>Số lượng sản phẩm</th>
+            <th>Số điện thoại</th>
+            <th>Số lượng</th>
             <th>Tên sản phẩm</th>
             <th>Ngày tạo đơn hàng</th>
             <th>Địa chỉ giao hàng</th>
             <th>Địa chỉ lấy hàng</th>
+            <th>Giá trị đơn hàng</th>
+            <th>Tiền ship</th>
             <th>Trạng thái đơn hàng</th>
             <th>Action</th>
           </tr>
@@ -130,21 +137,29 @@ export default function BillOTW() {
             const billDetailStatus = filteredBillDetailsForBillDetailId[0]?.BillDetailStatus;
             const billID = filteredBillDetailsForBillDetailId[0]?.BillID;
             const productName = productNames[billDetailId] || 'Tên sản phẩm không có';
+            const productPrice = productPrices[billDetailId] || 0;
+            const totalPrice = productPrice * billQuantity;
+            const shippingCost = totalPrice * 0.1;
             const userAddress = userToBillMap[billID]?.[0]?.UserAddress || 'Địa chỉ không có';
             const userFirstName = userToBillMap[billID]?.[0]?.UserFirstName || 'Tên không có';
             const userLastName = userToBillMap[billID]?.[0]?.UserLastName || '';
+            const userPhone = userToBillMap[billID]?.[0]?.UserPhone || 'Số điện thoại không có';
             const userFullName = `${userFirstName} ${userLastName}`;
             const sellerAddress = sellerAddresses[billDetailId] || 'Địa chỉ không có';
             const billDate = filteredBillDetailsForBillDetailId[0]?.BillDetailDate || 'Ngày không có';
+
             return (
               <tr key={index}>
                 <td>{billDetailId}</td>
                 <td>{userFullName}</td>
+                <td>{userPhone}</td>
                 <td>{billQuantity}</td>
                 <td>{productName}</td>
                 <td>{billDate}</td>
                 <td>{userAddress}</td>
                 <td>{sellerAddress}</td>
+                <td>{totalPrice.toLocaleString('vi-VN')} VND</td>
+                <td>{shippingCost.toLocaleString('vi-VN')} VND</td>
                 <td>{billDetailStatus}</td>
                 <td>
                   {billDetailStatus === "Đang vận chuyển" && (

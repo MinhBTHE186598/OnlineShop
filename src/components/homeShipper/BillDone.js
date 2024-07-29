@@ -9,6 +9,7 @@ export default function BillDone() {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [userToBillMap, setUserToBillMap] = useState({});
   const [productNames, setProductNames] = useState({});
+  const [productPrices, setProductPrices] = useState({});
   const [sellerAddresses, setSellerAddresses] = useState({});
   const { user } = useUser();
 
@@ -35,6 +36,7 @@ export default function BillDone() {
 
       const userToBillMapTemp = {};
       const productNamesTemp = {};
+      const productPricesTemp = {};
       const sellerAddressesTemp = {};
 
       await Promise.all(billDetailResponse.data.map(async (billDetail) => {
@@ -52,11 +54,13 @@ export default function BillDone() {
 
         if (productResponse.data.length > 0) {
           productNamesTemp[billDetailID] = productResponse.data[0].ProductName;
+          productPricesTemp[billDetailID] = productResponse.data[0].ProductPrice;
         }
       }));
 
       setUserToBillMap(userToBillMapTemp);
       setProductNames(productNamesTemp);
+      setProductPrices(productPricesTemp);
       setSellerAddresses(sellerAddressesTemp);
     } catch (error) {
       console.error("There was an error fetching data!", error);
@@ -76,13 +80,10 @@ export default function BillDone() {
     billDetail => (billDetail.BillDetailStatus === "Đã nhận hàng" || billDetail.BillDetailStatus === "Đã giao hàng") && billDetail.ShipperID === currentUserId
   );
 
-
   const uniqueBillDetailIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillDetailID))]
     .sort((a, b) => b - a);
 
-
   const totalPages = Math.ceil(uniqueBillDetailIds.length / itemsPerPage);
-
 
   const currentItems = uniqueBillDetailIds.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
@@ -101,11 +102,13 @@ export default function BillDone() {
             <tr>
               <th>Mã đơn</th>
               <th>Tên người nhận</th>
-              <th>Số lượng sản phẩm</th>
+              <th>Số lượng</th>
               <th>Tên sản phẩm</th>
               <th>Ngày tạo đơn hàng</th>
               <th>Địa chỉ giao hàng</th>
               <th>Địa chỉ lấy hàng</th>
+              <th>Giá trị đơn hàng</th>
+              <th>Tiền ship</th>
               <th>Trạng thái đơn hàng</th>
             </tr>
           </thead>
@@ -116,6 +119,9 @@ export default function BillDone() {
               const billDetailStatus = filteredBillDetailsForBillDetailId[0]?.BillDetailStatus;
               const billID = filteredBillDetailsForBillDetailId[0]?.BillID;
               const productName = productNames[billDetailId] || 'Tên sản phẩm không có';
+              const productPrice = productPrices[billDetailId] || 0;
+              const totalPrice = productPrice * billQuantity;
+              const shippingCost = totalPrice * 0.1;
               const userAddress = userToBillMap[billID]?.[0]?.UserAddress || 'Địa chỉ không có';
               const userFirstName = userToBillMap[billID]?.[0]?.UserFirstName || 'Tên không có';
               const userLastName = userToBillMap[billID]?.[0]?.UserLastName || '';
@@ -132,6 +138,8 @@ export default function BillDone() {
                   <td>{billDate}</td>
                   <td>{userAddress}</td>
                   <td>{sellerAddress}</td>
+                  <td>{totalPrice.toLocaleString('vi-VN')} VND</td>
+                  <td>{shippingCost.toLocaleString('vi-VN')} VND</td>
                   <td>{billDetailStatus}</td>
                 </tr>
               );
