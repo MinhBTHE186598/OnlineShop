@@ -14,7 +14,7 @@ export default function BillDone() {
   const { user } = useUser();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 15;
+  const itemsPerPage = 12;
 
   const fetchData = useCallback(async () => {
     try {
@@ -76,9 +76,20 @@ export default function BillDone() {
     return () => clearInterval(intervalId);
   }, [fetchData]);
 
+  // Filter bill details for the current shipper
   const filteredBillDetails = billDetails.filter(
     billDetail => (billDetail.BillDetailStatus === "Đã nhận hàng" || billDetail.BillDetailStatus === "Đã giao hàng") && billDetail.ShipperID === currentUserId
   );
+
+  // Calculate total shipping cost for the current shipper
+  const totalShippingCostForCurrentShipper = filteredBillDetails.reduce((total, billDetail) => {
+    const billDetailID = billDetail.BillDetailID;
+    const billQuantity = billDetail.BillQuantity || 0;
+    const productPrice = productPrices[billDetailID] || 0;
+    const totalPrice = productPrice * billQuantity;
+    const shippingCost = totalPrice * 0.1;
+    return total + shippingCost;
+  }, 0);
 
   const uniqueBillDetailIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillDetailID))]
     .sort((a, b) => b - a);
@@ -95,6 +106,7 @@ export default function BillDone() {
     <div>
       <div>
         <h3>ShipperID của bạn: {currentUserId ? currentUserId : 'Đang tải...'}</h3>
+        <h4>Tổng tiền ship đã thu được cho shipper này: {totalShippingCostForCurrentShipper.toLocaleString('vi-VN')} VND</h4>
       </div>
       <div>
         <Table striped bordered hover>
@@ -147,6 +159,7 @@ export default function BillDone() {
           </tbody>
         </Table>
       </div>
+      
       <Pagination>
         <Pagination.First onClick={() => handlePageChange(1)} disabled={currentPage === 1} />
         <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
