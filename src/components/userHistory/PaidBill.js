@@ -105,17 +105,19 @@ export default function PaidBill() {
     return total + price + (price * 0.1);
   }, 0);
 
-  const filteredBills = bills.filter(
-    bill => bill.BillStatus === "Đã thanh toán"
-  );
+  const filteredBills = bills
+    .filter(bill => bill.BillStatus === "Đã thanh toán")
+    .sort((a, b) => b.BillID - a.BillID);
 
-  // Pagination logic
   const indexOfLastBill = currentPage * itemsPerPage;
   const indexOfFirstBill = indexOfLastBill - itemsPerPage;
   const currentBills = filteredBills.slice(indexOfFirstBill, indexOfLastBill);
 
-  // Calculate total pages
   const totalPages = Math.ceil(filteredBills.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div style={{ height: "100%" }}>
@@ -209,25 +211,20 @@ export default function PaidBill() {
         </Modal>
       )}
 
-      {/* Pagination Controls */}
       <Pagination>
-        <Pagination.Prev
-          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-        />
-        {[...Array(totalPages).keys()].map(page => (
+        <Pagination.First onClick={() => handlePageChange(1)} disabled={currentPage === 1} />
+        <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
+        {[...Array(totalPages)].map((_, index) => (
           <Pagination.Item
-            key={page + 1}
-            active={page + 1 === currentPage}
-            onClick={() => setCurrentPage(page + 1)}
+            key={index + 1}
+            active={index + 1 === currentPage}
+            onClick={() => handlePageChange(index + 1)}
           >
-            {page + 1}
+            {index + 1}
           </Pagination.Item>
         ))}
-        <Pagination.Next
-          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-        />
+        <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
+        <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages} />
       </Pagination>
     </div>
   );
