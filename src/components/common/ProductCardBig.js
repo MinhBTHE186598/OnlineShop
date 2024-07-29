@@ -6,9 +6,9 @@ import { FaRegStar } from "react-icons/fa";
 import { useState, useEffect } from 'react';
 import { useUser } from "../context/UserContext";
 import axios from "axios";
-import ConfirmModal from './ConfirmModal'; 
+import ConfirmModal from './ConfirmModal';
 const reformat = new Intl.NumberFormat('en-US', {
-    
+
 })
 const CardStyle = {
     width: '20vw',
@@ -56,7 +56,7 @@ function ProductCardBig(props) {
     const isSeller = () => {
         if (isLogin) {
             return sellers.some(item => item.SellerID === props.seller && item.UserID === user.UserID);
-        }        
+        }
         return false;
     }
     const formatDate = (date) => {
@@ -66,9 +66,9 @@ function ProductCardBig(props) {
         const year = d.getFullYear();
         return `${day}/${month}/${year}`;
     };
-    
-    const addToCart = async () => {   
-        const currentDate = formatDate(new Date());  
+
+    const addToCart = async () => {
+        const currentDate = formatDate(new Date());
         try {
             await axios.post('http://localhost:5000/bill/addToCart', {
                 BillID: userCart.BillID,
@@ -91,7 +91,7 @@ function ProductCardBig(props) {
             return;
         } else {
             setShowModal(true);
-        }    
+        }
     };
 
     useEffect(() => {
@@ -129,21 +129,21 @@ function ProductCardBig(props) {
 
     return (
         <Card style={CardStyle}>
-            <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 2px black'}} />
+            <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 2px black', width: '100%', aspectRatio: '1/1', objectFit: 'cover' }} />
             <Card.Body>
                 <Card.Title style={{ textAlign: 'center', fontSize: 'x-large' }}><a href={`/product/${props.star}`} style={{ textDecoration: 'none', color: '#0d6efd' }}>{props.name}</a></Card.Title>
                 <div>
                     <p style={Clamp}>{props.description}</p>
-                    <p style={{...Clamp, marginBottom: '20px'}}>Người bán: {sellers.map(seller => {
+                    <p style={{ ...Clamp, marginBottom: '20px' }}>Người bán: {sellers.map(seller => {
                         if (seller.SellerID === props.seller) {
-                            return <a href={`/shop/${seller.SellerID}`} style={{ textDecoration: 'none'}} key={seller.SellerID}>{seller.SellerName}</a>
+                            return <a href={`/shop/${seller.SellerID}`} style={{ textDecoration: 'none' }} key={seller.SellerID}>{seller.SellerName}</a>
                         }
                         return null
                     })}</p>
-                    
+
                     <p style={Clamp}>Danh mục: {categories.find(category => category.CategoryID === props.category)?.CategoryName}</p>
                     <p style={Clamp}>Số luợng: {props.quantity}</p>
-                    <p style={{color: props.quantity === 0? 'red' : 'green'}}>Tình trạng: {props.quantity === 0? 'Đã hết hàng' : 'Còn hàng'}</p>
+                    <p style={{ color: props.quantity === 0 ? 'red' : 'green' }}>Tình trạng: {props.quantity === 0 ? 'Đã hết hàng' : 'Còn hàng'}</p>
                     <div style={StarStyle}>
                         {Array(stars.find(star => star.ProductID === props.star)?.ProductStar || 0).fill(<FaStar />)}
                         {Array(5 - (stars.find(star => star.ProductID === props.star)?.ProductStar || 0)).fill(<FaRegStar />)}

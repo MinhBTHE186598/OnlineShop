@@ -66,9 +66,9 @@ function ProductCardSmall(props) {
         const year = d.getFullYear();
         return `${day}/${month}/${year}`;
     };
-    
-    const addToCart = async () => {   
-        const currentDate = formatDate(new Date());  
+
+    const addToCart = async () => {
+        const currentDate = formatDate(new Date());
         try {
             await axios.post('http://localhost:5000/bill/addToCart', {
                 BillID: userCart.BillID,
@@ -91,10 +91,10 @@ function ProductCardSmall(props) {
             return;
         } else {
             setShowModal(true);
-        }       
+        }
     };
-    
-    
+
+
     useEffect(() => {
         Promise.all([
             fetch("http://localhost:5000/category/getCategories"),
@@ -130,7 +130,7 @@ function ProductCardSmall(props) {
 
     return (
         <Card style={CardStyle}>
-            <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 1px black', borderRadius: '0px' }} />
+            <Card.Img variant="top" src={props.pic} style={{ borderBottom: 'solid 1px black', borderRadius: '0px', width: '100%', aspectRatio: '1/1', objectFit: 'cover' }} />
             <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <Card.Title style={{ textAlign: 'center', fontSize: 'x-large' }}>
                     <a href={`/product/${props.star}`} style={{ textDecoration: 'none', color: '#0d6efd' }}>

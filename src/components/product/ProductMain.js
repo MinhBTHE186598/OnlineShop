@@ -144,16 +144,16 @@ function ProductMain(props) {
                     <Col md={5} style={{ textAlign: 'center' }}>
                         <Carousel data-bs-theme="dark">
                             <Carousel.Item>
-                                <img src={product.ProductPic} alt={product.ProductID} style={{ width: '100%', height: '100%' }} />
+                                <img src={product.ProductPic} alt={product.ProductID} style={{ width: '100%', height: '100%', aspectRatio: '1/1', objectFit: 'cover' }} />
                             </Carousel.Item>
                             <Carousel.Item>
-                                <img src={product.ProductPic} alt={product.ProductID} style={{ width: '100%', height: '100%' }} />
+                                <img src={product.ProductPic} alt={product.ProductID} style={{ width: '100%', height: '100%', aspectRatio: '1/1', objectFit: 'cover' }} />
                             </Carousel.Item>
                             <Carousel.Item>
-                                <img src={product.ProductPic} alt={product.ProductID} style={{ width: '100%', height: '100%' }} />
+                                <img src={product.ProductPic} alt={product.ProductID} style={{ width: '100%', height: '100%', aspectRatio: '1/1', objectFit: 'cover' }} />
                             </Carousel.Item>
                             <Carousel.Item>
-                                <img src={product.ProductPic} alt={product.ProductID} style={{ width: '100%', height: '100%' }} />
+                                <img src={product.ProductPic} alt={product.ProductID} style={{ width: '100%', height: '100%', aspectRatio: '1/1', objectFit: 'cover' }} />
                             </Carousel.Item>
                         </Carousel>
                     </Col>
