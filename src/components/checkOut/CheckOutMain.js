@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import axios from 'axios';
 import CheckOutModal from './CheckOutModal';
+import ChangeInfoModal from './ChangeInfoModal';
 
 const reformat = new Intl.NumberFormat('en-US', {
 
@@ -14,9 +15,11 @@ const reformat = new Intl.NumberFormat('en-US', {
 function CheckOutMain() {
     const navigate = useNavigate();
     const { userCart, setUserCart, isLogin, user } = useUser();
+    const [userList, setUserList] = useState([]);
     const [cartList, setCartList] = useState([]);
     const [productList, setProductList] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [showChangeInfoModal, setShowChangeInfoModal] = useState(false);
 
     const formatDate = (date) => {
         const d = new Date(date);
@@ -64,6 +67,15 @@ function CheckOutMain() {
         }
     }
 
+    const fetchUser = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/user/get');
+            setUserList(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         if (!isLogin) {
             alert('Bạn cần đăng nhập để thực hiện chức năng này!');
@@ -81,7 +93,10 @@ function CheckOutMain() {
         }
         fetchCartEffect();
         fetchProduct();
+        fetchUser();
     }, [isLogin, navigate, userCart]);
+
+    const profile = userList.find((item) => item.UserID === user.UserID);
 
     return (
         <div style={{ width: '100vw', marginTop: '10vh', padding: '5vh 0', backgroundColor: '#0d6efd' }}>
@@ -125,13 +140,18 @@ function CheckOutMain() {
                             </tbody>
                         </Table>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '90%', margin: '20px auto', fontSize: '20px' }}>
-                            <div>
-                                <h3 style={{ color: '#0d6efd' }}>Thông tin giao hàng</h3>
-                                <p>Tên: {user.UserFirstName + ' ' + user.UserLastName}</p>
-                                <p>Địa chi: {user.UserAddress}</p>
-                                <p>SĐT: {user.UserPhone}</p>
-                                <p>Email: {user.UserEmail}</p>
-                            </div>
+                            {profile && (
+                                <div>
+                                    <h3 style={{ color: '#0d6efd' }}>Thông tin giao hàng</h3>
+                                    <p>Tên người nhận: {profile.UserLastName + ' ' + profile.UserFirstName}</p>
+                                    <p>Địa chi: {profile.UserAddress}</p>
+                                    <p>Số điện thoại: {profile.UserPhone}</p>
+                                    <p>Email: {profile.UserEmail}</p>
+                                    <Button variant="danger" onClick={() => setShowChangeInfoModal(true)}>Thay đổi</Button>
+                                    <ChangeInfoModal show={showChangeInfoModal} onHide={() => setShowChangeInfoModal(false)} user={profile} />
+                                </div>
+                            )}
+
                             <div>
                                 <h3 style={{ color: '#0d6efd' }}>Thông tin thanh toán</h3>
                                 <p>Vui lòng chọn phương thức thanh toán:</p>
@@ -160,9 +180,9 @@ function CheckOutMain() {
                             <div>
                                 <h3 style={{ color: '#0d6efd' }}>Hóa đơn:</h3>
                                 <p>Tổng giá trị giỏ hàng: {reformat.format(cartList.reduce((sum, cart) => sum + (productList.find(product => product.ProductID === cart.ProductID)?.ProductPrice || 0) * cart.BillQuantity, 0))}đ</p>
-                                <p>Phí giao hàng: 20,000đ</p>
+                                <p>Phí giao hàng: {reformat.format(cartList.reduce((sum, cart) => sum + (productList.find(product => product.ProductID === cart.ProductID)?.ProductPrice || 0) * cart.BillQuantity, 0) * 0.1)}đ</p>
                                 <h4>
-                                    Tổng thanh toán: {reformat.format(cartList.reduce((sum, cart) => sum + (productList.find(product => product.ProductID === cart.ProductID)?.ProductPrice || 0) * cart.BillQuantity, 0) + 20000)}đ
+                                    Tổng thanh toán: {reformat.format(cartList.reduce((sum, cart) => sum + (productList.find(product => product.ProductID === cart.ProductID)?.ProductPrice || 0) * cart.BillQuantity, 0) * 1.1)}đ
                                 </h4>
                                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', gap: '20px', marginRight: '20px' }}>
                                     <Button size='lg' variant='primary' onClick={() => navigate('/mainShop')}>Tiếp tục mua hàng</Button>

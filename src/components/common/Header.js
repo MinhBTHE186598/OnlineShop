@@ -96,10 +96,13 @@ function Header() {
           }
         }
       };
-      fetchCart();
-      fetchProduct();
-      fetchCategory();
-      fetchNotifications();
+      const interval = setInterval(() => {
+        fetchCart();
+        fetchProduct();
+        fetchCategory();
+        fetchNotifications();
+      }, 1000);
+      return () => clearInterval(interval);
     }
   }, [userCart, isLogin, user]);
 
