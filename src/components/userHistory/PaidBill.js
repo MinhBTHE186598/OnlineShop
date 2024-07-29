@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Pagination from 'react-bootstrap/Pagination';
 import axios from 'axios';
 import { useUser } from '../context/UserContext';
 
@@ -9,8 +10,10 @@ export default function PaidBill() {
   const [bills, setBills] = useState([]);
   const [selectedBill, setSelectedBill] = useState(null);
   const [billDetails, setBillDetails] = useState([]);
-  const [productPics, setProductPics] = useState({}); // State for product images
+  const [productPics, setProductPics] = useState({});
   const [shipperNames, setShipperNames] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
   const { user } = useUser();
 
   const fetchData = useCallback(async () => {
@@ -79,12 +82,12 @@ export default function PaidBill() {
             ...detail,
             ProductName: product.ProductName || 'N/A',
             ProductPrice: product.ProductPrice || 0,
-            ProductPic: product.ProductPic || '', // Add ProductPic
+            ProductPic: product.ProductPic || '',
             ShipperID: detail.ShipperID || 'Chưa giao hàng'
           };
         }));
       setBillDetails(details);
-      await fetchProductPics(details); // Fetch product images
+      await fetchProductPics(details);
       const shipperIDs = [...new Set(details.map(detail => detail.ShipperID))];
       await fetchShipperNames(shipperIDs);
     } catch (error) {
@@ -97,14 +100,25 @@ export default function PaidBill() {
     setBillDetails([]);
   };
 
-  const totalAmount = billDetails.reduce((total, detail) => total + (detail.BillQuantity * detail.ProductPrice), 0);
+  const totalAmount = billDetails.reduce((total, detail) => {
+    const price = detail.BillQuantity * detail.ProductPrice;
+    return total + price + (price * 0.1);
+  }, 0);
 
   const filteredBills = bills.filter(
     bill => bill.BillStatus === "Đã thanh toán"
   );
 
+  // Pagination logic
+  const indexOfLastBill = currentPage * itemsPerPage;
+  const indexOfFirstBill = indexOfLastBill - itemsPerPage;
+  const currentBills = filteredBills.slice(indexOfFirstBill, indexOfLastBill);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(filteredBills.length / itemsPerPage);
+
   return (
-    <div style={{ overflowY: "scroll", height: "70vh" }}>
+    <div style={{ height: "100%" }}>
       <div>
         <h3>Xin chào {user.UserFirstName} {user.UserLastName}</h3>
       </div>
@@ -118,8 +132,8 @@ export default function PaidBill() {
           </tr>
         </thead>
         <tbody>
-          {filteredBills.length > 0 ? (
-            filteredBills.map((bill, index) => (
+          {currentBills.length > 0 ? (
+            currentBills.map((bill, index) => (
               <tr key={index}>
                 <td>{bill.BillID}</td>
                 <td>{bill.BillDate}</td>
@@ -148,7 +162,7 @@ export default function PaidBill() {
                 <tr>
                   <th>Mã chi tiết đơn</th>
                   <th>Tên sản phẩm</th>
-                  <th>Ảnh sản phẩm</th> {/* New column for product image */}
+                  <th>Ảnh sản phẩm</th>
                   <th>Số lượng</th>
                   <th>Ngày đặt hàng</th>
                   <th>Trạng thái đơn hàng</th>
@@ -157,28 +171,32 @@ export default function PaidBill() {
                 </tr>
               </thead>
               <tbody>
-                {billDetails.map((detail, index) => (
-                  <tr key={index}>
-                    <td>{detail.BillDetailID}</td>
-                    <td>{detail.ProductName}</td>
-                    <td>
-                      {productPics[detail.BillDetailID] ? (
-                        <img
-                          src={productPics[detail.BillDetailID]}
-                          alt="Product"
-                          style={{ width: '100px', height: 'auto' }}
-                        />
-                      ) : (
-                        <p>Không có ảnh</p>
-                      )}
-                    </td>
-                    <td>{detail.BillQuantity}</td>
-                    <td>{detail.BillDetailDate}</td>
-                    <td>{detail.BillDetailStatus}</td>
-                    <td>{shipperNames[detail.ShipperID] || 'Chưa giao hàng'}</td>
-                    <td>{(detail.BillQuantity * detail.ProductPrice).toLocaleString()} VND</td>
-                  </tr>
-                ))}
+                {billDetails.map((detail, index) => {
+                  const price = detail.BillQuantity * detail.ProductPrice;
+                  const totalPrice = price + (price * 0.1);
+                  return (
+                    <tr key={index}>
+                      <td>{detail.BillDetailID}</td>
+                      <td>{detail.ProductName}</td>
+                      <td>
+                        {productPics[detail.BillDetailID] ? (
+                          <img
+                            src={productPics[detail.BillDetailID]}
+                            alt="Product"
+                            style={{ width: '100px', height: 'auto' }}
+                          />
+                        ) : (
+                          <p>Không có ảnh</p>
+                        )}
+                      </td>
+                      <td>{detail.BillQuantity}</td>
+                      <td>{detail.BillDetailDate}</td>
+                      <td>{detail.BillDetailStatus}</td>
+                      <td>{shipperNames[detail.ShipperID] || 'Chưa giao hàng'}</td>
+                      <td>{totalPrice.toLocaleString()} VND</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </Table>
           </Modal.Body>
@@ -190,6 +208,27 @@ export default function PaidBill() {
           </Modal.Footer>
         </Modal>
       )}
+
+      {/* Pagination Controls */}
+      <Pagination>
+        <Pagination.Prev
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        />
+        {[...Array(totalPages).keys()].map(page => (
+          <Pagination.Item
+            key={page + 1}
+            active={page + 1 === currentPage}
+            onClick={() => setCurrentPage(page + 1)}
+          >
+            {page + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        />
+      </Pagination>
     </div>
   );
 }
