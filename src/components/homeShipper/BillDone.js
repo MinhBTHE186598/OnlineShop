@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Table from 'react-bootstrap/Table';
+import Pagination from 'react-bootstrap/Pagination';
 import axios from 'axios';
 import { useUser } from '../context/UserContext';
 
@@ -10,6 +11,9 @@ export default function BillDone() {
   const [productNames, setProductNames] = useState({});
   const [sellerAddresses, setSellerAddresses] = useState({});
   const { user } = useUser();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
 
   const fetchData = useCallback(async () => {
     try {
@@ -72,10 +76,22 @@ export default function BillDone() {
     billDetail => (billDetail.BillDetailStatus === "Đã nhận hàng" || billDetail.BillDetailStatus === "Đã giao hàng") && billDetail.ShipperID === currentUserId
   );
 
-  const uniqueBillDetailIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillDetailID))].sort((a, b) => a - b);
+
+  const uniqueBillDetailIds = [...new Set(filteredBillDetails.map(billDetail => billDetail.BillDetailID))]
+    .sort((a, b) => b - a);
+
+
+  const totalPages = Math.ceil(uniqueBillDetailIds.length / itemsPerPage);
+
+
+  const currentItems = uniqueBillDetailIds.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
-    <div style={{ overflowY: "scroll", height: "70vh" }}>
+    <div>
       <div>
         <h3>ShipperID của bạn: {currentUserId ? currentUserId : 'Đang tải...'}</h3>
       </div>
@@ -94,7 +110,7 @@ export default function BillDone() {
             </tr>
           </thead>
           <tbody>
-            {uniqueBillDetailIds.map((billDetailId, index) => {
+            {currentItems.map((billDetailId, index) => {
               const filteredBillDetailsForBillDetailId = filteredBillDetails.filter(billDetail => billDetail.BillDetailID === billDetailId);
               const billQuantity = filteredBillDetailsForBillDetailId.reduce((sum, billDetail) => sum + (billDetail.BillQuantity || 0), 0);
               const billDetailStatus = filteredBillDetailsForBillDetailId[0]?.BillDetailStatus;
@@ -123,6 +139,17 @@ export default function BillDone() {
           </tbody>
         </Table>
       </div>
+      <Pagination>
+        <Pagination.First onClick={() => handlePageChange(1)} disabled={currentPage === 1} />
+        <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
+        {[...Array(totalPages)].map((_, index) => (
+          <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => handlePageChange(index + 1)}>
+            {index + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} />
+        <Pagination.Last onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages} />
+      </Pagination>
     </div>
   );
 }
